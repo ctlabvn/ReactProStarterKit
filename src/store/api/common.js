@@ -48,3 +48,19 @@ export const fetchJsonWithToken = (token, url, options = {}, ...args) => (
     },
   }, ...args)
 )
+
+// default is get method, we can override header with method:PUT for sample
+export const apiCall = (url, options, token = null) => 
+  token ? fetchJsonWithToken(token, url, options) : fetchJson(url, options)
+
+// must have data to post, put should not return data
+export const apiPost = (url, data, token, method='POST', options) => 
+  apiCall(url, { method,  body: JSON.stringify(data), ...options }, token)
+
+// should have data to get, delete should not return
+export const apiGet = (url, data, token, method='GET', options) => 
+  apiCall(url + (
+    data 
+    ? ('?' + Object.keys(data).map(key => `${key}=${encodeURIComponent(data[key])}`).join('&')) 
+    : ''
+  ), {method, ...options}, token)  
