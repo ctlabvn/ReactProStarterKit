@@ -14,6 +14,11 @@ export const noop = (explanation) => ({
   payload: explanation,
 })
 
+export const requestor = (type, ...args) => ({
+  type,
+  args,
+})
+
 // do callback and get result as paload
 export const invokeCallback = (callback, ...args) => ({
   type: 'app/invokeCallback',

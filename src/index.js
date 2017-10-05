@@ -2,7 +2,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import registerServiceWorker from './registerServiceWorker';
-import injectTapEventPlugin from 'react-tap-event-plugin'
+// import injectTapEventPlugin from 'react-tap-event-plugin'
 
 import Root from './ui'
 import configureStore, { history } from './store'
@@ -11,7 +11,7 @@ const rootElement = document.getElementById('root')
 
 // Needed for onTouchTap
 // https://github.com/zilverline/react-tap-event-plugin
-injectTapEventPlugin()
+// injectTapEventPlugin()
 
 // work offline WPA
 registerServiceWorker()
