@@ -1,38 +1,24 @@
-import React from 'react'
-import './index.css'
+import React, { Component } from "react";
 
-export default (props) => (
-  <div className='frontend'>
-    <div className='vertical-center-block container'>
+import "./index.css";
 
-      <div className='row m-0 text-center'>        
-          <img alt="" width='150' src='/images/logo.png' />
-          <div className='version mt-40'>Hottab</div>        
+export default class Home extends Component {
+  render() {
+    return (
+      <div className="container">
+        <div className="row">
+          <div className="col-lg-12 text-center">
+            <h1 className="mt-5">A Bootstrap 4 Starter Template</h1>
+            <p className="lead">
+              Complete with pre-defined file paths and responsive navigation!
+            </p>
+            <ul className="list-unstyled">
+              <li>Bootstrap 4.0.0-beta</li>
+              <li>jQuery 3.2.1</li>
+            </ul>
+          </div>
+        </div>
       </div>
-
-      <div className='row mt-40'>
-        <div className='col-sm-6 text-right'>
-          <a href='https://itunes.apple.com/us/app/rudicaf/id1172963800?mt=8'>
-            <img alt="" width='150' src='/images/appstore.png' />
-          </a>
-        </div>
-        <div className='col-sm-6 text-left pl-20'>
-          <a href='https://play.google.com/store/apps/details?id=com.rudicaf.dating'>
-            <img alt="" width='150' src='/images/google-store.png' />
-          </a>
-        </div>
-      </div>      
-    </div>  
-
-    <div className='footer text-center'>
-      Copyright © 2018 Rudicaf. All rights reserved.
-    </div>
-
-  </div>
-)
-
-
-
-
-
-
+    );
+  }
+}
