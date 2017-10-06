@@ -7,7 +7,7 @@ import * as commonSelectors from '~/store/selectors/common'
 @connect(state => ({
   requestsPending : commonSelectors.areRequestsPending(state),
 }))
-export default class Indicator extends Component {
+export default class extends Component {
   render(){
     return (
       <Loading

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import './index.css'
 
-export default class Loading extends PureComponent {
+export default class extends PureComponent {
   static propTypes = {
     color: PropTypes.string.isRequired,
     show: PropTypes.bool,

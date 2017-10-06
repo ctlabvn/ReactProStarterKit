@@ -1,7 +1,9 @@
-import React, { Component } from "react";
-import "./index.css";
+import React, { Component } from "react"
+import { Link } from 'react-router-dom'
 
-export default class Header extends Component {
+import "./index.css"
+
+export default class extends Component {
 
   componentDidMount(){
     window.jQuery(this.cartButton).popover({
@@ -21,13 +23,13 @@ export default class Header extends Component {
       <nav className="navbar fixed-top header">
         <div className="container-fluid p-0">
           <div>
-            <a className="navbar-brand" href="#">
+            <Link className="navbar-brand" to="/">
               <img src="/images/logo.png" alt="" />
-            </a>
+            </Link>
 
             <input
               type="text"
-              className="custom-input font-large gray-color"
+              className="custom-input font-large color-gray"
               placeholder="Type your search"
             />
           </div>
@@ -47,7 +49,7 @@ export default class Header extends Component {
               <span className="badge bg-red">0</span>
               <div className="popover-content text-center" ref={ref=>this.cartContent = ref}>
                 <img src="/images/no-data.png" height="100" alt="" />
-                <p className="gray-color text-uppercase">Your shopping cart is empty.</p>
+                <p className="color-gray text-uppercase">Your shopping cart is empty.</p>
               </div>
             </button>            
 
