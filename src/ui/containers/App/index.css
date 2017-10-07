@@ -58,6 +58,22 @@ body{
   border: 0;
 }
 
+.bg-green {
+  background-color: $red-color;
+}
+
+.bg-orange {
+  background-color: $orange-color;
+}
+
+.bg-yellow {
+  background-color: $yellow-color;
+}
+
+.bg-gray {
+  background-color: $gray-color;
+}
+
 .bg-red {
   color: #fff;
   background-color: $red-color;
@@ -99,14 +115,14 @@ body{
   align-items: center;
 }
 
-.flex-row {
-  flex-direction: row;
-}
-
 .block{
     border-radius: 0px !important;
     padding: 30px !important;
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.03);
+}
+
+.btn-shadow{
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);
 }
 
 .main-page{
