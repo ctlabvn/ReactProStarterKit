@@ -39,9 +39,9 @@ export default class extends Component {
           height={imageSize}
           src={image}
           alt="..."
-          class="rounded-circle mr-4"
+          class="rounded-circle"
         />
-        <div className="flex-column d-flex">
+        <div className="flex-column d-flex ml-3">
           <HeadingDouble
             leftTitle={title}
             rightTitle={`${priceUnit}${price}`}
