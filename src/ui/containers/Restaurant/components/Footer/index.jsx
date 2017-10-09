@@ -10,43 +10,29 @@ import ProductItem from "~/ui/components/Product/Item";
 import ProductItemPhoto from "~/ui/components/Product/Item/Photo";
 import HeadingDouble from "~/ui/components/Heading/Double";
 
-import Menu from "~/ui/components/Menu";
-import MenuItem from "~/ui/components/Menu/Item";
+import options from "./options"
 
 export default class extends Component {
   render() {
-    const menuData = [
-      "DONUTS",
-      "ICE CREAMS",
-      "COOKIES",
-      "ICE DRINKS",
-      "SALADS",
-      "CHOCOLATE"
-    ];
+    
 
     return (
       <div className="row block bg-white">
-        <Menu>{menuData.map(item => <MenuItem title={item} />)}</Menu>
 
-        <Rating score={3} />
-        <Rating type="Bar" progress={90} />
-        <CommentRating />
-        <LabelRating progress={76} />
-        <ButtonRound icon="angle-right" />
-        <ButtonRound icon="plus" />
+        <div className="col-md-6">
+          <h3 className="font-largest color-black font-weight-bold">
+            4.9 
+            <Rating score={5} className="d-inline ml-2"/>            
+          </h3>
+          {options.votes.map(item=>
+            <LabelRating percent={item} width={350}/>
+          )}
+        </div>
 
-        <ProductItem
-          title="DONUTS PACK x8"
-          price={19}
-          image="/images/donut.png"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
-        />
-
-        <ProductItemPhoto
-          title="DONUTS PACK x8"
-          price={19}
-          image="/images/donut-square.png"
-        />
+        <div className="col-md-6">
+          <h3 className="font-largest color-black text-uppercase font-weight-bold">Latest</h3>
+        </div>
+        
       </div>
     );
   }

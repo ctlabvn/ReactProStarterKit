@@ -2,6 +2,8 @@
 
 .menu-item{
   cursor: pointer;
+  color: $gray-color-300;
+  padding: 10px 20px;
 }
 
 .menu-item.selected{

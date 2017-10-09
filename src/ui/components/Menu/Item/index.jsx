@@ -1,27 +1,42 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 
-import "./index.css"
+import "./index.css";
 
 export default class extends Component {
+  static defaultProps = {
+    activeClassName: "selected"
+  };
 
-  renderLink(link, title){
+  renderLink(link, title) {
     return (
-      <NavLink to={link} activeClassName="selected">
-          {title}
-        </NavLink>
-    )
+      <NavLink to={link} className="menu-item" activeClassName={this.props.activeClassName}>
+        {title}
+      </NavLink>
+    );
   }
 
-  handleClick(e, onClick){    
-    window.jQuery(e.target).addClass('selected').parents().siblings().find('.selected').removeClass('selected');
+  handleClick(e, onClick) {
+    const { activeClassName } = this.props;
+    window
+      .jQuery(e.target)
+      .addClass(activeClassName)
+      .parents()
+      .siblings()
+      .find(activeClassName)
+      .removeClass(activeClassName);
     onClick && onClick(e);
   }
 
-  renderItem(onClick, title){
+  renderItem(onClick, title) {
     return (
-      <span className="menu-item color-gray-300" onClick={e => this.handleClick(e, onClick)}>{title}</span>
-    )
+      <span
+        className="menu-item color-gray-300"
+        onClick={e => this.handleClick(e, onClick)}
+      >
+        {title}
+      </span>
+    );
   }
 
   render() {
