@@ -22,7 +22,7 @@ export default class extends Component {
     const score = Rating.getScoreFromProgress(percent);    
     const label = labels[score-1] || labels[0];
     return (
-      <div className="d-flex flex-row align-items-center label-rating">
+      <div className="d-flex flex-row align-items-center label-rating mb-3">
         <span className="label">{label}</span>
         <div className="flex-row d-flex align-items-center w-100">
           <Rating percent={percent} type="Bar" width={width} />

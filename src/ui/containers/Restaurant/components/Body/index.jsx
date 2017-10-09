@@ -1,52 +1,75 @@
-import React, { Component } from "react"
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-import * as commonActions from '~/store/actions/common'
+import Menu from "~/ui/components/Menu";
+import MenuItem from "~/ui/components/Menu/Item";
+import ProductItemPhoto from "~/ui/components/Product/Item/Photo";
+import ProductItem from "~/ui/components/Product/Item";
+
+import * as commonActions from "~/store/actions/common";
+
+import "./index.css";
+import options from "./options";
 
 @connect(null, commonActions)
 export default class extends Component {
-
   constructor(props) {
-    super(props)
-  
+    super(props);
+
     this.state = {
-      data: [],
-    }
-    this.loadData = this.loadData.bind(this)
+      data: []
+    };
+    this.loadData = this.loadData.bind(this);
   }
 
-  loadData(){
-    this.props.requestor('restaurant/getOutlets', (err, ret)=>{
+  loadData() {
+    this.props.requestor("restaurant/getOutlets", (err, ret) => {
       this.setState({
-        data: ret.data.data,
-      })
-    })
+        data: ret.data.data
+      });
+    });
   }
 
-  render(){
-    const {data} = this.state
+  render() {
+    const { data } = this.state;
     return (
-      <div className="row">
-          <div className="col-lg-12 text-center">
-            
+      <div className="row block bg-white mb-4">
+        <h3 className="font-largest color-black w-100 mb-4">
+          <span className="font-weight-bold">ALL PRODUCTS</span> (25)
+        </h3>
 
-            <button onClick={this.loadData}>
-              Load data
-            </button>
+        <Menu>
+          {options.items.map((item, index) => (
+            <MenuItem key={index} title={item} />
+          ))}
+        </Menu>
 
-            <div>
-              {data.map(item=>
-                <div key={item.id}>
-                  <h5>{item.name}</h5>
-                  <p dangerouslySetInnerHTML={{__html:item.description}} />
-                  <img src={item.logo} alt="" />
-                </div>
-              )}
-            </div>
-          </div>
+        <div className="w-100 slider d-flex mt-2">
+          {options.products.map((item, index) => (
+            <ProductItemPhoto
+              key={index}
+              className="col-md-3 slide"
+              price={10}
+              title={item}
+              image="/images/donut-square.png"
+            />
+          ))}
         </div>
-    )
+
+        <div className="w-100 mt-5">
+          {options.products.map((item, index) => (
+            <ProductItem
+              className="col-md-6 float-left pl-0 pr-5 mb-4"
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+              key={index}
+              price={10}
+              title={item}
+              image="/images/donut.png"
+            />
+          ))}
+        </div>
+      </div>
+    );
   }
 }
-

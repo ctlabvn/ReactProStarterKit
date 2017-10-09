@@ -6,6 +6,10 @@
   padding: 10px 20px;
 }
 
+.menu-item:first-child{
+  padding-left:0;
+}
+
 .menu-item.selected{
   color: $black-color;
 }

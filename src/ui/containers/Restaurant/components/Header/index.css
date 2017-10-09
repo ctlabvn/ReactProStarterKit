@@ -1,0 +1,5 @@
+.breadcrumb-item + .breadcrumb-item::before {
+  font:normal normal normal 14px/1 FontAwesome;
+  color: #ccc;
+  content: "\f105";    
+}

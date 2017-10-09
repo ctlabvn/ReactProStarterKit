@@ -2,7 +2,9 @@
 
 body{
   font-family: Montserrat,Roboto,sans-serif;
+  background-color: #fafafa;
 }
+
 .hidden,.popover-content{
   display: none;
 }
@@ -15,6 +17,10 @@ body{
 
 .color-gray-300{
   color: $gray-color-300;
+}
+
+.color-gray-400{
+  color: $gray-color-400;
 }
 
 .color-gray::-webkit-input-placeholder { /* Chrome/Opera/Safari */
@@ -63,6 +69,17 @@ body{
   box-shadow: none !important;
   outline: 0;
   border: 0;
+}
+
+.slider{
+  overflow: hidden;
+  .slide:first-child{
+    padding-left:0;
+  }
+}
+
+.bg-transparent{
+  background-color: transparent;
 }
 
 .bg-green {
@@ -127,5 +144,5 @@ body{
 }
 
 .main-page{
-  margin-top: 70px;
+  margin-top: 100px;  
 }

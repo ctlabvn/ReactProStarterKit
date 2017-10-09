@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import classNames from "classnames";
+
 import HeadingDouble from "~/ui/components/Heading/Double";
 import ButtonRound from "~/ui/components/Button/Round";
 
@@ -27,16 +29,17 @@ export default class extends Component {
       priceUnit,
       image,
       imageSize,
-      description
+      description,
+      className,
     } = this.props;
     return (
-      <div className="d-flex flex-row align-items-center">
+      <div className={classNames("d-flex flex-row align-items-center", className)}>
         <img
           width={imageSize}
           height={imageSize}
           src={image}
           alt="..."
-          class="rounded-circle"
+          class="rounded-circle mr-4"
         />
         <div className="flex-column d-flex">
           <HeadingDouble
@@ -44,7 +47,7 @@ export default class extends Component {
             rightTitle={`${priceUnit}${price}`}
           />
           <div className="flex-row d-flex justify-items-between">
-            <span>{description}</span>
+            <span className="pr-4">{description}</span>
             <ButtonRound icon="plus" />
           </div>
         </div>
