@@ -12,7 +12,7 @@ export default class extends Component {
     const {size} = this.props
 
     return (
-      <div className="flex-row flex-center">
+      <div className="d-flex flex-row align-items-center">
         <img width={size} height={size} src="/images/no-data.png" alt="..." class="rounded-circle"/>
         <div className="flex-column ml-3">
           <div className="d-flex flex-row">

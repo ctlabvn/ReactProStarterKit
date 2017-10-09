@@ -7,7 +7,7 @@ export default class extends Component {
   static propTypes = {
     type: PropTypes.oneOf(["Star", "Bar"]),
     colors: PropTypes.array,
-    score: PropTypes.number,
+    score: PropTypes.number,    
     progress: PropTypes.number
   };
 
@@ -15,21 +15,27 @@ export default class extends Component {
     score: 5,
     type: "Star",
     colors: ["red", "orange", "yellow", "yellow", "green"],
-    progress: 100
+    progress: 100,   
+    width: 400,
+    height: 10, 
   };
 
+  getColorFromScore(score){
+    return this.props.colors[score - 1] || this.props.colors[4];
+  }
+
   renderAsStar(score) {
-    const color = this.props.colors[score - 1] || "green";
+    const color = this.getColorFromScore(score)
     const stars = [];
     for (let i = 0; i < score; i++) {
       stars.push(
         <i key={i} className={`fa fa-star color-${color}`} aria-hidden="true" />
       );
     }
-    return <div className="flex-center flex-row rating">{stars}</div>;
+    return <div className="align-items-center flex-row rating">{stars}</div>;
   }
 
-  getScoreFromProgress(progress) {
+  static getScoreFromProgress(progress) {
     if (progress >= 87) return 5;
     if (progress >= 12) return 4;
     if (progress >= 6) return 3;
@@ -38,10 +44,14 @@ export default class extends Component {
   }
 
   renderAsBar(progress) {
-    const score = this.getScoreFromProgress(progress);
-    const color = this.props.colors[score - 1] || "green";
+    const {width, height} = this.props
+    const score = this.constructor.getScoreFromProgress(progress);
+    const color = this.getColorFromScore(score)
     return (
-      <div className="progress">
+      <div className="progress" style={{
+        width,
+        height,
+      }}>
         <div
           className={`progress-bar bg-${color}`}
           role="progressbar"

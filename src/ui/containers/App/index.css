@@ -4,6 +4,7 @@ $orange-color: #ff7200;
 $green-color: #5fd683;
 $yellow-color: #ffbe00;
 $gray-color: #8c8c8c;
+$black-color: #767676;
 
 body{
   font-family: Montserrat,Roboto,sans-serif;
@@ -45,6 +46,10 @@ body{
 
 .color-red{
   color: $red-color;
+}
+
+.color-black{
+  color: $black-color;
 }
 
 .font-large{
@@ -107,12 +112,6 @@ body{
   padding: 2px 4px;
   font-size: 6px;
   font-weight: 400;
-}
-
-.flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .block{

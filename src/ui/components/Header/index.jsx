@@ -34,7 +34,7 @@ export default class extends Component {
             />
           </div>
 
-          <div className="flex-center flex-row">
+          <div className="d-flex align-items-center flex-row">
             <button
               ref={ref=>this.cartButton = ref}
               type="button"

@@ -1,0 +1,10 @@
+.label-rating{
+  .percent{
+    margin-left: 20px;
+  }
+
+  .label{
+    width: 100px; 
+  }
+}
+
