@@ -10,16 +10,14 @@ export default class extends Component {
     type: PropTypes.oneOf(["Star", "Bar"]),
     colors: PropTypes.array,
     score: PropTypes.number,    
-    percent: PropTypes.number
+    percent: PropTypes.number,
   };
 
   static defaultProps = {
     score: 5,
     type: "Star",
     colors: ["red", "orange", "yellow", "yellow", "green"],
-    percent: 100,   
-    width: 400,
-    height: 10, 
+    percent: 100,
   };
 
   getColorFromScore(score){
@@ -47,14 +45,11 @@ export default class extends Component {
   }
 
   renderAsBar(percent) {
-    const {width, height, className} = this.props
+    const {className} = this.props
     const score = this.constructor.getScoreFromProgress(percent);
     const color = this.getColorFromScore(score)
     return (
-      <div className={classNames("progress", className)} style={{
-        width,
-        height,
-      }}>
+      <div className={classNames("progress", className)}>
         <div
           className={`progress-bar bg-${color}`}
           role="progressbar"

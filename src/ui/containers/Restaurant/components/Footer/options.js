@@ -5,7 +5,7 @@ export default {
   ],
 
   comments: [
-    'A wonderful souvenir',
+    'A wonderful souvenir qada',
     'What to say more about this amazing res…',
     'Lorem ipsum dolor sit amet, conjectur ad…',
   ]

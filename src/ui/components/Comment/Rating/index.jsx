@@ -9,7 +9,7 @@ export default class extends Component {
   }
 
   render(){
-    const {size} = this.props
+    const {size, title} = this.props
 
     return (
       <div className="d-flex flex-row align-items-center">
@@ -19,7 +19,7 @@ export default class extends Component {
             <Rating/>
             <span className="ml-1 small text-muted">Marie D. | August, 2017</span>
           </div>
-          <span>A wonderful souvenir</span>
+          <span>{title}</span>
         </div>
       </div>
     )

@@ -1,10 +1,12 @@
 .label-rating{
   .percent{
     margin-left: 20px;
+    width: 50px;
   }
 
   .label{
     width: 100px; 
+    margin-right: 10px;
   }
 }
 

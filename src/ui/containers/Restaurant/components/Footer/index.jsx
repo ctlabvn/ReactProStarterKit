@@ -31,6 +31,9 @@ export default class extends Component {
 
         <div className="col-md-6">
           <h3 className="font-largest color-black text-uppercase font-weight-bold">Latest</h3>
+          {options.comments.map(item=>
+            <ProductItemPhoto title={item}/>
+          )}
         </div>
         
       </div>

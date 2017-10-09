@@ -24,7 +24,7 @@ export default class extends Component {
     return (
       <div className="d-flex flex-row align-items-center label-rating">
         <span className="label">{label}</span>
-        <div className="flex-row d-flex align-items-center">
+        <div className="flex-row d-flex align-items-center w-100">
           <Rating percent={percent} type="Bar" width={width} />
           <span className="percent">{percent}%</span>
         </div>
