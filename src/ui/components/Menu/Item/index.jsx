@@ -23,7 +23,7 @@ export default class extends Component {
       .addClass(activeClassName)
       .parents()
       .siblings()
-      .find(activeClassName)
+      .find('.' + activeClassName)
       .removeClass(activeClassName);
     onClick && onClick(e);
   }
