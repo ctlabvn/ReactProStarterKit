@@ -1,10 +1,4 @@
-/** common style here **/
-$red-color: #ff5858;
-$orange-color: #ff7200;
-$green-color: #5fd683;
-$yellow-color: #ffbe00;
-$gray-color: #8c8c8c;
-$black-color: #767676;
+@import "../../vars.css";
 
 body{
   font-family: Montserrat,Roboto,sans-serif;
@@ -17,6 +11,10 @@ body{
 }
 .color-gray{
   color: $gray-color;
+}
+
+.color-gray-300{
+  color: $gray-color-300;
 }
 
 .color-gray::-webkit-input-placeholder { /* Chrome/Opera/Safari */
@@ -54,6 +52,10 @@ body{
 
 .font-large{
   font-size: 16px;
+}
+
+.font-largest{
+  font-size: 18px;
 }
 
 .custom-input {
