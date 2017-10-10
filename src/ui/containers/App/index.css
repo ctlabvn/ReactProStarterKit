@@ -3,6 +3,9 @@
 body{
   font-family: Montserrat,Roboto,sans-serif;
   background-color: #fafafa;
+  background-image: url(/images/background.png);
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .hidden,.popover-content{
@@ -103,6 +106,10 @@ body{
   background-color: $red-color;
 }
 
+.border-white-300{
+  border-color: $white-color-300;
+}
+
 .ml-20 {
   margin-left: 20px;
 }
@@ -137,6 +144,10 @@ body{
     border-radius: 0px !important;
     padding: 30px !important;
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.03);
+}
+
+.xsmall{
+  font-size: 50%;
 }
 
 .btn-shadow{

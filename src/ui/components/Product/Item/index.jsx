@@ -39,7 +39,7 @@ export default class extends Component {
           height={imageSize}
           src={image}
           alt="..."
-          class="rounded-circle"
+          className="rounded-circle"
         />
         <div className="flex-column d-flex ml-3">
           <HeadingDouble

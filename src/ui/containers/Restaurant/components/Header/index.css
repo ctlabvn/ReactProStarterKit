@@ -3,3 +3,15 @@
   color: #ccc;
   content: "\f105";    
 }
+
+.left-side-block{
+  margin-left: -30px;
+  margin-bottom: -30px;
+  padding-left: 40px;
+  padding-top:10px;  
+}
+
+.photo-group-large{
+  width: 300px;
+  height: 300px;
+}

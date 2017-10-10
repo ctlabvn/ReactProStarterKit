@@ -22,16 +22,18 @@ export default class extends Component {
             4.9 
             <Rating score={5} className="d-inline ml-2"/>            
           </h3>
-          {options.votes.map(item=>
-            <LabelRating percent={item} width={350}/>
+          {options.votes.map((item, index)=>
+            <LabelRating percent={item} key={index} className="mt-4"/>
           )}
         </div>
 
         <div className="col-md-6">
           <h3 className="font-largest color-black text-uppercase font-weight-bold">Latest</h3>
-          {options.comments.map(item=>
-            <CommentRating image="/images/round-avatar.png" title={item}/>
-          )}
+          <div className="flex-wrap d-flex flex-row">
+            {options.comments.map((item, index)=>
+              <CommentRating size={50} image="/images/round-avatar.png" key={index} title={item} className="w-50 pr-2 mt-4"/>
+            )}
+          </div>
         </div>
         
       </div>
