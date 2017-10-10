@@ -1,0 +1,19 @@
+.slider{
+  position: relative;  
+  padding-left: 60px;
+  padding-right: 60px;
+  margin-left: -60px;
+  margin-right: -60px;
+
+  .right-control {    
+    right: 0;
+    font-size: 30px;
+    z-index: 9;
+    width: 60px;
+    height: 60px;
+  }
+
+  .slide-content{
+    overflow: hidden;
+  }
+}

@@ -157,3 +157,9 @@ body{
 .main-page{
   margin-top: 100px;  
 }
+
+.vertical-center{
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+}

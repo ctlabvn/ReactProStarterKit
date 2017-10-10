@@ -27,13 +27,20 @@ export default class extends Component {
           )}
         </div>
 
-        <div className="col-md-6">
+        <div className="col-md-6 pr-0">
           <h3 className="font-largest color-black text-uppercase font-weight-bold">Latest</h3>
-          <div className="flex-wrap d-flex flex-row">
+
+          <div className="slider">
+          <div className="flex-wrap d-flex flex-row slide-content">
             {options.comments.map((item, index)=>
               <CommentRating size={50} image="/images/round-avatar.png" key={index} title={item} className="w-50 pr-2 mt-4"/>
             )}
           </div>
+          <ButtonRound
+              icon="angle-right"
+              className="vertical-center right-control"
+            />
+            </div>
         </div>
         
       </div>

@@ -6,6 +6,7 @@ import Menu from "~/ui/components/Menu";
 import MenuItem from "~/ui/components/Menu/Item";
 import ProductItemPhoto from "~/ui/components/Product/Item/Photo";
 import ProductItem from "~/ui/components/Product/Item";
+import ButtonRound from "~/ui/components/Button/Round";
 
 import * as commonActions from "~/store/actions/common";
 
@@ -45,16 +46,23 @@ export default class extends Component {
           ))}
         </Menu>
 
-        <div className="w-100 slider d-flex mt-2">
-          {options.products.map((item, index) => (
-            <ProductItemPhoto
-              key={index}
-              className="col-md-3 slide"
-              price={10}
-              title={item}
-              image="/images/donut-square.png"
+        <div className="slider">
+          <div className="w-100 d-flex mt-2 slide-content">
+            {options.products.map((item, index) => (
+              <ProductItemPhoto
+                key={index}
+                className="col-md-3 slide"
+                price={10}
+                title={item}
+                image="/images/donut-square.png"
+              />
+            ))}
+
+            <ButtonRound
+              icon="angle-right"
+              className="vertical-center right-control"
             />
-          ))}
+          </div>
         </div>
 
         <div className="w-100 mt-5">
