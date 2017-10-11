@@ -15,5 +15,7 @@ export default {
     'Donuts Pack X8',
     'Donuts Pack X8',
     'Donuts Pack X9',
+    'Donuts Pack X9',
+    'Donuts Pack X9',
   ]
 }

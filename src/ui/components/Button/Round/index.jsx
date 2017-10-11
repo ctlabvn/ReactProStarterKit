@@ -6,7 +6,7 @@ export default class extends Component {
   render(){
     const {icon, className, ...props} = this.props
     return (
-      <button className={classNames("btn btn-round btn-shadow bg-white", className)}>
+      <button className={classNames("btn btn-round btn-shadow bg-white", className)} {...props}>
         <i className={`fa fa-${icon}`} aria-hidden="true"></i>
       </button>
     )

@@ -23,7 +23,7 @@ export default class extends Component {
     return (
       <div className={classNames("d-flex flex-column align-items-center", className)}>      
         <img width={imageSize} height={imageSize} src={image} alt="..." />
-        <div className="w-100 flex-row d-flex justify-content-between color-black font-largest">
+        <div className="w-100 flex-row d-flex justify-content-between color-black font-largest mt-2">
           <span>{title}</span>
           <span>
             {priceUnit}

@@ -8,6 +8,10 @@ body{
   background-repeat: no-repeat;
 }
 
+*:focus {
+    outline: none;
+}
+
 .hidden,.popover-content{
   display: none;
 }
@@ -72,13 +76,6 @@ body{
   box-shadow: none !important;
   outline: 0;
   border: 0;
-}
-
-.slider{
-  overflow: hidden;
-  .slide:first-child{
-    padding-left:0;
-  }
 }
 
 .bg-transparent{

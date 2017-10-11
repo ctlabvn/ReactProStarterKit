@@ -1,0 +1,27 @@
+.slider{
+  overflow: hidden;
+
+  .slide{
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+
+  .slide-content{    
+    overflow: hidden;
+    .slide-content-inner{
+      margin-left: -15px;
+      overflow: visible !important;
+      transition: transform 0.5s;
+    }
+  }
+
+  .control{
+    z-index: 9;    
+  }
+  .right-control{
+    right: 3px;
+  }
+  .left-control{
+    left: 3px;    
+  }
+}
