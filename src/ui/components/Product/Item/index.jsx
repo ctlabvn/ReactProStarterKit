@@ -30,16 +30,17 @@ export default class extends Component {
       image,
       imageSize,
       description,
-      className,
+      className
     } = this.props;
     return (
-      <div className={classNames("d-flex flex-row align-items-center", className)}>
+      <div
+        className={classNames("d-flex flex-row align-items-center", className)}
+      >
         <img
-          width={imageSize}
-          height={imageSize}
+          style={{ width: imageSize, height: imageSize }}
           src={image}
           alt="..."
-          className="rounded-circle d-block"
+          className="rounded-circle"
         />
         <div className="flex-column d-flex ml-3">
           <HeadingDouble
