@@ -15,7 +15,7 @@ export default class extends Component {
 
     return (
       <div className={classNames("d-flex flex-row justify-contents-center", className)}>
-        <img width={size} height={size} src={image} alt="..." className="rounded-circle"/>
+        <img width={size} height={size} src={image} alt="..." className="rounded-circle d-block"/>
         <div className="flex-column ml-3">
           <div className="d-flex flex-row">
             <Rating className="xsmall"/>
