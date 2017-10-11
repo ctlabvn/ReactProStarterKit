@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { translate } from "react-i18next";
 
 // component
 import ButtonRound from "~/ui/components/Button/Round";
@@ -14,11 +15,13 @@ import { chunk } from "~/store/utils/array";
 import options from "./options";
 import "./index.css";
 
+@translate('translations')
 export default class extends Component {
   render() {
     
+    const {t} = this.props;
     const commentsChunk = chunk(options.comments, 3);
-    
+
     return (
       <div className="row block bg-white mb-4">
         <div className="col-md-6">
@@ -33,7 +36,7 @@ export default class extends Component {
 
         <div className="col-md-6 pr-0">
           <h3 className="font-largest color-black text-uppercase font-weight-bold">
-            Latest
+            {t('latest')}
           </h3>
 
           <Slider num={2} className="slider-comment">

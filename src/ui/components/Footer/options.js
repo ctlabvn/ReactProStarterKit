@@ -7,5 +7,6 @@ export default {
     {title: 'Terms & Conditions', link: '#'},
     {title: 'Privacy Policy', link: '#'},
     {title: 'About us', link: '#'},
-  ]
+  ],
+  locales: ['en','vi']
 }
