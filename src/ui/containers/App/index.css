@@ -2,10 +2,7 @@
 
 body{
   font-family: Montserrat,Roboto,sans-serif;
-  background-color: #fafafa;
-  background-image: url(/images/background.png);
-  background-size: contain;
-  background-repeat: no-repeat;
+  background-color: #fafafa;  
 }
 
 *:focus {

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 
 import Menu from "~/ui/components/Menu";
 import MenuItem from "~/ui/components/Menu/Item";
@@ -9,32 +8,13 @@ import Slider from "~/ui/components/Slider";
 import ProductItem from "~/ui/components/Product/Item";
 import ButtonRound from "~/ui/components/Button/Round";
 
-import * as commonActions from "~/store/actions/common";
-
 import "./index.css";
 import options from "./options";
 
-@connect(null, commonActions)
 export default class extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      data: []
-    };
-    this.loadData = this.loadData.bind(this);
-  }
-
-  loadData() {
-    this.props.requestor("restaurant/getOutlets", (err, ret) => {
-      this.setState({
-        data: ret.data.data
-      });
-    });
-  }
 
   render() {
-    const { data } = this.state;
+    const {outlet} = this.props;   
     return (
       <div className="row block bg-white mb-4">
         <h3 className="font-largest color-black w-100 mb-4">
@@ -42,8 +22,8 @@ export default class extends Component {
         </h3>
 
         <Menu>
-          {options.items.map((item, index) => (
-            <MenuItem key={index} title={item} />
+          {outlet.categories.map((item) => (
+            <MenuItem key={item.category_uuid} title={item.name}/>
           ))}
         </Menu>
 

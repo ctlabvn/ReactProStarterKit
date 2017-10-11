@@ -1,6 +1,6 @@
 import { fetchJson, fetchJsonWithToken } from '~/store/api/common'
 
-let auth = {
+export default {
   /**
   * Logs a user in, returning a promise with `true` when done
   * @param  {string} token The token of the user  
@@ -58,5 +58,3 @@ let auth = {
   },
 
 }
-
-export default auth

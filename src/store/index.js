@@ -84,7 +84,7 @@ const configureStore = (callback, failure) => {
   // this will trigger save to local each updated event 
   persistStore(store, {
     whitelist: ['auth'],
-    keyPrefix: 'tk:',
+    keyPrefix: 'nn:',
     transforms: [authTransform]
   }, ()=>{
     // log to know

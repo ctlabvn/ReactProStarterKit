@@ -11,3 +11,11 @@
     height: 50px;
   }  
 }
+
+.restaurant {
+  background-image: url(/images/background.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-top: -30px;
+  padding-top: 20px;
+}

@@ -13,7 +13,7 @@ const initialState = {
 
 // Takes care of changing the application state
 // state is previous state, 
-export const authReducer = (state = initialState, {type, payload}) => {
+export const auth = (state = initialState, {type, payload}) => {
   switch (type) {   
     case 'app/setAuthState':
       return {...state, loggedIn: payload}

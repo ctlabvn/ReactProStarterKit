@@ -1,32 +1,23 @@
-import { takeLatest, takeEvery, all } from 'redux-saga/effects'
+import { takeLatest, takeEvery, all } from "redux-saga/effects";
 
-import api from '~/store/api'
-import { setToast } from '~/store/actions/common'
+import api from "~/store/api";
+import { setToast } from "~/store/actions/common";
+import { saveRestaurants } from "~/store/actions/restaurant";
 
+import { createRequestSaga } from "~/store/sagas/common";
 
-import {     
-  createRequestSaga
-} from '~/store/sagas/common'
-
-
-const getOutlet = createRequestSaga({
+const getOutlets = createRequestSaga({
   request: api.restaurant.getOutlets,
-  key: 'getRestaurantOutlet',
-  failure: [ 
-    () => setToast('Couldn\'t get data', 'error') 
-  ],
-})
-
-
+  key: "getRestaurantOutlet",
+  success: [data => saveRestaurants(data)],
+  failure: [() => setToast("Couldn't get data", "error")]
+});
 
 // root saga reducer
 export default [
   // watcher for schedule, define term here
   function* asyncUserFetchWatcher() {
     // use takeLatest instead of take every, so double click in short time will not trigger more fork
-    yield all([
-      takeLatest('restaurant/getOutlets', getOutlet),
-    ])
+    yield all([takeLatest("restaurant/getOutlets", getOutlets)]);
   }
-]
-
+];

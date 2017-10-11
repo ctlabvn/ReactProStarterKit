@@ -6,11 +6,16 @@ import Rating from "~/ui/components/Rating";
 import Menu from "~/ui/components/Menu";
 import MenuItem from "~/ui/components/Menu/Item";
 
+
+
 import "./index.css";
 import options from "./options";
 
 export default class extends Component {
+
   render() {
+    const {outlet} = this.props;    
+    
     return (
       <div className="row flex-nowrap d-flex flex-row justify-content-between block bg-white mb-4 mt-5">
         <div className="w-100 pr-5">
@@ -29,7 +34,7 @@ export default class extends Component {
             </span>
           </nav>
 
-          <h2 className="font-weight-bold text-uppercase">Dunkin’ Donuts</h2>
+          <h2 className="font-weight-bold text-uppercase">{outlet.name}</h2>
 
           <div className="flex-row d-flex justify-content-between">
             <Rating />
@@ -50,15 +55,11 @@ export default class extends Component {
             <span>08:00pm -> 00:00am</span>
           </div>
 
-          <p className="w-100 mt-3">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor.
-            <a href="/"> See more</a>
-          </p>
+          <p className="w-100 mt-3" dangerouslySetInnerHTML={{__html:outlet.description}}/>
+          <a href="/"> See more</a>
+          
 
-          <Menu className="menu-tags text-uppercase">
+          <Menu className="menu-tags text-uppercase mt-2">
             {options.menuItems.map((item, index)=>
               <MenuItem title={item} key={index}/>
             )}                        

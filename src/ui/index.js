@@ -16,7 +16,7 @@ const Root = ({ store, history }) => (
       <App>
         <Switch>        
           <Route exact path="/" component={Home} />
-          <Route exact path="/restaurant" component={Restaurant} />                  
+          <Route exact path="/restaurant/:uuid" component={Restaurant} />                  
           <Route component={NotFound} />
         </Switch>
       </App>
