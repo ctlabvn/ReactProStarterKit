@@ -21,11 +21,13 @@ import "./index.css";
 )
 export default class extends Component {
   componentWillMount() {
-    window.jQuery("nav.header").hide();
-    window.jQuery("footer").addClass("menu-bottom fixed-bottom");
-    const { restaurants, requestor } = this.props;
+    window.jQuery(() => {
+      window.jQuery("nav.header").hide();
+      window.jQuery("footer").addClass("menu-bottom fixed-bottom");
+    });
 
     // get data if not have, or can validate follow expiry
+    const { restaurants, requestor } = this.props;    
     if (!restaurants.length) {
       requestor("restaurant/getOutlets");
     }
@@ -37,7 +39,7 @@ export default class extends Component {
   }
 
   loadOutlets = async () => {
-    // this.props.requestor("restaurant/getOutlets");    
+    // this.props.requestor("restaurant/getOutlets");
     this.props.history.push(`/search?q=${this.inputSearch.value.trim()}`);
   };
 
@@ -49,7 +51,7 @@ export default class extends Component {
 
         <div className="input-group input-group-lg col-md-5 m-5">
           <input
-            ref={ref=>this.inputSearch=ref}
+            ref={ref => (this.inputSearch = ref)}
             type="text"
             className="form-control"
             placeholder="Type your product"
@@ -65,7 +67,7 @@ export default class extends Component {
           </span>
         </div>
         <div className="col-md-5">
-        	<label className="pull-left">Suggesstions:</label>
+          <label className="pull-left">Suggesstions:</label>
         </div>
         <Menu className="col-md-5">
           {restaurants.map(item => (
