@@ -22,6 +22,7 @@ import "./index.css";
 export default class extends Component {
   componentWillMount() {
     window.jQuery("nav.header").hide();
+    window.jQuery("footer").addClass("menu-bottom fixed-bottom");
     const { restaurants, requestor } = this.props;
 
     // get data if not have, or can validate follow expiry
@@ -32,6 +33,7 @@ export default class extends Component {
 
   componentWillUnmount() {
     window.jQuery("nav.header").show();
+    window.jQuery("footer").removeClass("menu-bottom fixed-bottom");
   }
 
   loadOutlets = async () => {
@@ -45,7 +47,7 @@ export default class extends Component {
       <div className="d-flex flex-column align-items-center">
         <img alt="" src="/images/home-logo.png" />
 
-        <div className="input-group col-md-4 m-5">
+        <div className="input-group input-group-lg col-md-5 m-5">
           <input
             ref={ref=>this.inputSearch=ref}
             type="text"
@@ -62,8 +64,10 @@ export default class extends Component {
             </button>
           </span>
         </div>
-
-        <Menu className="col-md-4">
+        <div className="col-md-5">
+        	<label className="pull-left">Suggesstions:</label>
+        </div>
+        <Menu className="col-md-5">
           {restaurants.map(item => (
             <MenuItem
               key={item.outlet_uuid}
