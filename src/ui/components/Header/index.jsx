@@ -1,26 +1,37 @@
-import React, { Component } from "react"
-import { Link } from 'react-router-dom'
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import classNames from "classnames";
+import { connect } from "react-redux";
 
-import "./index.css"
+import "./index.css";
 
+@connect(state => ({
+  isHome: state.routing.location.pathname === "/"
+}))
 export default class extends Component {
-
-  componentDidMount(){
+  componentDidMount() {
     window.jQuery(this.cartButton).popover({
       html: true,
-      trigger: 'click',
+      trigger: "click",
       content: this.cartContent,
-      placement: 'bottom',
-    })
+      placement: "bottom"
+    });
   }
 
-  componentWillUnMount(){
-    window.jQuery(this.cartButton).popover('dispose')
+  componentWillUnMount() {
+    window.jQuery(this.cartButton).popover("dispose");
   }
 
   render() {
+
+    const { isHome } = this.props;
+
     return (
-      <nav className="navbar fixed-top header container-fluid">
+      <nav
+        className={classNames("navbar fixed-top header container-fluid", {
+          invisible: isHome
+        })}
+      >
         <div className="container-fluid p-0">
           <div>
             <Link className="navbar-brand" to="/">
@@ -36,7 +47,7 @@ export default class extends Component {
 
           <div className="d-flex align-items-center flex-row">
             <button
-              ref={ref=>this.cartButton = ref}
+              ref={ref => (this.cartButton = ref)}
               type="button"
               className="btn btn-round bg-red"
               data-container="body"
@@ -47,11 +58,16 @@ export default class extends Component {
                 id="cart-icon"
               />
               <span className="badge bg-red">0</span>
-              <div className="popover-content text-center" ref={ref=>this.cartContent = ref}>
+              <div
+                className="popover-content text-center"
+                ref={ref => (this.cartContent = ref)}
+              >
                 <img src="/images/no-data.png" height="100" alt="" />
-                <p className="color-gray text-uppercase">Your shopping cart is empty.</p>
+                <p className="color-gray text-uppercase">
+                  Your shopping cart is empty.
+                </p>
               </div>
-            </button>            
+            </button>
 
             <i className="fa fa-bars ml-40" aria-hidden="true" />
           </div>

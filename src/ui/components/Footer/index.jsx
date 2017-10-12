@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { translate } from "react-i18next";
+import { connect } from "react-redux";
+import classNames from "classnames";
 
 // components
 import Menu from "~/ui/components/Menu";
@@ -9,12 +11,18 @@ import Dropdown from "~/ui/components/Dropdown";
 import "./index.css";
 import options from "./options";
 
+
 @translate("translations")
+@connect(state => ({
+  isHome: state.routing.location.pathname === "/"
+}))
 export default class extends Component {
   render() {
-    const { t, i18n } = this.props;
+    const { t, i18n, isHome } = this.props;
     return (
-      <footer className="footer text-center menu-bottom">
+      <footer className={classNames("footer text-center menu-bottom",{
+        "fixed-bottom": isHome
+      })}>
         <Menu className="text-uppercase">
           <MenuItem
             title={

@@ -21,21 +21,11 @@ import "./index.css";
 )
 export default class extends Component {
   componentWillMount() {
-    window.jQuery(() => {
-      window.jQuery("nav.header").hide();
-      window.jQuery("footer").addClass("menu-bottom fixed-bottom");
-    });
-
     // get data if not have, or can validate follow expiry
     const { restaurants, requestor } = this.props;    
     if (!restaurants.length) {
       requestor("restaurant/getOutlets");
     }
-  }
-
-  componentWillUnmount() {
-    window.jQuery("nav.header").show();
-    window.jQuery("footer").removeClass("menu-bottom fixed-bottom");
   }
 
   loadOutlets = async () => {
