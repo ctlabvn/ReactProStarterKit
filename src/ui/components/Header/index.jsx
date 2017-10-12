@@ -12,7 +12,7 @@ export default class extends Component {
   componentDidMount() {
     window.jQuery(this.cartButton).popover({
       html: true,
-      trigger: "click",
+      trigger: "hover",
       content: this.cartContent,
       placement: "bottom"
     });
@@ -23,7 +23,6 @@ export default class extends Component {
   }
 
   render() {
-
     const { isHome } = this.props;
 
     return (
@@ -52,12 +51,14 @@ export default class extends Component {
               className="btn btn-round bg-red"
               data-container="body"
             >
-              <i
-                className="fa fa-shopping-cart"
-                aria-hidden="true"
-                id="cart-icon"
-              />
-              <span className="badge bg-red">0</span>
+              <Link to="/cart">
+                <i
+                  className="fa fa-shopping-cart color-white"
+                  aria-hidden="true"
+                  id="cart-icon"
+                />
+                <span className="badge bg-red">0</span>
+              </Link>
               <div
                 className="popover-content text-center"
                 ref={ref => (this.cartContent = ref)}

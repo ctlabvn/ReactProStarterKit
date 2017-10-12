@@ -28,6 +28,10 @@ body{
   color: $gray-color;
 }
 
+.color-white{
+  color: $white-color;
+}
+
 .color-gray-300{
   color: $gray-color-300;
 }
