@@ -4,7 +4,9 @@ import { translate } from "react-i18next";
 
 // component
 import MasonryInfiniteScroller from "~/ui/components/Scroller/Infinite/Masonry";
+import ProductItemPhoto from "~/ui/components/Product/Item/Photo";
 
+import options from "./options";
 import "./index.css";
 
 let key = 0;
@@ -42,10 +44,11 @@ export default class extends Component {
     const {t} = this.props;    
 
     return (
-      <div className="container-fluid">
+      <div className="container-fluid bg-white pt-4">
         <MasonryInfiniteScroller
             className="masonry"
             hasMore={this.state.hasMore}
+            sizes={options.sizes}
             loader={
               <div className="d-flex flex-row justify-content-center">
                 <i className="fa fa-refresh fa-spin fa-3x fa-fw"></i>
@@ -55,9 +58,15 @@ export default class extends Component {
           >
             {
               this.state.elements.map(({ key, color, height }, i) => (
-                <div key={key} className="card" style={{ background: color, height }}>
-                  <h2>{i}</h2>
-                </div>
+                
+                  <ProductItemPhoto
+                   key={key}
+                  className="card" style={{ background: color, height }}
+                    price={10}
+                title={`Donut pack ${i}`}
+                image="/images/donut-square.png"
+                />                
+                
               ))
             }
           </MasonryInfiniteScroller>                          

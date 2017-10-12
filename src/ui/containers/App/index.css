@@ -5,6 +5,15 @@ body{
   background-color: #fafafa;  
 }
 
+.container-fluid {
+  padding-right: 60px;
+  padding-left: 60px;
+}
+
+.container-xs {
+  max-width: 1320px;
+}
+
 *:focus {
     outline: none;
 }
@@ -103,6 +112,12 @@ body{
 .border-white-300{
   border-color: $white-color-300;
 }
+
+.border-bottom {
+  border-bottom: 1px solid $gray-color-200;
+}
+
+.bor
 
 .ml-20 {
   margin-left: 20px;

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 // elements
 import Filter from "./components/Filter";
+import Suggestion from "./components/Suggestion";
 import Result from "./components/Result";
 
 // store
@@ -16,6 +17,7 @@ export default class extends Component {
     return (
       <div>
         <Filter/>
+        <Suggestion/>
         <Result/>
       </div>
     );

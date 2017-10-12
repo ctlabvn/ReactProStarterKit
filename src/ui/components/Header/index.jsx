@@ -20,7 +20,7 @@ export default class extends Component {
 
   render() {
     return (
-      <nav className="navbar fixed-top header">
+      <nav className="navbar fixed-top header container-fluid">
         <div className="container-fluid p-0">
           <div>
             <Link className="navbar-brand" to="/">

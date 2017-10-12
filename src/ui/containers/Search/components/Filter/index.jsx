@@ -15,7 +15,7 @@ export default class extends Component {
     const {t} = this.props;    
 
     return (
-      <div className="d-flex flex-row justify-content-center">
+      <div className="d-flex flex-row justify-content-center border-bottom search-filter">
         {Object.keys(options.filters).map(filterKey=>
           <Dropdown key={filterKey} title={t(filterKey)} className="col-md-2"> 
             {options.filters[filterKey].map((item, index)=>
