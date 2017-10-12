@@ -117,6 +117,10 @@ body{
   border-color: $white-color-300;
 }
 
+.border-gray-300{
+  border-color: $gray-color-300;
+}
+
 .border-bottom {
   border-bottom: 1px solid $gray-color-200;
 }

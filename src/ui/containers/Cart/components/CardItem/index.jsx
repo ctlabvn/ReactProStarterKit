@@ -55,7 +55,7 @@ export default class extends Component {
     const total = price * quantity;    
     return (
       <tr {...props} ref={ref=>this.element = ref}>
-        <th className="card-title" scope="row">
+        <th className="card-title pl-0" scope="row">
           <img src={image} atl="" />
           <span className="ml-2">{title}</span>
         </th>
