@@ -4,6 +4,7 @@ import { translate } from "react-i18next";
 // components
 import Menu from "~/ui/components/Menu";
 import MenuItem from "~/ui/components/Menu/Item";
+import Dropdown from "~/ui/components/Dropdown";
 
 import "./index.css";
 import options from "./options";
@@ -11,30 +12,22 @@ import options from "./options";
 @translate("translations")
 export default class extends Component {
   render() {
-    const {t, i18n} = this.props;    
+    const { t, i18n } = this.props;
     return (
       <footer className="footer text-center">
         <Menu className="text-uppercase">
           <MenuItem
             title={
-              <div className="btn-group dropup">
-                <button
-                  className="btn btn-light btn-sm dropdown-toggle text-uppercase"
-                  type="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  {t(`languages.${i18n.language}`)}
-                </button>
-                <div className="dropdown-menu">
-                  {options.locales.map(item=>
-                    <a className="dropdown-item" key={item} onClick={()=>i18n.changeLanguage(item)}>
+              <Dropdown
+                className="dropup"
+                title={t(`languages.${i18n.language}`)}                  
+              >
+                {options.locales.map(item => (
+                  <a key={item} onClick={() => i18n.changeLanguage(item)}>
                     {t(`languages.${item}`)}
                   </a>
-                  )}
-                </div>
-              </div>
+                ))}
+              </Dropdown>
             }
           />
           <MenuItem link="/about" title="About us" />

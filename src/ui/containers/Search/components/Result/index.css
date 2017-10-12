@@ -1,0 +1,17 @@
+.masonry {
+  margin: 0 auto;
+}
+
+.card {
+  width: 296px;
+  box-shadow: rgba(0, 0, 0, 0.14902) 0px 2px 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card > h2 {
+  font-size: 6em;
+  color: #fff;
+  margin: 1.6em 0;
+}

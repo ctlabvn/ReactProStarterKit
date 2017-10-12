@@ -4,5 +4,10 @@
     "en": "Tiếng Anh",
     "vi": "Tiếng Việt"
   },
-  "latest": "Tin mới"
+  "latest": "Tin mới",
+  "filters":{
+    "all_locations": "Tất cả địa điểm",
+    "all_prices": "Tất cả giá",
+    "all_ratings": "Tất cả bình chọn"  
+  }  
 }

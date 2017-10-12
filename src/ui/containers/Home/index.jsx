@@ -35,7 +35,8 @@ export default class extends Component {
   }
 
   loadOutlets = async () => {
-    this.props.requestor("restaurant/getOutlets");
+    // this.props.requestor("restaurant/getOutlets");    
+    this.props.history.push(`/search?q=${this.inputSearch.value.trim()}`);
   };
 
   render() {
@@ -46,6 +47,7 @@ export default class extends Component {
 
         <div className="input-group col-md-4 m-5">
           <input
+            ref={ref=>this.inputSearch=ref}
             type="text"
             className="form-control"
             placeholder="Type your product"

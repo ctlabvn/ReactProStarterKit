@@ -4,5 +4,11 @@
     "en": "English",
     "vi": "Vietnamese"
   },
-  "latest": "Tin mới"
+  "latest": "Tin mới",
+  "filters":{
+    "all_locations": "All locations",
+    "all_prices": "All prices",
+    "all_ratings": "All ratings"  
+  }
+  
 }
