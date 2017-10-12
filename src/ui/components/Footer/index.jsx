@@ -13,7 +13,7 @@ export default class extends Component {
   render() {
     const {t, i18n} = this.props;    
     return (
-      <footer className="footer text-center">
+      <footer className="footer text-center menu-bottom fixed-bottom">
         <Menu className="text-uppercase">
           <MenuItem
             title={
