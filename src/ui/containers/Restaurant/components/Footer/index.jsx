@@ -16,7 +16,8 @@ import options from "./options";
 import "./index.css";
 
 @translate('translations')
-export default class extends Component {
+export default class extends Component {  
+
   render() {
     
     const {t} = this.props;

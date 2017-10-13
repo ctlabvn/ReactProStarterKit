@@ -44,6 +44,7 @@
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.6",
+    "reactstrap": "^5.0.0-alpha.3",
     "redux": "^3.7.2",
     "redux-form": "^7.0.4",
     "redux-persist": "^4.10.1",
