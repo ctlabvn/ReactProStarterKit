@@ -134,6 +134,7 @@ body{
 .d-flex{
   img {
     align-self: center;
+    max-width: 100%;
   }
 }
 
