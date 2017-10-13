@@ -125,7 +125,11 @@ body{
   border-bottom: 1px solid $gray-color-200;
 }
 
-.bor
+.html-content{
+  img {
+    max-width: 100%;
+  }
+}
 
 .ml-20 {
   margin-left: 20px;

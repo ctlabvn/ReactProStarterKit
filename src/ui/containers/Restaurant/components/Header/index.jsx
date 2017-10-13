@@ -55,7 +55,7 @@ export default class extends Component {
             <span>08:00pm -> 00:00am</span>
           </div>
 
-          <p className="w-100 mt-3" dangerouslySetInnerHTML={{__html:outlet.description}}/>
+          <p className="w-100 mt-3 html-content" dangerouslySetInnerHTML={{__html:outlet.description}}/>
           <a href="/"> See more</a>
           
 
