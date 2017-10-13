@@ -93,9 +93,9 @@ export default class extends Component {
               </Dropdown>
             }
           />
-          <MenuItem link="/about" title="About us" />
-          <MenuItem link="/about" title="Technology" />
-          <MenuItem link="/about" title="Join us" />
+          <MenuItem link="/about" title={t('link.footer.about_us')} />
+          <MenuItem link="/about" title={t('link.footer.technology')} />
+          <MenuItem link="/about" title={t('link.footer.join_us')} />
           <MenuItem
             onClick={this.toggle}
             title={
@@ -103,7 +103,7 @@ export default class extends Component {
                 type="button"
                 className="btn btn-outline-danger btn-sm text-uppercase"
               >
-                Login
+	              {t('link.footer.login')}
               </button>
             }
           />
