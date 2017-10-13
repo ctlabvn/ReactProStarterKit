@@ -15,7 +15,8 @@ import "./index.css";
 
 @connect(
   state => ({
-    restaurants: restaurantSelectors.getList(state)
+    restaurants: restaurantSelectors.getList(state),
+    language: state.auth.language,
   }),
   { ...commonActions, ...restaurantSelectors }
 )
@@ -32,6 +33,13 @@ export default class extends Component {
     // this.props.requestor("restaurant/getOutlets");
     this.props.history.push(`/search?q=${this.inputSearch.value.trim()}`);
   };
+
+  componentWillReceiveProps({language}){
+    if(this.props.language !== language) {
+      // can pass language, but language already stored in cookie, we just re-store it in localStorage
+      this.props.requestor("restaurant/getOutlets");
+    }
+  }
 
   render() {
     const { restaurants } = this.props;

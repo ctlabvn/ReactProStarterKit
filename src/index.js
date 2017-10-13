@@ -3,7 +3,7 @@ import React from "react";
 import { render } from "react-dom";
 import registerServiceWorker from "./registerServiceWorker";
 // import injectTapEventPlugin from 'react-tap-event-plugin'
-import "./i18n";
+import i18n from "./i18n";
 
 import Root from "./ui";
 import configureStore, { history } from "./store";
@@ -27,6 +27,17 @@ configureStore(
     history.listen(
       location => location.action !== "POP" && window.scrollTo(0, 0)
     );
+
+    // update language from i18n to store
+    i18n.on("languageChanged", lng => {
+      const currentLanguage = store.getState().auth.language;
+      if (currentLanguage !== lng) {        
+        store.dispatch({
+          type: "app/setLanguage",
+          payload: lng
+        });
+      }
+    });
 
     // ready to render
     render(<Root store={store} history={history} />, rootElement);
