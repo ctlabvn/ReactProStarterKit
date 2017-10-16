@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import * as commonActions from "~/store/actions/common";
 import * as restaurantActions from "~/store/actions/restaurant";
 import * as restaurantSelectors from "~/store/selectors/restaurant";
+import * as authSelectors from "~/store/selectors/auth";
 
 // components
 import Menu from "~/ui/components/Menu";
@@ -17,7 +18,7 @@ import "./index.css";
 @connect(
   state => ({
     restaurants: restaurantSelectors.getList(state),
-    language: state.auth.language,
+    language: authSelectors.getCustomer(state).language,
   }),
   { ...commonActions, ...restaurantSelectors }
 )
