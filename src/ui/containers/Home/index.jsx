@@ -53,7 +53,7 @@ export default class extends Component {
             ref={ref => (this.inputSearch = ref)}
             type="text"
             className="form-control"
-            placeholder={t('placeholder.type_your_product')}
+            placeholder={t('PLACEHOLDER.TYPE_YOUR_PRODUCT')}
             aria-label=""
           />
           <span className="input-group-btn">
@@ -66,7 +66,7 @@ export default class extends Component {
           </span>
         </div>
         <div className="col-md-5">
-          <label className="pull-left">{t('label.suggesstion')}:</label>
+          <label className="pull-left">{t('LABEL.SUGGESSTION')}:</label>
         </div>
         <Menu className="col-md-5">
           {restaurants.map(item => (
