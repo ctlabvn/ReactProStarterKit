@@ -14,6 +14,7 @@ export default class extends React.Component {
           <Label for="examplePassword">Password</Label>
           <Input type="password" name="password" id="examplePassword" placeholder="password placeholder" />
         </FormGroup>
+        
         <FormGroup check>
           <Label check>
             <Input type="checkbox" />{' '}

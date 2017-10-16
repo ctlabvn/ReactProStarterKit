@@ -25,10 +25,10 @@ export default class extends Component {
 
   renderThree(images) {
     return [
-      <img src={images[0]} key={0} alt="" height="50%" />,
-      <div className="d-flex flex-row" key={1}>
-        <img src={images[1]} alt="" width="50%" />
-        <img src={images[2]} alt="" width="50%" />
+      <img src={images[0]} key={0} alt="" className="h-50 align-self-stretch" />,
+      <div className="d-flex flex-row h-50" key={1}>
+        <img src={images[1]} alt="" className="w-50 align-self-stretch" />
+        <img src={images[2]} alt="" className="w-50 align-self-stretch" />
       </div>
     ];
   }

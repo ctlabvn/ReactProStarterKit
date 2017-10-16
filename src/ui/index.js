@@ -14,6 +14,7 @@ import Cart from "./containers/Cart";
 import CustomerProfile from "./containers/Customer/Profile";
 import Order from "./containers/Customer/Order";
 
+
 // stateless component
 const Root = ({ store, history }) => (
   <Provider store={store}>
