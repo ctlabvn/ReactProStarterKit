@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 import * as commonActions from "~/store/actions/common";
@@ -33,7 +34,9 @@ export default class extends React.Component {
         </DropdownToggle>
         <DropdownMenu>          
           <DropdownItem>Order history</DropdownItem>
-          <DropdownItem>Account</DropdownItem>
+          <DropdownItem>
+            <Link to="/customer/profile">Account</Link>
+          </DropdownItem>
           <DropdownItem divider />
           <DropdownItem onClick={this.logout}>Logout</DropdownItem>
         </DropdownMenu>

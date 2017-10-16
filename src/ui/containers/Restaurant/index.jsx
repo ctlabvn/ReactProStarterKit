@@ -8,11 +8,12 @@ import Body from "./components/Body";
 
 // store
 import api from "~/store/api";
+import * as authSelectors from "~/store/selectors/auth";
 
 import "./index.css";
 
 @connect(state => ({
-  language: state.auth.language
+  language: authSelectors.getCustomer(state).language,
 }))
 export default class extends Component {
   constructor(props) {

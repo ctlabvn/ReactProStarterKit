@@ -62,7 +62,7 @@ export default class extends Component {
         <ModalHeader toggle={this.toggle}>Login</ModalHeader>
         <ModalBody>
           <Field
-            label="Username"
+            placeholder="Username"
             className="mt-5"
             name="email"
             component={InputField}
@@ -70,7 +70,7 @@ export default class extends Component {
 
           <Field
             className="mt-3"
-            label="Password"
+            placeholder="Password"
             type="password"
             name="password"
             component={InputField}

@@ -3,6 +3,7 @@ import { Field } from "redux-form";
 
 import {
   Input,
+  Label,
   InputGroup,
   InputGroupAddon,
   FormGroup,
@@ -14,12 +15,12 @@ export const InputField = ({
   label,
   type,
   meta: { touched, error, warning },
-  leftAddon,
-  rightAddon,
+  placeholder,
   ...custom
 }) => (
   <FormGroup {...custom}>
-    <Input placeholder={label} {...input} valid={!error} type={type} />
+    {label && <Label>{label}</Label>}
+    <Input placeholder={placeholder} {...input} valid={!error} type={type} />
     {touched && error && <FormFeedback>{error}</FormFeedback>}
   </FormGroup>
 );

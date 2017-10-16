@@ -28,7 +28,7 @@ export const fetchJson = (url, options = {}, base = API_BASE) => {
           "Content-Type": "application/json"
         }
       : options.headers;
-
+      console.log(headers);
   return (
     fetch(/^(?:https?)?:\/\//.test(url) ? url : base + url, {
       ...options,
