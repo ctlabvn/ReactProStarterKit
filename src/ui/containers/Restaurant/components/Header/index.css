@@ -13,5 +13,5 @@
 
 .photo-group-large{
   min-width: 300px;
-  min-height: 300px;
+  max-height: 300px;
 }
