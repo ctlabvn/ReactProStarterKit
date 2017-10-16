@@ -2,9 +2,9 @@
   "title": "Hottab",
   "languages": {
     "en": "English",
-    "vi": "Vietnamese"
+    "vi": "Tiếng Việt"
   },
-  "latest": "Tin mới",
+  "latest": "Lastest News",
   "filters":{
     "all_locations": "All locations",
     "all_prices": "All prices",

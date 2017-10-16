@@ -1,8 +1,8 @@
 import { apiGet, apiPost } from './common'
 
 export default {
-  getOutlets(){
-    return apiGet('/restaurant/outlets')
+  getOutlets(page = 1){
+    return apiGet('/restaurant/outlets', {page: page, pagination: 12})
   },
 
   getOutlet(uuid){

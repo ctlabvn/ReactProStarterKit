@@ -58,7 +58,7 @@ export default class extends Component {
 
           <Body outlet={outlet} />
 
-          <Footer outlet={outlet} />
+          {/*<Footer outlet={outlet} />*/}
         </div>
       </div>
     );

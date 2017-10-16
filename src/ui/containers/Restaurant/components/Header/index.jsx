@@ -37,20 +37,18 @@ export default class extends Component {
           <h2 className="font-weight-bold text-uppercase">{outlet.name}</h2>
 
           <div className="flex-row d-flex justify-content-between">
-            <Rating />
-            <span>148 comments</span>
-            <span>|</span>
-            <span className="color-red">242 Rue de Rivoli, 75001, Paris</span>
-            <span>|</span>
-            <span>17 Restaurants in Paris</span>
+            {/*<Rating />*/}
+            {/*<span>148 comments</span>*/}
+            {/*<span>|</span>*/}
+            <span className="color-red">{outlet.address}</span>
           </div>
 
           <div className="flex-row d-flex justify-content-between">
             <span>Sugar, Donuts</span>
             <span>|</span>
-            <span>+33 1 23 45 67 89</span>
+            <span>{outlet.phone}</span>
             <span>|</span>
-            <span>Min / Max Order : $5 / $500</span>
+            <span>Min / Max Order : {outlet.online_order_setting.min_takeaway_cost} / {outlet.online_order_setting.max_takeaway_cost}</span>
             <span>|</span>
             <span>08:00pm -> 00:00am</span>
           </div>
@@ -75,7 +73,7 @@ export default class extends Component {
 
         </div>
 
-        <PhotoGroup images={options.images} className="photo-group-large"/>
+        {outlet.gallery ? <PhotoGroup images={outlet.gallery} className="photo-group-large"/> : ''}
       </div>
     );
   }

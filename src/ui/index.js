@@ -10,6 +10,7 @@ import NotFound from "./containers/NotFound";
 import Home from "./containers/Home";
 import Search from "./containers/Search";
 import Restaurant from "./containers/Restaurant";
+import RestaurantListing from "./containers/RestaurantListing";
 import Cart from "./containers/Cart";
 import CustomerProfile from "./containers/Customer/Profile";
 
@@ -24,6 +25,7 @@ const Root = ({ store, history }) => (
           <Route exact path="/cart" component={Cart} />
           <Route exact path="/checkout" component={Cart} />
           <Route exact path="/restaurant/:uuid" component={Restaurant} />
+          <Route exact path="/restaurant" component={RestaurantListing} />
           <Route exact path="/customer/profile" component={CustomerProfile} />
           <Route component={NotFound} />
         </Switch>
