@@ -20,20 +20,8 @@ export const fetchJson = (url, options = {}, base = API_BASE) => {
   // in the same server, API_BASE is emtpy
   // check convenient way of passing base directly
   // without Accept and Content-Type it will not call options
-  const headers =
-    options.method === "POST"
-      ? {
-          ...options.headers,
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        }
-      : options.headers;
-      console.log(headers);
   return (
-    fetch(/^(?:https?)?:\/\//.test(url) ? url : base + url, {
-      ...options,
-      headers
-    })
+    fetch(/^(?:https?)?:\/\//.test(url) ? url : base + url, options)
       .then(rejectErrors)
       // default return empty json when no content
       .then(res => res.text())
@@ -72,7 +60,16 @@ export const apiPost = (url, data, token, method = "POST", options) => {
   // const dataPost = getExtendData(data);
   return apiCall(
     url + "?secret_key=" + API_SECRET_KEY,
-    { method, body: JSON.stringify(data), ...options },
+    {
+      ...options,
+      method,
+      body: JSON.stringify(data),
+      headers: {
+        ...options.headers,
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    },
     token
   );
 };
