@@ -1,60 +1,53 @@
-import { fetchJson, fetchJsonWithToken } from '~/store/api/common'
+import { apiPost, apiGet } from "~/store/api/common";
+
+import i18n from "~/i18n";
 
 export default {
   /**
   * Logs a user in, returning a promise with `true` when done
   * @param  {string} token The token of the user  
   */
-  loginFacebook (accessToken) {  
+  loginFacebook(accessToken) {
     // Post request to server
-    return fetchJson(`/oauth/facebook/token?access_token=${accessToken}`, {
-      method: 'POST',      
-    })
+    return apiPost(`/oauth/facebook/token?access_token=${accessToken}`);
   },
 
-  loginGoogle (accessToken) {  
+  loginGoogle(accessToken) {
     // Post request to server
-    return fetchJson(`/oauth/google/token?access_token=${accessToken}`, {
-      method: 'POST',      
-    })
+    return apiPost(`/oauth/google/token?access_token=${accessToken}`);
   },
 
-  login (username, password, permanent=false) {
-    // return fetchJson(`/auth/login?permanent=${permanent}`, {
-    //   method: 'POST',
-    //   body: JSON.stringify({username, password})
-    // })
-
-    return new Promise((resolve, reject)=>{
-      resolve({
-        id: 1,
-        username: 'tupt'
-      })
-    })
+  login(email, password) {
+    return apiPost("/customer/login", {
+      email,
+      password,
+      lang: i18n.language
+    });
   },
 
-  refreshAccessToken (refreshToken) {
-    return fetchJson(`/auth/token`, {
-      method: 'POST',
-      body: JSON.stringify({refreshToken})
-    })
+  signup(email, password, name, address_name, address) {
+    return apiPost("/customer/signup", {
+      email,
+      password,
+      name,
+      address_name,
+      address,
+      lang: i18n.language
+    });
   },
 
-  updateAccount (token, data) {
-    return fetchJsonWithToken(token, `/auth/update`, {
-      method: 'POST',
-      body: JSON.stringify(data)
-    })
+  refreshAccessToken(refreshToken) {
+    return apiPost(`/auth/token`, { refreshToken });
   },
-  
+
+  updateAccount(token, data) {
+    return apiPost(token, `/auth/update`, data);
+  },
+
   /**
   * Logs the current user out
   */
-  logout () {
-    // return fetchJsonWithToken(token, `/logout`)
-    return fetchJson(`/auth/logout`, {
-      method: 'POST',      
-    })
-  },
-
-}
+  logout() {
+    return apiPost("/auth/logout");
+  }
+};

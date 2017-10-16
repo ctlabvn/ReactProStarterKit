@@ -3,10 +3,17 @@ import { Link } from "react-router-dom";
 import classNames from "classnames";
 import { connect } from "react-redux";
 
+// components
+import AccountDropdown from "./components/AccountDropdown";
+
+// selectors
+import * as authSelectors from "~/store/selectors/auth";
+
 import "./index.css";
 
 @connect(state => ({
-  isHome: state.routing.location.pathname === "/"
+  isHome: state.routing.location.pathname === "/",
+  isLogged: authSelectors.isLogged(state),
 }))
 export default class extends Component {
   componentDidMount() {
@@ -23,7 +30,7 @@ export default class extends Component {
   }
 
   render() {
-    const { isHome } = this.props;
+    const { isHome, isLogged } = this.props;
 
     return (
       <nav
@@ -70,7 +77,8 @@ export default class extends Component {
               </div>
             </button>
 
-            <i className="fa fa-bars ml-40" aria-hidden="true" />
+            {isLogged && <AccountDropdown/>}
+            
           </div>
         </div>
       </nav>
