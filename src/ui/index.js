@@ -12,6 +12,7 @@ import Search from "./containers/Search";
 import Restaurant from "./containers/Restaurant";
 import Cart from "./containers/Cart";
 import CustomerProfile from "./containers/Customer/Profile";
+import Order from "./containers/Customer/Order";
 
 // stateless component
 const Root = ({ store, history }) => (
@@ -25,6 +26,7 @@ const Root = ({ store, history }) => (
           <Route exact path="/checkout" component={Cart} />
           <Route exact path="/restaurant/:uuid" component={Restaurant} />
           <Route exact path="/customer/profile" component={CustomerProfile} />
+          <Route exact path="/customer/order" component={Order} />
           <Route component={NotFound} />
         </Switch>
       </App>

@@ -17,7 +17,7 @@ export default class App extends Component {
       <div>     
         <Indicator/>
         <Header/>
-        <div className="main-page">
+        <div className="main-page float-left w-100">
           {children}
         </div>
         <Footer/>

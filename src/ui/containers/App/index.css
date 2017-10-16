@@ -5,6 +5,10 @@ body{
   background-color: #fafafa;  
 }
 
+button a{
+  color: inherit!important;
+}
+
 a:hover {
   text-decoration: none;
 }
@@ -194,4 +198,8 @@ a:hover {
   position: absolute;
   transform: translateY(-50%);
   top: 50%;
+}
+
+.table-fixed{
+  table-layout: fixed;
 }

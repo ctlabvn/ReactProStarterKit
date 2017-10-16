@@ -14,12 +14,30 @@ export default class extends Component {
     description: PropTypes.string,
     priceUnit: PropTypes.string,
     image: PropTypes.string,
+    quantity: PropTypes.number,
     imageSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   };
 
   static defaultProps = {
     priceUnit: "$",
-    imageSize: 50
+    imageSize: 50,
+    quantity: 1,
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      quantity: props.quantity
+    };
+  }
+
+  increaseQuantity = ()=>{    
+    this.setState({quantity: this.state.quantity + 1});
+  };
+
+  decreaseQuantity = ()=>{    
+    this.setState({quantity: this.state.quantity - 1});
   };
 
   render() {
@@ -32,24 +50,31 @@ export default class extends Component {
       description,
       className
     } = this.props;
+
+    const {quantity} = this.state;
+    const totalPrice = price * quantity;
+
     return (
       <div
         className={classNames("d-flex flex-row align-items-center", className)}
       >
-        <img
+        {image && <img
           style={{ width: imageSize, height: imageSize }}
           src={image}
           alt="..."
           className="rounded-circle"
-        />
+        />}
         <div className="flex-column d-flex ml-3">
           <HeadingDouble
             leftTitle={title}
-            rightTitle={`${priceUnit}${price}`}
+            rightTitle={`${priceUnit}${totalPrice}`}
           />
-          <div className="flex-row d-flex justify-items-between">
+          <div className="flex-row d-flex justify-content-between">
             <span className="pr-4">{description}</span>
-            <ButtonRound icon="plus" />
+            <div className="d-flex flex-column justify-content-between">
+            <ButtonRound icon="plus" onClick={this.increaseQuantity} />
+            {quantity > 1 && <ButtonRound icon="minus" onClick={this.decreaseQuantity} />}
+            </div>
           </div>
         </div>
       </div>

@@ -13,3 +13,9 @@
 .menu-item.selected{
   color: $black-color;
 }
+
+.list-group {
+  .menu-item:first-child {
+    padding-left: 20px;
+  }
+}

@@ -12,43 +12,44 @@ import "./index.css";
 import options from "./options";
 
 export default class extends Component {
-
   render() {
-    const {outlet} = this.props;   
+    const { outlet } = this.props;
     return (
       <div className="row block bg-white mb-4">
         <h3 className="font-largest color-black w-100 mb-4">
           <span className="font-weight-bold">ALL PRODUCTS</span> (25)
         </h3>
 
-        <Menu>
-          {outlet.categories.map((item) => (
-            <MenuItem key={item.category_uuid} title={item.name}/>
-          ))}
-        </Menu>
-
         <Slider className="mt-2" num={5} move={1}>
-            {options.products.map((item, index) => (
-              <ProductItemPhoto
-                key={index}       
-                price={10}
-                title={item}
-                image="/images/donut-square.png"
-              />
-            ))}         
-        </Slider>
-
-        <div className="w-100 mt-5">
           {options.products.map((item, index) => (
-            <ProductItem
-              className="col-md-6 float-left pl-0 pr-5 mb-4"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+            <ProductItemPhoto
               key={index}
               price={10}
               title={item}
-              image="/images/donut.png"
+              image="/images/donut-square.png"
             />
           ))}
+        </Slider>
+
+        <div className="mt-5 row">
+          <Menu className="col-md-2 list-group restaurant-cat">
+            {outlet.categories.map(item => (
+              <MenuItem key={item.category_uuid} title={item.name} />
+            ))}
+          </Menu>
+
+          <div className="col">
+            {options.products.map((item, index) => (
+              <ProductItem
+                className="col-md-6 float-left pl-0 pr-5 mb-4"
+                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+                key={index}
+                price={10}
+                title={item}
+                image="/images/donut.png"
+              />
+            ))}
+          </div>
         </div>
       </div>
     );
