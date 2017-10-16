@@ -16,29 +16,36 @@ export const rejectErrors = res => {
 };
 
 // try invoke callback for refresh token here
-export const fetchJson = (url, options = {}, base = API_BASE) =>{
+export const fetchJson = (url, options = {}, base = API_BASE) => {
   // in the same server, API_BASE is emtpy
-  // check convenient way of passing base directly  
-  // without Accept and Content-Type it will not call options 
-  return fetch(/^(?:https?)?:\/\//.test(url) ? url : base + url, {
-    ...options,
-    headers: {
-      ...options.headers,
-      // Accept: "application/json",
-      // "Content-Type": "application/json"
-    }
-  })
-    .then(rejectErrors)
-    // default return empty json when no content
-    .then(res => res.text())
-    .then(text => {
-      try {
-        return JSON.parse(text);
-      } catch (e) {
-        return text;
-      }
-    });
-}
+  // check convenient way of passing base directly
+  // without Accept and Content-Type it will not call options
+  const headers =
+    options.method === "POST"
+      ? {
+          ...options.headers,
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        }
+      : options.headers;
+
+  return (
+    fetch(/^(?:https?)?:\/\//.test(url) ? url : base + url, {
+      ...options,
+      headers
+    })
+      .then(rejectErrors)
+      // default return empty json when no content
+      .then(res => res.text())
+      .then(text => {
+        try {
+          return JSON.parse(text);
+        } catch (e) {
+          return text;
+        }
+      })
+  );
+};
 
 export const fetchJsonWithToken = (token, url, options = {}, ...args) => {
   return fetchJson(
@@ -52,9 +59,9 @@ export const fetchJsonWithToken = (token, url, options = {}, ...args) => {
     },
     ...args
   );
-}
+};
 
-const getExtendData = data => ({ ...data, secret_key: API_SECRET_KEY, lang: i18n.language });
+// const getExtendData = data => ({ ...data, lang: i18n.language });
 
 // default is get method, we can override header with method:PUT for sample
 export const apiCall = (url, options, token = null) =>
@@ -62,19 +69,25 @@ export const apiCall = (url, options, token = null) =>
 
 // must have data to post, put should not return data
 export const apiPost = (url, data, token, method = "POST", options) => {
-  const dataPost = getExtendData(data);
-  return apiCall(url, { method, body: JSON.stringify(dataPost), ...options }, token);
+  // const dataPost = getExtendData(data);
+  return apiCall(
+    url + "?secret_key=" + API_SECRET_KEY,
+    { method, body: JSON.stringify(data), ...options },
+    token
+  );
 };
 
 // should have data to get, delete should not return
 export const apiGet = (url, data, token, method = "GET", options) => {
-  const dataGet = getExtendData(data);
+  // const dataGet = getExtendData(data);
   return apiCall(
-    url +
-      "?" +
-      Object.keys(dataGet)
-        .map(key => `${key}=${encodeURIComponent(dataGet[key])}`)
-        .join("&"),
+    `${url}?secret_key=${API_SECRET_KEY}` +
+      (data
+        ? "&" +
+          Object.keys(data)
+            .map(key => `${key}=${encodeURIComponent(data[key])}`)
+            .join("&")
+        : ""),
     { method, ...options },
     token
   );

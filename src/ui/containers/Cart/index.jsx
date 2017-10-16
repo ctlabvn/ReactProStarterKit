@@ -81,7 +81,7 @@ export default class extends Component {
             Your cart
           </h2>
           <small>
-            <i class="fa fa-clock-o" aria-hidden="true" /> Delivery time : 30 m
+            <i className="fa fa-clock-o" aria-hidden="true" /> Delivery time : 30 m
           </small>
 
           {this.renderCartList()}
