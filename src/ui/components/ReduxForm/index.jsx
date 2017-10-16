@@ -16,14 +16,10 @@ export const InputField = ({
   meta: { touched, error, warning },
   leftAddon,
   rightAddon,
-  ...custom,
+  ...custom
 }) => (
   <FormGroup {...custom}>
-    <InputGroup>
-      {leftAddon && <InputGroupAddon>{leftAddon}</InputGroupAddon>}
-      <Input placeholder={label} {...input} valid={!error} type={type}/>
-      {rightAddon && <InputGroupAddon>{rightAddon}</InputGroupAddon>}
-    </InputGroup>
+    <Input placeholder={label} {...input} valid={!error} type={type} />
     {touched && error && <FormFeedback>{error}</FormFeedback>}
   </FormGroup>
 );

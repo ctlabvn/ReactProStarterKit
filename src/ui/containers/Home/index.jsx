@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { translate } from "react-i18next";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -12,7 +13,7 @@ import Menu from "~/ui/components/Menu";
 import MenuItem from "~/ui/components/Menu/Item";
 
 import "./index.css";
-
+@translate('translations')
 @connect(
   state => ({
     restaurants: restaurantSelectors.getList(state),
@@ -42,7 +43,7 @@ export default class extends Component {
   }
 
   render() {
-    const { restaurants } = this.props;
+    const { t, restaurants } = this.props;
     return (
       <div className="d-flex flex-column align-items-center">
         <img alt="" src="/images/home-logo.png" />
@@ -52,7 +53,7 @@ export default class extends Component {
             ref={ref => (this.inputSearch = ref)}
             type="text"
             className="form-control"
-            placeholder="Type your product"
+            placeholder={t('placeholder.type_your_product')}
             aria-label=""
           />
           <span className="input-group-btn">
@@ -65,7 +66,7 @@ export default class extends Component {
           </span>
         </div>
         <div className="col-md-5">
-          <label className="pull-left">Suggesstions:</label>
+          <label className="pull-left">{t('label.suggesstion')}:</label>
         </div>
         <Menu className="col-md-5">
           {restaurants.map(item => (

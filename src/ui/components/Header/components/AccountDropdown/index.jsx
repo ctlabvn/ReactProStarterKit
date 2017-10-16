@@ -1,21 +1,29 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-export default class Example extends React.Component {
-  constructor(props) {
-    super(props);
+import * as commonActions from "~/store/actions/common";
 
-    this.toggle = this.toggle.bind(this);
+@connect(null, commonActions)
+export default class extends React.Component {
+  constructor(props) {
+    super(props);    
     this.state = {
       dropdownOpen: false
     };
   }
 
-  toggle() {
+
+
+  toggle = () => {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
     });
-  }
+  };
+
+  logout = ()=>{
+    this.props.requestor('app/logout');
+  };
 
   render() {
     return (
@@ -27,7 +35,7 @@ export default class Example extends React.Component {
           <DropdownItem>Order history</DropdownItem>
           <DropdownItem>Account</DropdownItem>
           <DropdownItem divider />
-          <DropdownItem>Logout</DropdownItem>
+          <DropdownItem onClick={this.logout}>Logout</DropdownItem>
         </DropdownMenu>
       </Dropdown>
     );

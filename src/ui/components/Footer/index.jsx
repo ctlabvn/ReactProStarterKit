@@ -45,22 +45,21 @@ export default class extends Component {
               </Dropdown>
             }
           />
-          <MenuItem link="/about" title="About us" />
-          <MenuItem link="/about" title="Technology" />
-          <MenuItem link="/about" title="Join us" />
-          {!isLogged && (
-            <MenuItem
-              onClick={() => this.loginModal.toggle()}
-              title={
-                <button
-                  type="button"
-                  className="btn btn-outline-danger btn-sm text-uppercase"
-                >
-                  Login
-                </button>
-              }
-            />
-          )}
+          <MenuItem link="/about" title={t('link.footer.about_us')} />
+          <MenuItem link="/about" title={t('link.footer.technology')} />
+          <MenuItem link="/about" title={t('link.footer.join_us')} />
+          {!isLogged && <MenuItem
+            onClick={()=>this.loginModal.toggle()}
+            title={
+              <button
+                type="button"
+                className="btn btn-outline-danger btn-sm text-uppercase"
+              >
+	              {t('link.footer.login')}
+              </button>
+            }
+          />}
+
         </Menu>
         <Menu className="bottom">
           {options.items.map((item, index) => (

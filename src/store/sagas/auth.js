@@ -79,7 +79,7 @@ const requestLogoutAsync = createRequestSaga({
     () => removeLoggedUser(),    
     () => setAuthState(false),  
     () => setToast('Logout successfully!!!'),  
-    () => forwardTo('/login'),
+    () => forwardTo('/'),
   ],
   failure: [ 
     () => setToast('Couldn\'t logout', 'error') 
