@@ -1,12 +1,19 @@
 // React
 import React from "react";
 import { render } from "react-dom";
+
+// bootstrap & font-awesome & google font
+import "bootstrap/dist/css/bootstrap.css";
+import 'font-awesome/css/font-awesome.min.css';
+import "typeface-montserrat";
+
 import registerServiceWorker from "./registerServiceWorker";
 // import injectTapEventPlugin from 'react-tap-event-plugin'
 import i18n from "./i18n";
 
 import Root from "./ui";
 import configureStore, { history } from "./store";
+import * as authSelectors from "./store/selectors/auth";
 
 const rootElement = document.getElementById("root");
 
@@ -30,7 +37,7 @@ configureStore(
 
     // update language from i18n to store
     i18n.on("languageChanged", lng => {
-      const currentLanguage = store.getState().auth.language;
+      const currentLanguage = authSelectors.getCustomer(store.getState()).language;
       if (currentLanguage !== lng) {        
         store.dispatch({
           type: "app/setLanguage",

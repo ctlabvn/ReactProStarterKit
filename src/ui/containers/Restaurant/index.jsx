@@ -13,7 +13,7 @@ import * as authSelectors from "~/store/selectors/auth";
 import "./index.css";
 
 @connect(state => ({
-  language: authSelectors.getCustomer(state).language,
+  // language: authSelectors.getCustomer(state).language,
 }))
 export default class extends Component {
   constructor(props) {

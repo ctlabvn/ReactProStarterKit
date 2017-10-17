@@ -2,8 +2,13 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
+// reactstrap
+import { Table } from 'reactstrap';
+
+
 // components
 import CardItem from "./components/CardItem";
+
 
 import options from "./options";
 import "./index.css";
@@ -11,10 +16,10 @@ import "./index.css";
 export default class extends Component {
   renderCartList() {
     return (
-      <table className="table mt-4 text-uppercase">
+      <Table className="mt-4 text-uppercase table-fixed">
         <thead className="color-gray">
           <tr>
-            <th className="pl-0">Item</th>
+            <th className="pl-0 w-25">Item</th>
             <th>Unit price</th>
             <th>Quantity</th>
             <th>Vat</th>
@@ -34,7 +39,7 @@ export default class extends Component {
             />
           ))}
         </tbody>
-      </table>
+      </Table>
     );
   }
 

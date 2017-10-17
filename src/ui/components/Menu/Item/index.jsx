@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import classNames from "classnames";
 
+import { getSiblings } from "~/ui/utils";
 import "./index.css";
 
 export default class extends Component {
@@ -25,12 +26,10 @@ export default class extends Component {
   handleClick(e, onClick) {
     if (!this.props.link) {
       const { activeClassName } = this.props;
-      window
-        .jQuery(e.target)
-        .closest(".menu-item")
-        .addClass(activeClassName)
-        .siblings()
-        .removeClass(activeClassName);
+
+      this.node.classList.add(activeClassName);
+      const siblings = getSiblings(this.node);
+      siblings.map(sibling => sibling.classList.remove(activeClassName));
     }
     onClick && onClick(e);
   }
@@ -43,6 +42,7 @@ export default class extends Component {
     const { title, link, active, onClick, activeClassName } = this.props;
     return (
       <li
+        ref={ref => (this.node = ref)}
         className={classNames("list-inline-item menu-item", {
           [activeClassName]: active
         })}

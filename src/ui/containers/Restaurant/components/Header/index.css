@@ -12,6 +12,6 @@
 }
 
 .photo-group-large{
-  width: 300px;
-  height: 300px;
+  min-width: 300px;
+  max-height: 300px;
 }

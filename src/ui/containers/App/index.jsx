@@ -5,7 +5,7 @@ import Header from '~/ui/components/Header'
 import Footer from '~/ui/components/Footer'
 import Indicator from '~/ui/components/Indicator'
 
-import './index.css'
+import "./index.css";
 
 export default class App extends Component {
 
@@ -17,7 +17,7 @@ export default class App extends Component {
       <div>     
         <Indicator/>
         <Header/>
-        <div className="main-page">
+        <div className="main-page float-left w-100">
           {children}
         </div>
         <Footer/>

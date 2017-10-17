@@ -31,7 +31,8 @@ export default class extends Component {
   }
 
   removeItem = ()=>{
-    window.jQuery(this.element).remove();
+    // remove directly not supported in IE
+    this.element.parentNode.removeChild(this.element);
   };
 
   increaseQuantity = ()=>{    
