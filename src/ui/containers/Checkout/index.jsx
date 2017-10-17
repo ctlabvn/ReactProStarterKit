@@ -35,14 +35,15 @@ export default class extends Component {
   }
 
   renderHasAccount(){
-    <div>
+    return (
+      <div>
       <h4 className="text-center">Delivery address</h4>
       <Menu className="list-group">
             
-              <MenuItem title="vai dan" />
-            
+              <MenuItem title="vai dan" active/>
           </Menu>
     </div>
+    )
   }
 
   renderHasNoAccount(){

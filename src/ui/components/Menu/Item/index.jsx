@@ -14,8 +14,7 @@ export default class extends Component {
   renderLink(link, title) {
     return (
       <NavLink
-        to={link}
-        className="menu-item"
+        to={link}        
         activeClassName={this.props.activeClassName}
       >
         {title}
@@ -39,13 +38,13 @@ export default class extends Component {
   }
 
   render() {
-    const { title, link, active, onClick, activeClassName } = this.props;
+    const { title, link, active, onClick, className, activeClassName } = this.props;
     return (
       <li
         ref={ref => (this.node = ref)}
         className={classNames("list-inline-item menu-item", {
           [activeClassName]: active
-        })}
+        }, className)}
         onClick={e => this.handleClick(e, onClick)}
       >
         {link ? this.renderLink(link, title) : this.renderItem(title)}

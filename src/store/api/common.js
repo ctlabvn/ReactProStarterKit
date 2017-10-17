@@ -56,16 +56,14 @@ export const apiCall = (url, options, token = null) =>
   token ? fetchJsonWithToken(token, url, options) : fetchJson(url, options);
 
 // must have data to post, put should not return data
-export const apiPost = (url, data, token, method = "POST", options) => {
+export const apiPost = (url, data, token, method = "POST") => {
   // const dataPost = getExtendData(data);
   return apiCall(
     url + "?secret_key=" + API_SECRET_KEY,
     {
-      ...options,
       method,
       body: JSON.stringify(data),
       headers: {
-        ...options.headers,
         Accept: "application/json",
         "Content-Type": "application/json"
       }
@@ -75,7 +73,7 @@ export const apiPost = (url, data, token, method = "POST", options) => {
 };
 
 // should have data to get, delete should not return
-export const apiGet = (url, data, token, method = "GET", options) => {
+export const apiGet = (url, data, token, method = "GET") => {
   // const dataGet = getExtendData(data);
   return apiCall(
     `${url}?secret_key=${API_SECRET_KEY}` +
@@ -85,7 +83,7 @@ export const apiGet = (url, data, token, method = "GET", options) => {
             .map(key => `${key}=${encodeURIComponent(data[key])}`)
             .join("&")
         : ""),
-    { method, ...options },
+    { method },
     token
   );
 };

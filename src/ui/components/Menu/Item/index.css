@@ -4,6 +4,10 @@
   cursor: pointer;
   color: $gray-color-300;
   padding: 10px 20px;
+
+  a{
+    color: inherit;
+  }
 }
 
 .menu-item:first-child{
