@@ -5,6 +5,7 @@ import { reducer as form } from "redux-form";
 import { requests, toast } from "./common";
 import { auth } from "./auth";
 import { restaurant } from "./restaurant";
+import { order } from "./order";
 
 // a rootReducer is like a single state, key is function return a sub state value
 export default combineReducers({
@@ -15,5 +16,6 @@ export default combineReducers({
   }),
   requests,
   auth,
-  restaurant
+  restaurant,
+  order,
 });
