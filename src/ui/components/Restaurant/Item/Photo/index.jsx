@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import classNames from "classnames";
 import MenuItem from "~/ui/components/Menu/Item";
 
@@ -16,14 +17,15 @@ export default class extends Component {
   render() {
     const { name, address, logo, className, uuid, ...props } = this.props;
     return (
-      <div className="media">
-        <img className="media-image d-flex mr-3" src={logo} alt="" />
-          <div className="media-body">
-            <h5 className="mt-0">
-              <a key={uuid} href={`/restaurant/${uuid}`}>{name}</a>
-            </h5>
-            {address}
-          </div>
+      <div className="col-6 my-3">
+        <div className="media border border-light rounded">
+          <img className="media-image d-flex mr-3" src={logo} alt="" />
+            <div className="media-body">
+              <Link to={`/restaurant/${uuid}`}><h5>{name}</h5></Link>
+              <hr />
+              {address}
+            </div>
+        </div>
       </div>
     );
   }

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
 
 // component
-import MasonryInfiniteScroller from "~/ui/components/Scroller/Infinite/Masonry";
+import InfiniteScroller from "~/ui/components/Scroller/Infinite";
 import RestaurantItemPhoto from "~/ui/components/Restaurant/Item/Photo";
 
 // store
@@ -43,8 +43,8 @@ export default class extends Component {
     const { elements } = this.state;
 	  return (
       <div className="container-fluid bg-white py-4">
-        <MasonryInfiniteScroller
-            className="masonry"
+        <InfiniteScroller
+            className="masonry row d-flex justify-content-center"
             hasMore={this.state.hasMore}
             sizes={options.sizes}
             loader={
@@ -55,18 +55,18 @@ export default class extends Component {
             loadMore={this.loadMore}
           >
             {
-	            elements.map(({ name, address, logo, outlet_uuid}, i) => (
+	            elements.map((item, i) => (
                 <RestaurantItemPhoto
-                  key={outlet_uuid}
-                  uuid={outlet_uuid}
-                  name={name}
-                  address={address}
-                  logo={logo}
+                  key={item.outlet_uuid}
+                  uuid={item.outlet_uuid}
+                  name={item.name}
+                  address={item.address}
+                  logo={item.logo}
                   image="/images/donut-square.png"
                 />
               ))
             }
-          </MasonryInfiniteScroller>
+          </InfiniteScroller>
       </div>
     );
 

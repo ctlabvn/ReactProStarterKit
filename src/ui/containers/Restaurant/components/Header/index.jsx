@@ -23,9 +23,9 @@ export default class extends Component {
             <a className="breadcrumb-item color-gray-400" href="#">
               Home
             </a>
-            <a className="breadcrumb-item color-gray-400" href="/restaurant">
+            <Link className="breadcrumb-item color-gray-400" to={`/restaurant`}>
               RESTAURANT
-            </a>
+            </Link>
             <a className="breadcrumb-item color-gray-400" href="#">
               HANOI
             </a>

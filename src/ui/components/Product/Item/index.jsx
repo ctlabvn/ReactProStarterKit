@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
@@ -67,12 +68,12 @@ export default class extends Component {
           className="rounded-circle"
         />}
         <div className="flex-column d-flex ml-3 w-100">
-          <a href={`/item/${itemUuid}`}>
+          <Link to={`/item/${itemUuid}`}>
             <HeadingDouble
               leftTitle={title}
               rightTitle={`${priceUnit}${totalPrice}`}
             />
-          </a>
+          </Link>
           <div className="flex-row d-flex justify-content-between">
             <span className="pr-4">{description}</span>
             <div className="d-flex flex-column justify-content-between">

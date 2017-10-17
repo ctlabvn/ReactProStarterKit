@@ -2,7 +2,7 @@ import { apiGet, apiPost } from './common'
 
 export default {
   getOutlets(page = 1){
-    return apiGet('/restaurant/outlets', {page: page, pagination: 10})
+    return apiGet('/restaurant/outlets', {page: page, pagination: 20})
   },
 
   getOutlet(uuid){
