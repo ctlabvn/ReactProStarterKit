@@ -3,7 +3,7 @@ import { translate } from "react-i18next";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { Row, Col } from "reactstrap";
+import { Row, Col, Button } from "reactstrap";
 
 // components
 import Menu from "~/ui/components/Menu";
@@ -25,7 +25,8 @@ import "./index.css";
 @translate("translations")
 @connect(
   state => ({
-    isLogged: authSelectors.isLogged(state)
+    isLogged: authSelectors.isLogged(state),
+    address: authSelectors.getAddress(state)
   }),
   { ...commonActions, ...restaurantSelectors }
 )
@@ -34,27 +35,37 @@ export default class extends Component {
     // get data if not have, or can validate follow expiry
   }
 
-  renderHasAccount(){
+  renderHasAccount() {
+    const { address } = this.props;
     return (
       <div>
-      <h4 className="text-center">Delivery address</h4>
-      <Menu className="list-group">
-            
-              <MenuItem title="vai dan" active/>
-          </Menu>
-    </div>
-    )
+        <h4 className="text-center">Delivery address</h4>
+        <Menu className="list-group">
+          {address.map((item, index) => (
+            <MenuItem
+              title={`${item.name} - ${item.address}`}
+              active={index === 0}
+              key={index}
+            />
+          ))}
+        </Menu>
+
+        <div className="w-100 text-center">
+          <Button color="primary">Confirm & Pay</Button>
+        </div>
+      </div>
+    );
   }
 
-  renderHasNoAccount(){
+  renderHasNoAccount() {
     return (
       <div>
-      <h4 className="text-center">Create an account</h4>
-            <Signup />
-            <h4 className="text-center mt-5">Have an account?</h4>
-            <Login />
+        <h4 className="text-center">Create an account</h4>
+        <Signup />
+        <h4 className="text-center mt-5">Have an account?</h4>
+        <Login />
       </div>
-    )
+    );
   }
 
   render() {
