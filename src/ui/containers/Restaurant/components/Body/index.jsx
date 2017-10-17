@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
+import { Col } from "reactstrap";
+
 import Menu from "~/ui/components/Menu";
 import MenuItem from "~/ui/components/Menu/Item";
 import ProductItemPhoto from "~/ui/components/Product/Item/Photo";
@@ -16,7 +18,7 @@ export default class extends Component {
   constructor(props) {
     super(props);
     this.state = {
-	    products: options.products
+	    products: null
     };
   }
 
@@ -28,7 +30,7 @@ export default class extends Component {
 
   render() {
     const { outlet } = this.props;
-
+    const { products } = this.state;
     return (
       <div className="row block bg-white mb-4">
         <h3 className="font-largest color-black w-100 mb-4">
@@ -46,27 +48,29 @@ export default class extends Component {
           ))}
         </Slider>
 
-        <div className="mt-5 row">
-          <Menu className="col-md-2 list-group restaurant-cat">
+        <div className="mt-5 row w-100">
+          <Menu className="col list-group restaurant-cat">
             {outlet.categories.map(item => (
               <MenuItem onClick={() => this.handleCategory(item.category_uuid)} key={item.category_uuid} title={item.name} />
             ))}
           </Menu>
 
-          <div className="col">
-            {this.state.products.map((item, index) => (
+          <Col md="10">
+            {products ? products.map((item, index) => (
               <ProductItem
                 className="col-md-6 float-left pl-0 pr-5 mb-4"
                 description={item.description}
                 key={index}
                 price={item.default_price}
-                priceUnit={'$'}
+                priceUnit={item.currency.symbol}
                 title={item.name}
                 image="/images/donut.png"
                 itemUuid={item.item_uuid}
               />
-            ))}
-          </div>
+            ))
+            : <div className="d-flex align-items-center mt-5 justify-content-center">No data</div>
+          }
+          </Col>
         </div>
       </div>
     );
