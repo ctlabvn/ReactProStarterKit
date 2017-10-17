@@ -8,12 +8,27 @@ import Slider from "~/ui/components/Slider";
 import ProductItem from "~/ui/components/Product/Item";
 import ButtonRound from "~/ui/components/Button/Round";
 
+import api from "~/store/api";
 import "./index.css";
 import options from "./options";
 
 export default class extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+	    products: options.products
+    };
+  }
+
+	handleCategory = async (currentCategoryUuid) => {
+	  const ret = await api.restaurant.getProductByCategory(currentCategoryUuid);
+	  // check ret.error then show ret.message
+	  this.setState({ products: ret.data.data });
+  };
+
   render() {
     const { outlet } = this.props;
+
     return (
       <div className="row block bg-white mb-4">
         <h3 className="font-largest color-black w-100 mb-4">
@@ -34,18 +49,19 @@ export default class extends Component {
         <div className="mt-5 row">
           <Menu className="col-md-2 list-group restaurant-cat">
             {outlet.categories.map(item => (
-              <MenuItem key={item.category_uuid} title={item.name} />
+              <MenuItem onClick={() => this.handleCategory(item.category_uuid)} key={item.category_uuid} title={item.name} />
             ))}
           </Menu>
 
           <div className="col">
-            {options.products.map((item, index) => (
+            {this.state.products.map((item, index) => (
               <ProductItem
                 className="col-md-6 float-left pl-0 pr-5 mb-4"
-                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+                description={item.description}
                 key={index}
-                price={10}
-                title={item}
+                price={item.default_price}
+                priceUnit={'$'}
+                title={item.name}
                 image="/images/donut.png"
               />
             ))}

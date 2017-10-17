@@ -64,7 +64,7 @@ export default class extends Component {
           alt="..."
           className="rounded-circle"
         />}
-        <div className="flex-column d-flex ml-3">
+        <div className="flex-column d-flex ml-3 w-100">
           <HeadingDouble
             leftTitle={title}
             rightTitle={`${priceUnit}${totalPrice}`}
