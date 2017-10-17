@@ -112,9 +112,9 @@ export default class extends Component {
 
               <input placeholder="Enter promo code" className="custom-input text-uppercase" />
 
-              <Button className="bg-red btn-lg btn-block text-uppercase">
-                <Link to="/checkout">Pay now</Link>
-              </Button>
+              
+              <Link className="btn bg-red btn-lg btn-block text-uppercase" to="/checkout">Pay now</Link>
+              
 
             </div>
           </div>
