@@ -80,7 +80,7 @@ const configureStore = (callback, failure) => {
   persistStore(
     store,
     {
-      whitelist: ["auth"],
+      whitelist: ["auth", "order"],
       keyPrefix: "nn:",
       transforms: [authTransform]
     },
@@ -92,7 +92,7 @@ const configureStore = (callback, failure) => {
     }
   );
   // pure store to test
-  // .purge(['bookReducer'])
+  // .purge(['order'])
   // .purgeAll()
   // callback function when store is ready
 };

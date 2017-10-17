@@ -10,15 +10,17 @@ import { Button, Popover, PopoverHeader, PopoverBody } from "reactstrap";
 import AccountDropdown from "./components/AccountDropdown";
 import ProductItem from "~/ui/components/Product/Item";
 
-// selectors
+// selectors && actions
+import * as orderActions from "~/store/actions/order";
 import * as authSelectors from "~/store/selectors/auth";
-import options from "./options";
+import * as orderSelectors from "~/store/selectors/order";
 import "./index.css";
 
 @connect(state => ({
   isHome: state.routing.location.pathname === "/",
-  isLogged: authSelectors.isLogged(state)
-}))
+  isLogged: authSelectors.isLogged(state),
+  orderItems: orderSelectors.getItems(state),
+}), orderActions)
 export default class extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +36,16 @@ export default class extends Component {
     });
   };
 
+  increaseOrder(item){
+    this.props.updateOrderItem({...item, quantity: item.quantity+1});
+  }
+
+  decreaseOrder(item){
+    this.props.updateOrderItem({...item, quantity: item.quantity-1});
+  }
+
   renderPopoverCart(){
+    const {orderItems} = this.props;
     return (
       <Popover
               placement="bottom"
@@ -43,16 +54,20 @@ export default class extends Component {
               toggle={this.toggleCart}
             >
               <PopoverBody className="p-0">
-                {options.products ? (
+                {orderItems.length ? (
                   <div>
                     <div className="popover-cart pr-4 pt-4">
-                    {options.products.map((item, index) => (
+                    {orderItems.map((item) => (
                     <ProductItem
                       className="mb-4"
-                      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
-                      key={index}
-                      price={10}
-                      title={item}
+                      quantity={item.quantity}
+                      description={item.description}
+                      key={item.item_uuid}
+                      priceUnit={item.currency_symbol}
+                      price={item.price}
+                      title={item.name}
+                      onIncrease={()=>this.increaseOrder(item)}
+                      onDecrease={()=>this.decreaseOrder(item)}
                     />
                     ))}
                     </div>
@@ -61,7 +76,7 @@ export default class extends Component {
                     </Button>
                   </div>
                 ) : (
-                  <div className="text-center">
+                  <div className="text-center p-2">
                     <img src="/images/no-data.png" height="100" alt="" />
                     <p className="color-gray text-uppercase">
                       Your shopping cart is empty.

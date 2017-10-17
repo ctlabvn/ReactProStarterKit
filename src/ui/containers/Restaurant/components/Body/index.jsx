@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
+import { connect } from "react-redux";
+
 import { Col } from "reactstrap";
 
 import Menu from "~/ui/components/Menu";
@@ -10,10 +12,15 @@ import Slider from "~/ui/components/Slider";
 import ProductItem from "~/ui/components/Product/Item";
 import ButtonRound from "~/ui/components/Button/Round";
 
+import * as orderActions from "~/store/actions/order";
+
+
 import api from "~/store/api";
 import "./index.css";
 import options from "./options";
 
+
+@connect(null, orderActions)
 export default class extends Component {
   constructor(props) {
     super(props);
@@ -27,6 +34,25 @@ export default class extends Component {
 	  // check ret.error then show ret.message
 	  this.setState({ products: ret.data.data });
   };
+
+  addOrderItem(item){
+    const {default_price, item_options, item_uuid, currency, name, description} = item;
+    this.props.addOrderItem({
+      item_uuid,
+      item_options,
+      price: default_price,
+      quantity: 1,
+      name,
+      description,
+      currency_symbol: currency.symbol,
+    })
+  }
+
+  getProductImage(gallery){
+    const galleryData = JSON.parse(gallery);
+    // return galleryData[0];
+    return "/images/donut.png";
+  }
 
   render() {
     const { outlet } = this.props;
@@ -64,8 +90,9 @@ export default class extends Component {
                 price={item.default_price}
                 priceUnit={item.currency.symbol}
                 title={item.name}
-                image="/images/donut.png"
+                image={this.getProductImage(item.gallery)}
                 itemUuid={item.item_uuid}
+                onIncrease={()=>this.addOrderItem(item)}
               />
             ))
             : <div className="d-flex align-items-center mt-5 justify-content-center">No data</div>
