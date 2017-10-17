@@ -89,8 +89,8 @@ export default class extends Component {
   }
 
   render() {
-    const { isHome, isLogged } = this.props;
-
+    const { isHome, isLogged, orderItems } = this.props;    
+    const totalQuantity = orderItems.reduce((a, item)=>a + item.quantity, 0);    
     return (
       <nav
         className={classNames("navbar fixed-top header container-fluid", {
@@ -121,7 +121,7 @@ export default class extends Component {
                 aria-hidden="true"
                 id="cart-icon"
               />
-              <span className="badge bg-red">0</span>
+              <span className="badge bg-red">{totalQuantity}</span>
             </Button>
 
             {this.renderPopoverCart()}

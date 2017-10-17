@@ -9,12 +9,32 @@ import { Table, Button } from 'reactstrap';
 // components
 import CardItem from "./components/CardItem";
 
+import * as orderSelectors from "~/store/selectors/order";
+import * as orderActions from "~/store/actions/order";
 
 import options from "./options";
 import "./index.css";
 
+
+@connect(state => ({  
+  orderItems: orderSelectors.getItems(state),
+}), orderActions)
 export default class extends Component {
+
+  increaseOrder(item){
+    this.props.updateOrderItem({...item, quantity: item.quantity+1});
+  }
+
+  decreaseOrder(item){
+    this.props.updateOrderItem({...item, quantity: item.quantity-1});
+  }
+
+  removeOrder(item){
+    this.props.removeOrderItem(item);
+  }
+
   renderCartList() {
+    const {orderItems} = this.props;
     return (
       <Table className="mt-4 text-uppercase table-fixed">
         <thead className="color-gray">
@@ -28,14 +48,17 @@ export default class extends Component {
           </tr>
         </thead>
         <tbody>
-          {options.items.map((item, index) => (
+          {orderItems.map((item) => (
             <CardItem
-              key={index}
-              title={item}
+              key={item.item_uuid}
+              title={item.name}
               image="/images/donut-square.png"
-              vat={0.15}
-              price={19}
-              quantity={3}
+              vat={0}
+              price={item.price}
+              quantity={item.quantity}
+              onIncrease={()=>this.increaseOrder(item)}
+              onDecrease={()=>this.decreaseOrder(item)}
+              onRemove={()=>this.removeOrder(item)}
             />
           ))}
         </tbody>

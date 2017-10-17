@@ -22,26 +22,10 @@ export default class extends Component {
     priceUnit: "$"
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      quantity: props.quantity
-    };
-  }
-
-  removeItem = ()=>{
-    // remove directly not supported in IE
-    this.element.parentNode.removeChild(this.element);
+  removeItem = ()=>{        
+    this.props.onRemove && this.props.onRemove()
   };
 
-  increaseQuantity = ()=>{    
-    this.setState({quantity: this.state.quantity + 1});
-  };
-
-  decreaseQuantity = ()=>{       
-    this.setState({quantity: Math.max(0, this.state.quantity - 1)});
-  };
 
   render() {
     const {
@@ -50,9 +34,11 @@ export default class extends Component {
       vat,      
       title,
       image,
+      onIncrease,
+      onDecrease,
+      quantity,
       ...props
     } = this.props;
-    const {quantity} = this.state;
     const total = price * quantity;    
     return (
       <tr {...props} ref={ref=>this.element = ref}>
@@ -66,9 +52,9 @@ export default class extends Component {
         </td>
         <td>
           <div className="d-flex flex-row align-items-center">
-            <ButtonRound icon="minus" onClick={this.decreaseQuantity}/>
+            <ButtonRound icon="minus" onClick={onDecrease}/>
             <span className="ml-2 mr-2">{quantity}</span>
-            <ButtonRound icon="plus" onClick={this.increaseQuantity}/>
+            <ButtonRound icon="plus" onClick={onIncrease}/>
           </div>
         </td>
         <td>{priceUnit} {(total * vat).toFixed(2)}</td>
