@@ -47,7 +47,7 @@ export default class extends Component {
     const { t } = this.props;
     const { elements } = this.state;
 	  return (
-      <div className="container-fluid bg-white py-4">
+      <div className="container-fluid bg-white py-4" id="masonry">
         <MasonryInfiniteScroller
             className="masonry"
             hasMore={this.state.hasMore}
@@ -63,6 +63,7 @@ export default class extends Component {
 	            elements.map(({ name, address, logo, outlet_uuid}, i) => (
                 <RestaurantItemPhoto
                   key={outlet_uuid}
+                  uuid={outlet_uuid}
                   name={name}
                   address={address}
                   logo={logo}

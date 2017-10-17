@@ -23,7 +23,7 @@ export default class extends Component {
             <a className="breadcrumb-item color-gray-400" href="#">
               Home
             </a>
-            <a className="breadcrumb-item color-gray-400" href="#">
+            <a className="breadcrumb-item color-gray-400" href="/restaurant">
               RESTAURANT
             </a>
             <a className="breadcrumb-item color-gray-400" href="#">
@@ -48,7 +48,7 @@ export default class extends Component {
             <span>|</span>
             <span>{outlet.phone}</span>
             <span>|</span>
-            <span>Min / Max Order : {outlet.online_order_setting.min_takeaway_cost} / {outlet.online_order_setting.max_takeaway_cost}</span>
+            {/*<span>Min / Max Order : {outlet.online_order_setting.min_takeaway_cost} / {outlet.online_order_setting.max_takeaway_cost}</span>*/}
             <span>|</span>
             <span>08:00pm -> 00:00am</span>
           </div>
