@@ -22,11 +22,6 @@ export default class extends Component {
     priceUnit: "$"
   };
 
-  removeItem = ()=>{        
-    this.props.onRemove && this.props.onRemove()
-  };
-
-
   render() {
     const {
       priceUnit,
@@ -36,6 +31,7 @@ export default class extends Component {
       image,
       onIncrease,
       onDecrease,
+      onRemove,
       quantity,
       ...props
     } = this.props;
@@ -60,7 +56,7 @@ export default class extends Component {
         <td>{priceUnit} {(total * vat).toFixed(2)}</td>
         <td>{priceUnit} {(total * (1-vat)).toFixed(2)}</td>
         <td className="text-center">
-          <i className="fa fa-times" aria-hidden="true" onClick={this.removeItem} />
+          <i className="fa fa-times" aria-hidden="true" onClick={onRemove} />
         </td>
       </tr>
     );

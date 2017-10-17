@@ -71,9 +71,9 @@ export default class extends Component {
                     />
                     ))}
                     </div>
-                    <Button onClick={this.toggleCart} className="bg-red btn-sm btn-block text-uppercase border-0">
-                      <Link to="/cart">Process to checkout</Link>
-                    </Button>
+                    
+                    <Link onClick={this.toggleCart} className="btn bg-red btn-sm btn-block text-uppercase border-0" to="/cart">Process to checkout</Link>
+                    
                   </div>
                 ) : (
                   <div className="text-center p-2">
