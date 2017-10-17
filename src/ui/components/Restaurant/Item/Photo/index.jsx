@@ -16,17 +16,13 @@ export default class extends Component {
   render() {
     const { name, address, logo, className, uuid, ...props } = this.props;
     return (
-      <div className="card">
-        <img className="card-img-top" src="{logo}" alt="" />
-          <div className="card-body">
-            <h4 className="card-title">
-              <MenuItem
-                key={uuid}
-                link={`/restaurant/${uuid}`}
-                title={name}
-              />
-            </h4>
-            <p className="card-text">{address}</p>
+      <div className="media">
+        <img className="media-image d-flex mr-3" src={logo} alt="" />
+          <div className="media-body">
+            <h5 className="mt-0">
+              <a key={uuid} href={`/restaurant/${uuid}`}>{name}</a>
+            </h5>
+            {address}
           </div>
       </div>
     );

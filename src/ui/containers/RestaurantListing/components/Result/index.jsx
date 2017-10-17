@@ -24,22 +24,17 @@ export default class extends Component {
     this.page = 1
   }
 
-  componentDidMount(){
-	  this.loadMore();
-  }
-
-	async generateElements() {
-		const ret = await api.restaurant.getOutlets(this.page);
-		this.page++;
-		return ret.data.data;
-  };
-
 	loadMore = async () => {
-		const data =  await this.generateElements();
-	  this.setState(state => ({
-			elements: state.elements.concat(data),
-		  hasMore: data.length > 0,
-		}))
+		await api.restaurant.getOutlets(this.page).then((ret) => {
+			const data = ret.data.data;
+			this.page++;
+			this.setState(state => ({
+				elements: state.elements.concat(data),
+				hasMore: data.length > 0,
+			}));
+		}, (err) => {
+			console.log(err);
+		});
 	};
 
   render() {
@@ -47,7 +42,7 @@ export default class extends Component {
     const { t } = this.props;
     const { elements } = this.state;
 	  return (
-      <div className="container-fluid bg-white py-4" id="masonry">
+      <div className="container-fluid bg-white py-4">
         <MasonryInfiniteScroller
             className="masonry"
             hasMore={this.state.hasMore}
