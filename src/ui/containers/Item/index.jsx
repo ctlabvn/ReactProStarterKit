@@ -30,7 +30,7 @@ export default class extends Component {
 
   async loadOutlet() {
     const { uuid } = this.props.match.params;
-    const ret = await api.restaurant.getOutlet(uuid);
+    const ret = await api.item.getDetail(uuid);
     // check ret.error then show ret.message
     this.setState({ outlet: ret.data });
   }
@@ -52,7 +52,7 @@ export default class extends Component {
     }
 
     return (
-      <div className="restaurant">
+      <div className="screen-item">
         <div className="container">
           <Header outlet={outlet} />
 

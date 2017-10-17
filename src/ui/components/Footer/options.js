@@ -1,14 +1,12 @@
-import i18n from "~/i18n";
-
 export default {
   items: [
-    {title: i18n.t('link.footer.partner'), link: '#'},
-    {title: i18n.t('link.footer.help_center'), link: '#'},
-    {title: i18n.t('link.footer.support'), link: '#'},
-    {title: i18n.t('link.footer.watch_our_video'), link: '#'},
-    {title: i18n.t('link.footer.term_and_conditions'), link: '#'},
-    {title: i18n.t('link.footer.privacy_policy'), link: '#'},
-    {title: i18n.t('link.footer.about_us'), link: '#'},
+    {title: 'LINK.FOOTER.PARTNER', link: '#'},
+    {title: 'LINK.FOOTER.HELP_CENTER', link: '#'},
+    {title: 'LINK.FOOTER.SUPPORT', link: '#'},
+    {title: 'LINK.FOOTER.WATCH_OUR_VIDEO', link: '#'},
+    {title: 'LINK.FOOTER.TERM_AND_CONDITIONS', link: '#'},
+    {title: 'LINK.FOOTER.PRIVACY_POLICY', link: '#'},
+    {title: 'LINK.FOOTER.ABOUT_US', link: '#'},
   ],
   locales: ['en','vi']
 }

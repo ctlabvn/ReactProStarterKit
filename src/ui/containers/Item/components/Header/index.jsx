@@ -18,14 +18,14 @@ export default class extends Component {
     
     return (
       <div className="row flex-nowrap d-flex flex-row justify-content-between block bg-white mb-4 mt-5">
-        <div className="w-100 pr-5">
+        <div className="col-10 w-100 pr-5">
           <nav className="breadcrumb text-uppercase color-gray-400 bg-transparent pl-0">
             <a className="breadcrumb-item color-gray-400" href="#">
               Home
             </a>
-            <Link className="breadcrumb-item color-gray-400" to={`/restaurant`}>
-              RESTAURANT
-            </Link>
+            <a className="breadcrumb-item color-gray-400" href="#">
+              PRODUCTS
+            </a>
             <a className="breadcrumb-item color-gray-400" href="#">
               HANOI
             </a>
@@ -57,23 +57,25 @@ export default class extends Component {
           <a href="/"> See more</a>
           
 
-          <Menu className="menu-tags text-uppercase mt-2">
-            {options.menuItems.map((item, index)=>
-              <MenuItem title={item} key={index}/>
-            )}                        
-          </Menu>
+          {/*<Menu className="menu-tags text-uppercase mt-2">*/}
+            {/*{options.menuItems.map((item, index)=>*/}
+              {/*<MenuItem title={item} key={index}/>*/}
+            {/*)}                        */}
+          {/*</Menu>*/}
 
-          <div className="border border-white-300 border-right-0 border-left-0 border-bottom-0 mt-4 left-side-block">
-            <Menu className="menu-decorator text-uppercase">
-            {options.menuItems.map((item, index)=>
-              <MenuItem active={index === 0} title={item} key={index}/>
-            )}                        
-            </Menu>
-          </div>
+          {/*<div className="border border-white-300 border-right-0 border-left-0 border-bottom-0 mt-4 left-side-block">*/}
+            {/*<Menu className="menu-decorator text-uppercase">*/}
+            {/*{options.menuItems.map((item, index)=>*/}
+              {/*<MenuItem active={index === 0} title={item} key={index}/>*/}
+            {/*)}                        */}
+            {/*</Menu>*/}
+          {/*</div>*/}
 
         </div>
-
-        {outlet.gallery ? <PhotoGroup images={outlet.gallery} className="photo-group-large"/> : ''}
+        <div className="col-2 d-flex flex-column justify-content-between align-content-between">
+          <h1>{outlet.default_price}</h1>
+          <button className="btn btn-danger btn-lg">Add To Cart</button>
+        </div>
       </div>
     );
   }

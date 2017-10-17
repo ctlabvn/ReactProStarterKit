@@ -45,9 +45,9 @@ export default class extends Component {
               </Dropdown>
             }
           />
-          <MenuItem link="/about" title={t('link.footer.about_us')} />
-          <MenuItem link="/about" title={t('link.footer.technology')} />
-          <MenuItem link="/about" title={t('link.footer.join_us')} />
+          <MenuItem link="/about" title={t('LINK.FOOTER.ABOUT_US')} />
+          <MenuItem link="/about" title={t('LINK.FOOTER.TECHNOLOGY')} />
+          <MenuItem link="/about" title={t('LINK.FOOTER.JOIN_US')} />
           {!isLogged && <MenuItem
             onClick={()=>this.loginModal.toggle()}
             title={
@@ -55,7 +55,7 @@ export default class extends Component {
                 type="button"
                 className="btn btn-outline-danger btn-sm text-uppercase"
               >
-	              {t('link.footer.login')}
+	              {t('LINK.FOOTER.LOGIN')}
               </button>
             }
           />}
@@ -63,7 +63,7 @@ export default class extends Component {
         </Menu>
         <Menu className="bottom">
           {options.items.map((item, index) => (
-            <MenuItem key={index} link={item.link} title={item.title} />
+            <MenuItem key={index} link={item.link} title={t(item.title)} />
           ))}
         </Menu>
         <LoginModal onItemRef={ref => (this.loginModal = ref)} />

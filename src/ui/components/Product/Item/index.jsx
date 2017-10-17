@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
@@ -9,6 +10,7 @@ import "./index.css";
 
 export default class extends Component {
   static propTypes = {
+	  itemUuid: PropTypes.string,
     title: PropTypes.string,
     price: PropTypes.number,
     description: PropTypes.string,
@@ -48,7 +50,8 @@ export default class extends Component {
       image,
       imageSize,
       description,
-      className
+      className,
+	    itemUuid
     } = this.props;
 
     const {quantity} = this.state;
@@ -64,11 +67,13 @@ export default class extends Component {
           alt="..."
           className="rounded-circle"
         />}
-        <div className="flex-column d-flex ml-3">
-          <HeadingDouble
-            leftTitle={title}
-            rightTitle={`${priceUnit}${totalPrice}`}
-          />
+        <div className="flex-column d-flex ml-3 w-100">
+          <Link to={`/item/${itemUuid}`}>
+            <HeadingDouble
+              leftTitle={title}
+              rightTitle={`${priceUnit}${totalPrice}`}
+            />
+          </Link>
           <div className="flex-row d-flex justify-content-between">
             <span className="pr-4">{description}</span>
             <div className="d-flex flex-column justify-content-between">

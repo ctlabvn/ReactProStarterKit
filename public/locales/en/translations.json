@@ -2,13 +2,32 @@
   "title": "Hottab",
   "languages": {
     "en": "English",
-    "vi": "Vietnamese"
+    "vi": "Tiếng Việt"
   },
-  "latest": "Tin mới",
+  "latest": "Lastest News",
   "filters":{
     "all_locations": "All locations",
     "all_prices": "All prices",
     "all_ratings": "All ratings"  
+  },
+  "PLACEHOLDER": {
+    "TYPE_YOUR_PRODUCT": "Type your product"
+  },
+  "LABEL": {
+    "SUGGESSTION": "Suggesstions"
+  },
+  "LINK": {
+    "FOOTER": {
+      "ABOUT_US": "About Us",
+      "TECHNOLOGY": "Technology",
+      "LOGIN": "Login",
+      "JOIN_US": "Join Us",
+      "PARTNER": "Partner",
+      "SUPPORT": "Support",
+      "HELP_CENTER": "Help Center",
+      "WATCH_OUR_VIDEO": "Watch Our Video",
+      "TERM_AND_CONDITIONS": "Term & Conditions",
+      "PRIVACY_POLICY": "Privacy Policy"
+    }
   }
-  
 }

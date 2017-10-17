@@ -1,0 +1,17 @@
+.breadcrumb-item + .breadcrumb-item::before {
+  font:normal normal normal 14px/1 FontAwesome;
+  color: #ccc;
+  content: "\f105";    
+}
+
+.left-side-block{
+  margin-left: -30px;
+  margin-bottom: -30px;
+  padding-left: 40px;
+  padding-top:10px;  
+}
+
+.photo-group-large{
+  min-width: 300px;
+  max-height: 300px;
+}
