@@ -13,6 +13,7 @@
 }
 
 .screen-item {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 0%, #f7f7f7 70%);
   background-image: url(/images/background.png);
   background-size: cover;
   background-repeat: no-repeat;

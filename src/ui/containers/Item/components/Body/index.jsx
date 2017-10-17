@@ -31,10 +31,6 @@ export default class extends Component {
 
     return (
       <div className="row block bg-white mb-4">
-        <h3 className="font-largest color-black w-100 mb-4">
-          <span className="font-weight-bold">ALL PRODUCTS</span> (25)
-        </h3>
-
         <Slider className="mt-2" num={5} move={1}>
           {options.products.map((item, index) => (
             <ProductItemPhoto
@@ -45,28 +41,6 @@ export default class extends Component {
             />
           ))}
         </Slider>
-
-        <div className="mt-5 row">
-          <Menu className="col-md-2 list-group restaurant-cat">
-            {outlet.categories.map(item => (
-              <MenuItem onClick={() => this.handleCategory(item.category_uuid)} key={item.category_uuid} title={item.name} />
-            ))}
-          </Menu>
-
-          <div className="col">
-            {this.state.products.map((item, index) => (
-              <ProductItem
-                className="col-md-6 float-left pl-0 pr-5 mb-4"
-                description={item.description}
-                key={index}
-                price={item.default_price}
-                priceUnit={'$'}
-                title={item.name}
-                image="/images/donut.png"
-              />
-            ))}
-          </div>
-        </div>
       </div>
     );
   }
