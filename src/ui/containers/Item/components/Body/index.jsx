@@ -63,7 +63,6 @@ export default class extends Component {
                 priceUnit={'$'}
                 title={item.name}
                 image="/images/donut.png"
-                itemUuid={item.item_uuid}
               />
             ))}
           </div>

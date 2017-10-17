@@ -9,6 +9,7 @@ import "./index.css";
 
 export default class extends Component {
   static propTypes = {
+	  itemUuid: PropTypes.string,
     title: PropTypes.string,
     price: PropTypes.number,
     description: PropTypes.string,
@@ -48,7 +49,8 @@ export default class extends Component {
       image,
       imageSize,
       description,
-      className
+      className,
+	    itemUuid
     } = this.props;
 
     const {quantity} = this.state;
@@ -65,10 +67,12 @@ export default class extends Component {
           className="rounded-circle"
         />}
         <div className="flex-column d-flex ml-3 w-100">
-          <HeadingDouble
-            leftTitle={title}
-            rightTitle={`${priceUnit}${totalPrice}`}
-          />
+          <a href={`/item/${itemUuid}`}>
+            <HeadingDouble
+              leftTitle={title}
+              rightTitle={`${priceUnit}${totalPrice}`}
+            />
+          </a>
           <div className="flex-row d-flex justify-content-between">
             <span className="pr-4">{description}</span>
             <div className="d-flex flex-column justify-content-between">
