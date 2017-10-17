@@ -14,6 +14,7 @@ import Menu from "~/ui/components/Menu";
 import MenuItem from "~/ui/components/Menu/Item";
 
 import "./index.css";
+
 @translate('translations')
 @connect(
   state => ({

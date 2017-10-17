@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 // reactstrap
-import { Table } from 'reactstrap';
+import { Table, Button } from 'reactstrap';
 
 
 // components
@@ -112,7 +112,9 @@ export default class extends Component {
 
               <input placeholder="Enter promo code" className="custom-input text-uppercase" />
 
-              <button type="button" className="btn bg-red btn-lg btn-block text-uppercase">Pay now</button>
+              <Button className="bg-red btn-lg btn-block text-uppercase">
+                <Link to="/checkout">Pay now</Link>
+              </Button>
 
             </div>
           </div>

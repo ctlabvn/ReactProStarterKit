@@ -2,6 +2,13 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from "reactstrap";
+
 import "./index.css";
 
 export default class extends Component {
@@ -9,26 +16,31 @@ export default class extends Component {
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      dropdownOpen: false
+    };
+  }
+
+  toggle = () => {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    });
+  };
+
   render() {
     const { title, children, className, ...props } = this.props;
     const childrenWithProps = React.Children.map(children, child =>
-      React.cloneElement(child, {
-        className: classNames(child.props.className, "dropdown-item")
-      })
+      <DropdownItem>{child}</DropdownItem>
     );
     return (
-      <div className={classNames("btn-group", className)}>
-        <button
-          className="btn btn-light btn-sm dropdown-toggle text-uppercase"
-          type="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
+      <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className={className}>
+        <DropdownToggle caret nav className="text-uppercase color-black">
           {title}
-        </button>
-        <div className="dropdown-menu">{childrenWithProps}</div>
-      </div>
+        </DropdownToggle>
+        <DropdownMenu>{childrenWithProps}</DropdownMenu>
+      </Dropdown>
     );
   }
 }
