@@ -26,6 +26,7 @@ export default class extends Component {
   }
 
   decreaseOrder(item){
+    // console.log(item, {...item, quantity: item.quantity-1})
     this.props.updateOrderItem({...item, quantity: item.quantity-1});
   }
 
