@@ -23,14 +23,16 @@ const Root = ({ store, history }) => (
     <ConnectedRouter history={history}>
       <App>
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" 
+            render={()=><Redirect to="/restaurant" />}
+            // component={Home} 
+          />
           <Route exact path="/search" component={Search} />
           <Route exact path="/cart" component={Cart} />
           <Route exact path="/checkout" component={Checkout} />
           <Route exact path="/restaurant/:uuid" component={Restaurant} />
           <Route exact path="/item/:uuid" component={Item} />
-          <Route exact path="/restaurant" component={RestaurantListing} />
-          <Redirect from="/" to="/restaurant" />
+          <Route exact path="/restaurant" component={RestaurantListing} />          
           <Route exact path="/customer/profile" component={CustomerProfile} />
           <Route exact path="/customer/order" component={Order} />
           <Route component={NotFound} />
