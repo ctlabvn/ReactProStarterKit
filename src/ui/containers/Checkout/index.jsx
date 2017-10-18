@@ -36,10 +36,10 @@ export default class extends Component {
   }
 
   renderHasAccount() {
-    const { address } = this.props;
+    const { address, t } = this.props;
     return (
       <div>
-        <h4 className="text-center">Delivery address</h4>
+        <h4 className="text-center">{t("LABEL.DELIVERY_ADDRESS")}</h4>
         <Menu className="list-group">
           {address.map((item, index) => (
             <MenuItem
@@ -51,7 +51,7 @@ export default class extends Component {
         </Menu>
 
         <div className="w-100 text-center">
-          <Button color="primary">Confirm & Pay</Button>
+          <Button color="primary">{this.props.t("BUTTON.CONFIRM_PAY")}</Button>
         </div>
       </div>
     );
@@ -60,9 +60,9 @@ export default class extends Component {
   renderHasNoAccount() {
     return (
       <div>
-        <h4 className="text-center">Create an account</h4>
+        <h4 className="text-center">{this.props.t("LABEL.CREATE_ACCOUNT")}</h4>
         <Signup />
-        <h4 className="text-center mt-5">Have an account?</h4>
+        <h4 className="text-center mt-5">{this.props.t("LABEL.HAVE_ACCOUNT")}</h4>
         <Login />
       </div>
     );

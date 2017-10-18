@@ -18,9 +18,10 @@ export default class extends Component {
 
     return (
       <div className="container container-xs suggestion border-bottom">
-        <h5 className="color-black text-uppercase font-weight-bold">Our suggestions</h5>
+        <h5 className="color-black text-uppercase font-weight-bold">{t("LABEL.OUR_SUGGESTIONS")}</h5>
         <p className="color-gray">
-        Play to our game and try to win one of these suggested products
+        {t("LABEL.PLAY_OUR_GAME")}
+        
         </p>
 
         <Slider className="mt-2" num={6} move={1}>

@@ -65,6 +65,7 @@ export default class extends Component {
   render() {
     const { t, outlet } = this.props;
     const { products, features } = this.state;
+    
     return (
       <div className="row block bg-white mb-4 tab-content">
         <h3 className="font-largest color-black w-100 mb-4">
@@ -112,7 +113,7 @@ export default class extends Component {
               <div className="text-center p-2">
                 <img src="/images/no-data.png" height="100" alt="" />
                 <p className="color-gray text-uppercase">
-                  Choose other category at the left side
+                  {t("LABEL.CHOOSE_CATEGORY")}
                 </p>
               </div>
             )}

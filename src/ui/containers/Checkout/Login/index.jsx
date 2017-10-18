@@ -23,6 +23,7 @@ import { validate } from "./utils";
 @reduxForm({ form: "Login", validate, destroyOnUnmount: false })
 export default class extends Component {
   render() {
+    const {t} = this.props;
     return (
       <Form>
         <Row>
@@ -42,7 +43,7 @@ export default class extends Component {
           />
         </Row>
 
-        <Button color="info">Login</Button>
+        <Button color="info">{t("BUTTON.LOGIN")}</Button>
       </Form>
     );
   }

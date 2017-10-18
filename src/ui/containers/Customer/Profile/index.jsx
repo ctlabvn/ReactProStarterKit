@@ -53,9 +53,10 @@ export default class extends Component {
   };
 
   renderAddress = ({ fields }) => {
+    const { t } = this.props;
     return (
       <Form className="mt-4 mb-4">
-        <Button onClick={() => fields.push({})}>Add address</Button>
+        <Button onClick={() => fields.push({})}>{t("BUTTON.ADD_ADDRESS")}</Button>
         {fields.map((member, index) => (
           <Row key={index}>
             <Field
@@ -73,7 +74,7 @@ export default class extends Component {
             <Button        
               className="align-self-end"                            
               onClick={() => fields.remove(index)}
-            >Remove</Button>
+            >{t("BUTTON.REMOVE")}</Button>
           </Row>
         ))}
       </Form>
@@ -81,7 +82,7 @@ export default class extends Component {
   };
 
   render() {
-    const { handleSubmit, submitting } = this.props;
+    const { handleSubmit, submitting, t } = this.props;
     return (
       <div className="container">
         <Form>
@@ -101,7 +102,7 @@ export default class extends Component {
           </Row>                    
         </Form>
         <FieldArray name="address" component={this.renderAddress} />
-        <Button disabled={submitting} onClick={handleSubmit(this.updateCustomer)} color="primary">Update</Button>
+        <Button disabled={submitting} onClick={handleSubmit(this.updateCustomer)} color="primary">{t("BUTTON.UPDATE")}</Button>
       </div>
     );
   }
