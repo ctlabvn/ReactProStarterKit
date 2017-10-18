@@ -16,6 +16,9 @@
   "LABEL": {
     "SUGGESSTION": "Suggesstions"
   },
+  "format": {
+    "currency": "{{price, 0,0.00}}{{symbol}}"
+  },
   "LINK": {
     "FOOTER": {
       "ABOUT_US": "About Us",

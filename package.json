@@ -34,6 +34,8 @@
     "i18next-browser-languagedetector": "^2.0.0",
     "i18next-xhr-backend": "^1.4.3",
     "jest": "20.0.4",
+    "moment": "^2.19.1",
+    "numeral": "^2.0.6",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.6",

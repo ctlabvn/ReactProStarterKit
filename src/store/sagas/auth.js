@@ -26,7 +26,7 @@ const requestLoginFacebookAsync = createRequestSaga({
     // () => forwardTo('/dashboard'),
   ],
   failure: [ 
-    () => setToast('Couldn\'t login', 'error') 
+    () => setToast('Couldn\'t login', 'danger') 
   ],
 })
 
@@ -42,7 +42,7 @@ const requestLoginGoogleAsync = createRequestSaga({
     // () => forwardTo('/dashboard'), // action creator may return nothing to match
   ],
   failure: [ 
-    () => setToast('Couldn\'t login', 'error') 
+    () => setToast('Couldn\'t login', 'danger') 
   ],
 })
 
@@ -57,7 +57,7 @@ const requestLoginAsync = createRequestSaga({
     () => forwardTo('/customer/profile'), // action creator may return nothing to match
   ],
   failure: [ 
-    () => setToast('Couldn\'t login', 'error') 
+    () => setToast('Couldn\'t login', 'danger') 
   ],
 })
 
@@ -71,7 +71,7 @@ const requestUpdateAccountAsync = createRequestSaga({
     () => forwardTo('/admin'),  
   ],
   failure: [ 
-    () => setToast('Couldn\'t update', 'error') 
+    () => setToast('Couldn\'t update', 'danger') 
   ],
 })
 
@@ -86,32 +86,32 @@ const requestLogoutAsync = createRequestSaga({
     () => forwardTo('/'),
   ],
   failure: [ 
-    () => setToast('Couldn\'t logout', 'error') 
+    () => setToast('Couldn\'t logout', 'danger') 
   ],
 });
 
 const updateCustomerAsync = createRequestSaga({
   request: api.auth.updateCustomer,
   success: [       
-    (data) => updateCustomer(data),        
+    ({data}) => updateCustomer(data),        
     () => setToast('Update customer successfully!!!'), 
   ],
   failure: [ 
-    () => setToast('Couldn\'t update customer', 'error') 
+    () => setToast('Couldn\'t update customer', 'danger') 
   ],
 })
 
 const updateAddressAsync = createRequestSaga({
   request: api.auth.updateAddress,
   success: [       
-    (data) => updateAddress(data),            
+    ({data}) => updateAddress(data),            
   ],
 })
 
 const addAddressAsync = createRequestSaga({
   request: api.auth.addAddress,
   success: [       
-    (data) => addAddress(data),            
+    ({data}) => addAddress(data),            
   ],
 })
 
@@ -129,9 +129,9 @@ const asyncAuthWatchers = [
       takeLatest('app/updateAccount', requestUpdateAccountAsync),
 
       // customer
-      takeLatest('customer/updateCustomer', updateCustomerAsync),
-      takeLatest('customer/addAddress', addAddressAsync),
-      takeLatest('customer/updateAddress', updateAddressAsync),      
+      takeLatest('customer/requestUpdateCustomer', updateCustomerAsync),
+      takeLatest('customer/requestAddAddress', addAddressAsync),
+      takeLatest('customer/requestUpdateAddress', updateAddressAsync),      
     ])
   },
 

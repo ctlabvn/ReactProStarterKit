@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { translate } from "react-i18next";
+
 import { connect } from "react-redux";
 
 import { Col } from "reactstrap";
@@ -14,12 +14,11 @@ import ButtonRound from "~/ui/components/Button/Round";
 
 import * as orderActions from "~/store/actions/order";
 
-
 import api from "~/store/api";
 import "./index.css";
 import options from "./options";
 
-@translate('translations')
+
 @connect(null, orderActions)
 export default class extends Component {
   constructor(props) {
@@ -30,24 +29,21 @@ export default class extends Component {
     };
   }
 
-	handleCategory = async (currentCategoryUuid) => {
-	  const ret = await api.restaurant.getProductByCategory(currentCategoryUuid);
-	  // check ret.error then show ret.message
-	  this.setState({ products: ret.data.data });
+  handleCategory = async currentCategoryUuid => {
+    const ret = await api.restaurant.getProductByCategory(currentCategoryUuid);
+    // check ret.error then show ret.message
+    this.setState({ products: ret.data.data });
   };
 
-  componentDidMount() {
-	  this.handleFeatureItem();
-  }
-
-  handleFeatureItem = async () => {
-	  const ret = await api.restaurant.getFeatureItem(this.props.outlet.outlet_uuid);
-	  // check ret.error then show ret.message
-	  this.setState({ features: ret.data.data });
-  };
-
-  addOrderItem(item){
-    const {default_price, item_options, item_uuid, currency, name, description} = item;
+  addOrderItem(item) {
+    const {
+      default_price,
+      item_options,
+      item_uuid,
+      currency,
+      name,
+      description
+    } = item;
     this.props.addOrderItem({
       item_uuid,
       item_options,
@@ -55,11 +51,11 @@ export default class extends Component {
       quantity: 1,
       name,
       description,
-      currency_symbol: currency.symbol,
-    })
+      currency_symbol: currency.symbol
+    });
   }
 
-  getProductImage(gallery){
+  getProductImage(gallery) {
     const galleryData = JSON.parse(gallery);
     // return galleryData[0];
     return "/images/donut.png";
@@ -87,26 +83,37 @@ export default class extends Component {
         <div className="mt-5 row w-100">
           <Menu className="col list-group restaurant-cat">
             {outlet.categories.map(item => (
-              <MenuItem onClick={() => this.handleCategory(item.category_uuid)} key={item.category_uuid} title={item.name} />
+              <MenuItem
+                onClick={() => this.handleCategory(item.category_uuid)}
+                key={item.category_uuid}
+                title={item.name}
+              />
             ))}
           </Menu>
 
           <Col md="10">
-            {this.state.products.length ? this.state.products.map((item, index) => (
-              <ProductItem
-                className="col-md-6 float-left pl-0 pr-5 mb-4"
-                description={item.description}
-                key={index}
-                price={item.default_price}
-                priceUnit={item.currency.symbol}
-                title={item.name}
-                image={this.getProductImage(item.gallery)}
-                itemUuid={item.item_uuid}
-                onIncrease={()=>this.addOrderItem(item)}
-              />
-            ))
-            : <div className="d-flex align-items-center py-lg-5 justify-content-center jumbotron">{t('LABEL.NO_DATA')}</div>
-          }
+            {this.state.products.length ? (
+	            this.state.products.length.map((item, index) => (
+                <ProductItem
+                  className="col-md-6 float-left pl-0 pr-5 mb-4"
+                  description={item.description}
+                  key={index}
+                  price={item.default_price}
+                  priceUnit={item.currency.symbol}
+                  title={item.name}
+                  image={this.getProductImage(item.gallery)}
+                  itemUuid={item.item_uuid}
+                  onIncrease={() => this.addOrderItem(item)}
+                />
+              ))
+            ) : (
+              <div className="text-center p-2">
+                <img src="/images/no-data.png" height="100" alt="" />
+                <p className="color-gray text-uppercase">
+                  Choose other category at the left side
+                </p>
+              </div>
+            )}
           </Col>
         </div>
 

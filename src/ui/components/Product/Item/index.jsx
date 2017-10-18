@@ -3,11 +3,14 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
+import { translate } from "react-i18next";
+
 import HeadingDouble from "~/ui/components/Heading/Double";
 import ButtonRound from "~/ui/components/Button/Round";
 
 import "./index.css";
 
+@translate("translations")
 export default class extends Component {
   static propTypes = {
     itemUuid: PropTypes.string,
@@ -39,6 +42,7 @@ export default class extends Component {
       quantity,
       onIncrease,
       onDecrease,
+      t,
     } = this.props;
 
     const totalPrice = price * quantity;
@@ -56,8 +60,11 @@ export default class extends Component {
         <div className="flex-column d-flex ml-3 w-100">
           <Link to={`/item/${itemUuid}`}>
             <HeadingDouble
-              leftTitle={title}
-              rightTitle={`${priceUnit}${totalPrice}`}
+              leftTitle={title}              
+              rightTitle={t("format.currency", {
+                price: totalPrice,
+                symbol: priceUnit
+              })}
             />
           </Link>
           <div className="flex-row d-flex justify-content-between">

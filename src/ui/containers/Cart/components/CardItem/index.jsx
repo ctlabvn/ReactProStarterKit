@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { translate } from "react-i18next";
 
 // components
 import ButtonRound from "~/ui/components/Button/Round";
 
 import "./index.css";
 
+@translate("translations")
 export default class extends Component {
   static propTypes = {
     title: PropTypes.string,
@@ -33,6 +35,7 @@ export default class extends Component {
       onDecrease,
       onRemove,
       quantity,
+      t,
       ...props
     } = this.props;
     const total = price * quantity;    
@@ -52,9 +55,15 @@ export default class extends Component {
             <span className="ml-2 mr-2">{quantity}</span>
             <ButtonRound icon="plus" onClick={onIncrease}/>
           </div>
-        </td>
-        <td>{priceUnit} {(total * vat).toFixed(2)}</td>
-        <td>{priceUnit} {(total * (1-vat)).toFixed(2)}</td>
+        </td>        
+        <td>{t("format.currency", {
+                price: (total * vat),
+                symbol: priceUnit
+              })}</td>
+        <td>{t("format.currency", {
+                price: (total * (1-vat)),
+                symbol: priceUnit
+              })}</td>
         <td className="text-center">
           <i className="fa fa-times" aria-hidden="true" onClick={onRemove} />
         </td>

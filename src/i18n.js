@@ -3,6 +3,9 @@ import Backend from "i18next-xhr-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { reactI18nextModule } from "react-i18next";
 
+import moment from "moment";
+import numeral from "numeral";
+
 i18n
   .use(Backend)
   .use(LanguageDetector)
@@ -17,7 +20,17 @@ i18n
     debug: true,
 
     interpolation: {
-      escapeValue: false // not needed for react!!
+      escapeValue: false, // not needed for react!!
+      format(value, format, lng) {
+        switch (format) {
+          case "uppercase":
+            return value.toUpperCase();
+          default:
+            if (typeof value === "number") return numeral(value).format(format);
+            if (value instanceof Date) return moment(value).format(format);
+            return value;
+        }
+      }
     },
 
     react: {
