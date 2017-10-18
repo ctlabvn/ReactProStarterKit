@@ -4,7 +4,7 @@ import { translate } from "react-i18next";
 import { connect } from "react-redux";
 import * as orderSelectors from "~/store/selectors/order";
 
-import options from "./options";
+// import options from "./options";
 
 @translate("translations")
 @connect(state => ({
