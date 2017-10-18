@@ -4,7 +4,7 @@ import { translate } from "react-i18next";
 import { connect } from "react-redux";
 import * as orderSelectors from "~/store/selectors/order";
 
-import options from "./options";
+// import options from "./options";
 
 @translate("translations")
 @connect(state => ({
@@ -23,7 +23,7 @@ export default class extends Component {
     );
     return (
       <div>
-        <h4>Your order</h4>
+        <h4>{t("LABEL.YOUR_ORDER")}</h4>
         {orderItemsWithTotalPrice.map(item => (
           <div className="d-flex justify-content-start" key={item.item_uuid}>
             <div className="p-2">{item.quantity}x</div>
@@ -38,7 +38,7 @@ export default class extends Component {
         ))}
         {orderItemsWithTotalPrice[0] && (
           <dl className="d-flex justify-content-start">
-            <dt className="p-2 text-uppercase">Total</dt>
+            <dt className="p-2 text-uppercase">{t("LABEL.TOTAL")}</dt>
             <dd className="ml-auto p-2 font-weight-bold">
               {t("format.currency", {
                 price: totalPrice,

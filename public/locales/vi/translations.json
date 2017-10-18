@@ -14,10 +14,31 @@
     "TYPE_YOUR_PRODUCT": "Type your product"
   },
   "LABEL": {
-    "SUGGESSTION": "Suggesstions"
+    "SUGGESSTION": "Suggesstions",
+    "ALL_PRODUCTS": "All Product",
+    "CHOOSE_CATEGORY": "Choose other category at the left side",
+    "FEES": "Fees",
+    "MIN_MAX_ORDER_AMOUNT": "Min max order amount",
+    "DELIVERING_HOURS": "Delivering hours",
+    "LOCAL_MAP": "Local map",
+    "ADDRESS": "Address",
+    "SHOPPING_CART_EMPTY": "Your shopping cart is empty.",
+    "YOUR_CART": "Your cart",
+    "SUBTOTAL": "Subtotal",
+    "TOTAL_PRICE": "Total price",
+    "ADD_NOTE": "Add a note",
+    "TOTAL": "Total",
+    "YOUR_ORDER": "Your order",
+    "DELIVERY_ADDRESS": "Delivery address",
+    "CREATE_ACCOUNT": "Create an account",
+    "HAVE_ACCOUNT": "Have an account?",
+    "PAGE_NOT_FOUND": "Page Not Found ",
+    "PAGE_NOT_EXIST": "We're sorry, the page you were looking for doesn't exist anymore.",
+    "OUR_SUGGESTIONS": "Our suggestions",
+    "PLAY_OUR_GAME": "Play to our game and try to win one of these suggested products"
   },
   "format": {
-    "currency": "{{price, 0,0.00}}{{symbol}}"
+    "currency": "{{symbol}}{{price, 0,0.00}}"
   },
   "LINK": {
     "FOOTER": {
@@ -31,6 +52,31 @@
       "WATCH_OUR_VIDEO": "Watch Our Video",
       "TERM_AND_CONDITIONS": "Term & Conditions",
       "PRIVACY_POLICY": "Privacy Policy"
-    }
+    },
+    "HOME": "Home",
+    "RESTAURANT": "Restaurant",
+    "BACK": "Back"
+  },
+  "BUTTON": {
+    "ADD_TO_CART": "Add to cart",
+    "PAY_NOW": "Pay now",
+    "LOGIN": "Login",
+    "CONFIRM_PAY": "Confirm & Pay",
+    "ADD_ADDRESS": "Add address",
+    "UPDATE": "Update",
+    "REMOVE": "remove",
+    "SUBMIT": "Submit"
+  },
+  "TAB": {
+    "MENU": "Menu",
+    "DETAIL": "Detail",
+    "PICTURE": "Picture"
+  },
+  "TABLE": {
+    "ITEM": "item",
+    "UNIT_PRICE": "Unit price",
+    "QUANTITY": "Quantity",
+    "TOTAL": "Total",
+    "DELETE": "Delete"
   }
 }

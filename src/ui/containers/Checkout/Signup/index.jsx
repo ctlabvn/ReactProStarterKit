@@ -35,6 +35,7 @@ import { validate } from "./utils";
 })
 export default class extends Component {
   render() {
+    const {t} = this.props;
     return (
       <Form>
         <Row>
@@ -78,7 +79,7 @@ export default class extends Component {
           />
         </Row>
 
-        <Button color="primary">Submit</Button>
+        <Button color="primary">{t("BUTTON.SUBMIT")}</Button>
       </Form>
     );
   }

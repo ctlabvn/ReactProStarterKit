@@ -11,8 +11,8 @@ import MenuItem from "~/ui/components/Menu/Item";
 
 // store
 import * as commonActions from "~/store/actions/common";
-import * as restaurantActions from "~/store/actions/restaurant";
-import * as restaurantSelectors from "~/store/selectors/restaurant";
+import * as orderActions from "~/store/actions/order";
+import * as orderSelectors from "~/store/selectors/order";
 import * as authSelectors from "~/store/selectors/auth";
 
 // components
@@ -20,38 +20,77 @@ import Signup from "./Signup";
 import Login from "./Login";
 import Order from "./Order";
 
+import { getCurrentLocation } from "~/ui/utils";
+
 import "./index.css";
 
 @translate("translations")
 @connect(
   state => ({
     isLogged: authSelectors.isLogged(state),
-    address: authSelectors.getAddress(state)
+    address: authSelectors.getAddress(state),
+    customer: authSelectors.getCustomer(state),
+    orderItems: orderSelectors.getItems(state),
+    orderInfo: orderSelectors.getInfo(state),
+    token: authSelectors.getToken(state),
   }),
-  { ...commonActions, ...restaurantActions }
+  { ...commonActions, ...orderActions }
 )
 export default class extends Component {
+
+  createOrder = async ()=>{
+    const {customer, orderItems, orderInfo, token, address, requestor} = this.props;
+    const ret = await getCurrentLocation();
+    const addressItem = address.find(item=>item.cus_address_uuid === orderInfo.cus_address_uuid)
+    const data = {
+      items: orderItems.map(item => ({
+        item_uuid: item.item_uuid,
+        item_quantity: item.quantity,
+        item_options: item.item_options,
+      })),
+      customer: {
+        customer_uuid: customer.customer_uuid,
+        customer_name: customer.name,
+        customer_phone: customer.phone,
+        customer_email: customer.email,
+        customer_address: addressItem ? addressItem.address : "",
+        customer_lat: ret.latitude,
+        customer_long: ret.longitude,
+      },
+      request_time: Date.now(),
+      order_type: orderInfo.order_type,
+      order_note: orderInfo.order_note,
+    }
+    // console.log(data);
+    requestor("order/requestCreateOrder", data);
+  };
+
   componentWillMount() {
     // get data if not have, or can validate follow expiry
   }
 
+  updateOrderAddress({cus_address_uuid}){
+    this.props.updateOrder({cus_address_uuid});
+  }
+
   renderHasAccount() {
-    const { address } = this.props;
+    const { address, orderInfo, t } = this.props;
     return (
       <div>
-        <h4 className="text-center">Delivery address</h4>
+        <h4 className="text-center">{t("LABEL.DELIVERY_ADDRESS")}</h4>
         <Menu className="list-group">
-          {address.map((item, index) => (
+          {address.map((item) => (
             <MenuItem
+              onClick={()=>this.updateOrderAddress(item)}
               title={`${item.name} - ${item.address}`}
-              active={index === 0}
-              key={index}
+              active={orderInfo.cus_address_uuid === item.cus_address_uuid}
+              key={item.cus_address_uuid}
             />
           ))}
         </Menu>
 
         <div className="w-100 text-center">
-          <Button color="primary">Confirm & Pay</Button>
+          <Button color="primary">{this.props.t("BUTTON.CONFIRM_PAY")}</Button>
         </div>
       </div>
     );
@@ -60,9 +99,9 @@ export default class extends Component {
   renderHasNoAccount() {
     return (
       <div>
-        <h4 className="text-center">Create an account</h4>
+        <h4 className="text-center">{this.props.t("LABEL.CREATE_ACCOUNT")}</h4>
         <Signup />
-        <h4 className="text-center mt-5">Have an account?</h4>
+        <h4 className="text-center mt-5">{this.props.t("LABEL.HAVE_ACCOUNT")}</h4>
         <Login />
       </div>
     );

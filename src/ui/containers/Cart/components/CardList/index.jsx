@@ -33,17 +33,17 @@ export default class extends Component {
   }
 
   render() {
-    const { orderItems } = this.props;
+    const { orderItems, t } = this.props;
     return (
       <Table className="mt-4 text-uppercase table-fixed">
         <thead className="color-gray">
           <tr>
-            <th className="pl-0 w-25">Item</th>
-            <th>Unit price</th>
-            <th>Quantity</th>
+            <th className="pl-0 w-25">{t("TABLE.ITEM")}</th>
+            <th>{t("TABLE.UNIT_PRICE")}</th>
+            <th>{t("TABLE.QUANTITY")}</th>
             <th>Vat</th>
-            <th>Total</th>
-            <th className="text-center">Delete</th>
+            <th>{t("TABLE.TOTAL")}</th>
+            <th className="text-center">{t("TABLE.DELETE")}</th>
           </tr>
         </thead>
         <tbody>

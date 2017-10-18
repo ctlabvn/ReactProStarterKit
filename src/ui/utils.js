@@ -68,3 +68,27 @@ export const setSelection = (el, selection) => {
     /* not focused or not visible */
   }
 };
+
+export const getCurrentLocation = () => {
+  const defaultCoords = { latitude: 21.0595054, longitude: 105.7787773 };
+  return new Promise(function(resolve, reject) {
+    if (window.location.hostname === "localhost") return resolve(defaultCoords);
+
+    if (navigator.geolocation) {
+      // Call getCurrentPosition with success and failure callbacks
+      navigator.geolocation.getCurrentPosition(
+        function(ret) {
+          resolve(ret.coords);
+        },
+        function(ret) {
+          // reject(ret)
+          console.log(ret);
+          resolve(defaultCoords);
+        }
+      );
+    } else {
+      alert("Sorry, your browser does not support geolocation services.");
+      resolve(defaultCoords);
+    }
+  });
+};
