@@ -28,7 +28,7 @@ import "./index.css";
     isLogged: authSelectors.isLogged(state),
     address: authSelectors.getAddress(state)
   }),
-  { ...commonActions, ...restaurantSelectors }
+  { ...commonActions, ...restaurantActions }
 )
 export default class extends Component {
   componentWillMount() {

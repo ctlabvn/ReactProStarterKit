@@ -1,6 +1,6 @@
 import React from "react";
 import { Field } from "redux-form";
-
+import classNames from "classnames";
 import {
   Input,
   Label,
@@ -20,7 +20,13 @@ export const InputField = ({
 }) => (
   <FormGroup {...custom}>
     {label && <Label>{label}</Label>}
-    <Input placeholder={placeholder} {...input} valid={!error} type={type} />
+    <Input
+      placeholder={placeholder}
+      {...input}
+      valid={!error}
+      type={type}
+      className={classNames({ "h-100": type === "textarea" })}
+    />
     {touched && error && <FormFeedback>{error}</FormFeedback>}
   </FormGroup>
 );
