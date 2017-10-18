@@ -1,36 +1,33 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { translate } from "react-i18next";
 
 import PhotoGroup from "~/ui/components/PhotoGroup";
 import Rating from "~/ui/components/Rating";
 import Menu from "~/ui/components/Menu";
 import MenuItem from "~/ui/components/Menu/Item";
 
-
-
 import "./index.css";
 import options from "./options";
 
+@translate('translations')
 export default class extends Component {
 
   render() {
-    const {outlet} = this.props;    
-    
+    const {t,outlet} = this.props;
+
     return (
       <div className="row flex-nowrap d-flex flex-row justify-content-between block bg-white mb-4 mt-5">
         <div className="w-100 pr-5">
           <nav className="breadcrumb text-uppercase color-gray-400 bg-transparent pl-0">
-            <a className="breadcrumb-item color-gray-400" href="#">
-              Home
-            </a>
-            <Link className="breadcrumb-item color-gray-400" to={`/restaurant`}>
-              RESTAURANT
+            <Link className="breadcrumb-item color-gray-400" to={`/`}>
+	            {t('LINK.HOME')}
             </Link>
-            <a className="breadcrumb-item color-gray-400" href="#">
-              HANOI
-            </a>
+            <Link className="breadcrumb-item color-gray-400" to={`/restaurant`}>
+	            {t('LINK.RESTAURANT')}
+            </Link>
             <span className="breadcrumb-item active color-gray-400">
-              DONUTS
+              {outlet.name}
             </span>
           </nav>
 
@@ -55,19 +52,18 @@ export default class extends Component {
 
           <p className="w-100 mt-3 html-content" dangerouslySetInnerHTML={{__html:outlet.description}}/>
           <a href="/"> See more</a>
-          
 
           <Menu className="menu-tags text-uppercase mt-2">
-            {options.menuItems.map((item, index)=>
-              <MenuItem title={item} key={index}/>
+            {outlet.tags.map((item, index)=>
+              <MenuItem title={item.name} key={index}/>
             )}                        
           </Menu>
 
           <div className="border border-white-300 border-right-0 border-left-0 border-bottom-0 mt-4 left-side-block">
             <Menu className="menu-decorator text-uppercase">
-            {options.menuItems.map((item, index)=>
-              <MenuItem active={index === 0} title={item} key={index}/>
-            )}                        
+            {options.menuItems.map((item, index) =>
+              <MenuItem active={index === 0} title={t(item)} key={index} id={item.id} />
+            )}
             </Menu>
           </div>
 

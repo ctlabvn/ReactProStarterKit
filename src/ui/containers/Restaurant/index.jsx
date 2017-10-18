@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Body from "./components/Body";
+import Detail from "./components/Detail";
 
 // store
 import api from "~/store/api";
@@ -56,7 +57,8 @@ export default class extends Component {
         <div className="container">
           <Header outlet={outlet} />
 
-          <Body outlet={outlet} />
+          <Body outlet={outlet} id="tabBody" />
+          <Detail outlet={outlet} id="tabDetail" />
 
           {/*<Footer outlet={outlet} />*/}
         </div>

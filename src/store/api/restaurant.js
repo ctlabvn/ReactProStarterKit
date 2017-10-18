@@ -10,7 +10,11 @@ export default {
   },
 
   getProductByCategory(category_uuid){
-    return apiGet(`/restaurant/items`, {category_uuid: category_uuid, pagination: 10})
+    return apiGet('/restaurant/items', {category_uuid: category_uuid, pagination: 10})
   },
+
+	getFeatureItem(outlet_uuid) {
+		return apiGet('/restaurant/featured/items', {outlet_uuid: outlet_uuid, featured: 1})
+  }
 }
 
