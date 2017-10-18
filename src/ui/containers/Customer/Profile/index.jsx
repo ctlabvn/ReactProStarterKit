@@ -11,6 +11,7 @@ import { Button, Form, FormGroup, Row } from "reactstrap";
 
 // store
 import * as commonActions from "~/store/actions/common";
+import * as authActions from "~/store/actions/auth";
 import * as authSelectors from "~/store/selectors/auth";
 
 // components
@@ -27,7 +28,7 @@ import { validate } from "./utils";
     },
     token: authSelectors.getToken(state),
   }),
-  commonActions
+  {...commonActions, ...authActions}
 )
 @reduxForm({
   form: "Profile",
@@ -37,9 +38,18 @@ import { validate } from "./utils";
 })
 export default class extends Component {
 
-  updateCustomer = (data)=> {
-    // console.log(data, this.props.token);
-    this.props.setToast("hello every body it is hard to tell it is hard to tell", "danger");
+  updateCustomer = ({customer_uuid, name, phone, address})=> {
+    const {token} = this.props;
+    this.props.requestor('customer/requestUpdateCustomer', token, customer_uuid, name, phone);   
+    // update address
+    address.map(item=>{
+      const {cus_address_uuid, name, address} = item;
+      if(cus_address_uuid){
+        this.props.requestor('customer/requestUpdateAddress', token, cus_address_uuid, name, address);
+      } else {
+        this.props.requestor('customer/requestAddAddress', token, customer_uuid, name, address);
+      }
+    });    
   };
 
   renderAddress = ({ fields }) => {

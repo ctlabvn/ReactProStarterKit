@@ -94,9 +94,14 @@ export const createRequestSaga = ({request, key, start, stop, success, failure, 
         yield put(markRequestCancelled(cancelRet, requestKey))
       } else {
 
-        // throw unthorized response
-        if(data.code === 1903){
-          throw new UnauthorizedException(data.msg)
+        if(data.error){          
+          switch(data.error){
+            case "token_expired":
+              // throw unthorized response, need translate ?
+              throw new UnauthorizedException(data.error);
+            default:
+              throw new Error(data.error);
+          }
         }
 
         // callback on success
@@ -129,10 +134,10 @@ export const createRequestSaga = ({request, key, start, stop, success, failure, 
           // call logout user because we do not have refresh token
           yield put(removeLoggedUser())
           yield put(setAuthState(false))       
-          yield put(forwardTo('/admin'))          
+          yield put(forwardTo('/'))          
         }
       }
-      // anyway, we should treat this as error to log
+      // anyway, we should treat this as error to log      
       if(failure) for(let actionCreator of failure){          
         yield put(actionCreator(reason, action))
       }        

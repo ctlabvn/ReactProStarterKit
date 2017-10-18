@@ -51,8 +51,14 @@ export default {
     return apiPost("/auth/logout");
   },
 
-  updateCustomer(data) {
-    return apiPost('/customer', data, 'PUT');
+  updateCustomer(token, customer_uuid, name, phone) {
+    return apiPost('/customer', {
+      token,
+      customer_uuid,
+      name,
+      phone,
+      lang: i18n.language
+    }, 'PUT');
   },
 
   addAddress(token, customer_uuid, name, address) {

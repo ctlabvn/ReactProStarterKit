@@ -33,7 +33,9 @@ export const auth = (state = initialState, { type, payload }) => {
 
     // update customer
     case "customer/updateCustomer":
-      return { ...state, customer: { ...state.customer, ...payload } };
+      // remove address from customer data
+      const {address, ...data} = payload;      
+      return { ...state, customer: { ...state.customer, ...data } };
     case "customer/addAddress":
       return { ...state, address: [...state.address, payload] };
     case "customer/updateAddress":

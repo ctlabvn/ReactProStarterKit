@@ -10,7 +10,7 @@ const getOutlets = createRequestSaga({
   request: api.restaurant.getOutlets,
   key: "getRestaurantOutlet",
   success: [data => saveRestaurants(data)],
-  failure: [() => setToast("Couldn't get data", "error")]
+  failure: [() => setToast("Couldn't get data", "danger")]
 });
 
 // root saga reducer
