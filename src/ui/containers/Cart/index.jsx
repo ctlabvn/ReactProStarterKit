@@ -3,14 +3,22 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { translate } from "react-i18next";
 
+// redux form
+import { Field, FieldArray, reduxForm } from "redux-form";
+
 // reactstrap
-import { Table, Button } from "reactstrap";
+import { Button, FormGroup, Label, Input } from "reactstrap";
 
 // components
-import CardItem from "./components/CardItem";
+import { InputField } from "~/ui/components/ReduxForm";
+import CardList from "./components/CardList";
 
 import * as orderSelectors from "~/store/selectors/order";
 import * as orderActions from "~/store/actions/order";
+
+import { history } from "~/store";
+
+import { validate } from "./utils";
 
 import options from "./options";
 import "./index.css";
@@ -18,72 +26,41 @@ import "./index.css";
 @translate("translations")
 @connect(
   state => ({
-    orderItems: orderSelectors.getItems(state)
+    orderItems: orderSelectors.getItems(state),
+    initialValues: orderSelectors.getInfo(state),
   }),
   orderActions
 )
+@reduxForm({
+  form: "Checkout",
+  validate,
+  destroyOnUnmount: false,
+  enableReinitialize: true
+})
 export default class extends Component {
-  increaseOrder(item) {
-    this.props.updateOrderItem({ ...item, quantity: item.quantity + 1 });
-  }
 
-  decreaseOrder(item) {
-    this.props.updateOrderItem({ ...item, quantity: item.quantity - 1 });
-  }
+  saveOrderInfo = (data) => {
+    this.props.updateOrder(data);    
+    history.push("/checkout");
+  };
 
-  removeOrder(item) {
-    this.props.removeOrderItem(item);
-  }
 
-  renderCartList() {
-    const { orderItems } = this.props;
-    return (
-      <Table className="mt-4 text-uppercase table-fixed">
-        <thead className="color-gray">
-          <tr>
-            <th className="pl-0 w-25">Item</th>
-            <th>Unit price</th>
-            <th>Quantity</th>
-            <th>Vat</th>
-            <th>Total</th>
-            <th className="text-center">Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orderItems.map(item => (
-            <CardItem
-              key={item.item_uuid}
-              title={item.name}
-              image="/images/donut-square.png"
-              vat={0}
-              price={item.price}
-              priceUnit={item.currency_symbol}
-              quantity={item.quantity}
-              onIncrease={() => this.increaseOrder(item)}
-              onDecrease={() => this.decreaseOrder(item)}
-              onRemove={() => this.removeOrder(item)}
-            />
-          ))}
-        </tbody>
-      </Table>
-    );
-  }
-
-  renderOrderType() {
+  renderOrderTypeField = ({input, label, meta: { touched, error, warning }, ...custom}) => {
     return (
       <div className="col-md-6 border border-left-0 pt-4 pb-4 pl-0">
-        <h6 className="color-gray text-uppercase mb-4">Order type</h6>
-        <div className="d-flex flex-row justify-content-between">
-          {options.orderTypes.map((item, index) => (
-            <label key={index}>
-              <input type="radio" checked={index===1} name="optionsRadios" className="mr-2" />
+        <h6 className="color-gray text-uppercase mb-4">{label}</h6>
+        <FormGroup check className="d-flex flex-row justify-content-between">
+          {options.orderTypes.map((item, index) => (            
+            <Label check key={index}>
+              <Input onChange={e=>input.onChange(index)} type="radio" defaultChecked={index===input.value} name="order_type" className="mr-2"  />
               {item}
-            </label>
+            </Label>
+
           ))}
-        </div>
+        </FormGroup>
       </div>
     );
-  }
+  };
 
   renderAddress() {
     return (
@@ -91,15 +68,13 @@ export default class extends Component {
         <h6 className="color-gray text-uppercase mb-4">
           ADDRESS <span className="color-gray-400">(delivery only)</span>
         </h6>
-
-        <input placeholder="Type your address here" className="custom-input" />
+        <Field name="order_address" placeholder="Type your address here" className="custom-input" component={InputField}/>
       </div>
     );
   }
 
   render() {
-    const { orderItems, t } = this.props;
-
+    const { orderItems, t, handleSubmit, submitting } = this.props;        
     if (!orderItems || !orderItems.length) {
       return (
         <div className="text-center p-2">
@@ -132,15 +107,15 @@ export default class extends Component {
             30 m
           </small>
 
-          {this.renderCartList()}
-
-          {this.renderOrderType()}
+          <CardList/>
+          
+          <Field label="Order type" name="order_type" component={this.renderOrderTypeField} />
           {this.renderAddress()}
 
           <div className="mt-5 mb-4 d-flex w-100 justify-content-between">
             <div className="col-md-7 pl-0">
-              <h6 className="color-gray text-uppercase mb-4">Add a note</h6>
-              <textarea className="w-100 h-75 border-gray-300" />
+              <h6 className="color-gray text-uppercase mb-4">Add a note</h6>              
+              <Field name="order_note" type="textarea" className="w-100 h-75 border-gray-300" component={InputField} />
             </div>
 
             <div className="col-md-offset-1 col-md-4">
@@ -164,17 +139,19 @@ export default class extends Component {
                 </span>
               </h6>
 
-              <input
+              <Field 
                 placeholder="Enter promo code"
                 className="custom-input text-uppercase"
+                name="order_promotion_code"
+                component={InputField}
               />
 
-              <Link
-                className="btn bg-red btn-lg btn-block text-uppercase"
-                to="/checkout"
+              <Button
+                className="btn bg-red btn-lg btn-block text-uppercase"                
+                onClick={handleSubmit(this.saveOrderInfo)}
               >
                 Pay now
-              </Link>
+              </Button>
             </div>
           </div>
         </div>

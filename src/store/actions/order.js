@@ -1,3 +1,8 @@
+export const updateOrder = (data) => ({
+  type: 'order/update',
+  payload: data,
+});
+
 export const addOrderItem = (data) => ({
   type: 'order/addItem',
   payload: data,
