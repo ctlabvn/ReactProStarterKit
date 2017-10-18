@@ -52,8 +52,8 @@ export const createRequestSaga = ({request, key, start, stop, success, failure, 
     let ret = null
     let err = null
 
-    // store into redux
-    const requestKey = (typeof key === 'function') ? key(...args) : key
+    // store into redux, default key is action type for unique name
+    const requestKey = (typeof key === 'function') ? key(...args) : (key || action.type)
     // for key, we render unique key using action.args
     // but for actionCreator when callback, we should pass the whole action
     // so on event such as success, we can use action.type or action.args to 
