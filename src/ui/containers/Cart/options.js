@@ -1,7 +1,7 @@
 export default {
   orderTypes: [
-    'Pick-up',
-    'Delivery',
-    'Cash on delivery'
+    {id: 3, title: 'Pick-up'},
+    {id: 2, title: 'Delivery'},
+    {id: 3, title: 'Cash on delivery'}
   ]
 }

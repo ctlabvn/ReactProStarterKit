@@ -52,8 +52,8 @@ export default class extends Component {
         <FormGroup check className="d-flex flex-row justify-content-between">
           {options.orderTypes.map((item, index) => (            
             <Label check key={index}>
-              <Input onChange={e=>input.onChange(index)} type="radio" defaultChecked={index===input.value} name="order_type" className="mr-2"  />
-              {item}
+              <Input onChange={e=>input.onChange(item.id)} type="radio" defaultChecked={item.id===input.value} name="order_type" className="mr-2"  />
+              {item.title}
             </Label>
 
           ))}
