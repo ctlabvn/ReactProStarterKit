@@ -15,6 +15,8 @@ export default class extends Component {
 
   render() {
     const {t,outlet} = this.props;
+    const gallery = JSON.parse(outlet.gallery.replace(/\\/g, ''));
+    console.log(typeof gallery);
 
     return (
       <div className="row flex-nowrap d-flex flex-row justify-content-between block bg-white mb-4 mt-5">
@@ -34,20 +36,17 @@ export default class extends Component {
           <h2 className="font-weight-bold text-uppercase">{outlet.name}</h2>
 
           <div className="flex-row d-flex justify-content-between">
-            {/*<Rating />*/}
-            {/*<span>148 comments</span>*/}
-            {/*<span>|</span>*/}
             <span className="color-red">{outlet.address}</span>
+            <span>{outlet.phone}</span>
+            <span>Time: {outlet.online_order_setting && outlet.online_order_setting.hours_open ? outlet.online_order_setting.hours_open : ''}</span>
           </div>
 
           <div className="flex-row d-flex justify-content-between">
-            <span>Sugar, Donuts</span>
-            <span>|</span>
-            <span>{outlet.phone}</span>
-            <span>|</span>
-            {/*<span>Min / Max Order : {outlet.online_order_setting.min_takeaway_cost} / {outlet.online_order_setting.max_takeaway_cost}</span>*/}
-            <span>|</span>
-            <span>08:00pm -> 00:00am</span>
+            {outlet.online_order_setting && outlet.online_order_setting.do_delivery ? '<span>Delivery</span>' : ''}
+            {outlet.online_order_setting && outlet.online_order_setting.do_takeaway ? '<span>Takeaway</span>' : ''}
+            <span>Min delivery:{outlet.online_order_setting && outlet.online_order_setting.min_delivery_cost ? outlet.online_order_setting.min_delivery_cost : ''}</span>
+            <span>Max delivery:{outlet.online_order_setting && outlet.online_order_setting.max_delivery_cost ? outlet.online_order_setting.max_delivery_cost : ''}</span>
+            <span>Fee: {outlet.online_order_setting && outlet.online_order_setting.delivery_fee ? outlet.online_order_setting.delivery_fee : ''}</span>
           </div>
 
           <p className="w-100 mt-3 html-content" dangerouslySetInnerHTML={{__html:outlet.description}}/>
@@ -69,7 +68,7 @@ export default class extends Component {
 
         </div>
 
-        {outlet.gallery ? <PhotoGroup images={outlet.gallery} className="photo-group-large"/> : ''}
+        {gallery ? <PhotoGroup images={gallery} className="photo-group-large"/> : ''}
       </div>
     );
   }
