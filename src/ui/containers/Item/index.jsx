@@ -3,13 +3,10 @@ import { connect } from "react-redux";
 
 // elements
 import Header from "./components/Header";
-import Footer from "./components/Footer";
 import Body from "./components/Body";
 
 // store
 import api from "~/store/api";
-import * as authSelectors from "~/store/selectors/auth";
-
 import "./index.css";
 
 @connect(state => ({
@@ -20,30 +17,32 @@ export default class extends Component {
     super(props);
 
     this.state = {
+      item: null,
       outlet: null
     };
   }
 
   componentWillMount() {
-    this.loadOutlet();
+    this.loadData();
   }
 
-  async loadOutlet() {
+  async loadData() {
     const { uuid } = this.props.match.params;
-    const ret = await api.item.getDetail(uuid);
+    const item = await api.item.getDetail(uuid);
+    const outlet = await api.restaurant.getOutlet(item.data.outlet_uuid);
     // check ret.error then show ret.message
-    this.setState({ outlet: ret.data });
+    this.setState({ outlet: outlet.data, item: item.data });
   }
 
   componentWillReceiveProps({ language }) {
     if (this.props.language !== language) {
-      this.loadOutlet();
+      this.loadData();
     }
   }
 
   render() {
-    const { outlet } = this.state;
-    if (!outlet) {
+    const { item, outlet } = this.state;
+    if (!item) {
       return (
         <div className="d-flex flex-row justify-content-center">
           <i className="fa fa-refresh fa-spin fa-3x fa-fw" />
@@ -54,11 +53,8 @@ export default class extends Component {
     return (
       <div className="screen-item">
         <div className="container">
-          <Header outlet={outlet} />
-
-          <Body outlet={outlet} />
-
-          {/*<Footer outlet={outlet} />*/}
+          <Header outlet={outlet} item={item} />
+          <Body outlet={outlet} item={item} />
         </div>
       </div>
     );

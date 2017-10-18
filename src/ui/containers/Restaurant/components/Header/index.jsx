@@ -21,14 +21,11 @@ export default class extends Component {
         <div className="w-100 pr-5">
           <nav className="breadcrumb text-uppercase color-gray-400 bg-transparent pl-0">
             <Link className="breadcrumb-item color-gray-400" to={`/`}>
-              HOME
+	            {t('LINK.HOME')}
             </Link>
             <Link className="breadcrumb-item color-gray-400" to={`/restaurant`}>
-              RESTAURANT
+	            {t('LINK.RESTAURANT')}
             </Link>
-            <a className="breadcrumb-item color-gray-400" href="#">
-              HANOI
-            </a>
             <span className="breadcrumb-item active color-gray-400">
               {outlet.name}
             </span>
@@ -57,15 +54,15 @@ export default class extends Component {
           <a href="/"> See more</a>
 
           <Menu className="menu-tags text-uppercase mt-2">
-            {options.menuItems.map((item, index)=>
-              <MenuItem title={item} key={index}/>
+            {outlet.tags.map((item, index)=>
+              <MenuItem title={item.name} key={index}/>
             )}                        
           </Menu>
 
           <div className="border border-white-300 border-right-0 border-left-0 border-bottom-0 mt-4 left-side-block">
             <Menu className="menu-decorator text-uppercase">
             {options.menuItems.map((item, index) =>
-              <MenuItem active={index === 0} title={t(item.name)} key={index} id={item.id} />
+              <MenuItem active={index === 0} title={t(item)} key={index} id={item.id} />
             )}
             </Menu>
           </div>

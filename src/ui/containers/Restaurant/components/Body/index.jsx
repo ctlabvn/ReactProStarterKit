@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
+import { translate } from "react-i18next";
 import { connect } from "react-redux";
 
 import { Col } from "reactstrap";
@@ -18,7 +18,7 @@ import api from "~/store/api";
 import "./index.css";
 import options from "./options";
 
-
+@translate('translations')
 @connect(null, orderActions)
 export default class extends Component {
   constructor(props) {
@@ -30,9 +30,10 @@ export default class extends Component {
   }
 
   handleCategory = async currentCategoryUuid => {
-    const ret = await api.restaurant.getProductByCategory(currentCategoryUuid);
-    // check ret.error then show ret.message
-    this.setState({ products: ret.data.data });
+    await api.restaurant.getProductByCategory(currentCategoryUuid).then(ret => {
+      console.log(ret);
+	    this.setState({ products: ret.data.data });
+    }, err => console.log(err));
   };
 
   addOrderItem(item) {
@@ -63,6 +64,7 @@ export default class extends Component {
 
   render() {
     const { t, outlet } = this.props;
+    const { products, features } = this.state;
     return (
       <div className="row block bg-white mb-4 tab-content">
         <h3 className="font-largest color-black w-100 mb-4">
@@ -70,7 +72,7 @@ export default class extends Component {
         </h3>
 
         <Slider className="mt-2" num={5} move={1}>
-	        {this.state.features.length ? this.state.features.map((item, index) => (
+	        {features.length ? features.map((item, index) => (
             <ProductItemPhoto
               key={index}
               price={10}
@@ -92,8 +94,8 @@ export default class extends Component {
           </Menu>
 
           <Col md="10">
-            {this.state.products.length ? (
-	            this.state.products.length.map((item, index) => (
+            {products.length ? (
+	            products.map((item, index) => (
                 <ProductItem
                   className="col-md-6 float-left pl-0 pr-5 mb-4"
                   description={item.description}
