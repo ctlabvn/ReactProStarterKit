@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { translate } from "react-i18next";
 
 // reactstrap
-import { Table, Button } from 'reactstrap';
-
+import { Table, Button } from "reactstrap";
 
 // components
 import CardItem from "./components/CardItem";
@@ -15,26 +15,28 @@ import * as orderActions from "~/store/actions/order";
 import options from "./options";
 import "./index.css";
 
-
-@connect(state => ({  
-  orderItems: orderSelectors.getItems(state),
-}), orderActions)
+@translate("translations")
+@connect(
+  state => ({
+    orderItems: orderSelectors.getItems(state)
+  }),
+  orderActions
+)
 export default class extends Component {
-
-  increaseOrder(item){
-    this.props.updateOrderItem({...item, quantity: item.quantity+1});
+  increaseOrder(item) {
+    this.props.updateOrderItem({ ...item, quantity: item.quantity + 1 });
   }
 
-  decreaseOrder(item){    
-    this.props.updateOrderItem({...item, quantity: item.quantity-1});
+  decreaseOrder(item) {
+    this.props.updateOrderItem({ ...item, quantity: item.quantity - 1 });
   }
 
-  removeOrder(item){
+  removeOrder(item) {
     this.props.removeOrderItem(item);
   }
 
   renderCartList() {
-    const {orderItems} = this.props;
+    const { orderItems } = this.props;
     return (
       <Table className="mt-4 text-uppercase table-fixed">
         <thead className="color-gray">
@@ -48,17 +50,18 @@ export default class extends Component {
           </tr>
         </thead>
         <tbody>
-          {orderItems.map((item) => (
+          {orderItems.map(item => (
             <CardItem
               key={item.item_uuid}
               title={item.name}
               image="/images/donut-square.png"
               vat={0}
               price={item.price}
+              priceUnit={item.currency_symbol}
               quantity={item.quantity}
-              onIncrease={()=>this.increaseOrder(item)}
-              onDecrease={()=>this.decreaseOrder(item)}
-              onRemove={()=>this.removeOrder(item)}
+              onIncrease={() => this.increaseOrder(item)}
+              onDecrease={() => this.decreaseOrder(item)}
+              onRemove={() => this.removeOrder(item)}
             />
           ))}
         </tbody>
@@ -73,7 +76,7 @@ export default class extends Component {
         <div className="d-flex flex-row justify-content-between">
           {options.orderTypes.map((item, index) => (
             <label key={index}>
-              <input type="radio" name="optionsRadios" className="mr-2" />
+              <input type="radio" checked={index===1} name="optionsRadios" className="mr-2" />
               {item}
             </label>
           ))}
@@ -95,7 +98,23 @@ export default class extends Component {
   }
 
   render() {
-    const { restaurants } = this.props;
+    const { orderItems, t } = this.props;
+
+    if (!orderItems || !orderItems.length) {
+      return (
+        <div className="text-center p-2">
+          <img src="/images/no-data.png" height="100" alt="" />
+          <p className="color-gray text-uppercase">
+            Your shopping cart is empty.
+          </p>
+        </div>
+      );
+    }
+
+    const totalPrice = orderItems.reduce(
+      (a, item) => a + item.quantity * item.price,
+      0
+    );
     return (
       <div className="container">
         <div className="row block bg-white">
@@ -109,7 +128,8 @@ export default class extends Component {
             Your cart
           </h2>
           <small>
-            <i className="fa fa-clock-o" aria-hidden="true" /> Delivery time : 30 m
+            <i className="fa fa-clock-o" aria-hidden="true" /> Delivery time :
+            30 m
           </small>
 
           {this.renderCartList()}
@@ -117,31 +137,46 @@ export default class extends Component {
           {this.renderOrderType()}
           {this.renderAddress()}
 
-
           <div className="mt-5 mb-4 d-flex w-100 justify-content-between">
             <div className="col-md-7 pl-0">
               <h6 className="color-gray text-uppercase mb-4">Add a note</h6>
-              <textarea className="w-100 h-75 border-gray-300"/>
+              <textarea className="w-100 h-75 border-gray-300" />
             </div>
 
             <div className="col-md-offset-1 col-md-4">
               <h6 className="color-gray text-uppercase mb-4 d-flex justify-content-between">
-                <span>Subtotal</span> <span>348$</span>
+                <span>Subtotal</span>
+                <span>
+                  {t("format.currency", {
+                    price: totalPrice,
+                    symbol: orderItems[0].currency_symbol
+                  })}
+                </span>
               </h6>
 
               <h6 className="color-black text-uppercase font-weight-bold mb-4 d-flex justify-content-between">
-                <span>Total price</span> <span>348$</span>
+                <span>Total price</span>
+                <span>
+                  {t("format.currency", {
+                    price: totalPrice,
+                    symbol: orderItems[0].currency_symbol
+                  })}
+                </span>
               </h6>
 
-              <input placeholder="Enter promo code" className="custom-input text-uppercase" />
+              <input
+                placeholder="Enter promo code"
+                className="custom-input text-uppercase"
+              />
 
-              
-              <Link className="btn bg-red btn-lg btn-block text-uppercase" to="/checkout">Pay now</Link>
-              
-
+              <Link
+                className="btn bg-red btn-lg btn-block text-uppercase"
+                to="/checkout"
+              >
+                Pay now
+              </Link>
             </div>
           </div>
-
         </div>
       </div>
     );
