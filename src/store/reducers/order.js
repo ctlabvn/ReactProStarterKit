@@ -1,6 +1,6 @@
 import { REHYDRATE } from "redux-persist/constants";
 
-const initialState = {
+export const initialState = {
   items: [],
 };
 

@@ -1,4 +1,4 @@
-import { v4 } from 'uuid'
+
 import { history } from '~/store'
 
 import {  
@@ -65,10 +65,9 @@ export const markRequestFailed = (reason, key) => ({
 
 // show toast => we can use kind of alerts, stackbar to notify user
 // with dynamic id force update everytime
-export const setToast = (message, level = 'info', duration = 3000, id = v4() ) => ({
+export const setToast = (message, level = 'info', duration = 3000 ) => ({
   type: 'app/setToast',
-  payload: {
-    id,
+  payload: {    
     message,
     level,
     duration,

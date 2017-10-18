@@ -10,9 +10,9 @@ import { REHYDRATE } from "redux-persist/constants";
 export const initialState = {
   loggedIn: false,
   customer: {
-    language: "vi",
+    language: "vi"
   },
-  address: [],
+  address: []
 };
 
 // Takes care of changing the application state
@@ -20,7 +20,7 @@ export const initialState = {
 export const auth = (state = initialState, { type, payload }) => {
   switch (type) {
     case "app/setLanguage":
-      return { ...state, customer: {...state.customer, language: payload} };
+      return { ...state, customer: { ...state.customer, language: payload } };
     case "app/setAuthState":
       return { ...state, loggedIn: payload };
     case "app/saveLoggedUser":
@@ -29,7 +29,24 @@ export const auth = (state = initialState, { type, payload }) => {
       return { ...state, user: null, token: null };
     case "app/saveRefreshToken":
       // payload is access token
-      return { ...state, token: { ...state.token, ...payload } };    
+      return { ...state, token: { ...state.token, ...payload } };
+
+    // update customer
+    case "customer/updateCustomer":
+      return { ...state, customer: { ...state.customer, ...payload } };
+    case "customer/addAddress":
+      return { ...state, address: [...state.address, payload] };
+    case "customer/updateAddress":
+      return {
+        ...state,
+        address: state.address.map(
+          item =>
+            item.cus_address_uuid === payload.cus_address_uuid
+              ? { ...item, ...payload }
+              : item
+        )
+      };
+
     case REHYDRATE:
       // save reject token do nothing
       const incoming = payload.auth;

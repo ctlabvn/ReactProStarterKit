@@ -28,3 +28,20 @@ export const removeLoggedUser = () => ({
   type: 'app/removeLoggedUser',  
 })
 
+
+// update customer
+export const updateCustomer = (data) => ({
+  type: 'customer/updateCustomer',
+  payload: data,
+})
+
+// data: {accessToken...}
+export const addAddress = (data) => ({
+  type: 'customer/addAddress',
+  payload: data,
+})
+
+export const updateAddress = (data) => ({
+  type: 'customer/updateAddress', 
+  payload: data,  
+})

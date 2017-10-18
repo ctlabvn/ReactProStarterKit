@@ -7,7 +7,11 @@ import { setToast, forwardTo } from '~/store/actions/common'
 import { 
   setAuthState,   
   saveLoggedUser, 
-  removeLoggedUser 
+  removeLoggedUser,
+
+  updateCustomer,
+  addAddress,
+  updateAddress, 
 } from '~/store/actions/auth'
 
 
@@ -84,9 +88,32 @@ const requestLogoutAsync = createRequestSaga({
   failure: [ 
     () => setToast('Couldn\'t logout', 'error') 
   ],
+});
+
+const updateCustomerAsync = createRequestSaga({
+  request: api.auth.updateCustomer,
+  success: [       
+    (data) => updateCustomer(data),        
+    () => setToast('Update customer successfully!!!'), 
+  ],
+  failure: [ 
+    () => setToast('Couldn\'t update customer', 'error') 
+  ],
 })
 
+const updateAddressAsync = createRequestSaga({
+  request: api.auth.updateAddress,
+  success: [       
+    (data) => updateAddress(data),            
+  ],
+})
 
+const addAddressAsync = createRequestSaga({
+  request: api.auth.addAddress,
+  success: [       
+    (data) => addAddress(data),            
+  ],
+})
 
 // root saga reducer
 const asyncAuthWatchers = [
@@ -99,7 +126,12 @@ const asyncAuthWatchers = [
       takeLatest('app/loginFacebook', requestLoginFacebookAsync),
       takeLatest('app/loginGoogle', requestLoginGoogleAsync),
       takeLatest('app/login', requestLoginAsync),
-      takeLatest('app/updateAccount', requestUpdateAccountAsync),      
+      takeLatest('app/updateAccount', requestUpdateAccountAsync),
+
+      // customer
+      takeLatest('customer/updateCustomer', updateCustomerAsync),
+      takeLatest('customer/addAddress', addAddressAsync),
+      takeLatest('customer/updateAddress', updateAddressAsync),      
     ])
   },
 

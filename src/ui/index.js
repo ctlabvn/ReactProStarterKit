@@ -33,7 +33,7 @@ const Root = ({ store, history }) => (
           <Route exact path="/customer/profile" component={CustomerProfile} />
           <Route exact path="/customer/order" component={Order} />
           <Route component={NotFound} />
-        </Switch>
+        </Switch>        
       </App>
     </ConnectedRouter>
   </Provider>

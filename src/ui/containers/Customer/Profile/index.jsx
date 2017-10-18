@@ -23,8 +23,9 @@ import { validate } from "./utils";
   state => ({
     initialValues: {
       ...authSelectors.getCustomer(state),
-      address: authSelectors.getAddress(state)
-    }
+      address: authSelectors.getAddress(state),      
+    },
+    token: authSelectors.getToken(state),
   }),
   commonActions
 )
@@ -35,9 +36,15 @@ import { validate } from "./utils";
   enableReinitialize: true
 })
 export default class extends Component {
+
+  updateCustomer = (data)=> {
+    // console.log(data, this.props.token);
+    this.props.setToast("hello every body it is hard to tell it is hard to tell", "danger");
+  };
+
   renderAddress = ({ fields }) => {
     return (
-      <Form className="mt-4">
+      <Form className="mt-4 mb-4">
         <Button onClick={() => fields.push({})}>Add address</Button>
         {fields.map((member, index) => (
           <Row key={index}>
@@ -64,7 +71,7 @@ export default class extends Component {
   };
 
   render() {
-    const { initialValues } = this.props;
+    const { handleSubmit, submitting } = this.props;
     return (
       <div className="container">
         <Form>
@@ -77,14 +84,14 @@ export default class extends Component {
             />
             <Field
               className="col"
-              label="Email"
-              name="email"
+              label="Phone"
+              name="phone"
               component={InputField}
             />
-          </Row>          
-          <Button>Submit</Button>
+          </Row>                    
         </Form>
         <FieldArray name="address" component={this.renderAddress} />
+        <Button disabled={submitting} onClick={handleSubmit(this.updateCustomer)} color="primary">Update</Button>
       </div>
     );
   }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
-
+import Toast from "~/ui/components/Toast";
 import Header from '~/ui/components/Header'
 import Footer from '~/ui/components/Footer'
 import Indicator from '~/ui/components/Indicator'
@@ -21,6 +21,7 @@ export default class App extends Component {
           {children}
         </div>
         <Footer/>
+        <Toast/>        
       </div>
     )
   }

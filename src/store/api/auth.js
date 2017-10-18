@@ -49,5 +49,29 @@ export default {
   */
   logout() {
     return apiPost("/auth/logout");
-  }
+  },
+
+  updateCustomer(data) {
+    return apiPost('/customer', data, 'PUT');
+  },
+
+  addAddress(token, customer_uuid, name, address) {
+    return apiPost('/customer/address', {
+      token,
+      customer_uuid,
+      name,
+      address,
+      lang: i18n.language
+    });
+  },
+
+  updateAddress(token, cus_address_uuid, name, address){
+    return apiPost('/customer/address', {
+      token,
+      cus_address_uuid,
+      name,
+      address,
+      lang: i18n.language
+    }, 'PUT');
+  },
 };
