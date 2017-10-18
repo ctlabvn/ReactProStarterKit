@@ -14,3 +14,7 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
+
+.navbar-brand > img {
+  width: 48px;
+}

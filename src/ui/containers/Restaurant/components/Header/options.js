@@ -5,5 +5,14 @@ export default {
     "/images/donut-square.png"
   ],
 
-  menuItems: ["Donuts", "Sugar", "ICE CREAM", "CHERRY", "CHOCOLATE"]
+	menuItems: [
+		{
+			name: "TAB.MENU",
+			id: "tabMenu"
+		},
+		{
+			name: "TAB.DETAIL",
+			id: "tabDetail"
+		}
+	]
 };

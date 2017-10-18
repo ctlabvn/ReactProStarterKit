@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
+import { translate } from "react-i18next";
 import { connect } from "react-redux";
 
 import { Col } from "reactstrap";
@@ -19,13 +19,14 @@ import api from "~/store/api";
 import "./index.css";
 import options from "./options";
 
-
+@translate('translations')
 @connect(null, orderActions)
 export default class extends Component {
   constructor(props) {
     super(props);
     this.state = {
-	    products: null
+	    products: [],
+	    features: [],
     };
   }
 
@@ -33,6 +34,16 @@ export default class extends Component {
 	  const ret = await api.restaurant.getProductByCategory(currentCategoryUuid);
 	  // check ret.error then show ret.message
 	  this.setState({ products: ret.data.data });
+  };
+
+  componentDidMount() {
+	  this.handleFeatureItem();
+  }
+
+  handleFeatureItem = async () => {
+	  const ret = await api.restaurant.getFeatureItem(this.props.outlet.outlet_uuid);
+	  // check ret.error then show ret.message
+	  this.setState({ features: ret.data.data });
   };
 
   addOrderItem(item){
@@ -55,23 +66,22 @@ export default class extends Component {
   }
 
   render() {
-    const { outlet } = this.props;
-    const { products } = this.state;
+    const { t, outlet } = this.props;
     return (
-      <div className="row block bg-white mb-4">
+      <div className="row block bg-white mb-4 tab-content">
         <h3 className="font-largest color-black w-100 mb-4">
-          <span className="font-weight-bold">ALL PRODUCTS</span> (25)
+          <span className="font-weight-bold">{t('LABEL.ALL_PRODUCTS')}</span> ({outlet.total_items})
         </h3>
 
         <Slider className="mt-2" num={5} move={1}>
-          {options.products.map((item, index) => (
+	        {this.state.features.length ? this.state.features.map((item, index) => (
             <ProductItemPhoto
               key={index}
               price={10}
-              title={item}
+              title={item.name}
               image="/images/donut-square.png"
             />
-          ))}
+          )) : ''}
         </Slider>
 
         <div className="mt-5 row w-100">
@@ -82,7 +92,7 @@ export default class extends Component {
           </Menu>
 
           <Col md="10">
-            {products ? products.map((item, index) => (
+            {this.state.products.length ? this.state.products.map((item, index) => (
               <ProductItem
                 className="col-md-6 float-left pl-0 pr-5 mb-4"
                 description={item.description}
@@ -95,10 +105,11 @@ export default class extends Component {
                 onIncrease={()=>this.addOrderItem(item)}
               />
             ))
-            : <div className="d-flex align-items-center mt-5 justify-content-center">No data</div>
+            : <div className="d-flex align-items-center py-lg-5 justify-content-center jumbotron">{t('LABEL.NO_DATA')}</div>
           }
           </Col>
         </div>
+
       </div>
     );
   }

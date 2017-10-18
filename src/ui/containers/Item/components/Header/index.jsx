@@ -20,9 +20,9 @@ export default class extends Component {
       <div className="row flex-nowrap d-flex flex-row justify-content-between block bg-white mb-4 mt-5">
         <div className="col-10 w-100 pr-5">
           <nav className="breadcrumb text-uppercase color-gray-400 bg-transparent pl-0">
-            <a className="breadcrumb-item color-gray-400" href="#">
-              Home
-            </a>
+            <Link className="breadcrumb-item color-gray-400" to={`/`}>
+              HOME
+            </Link>
             <a className="breadcrumb-item color-gray-400" href="#">
               PRODUCTS
             </a>

@@ -1,6 +1,6 @@
 import React from "react";
 import { ConnectedRouter } from "react-router-redux";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { Provider } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -30,6 +30,7 @@ const Root = ({ store, history }) => (
           <Route exact path="/restaurant/:uuid" component={Restaurant} />
           <Route exact path="/item/:uuid" component={Item} />
           <Route exact path="/restaurant" component={RestaurantListing} />
+          <Redirect from="/" to="/restaurant" />
           <Route exact path="/customer/profile" component={CustomerProfile} />
           <Route exact path="/customer/order" component={Order} />
           <Route component={NotFound} />

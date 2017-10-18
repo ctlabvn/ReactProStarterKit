@@ -18,12 +18,14 @@ export default class extends Component {
     const { name, address, logo, className, uuid, ...props } = this.props;
     return (
       <div className="col-6 my-3">
-        <div className="media border border-light rounded">
+        <div className="media rounded">
           <img className="media-image d-flex mr-3" src={logo} alt="" />
             <div className="media-body">
               <Link to={`/restaurant/${uuid}`}><h5>{name}</h5></Link>
-              <hr />
+              <hr className="my-2" />
               {address}
+              <br/>
+              {}
             </div>
         </div>
       </div>
