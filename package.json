@@ -2,6 +2,7 @@
   "name": "hotlab",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://agiletechvn.github.io/Hottab",
   "dependencies": {
     "autoprefixer": "7.1.2",
     "babel-core": "6.25.0",
@@ -63,7 +64,8 @@
     "webpack-manifest-plugin": "1.2.1",
     "whatwg-fetch": "2.0.3"
   },
-  "scripts": {
+  "scripts": {    
+    "deploy": "gh-pages -d build",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
@@ -72,6 +74,7 @@
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "enzyme": "^3.1.0",
     "enzyme-adapter-react-16": "^1.0.1",
+    "gh-pages": "^1.0.0",
     "precss": "^2.0.0",
     "redux-logger": "^3.0.6"
   },
