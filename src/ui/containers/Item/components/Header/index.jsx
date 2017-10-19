@@ -35,20 +35,11 @@ export default class extends Component {
           <h2 className="font-weight-bold text-uppercase">{item.name}</h2>
 
           <div className="flex-row d-flex justify-content-between">
-            {/*<Rating />*/}
-            {/*<span>148 comments</span>*/}
-            {/*<span>|</span>*/}
-            <span className="color-red">{item.address}</span>
+            <span className="color-red">{outlet.address}</span>
           </div>
 
           <div className="flex-row d-flex justify-content-between">
-            <span>Sugar, Donuts</span>
-            <span>|</span>
-            <span>{item.phone}</span>
-            <span>|</span>
-            {/*<span>Min / Max Order : {outlet.online_order_setting.min_takeaway_cost} / {outlet.online_order_setting.max_takeaway_cost}</span>*/}
-            <span>|</span>
-            <span>08:00pm -> 00:00am</span>
+
           </div>
 
           <p className="w-100 mt-3 html-content" dangerouslySetInnerHTML={{__html:item.description}}/>

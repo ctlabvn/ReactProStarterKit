@@ -62,6 +62,8 @@ export default class extends Component {
                   name={item.name}
                   address={item.address}
                   logo={item.logo}
+                  onlineOrderSetting={item.online_order_setting}
+                  tags={item.tags}
                   image="/images/donut-square.png"
                 />
               ))

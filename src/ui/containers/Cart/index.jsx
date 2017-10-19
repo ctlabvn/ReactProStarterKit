@@ -66,13 +66,12 @@ export default class extends Component {
     return (
       <div className="col-md-6 border border-left-0 border-right-0 pt-4 pb-4 pl-4">
         <h6 className="color-gray text-uppercase mb-4">
-          ADDRESS <span className="color-gray-400">(delivery only)</span>
+          {this.props.t("LABEL.ADDRESS")} <span className="color-gray-400">(delivery only)</span>
         </h6>
         <Field name="order_address" placeholder="Type your address here" className="custom-input" component={InputField}/>
       </div>
     );
   }
-
   render() {
     const { orderItems, t, handleSubmit, submitting } = this.props;        
     if (!orderItems || !orderItems.length) {
@@ -80,7 +79,7 @@ export default class extends Component {
         <div className="text-center p-2">
           <img src="/images/no-data.png" height="100" alt="" />
           <p className="color-gray text-uppercase">
-            Your shopping cart is empty.
+            {t("LABEL.SHOPPING_CART_EMPTY")}
           </p>
         </div>
       );
@@ -95,12 +94,12 @@ export default class extends Component {
         <div className="row block bg-white">
           <nav className="breadcrumb text-uppercase color-gray-400 bg-transparent pl-0">
             <Link to="/" className="breadcrumb-item color-gray-400" href="#">
-              &lt; Back
+              &lt; {t("LINK.BACK")}
             </Link>
           </nav>
 
           <h2 className="w-100 text-uppercase font-weight-bold color-black">
-            Your cart
+            {t("LABEL.YOUR_CART")}
           </h2>
           <small>
             <i className="fa fa-clock-o" aria-hidden="true" /> Delivery time :
@@ -114,13 +113,13 @@ export default class extends Component {
 
           <div className="mt-5 mb-4 d-flex w-100 justify-content-between">
             <div className="col-md-7 pl-0">
-              <h6 className="color-gray text-uppercase mb-4">Add a note</h6>              
+              <h6 className="color-gray text-uppercase mb-4">{t("LABEL.ADD_NOTE")}</h6>              
               <Field name="order_note" type="textarea" className="w-100 h-75 border-gray-300" component={InputField} />
             </div>
 
             <div className="col-md-offset-1 col-md-4">
               <h6 className="color-gray text-uppercase mb-4 d-flex justify-content-between">
-                <span>Subtotal</span>
+                <span>{t("LABEL.SUBTOTAL")}</span>
                 <span>
                   {t("format.currency", {
                     price: totalPrice,
@@ -130,7 +129,7 @@ export default class extends Component {
               </h6>
 
               <h6 className="color-black text-uppercase font-weight-bold mb-4 d-flex justify-content-between">
-                <span>Total price</span>
+                <span>{t("LABEL.TOTAL_PRICE")}</span>
                 <span>
                   {t("format.currency", {
                     price: totalPrice,
@@ -150,7 +149,7 @@ export default class extends Component {
                 className="btn bg-red btn-lg btn-block text-uppercase"                
                 onClick={handleSubmit(this.saveOrderInfo)}
               >
-                Pay now
+                {t("BUTTON.PAY_NOW")}
               </Button>
             </div>
           </div>
