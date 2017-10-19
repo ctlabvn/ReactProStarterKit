@@ -12,11 +12,18 @@ const createOrder = createRequestSaga({
   failure: [({message}) => setToast(message.order_type.join("\n"), "danger")]
 });
 
+const getOrderHistory = createRequestSaga({
+  request: api.order.getOrderHistory,    
+});
+
 // root saga reducer
 export default [
   // watcher for schedule, define term here
   function* asyncUserFetchWatcher() {
     // use takeLatest instead of take every, so double click in short time will not trigger more fork
-    yield all([takeLatest("order/requestCreateOrder", createOrder)]);
+    yield all([
+      takeLatest("order/requestCreateOrder", createOrder),
+      takeLatest("order/getOrderHistory", getOrderHistory),
+    ]);
   }
 ];

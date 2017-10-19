@@ -55,16 +55,17 @@ export default class extends Component {
   };
 
   searchOrder = async ({ from, to }) => {
-    const { token } = this.props;
+    const { token, requestor } = this.props;
     const options = {};
     from && (options.from = from);
     to && (options.to = to);
     const ret = await api.order.getOrderHistory(token, options);
-    if (!ret.error) {
-      this.setState({ orderHistory: ret.data });
-    } else {
-      this.props.setToast("Operation failed!!!", "danger");
-    }
+    // can store into redux
+    requestor("order/requestCreateOrder", token, options, (err, ret)=>{
+      if(!err){
+        this.setState({ orderHistory: ret.data });
+      }
+    });
   };
 
   renderOrder(order) {
