@@ -92,3 +92,13 @@ export const getCurrentLocation = () => {
     }
   });
 };
+
+export const validateLogin = (values) => {
+  const errors = {}
+  // first time it is empty
+  if(!values) return errors
+  if (!values.email) errors.email = 'Enter email'
+  if (!values.password) errors.password = 'Enter password'
+
+  return errors
+};

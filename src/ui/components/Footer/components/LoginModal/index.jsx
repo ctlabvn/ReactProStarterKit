@@ -21,11 +21,11 @@ import {
 import * as commonActions from "~/store/actions/common";
 
 import { InputField } from "~/ui/components/ReduxForm";
-import { validate } from "./utils";
+import { validateLogin } from "~/ui/utils";
 
 @translate("translations")
 @connect(null, commonActions)
-@reduxForm({ form: "Login", validate, destroyOnUnmount: false })
+@reduxForm({ form: "Login", validate: validateLogin, destroyOnUnmount: false })
 export default class extends Component {
   constructor(props) {
     super(props);
