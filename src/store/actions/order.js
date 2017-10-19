@@ -3,6 +3,11 @@ export const updateOrder = (data) => ({
   payload: data,
 });
 
+export const updateOrderHistory = (data) => ({
+  type: 'order/updateHistory',
+  payload: data,
+});
+
 export const addOrderItem = (data) => ({
   type: 'order/addItem',
   payload: data,

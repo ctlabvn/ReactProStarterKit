@@ -11,11 +11,14 @@ import { Field, FieldArray, reduxForm } from "redux-form";
 // comonents
 import ProductItem from "~/ui/components/Product/Item";
 import MaskedInput from "~/ui/components/MaskedInput";
+import OrderItem from "./components/OrderItem";
+
 import options from "./options";
 
 // store
 import api from "~/store/api";
 import * as authSelectors from "~/store/selectors/auth";
+import * as orderSelectors from "~/store/selectors/order";
 import * as commonActions from "~/store/actions/common";
 
 @translate("translations")
@@ -27,18 +30,12 @@ import * as commonActions from "~/store/actions/common";
 })
 @connect(
   state => ({
-    token: authSelectors.getToken(state)
+    token: authSelectors.getToken(state),
+    orderHistory: orderSelectors.getHistory(state),
   }),
   commonActions
 )
 export default class extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      orderHistory: []
-    };
-  }
 
   renderMaskedInputField = ({ input, label }) => {
     return (
@@ -59,42 +56,13 @@ export default class extends Component {
     const options = {};
     from && (options.from = from);
     to && (options.to = to);
-    const ret = await api.order.getOrderHistory(token, options);
+    // const ret = await api.order.getOrderHistory(token, options);
     // can store into redux
-    requestor("order/getOrderHistory", token, options, (err, ret)=>{
-      if(!err){
-        this.setState({ orderHistory: ret.data });
-      }
-    });
+    requestor("order/getOrderHistory", token, options);
   };
 
-  renderOrder(order) {
-    const {t} = this.props;
-    return (      
-      <Col md="6" className="float-left" key={order.order_uuid}>
-        <h4 className="w-100">{order.outlet.name} {order.created_at}</h4>
-        {order.items.map(item => (
-          <div className="d-flex mb-4 justify-content-start" key={item.id}>
-            <div className="p-2">{item.qty}x</div>
-            <div className="p-2 d-flex flex-column">
-              {item.name}
-              <img className="rounded-circle align-self-start border" width={50} alt="..." src="/images/donut.png" />
-            </div>
-            <div className="ml-auto p-2">
-              {t("format.currency", {
-                price: item.price,
-                symbol: item.currency_symbol || 'đ'
-              })}
-            </div>
-          </div>
-        ))}        
-      </Col>
-    );
-  }
-
   render() {
-    const { submitting, handleSubmit } = this.props;
-    const { orderHistory } = this.state;
+    const { submitting, handleSubmit, orderHistory } = this.props;
     return (
       <div className="container">
         <Row>
@@ -118,8 +86,10 @@ export default class extends Component {
             </Button>
           </Col>
         </Row>
-        <Row className="mt-4 bg-white">
-          {orderHistory.map(order => this.renderOrder(order))}
+        <Row>
+          {orderHistory.map(order => 
+            <OrderItem key={order.order_uuid} order={order} className="w-100  bg-dark color-white mt-4"/>
+          )}
         </Row>
       </div>
     );
