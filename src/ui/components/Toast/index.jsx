@@ -12,6 +12,7 @@ import "./index.css";
   toast: commonSelectors.getToast(state)
 }), commonActions)
 export default class extends Component {
+
   handleRequestClose = () => {
     clearTimeout(this.timeout);
     this.props.clearToast();
@@ -21,9 +22,11 @@ export default class extends Component {
     const {toast, clearToast} = this.props;
     if(!toast) return null;
     const { message, level, duration } = toast;
+    clearTimeout(this.timeout);
     this.timeout = setTimeout(clearToast, duration);
     return (
       <div
+        ref={ref=>this.toast = ref}
         onClick={this.handleRequestClose}
         className={`toast color-white bg-${level}`}
       >

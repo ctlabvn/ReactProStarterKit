@@ -1,5 +1,5 @@
 .toast {
-    animation: fadein_toast 0.5s, fadeout_toast 0.5s 2.5s;
+    animation: fadein_toast 0.5s;
     min-width: 250px; /* Set a default minimum width */      
     text-align: center; /* Centered text */
     border-radius: 2px; /* Rounded borders */

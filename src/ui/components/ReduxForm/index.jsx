@@ -23,7 +23,7 @@ export const InputField = ({
     <Input
       placeholder={placeholder}
       {...input}
-      valid={!error}
+      valid={!touched || !error}
       type={type}
       className={classNames({ "h-100": type === "textarea" })}
     />

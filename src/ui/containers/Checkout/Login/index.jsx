@@ -15,15 +15,22 @@ import { InputField } from "~/ui/components/ReduxForm";
 
 import * as commonActions from "~/store/actions/common";
 
-import { validate } from "./utils";
+import { validateLogin } from "~/ui/utils";
 
 
 @translate("translations")
 @connect(null, commonActions)
-@reduxForm({ form: "Login", validate, destroyOnUnmount: false })
+@reduxForm({ form: "Login", validate: validateLogin, destroyOnUnmount: false })
 export default class extends Component {
+
+  login = ({ email, password }) => {
+    this.props.requestor("app/login", email, password, (err, ret) => {      
+      this.props.reset();
+    });
+  };
+
   render() {
-    const {t} = this.props;
+    const {t, handleSubmit, submitting} = this.props;
     return (
       <Form>
         <Row>
@@ -43,7 +50,7 @@ export default class extends Component {
           />
         </Row>
 
-        <Button color="info">{t("BUTTON.LOGIN")}</Button>
+        <Button disabled={submitting} onClick={handleSubmit(this.login)} color="info">{t("BUTTON.LOGIN")}</Button>
       </Form>
     );
   }

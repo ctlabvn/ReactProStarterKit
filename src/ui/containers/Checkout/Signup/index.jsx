@@ -20,7 +20,6 @@ import { Field, FieldArray, reduxForm } from "redux-form";
 // components
 import { InputField } from "~/ui/components/ReduxForm";
 
-
 import * as commonActions from "~/store/actions/common";
 
 import { validate } from "./utils";
@@ -34,8 +33,29 @@ import { validate } from "./utils";
   enableReinitialize: true
 })
 export default class extends Component {
+  signup = ({ name, email, password, address, address_name }) => {
+    const { requestor } = this.props;
+
+    requestor(
+      "app/signup",
+      email,
+      password,
+      {
+        name,
+        address_name,
+        address
+      },
+      (err, ret) => {
+        if (!err) {
+          // auto login if success
+          requestor("app/login", email, password);
+        }
+      }
+    );
+  };
+
   render() {
-    const {t} = this.props;
+    const { t, submitting, handleSubmit } = this.props;
     return (
       <Form>
         <Row>
@@ -79,7 +99,13 @@ export default class extends Component {
           />
         </Row>
 
-        <Button color="primary">{t("BUTTON.SUBMIT")}</Button>
+        <Button
+          disabled={submitting}
+          onClick={handleSubmit(this.signup)}
+          color="primary"
+        >
+          {t("BUTTON.SUBMIT")}
+        </Button>
       </Form>
     );
   }
