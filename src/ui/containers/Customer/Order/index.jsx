@@ -46,8 +46,8 @@ export default class extends Component {
         <Label>{label}</Label>
         <MaskedInput
           className="form-control"
-          mask="11/11/1111"
-          placeholder="dd/mm/yyyy"
+          mask="1111-11-11 11:11:11"
+          placeholder="Y-m-d H:i:s"
           {...input}
         />
       </Col>
