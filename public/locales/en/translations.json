@@ -2,7 +2,8 @@
   "title": "Hottab",
   "languages": {
     "en": "English",
-    "vi": "Tiếng Việt"
+    "vi": "Tiếng Việt",
+    "ko": "한국어"
   },
   "latest": "Lastest News",
   "filters":{
