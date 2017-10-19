@@ -44,7 +44,7 @@ export default class extends Component {
             </div>
             <div className="ml-auto p-2">
               {t("format.currency", {
-                price: item.price,
+                price: item.price * item.qty,
                 symbol: item.currency_symbol || 'đ'
               })}
             </div>
