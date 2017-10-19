@@ -61,7 +61,7 @@ export default class extends Component {
     to && (options.to = to);
     const ret = await api.order.getOrderHistory(token, options);
     // can store into redux
-    requestor("order/requestCreateOrder", token, options, (err, ret)=>{
+    requestor("order/getOrderHistory", token, options, (err, ret)=>{
       if(!err){
         this.setState({ orderHistory: ret.data });
       }
