@@ -18,9 +18,6 @@ export default class extends Component {
 			if(outlet.online_order_setting.do_takeaway) {
 				metadata.push(t('LABEL.TAKEAWAY'));
 			}
-			if(outlet.online_order_setting.hours_open) {
-				metadata.push(outlet.online_order_setting.hours_open);
-			}
 			if(outlet.online_order_setting.min_delivery_cost) {
 				metadata.push(outlet.online_order_setting.min_delivery_cost);
 			}
