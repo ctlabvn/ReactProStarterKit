@@ -8,7 +8,8 @@ import { createRequestSaga } from "~/store/sagas/common";
 const createOrder = createRequestSaga({
   request: api.order.createOrder,  
   success: [() => setToast("Create order successfully!!!")],
-  failure: [() => setToast("Couldn't create order", "danger")]
+  // check reason, can be message, object or whatever
+  failure: [({message}) => setToast(message.order_type.join("\n"), "danger")]
 });
 
 // root saga reducer

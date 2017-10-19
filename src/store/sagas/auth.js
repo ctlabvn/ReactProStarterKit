@@ -15,36 +15,36 @@ import {
 } from '~/store/actions/auth'
 
 
-const requestLoginFacebookAsync = createRequestSaga({
-  request: api.auth.loginFacebook,
-  key: 'loginFacebook',
-  cancel: 'app/logout',
-  success: [   
-    (data) => saveLoggedUser(data),       
-    () => setAuthState(true),
-    () => setToast('Logged successfully!!!'), 
-    // () => forwardTo('/dashboard'),
-  ],
-  failure: [ 
-    () => setToast('Couldn\'t login', 'danger') 
-  ],
-})
+// const requestLoginFacebookAsync = createRequestSaga({
+//   request: api.auth.loginFacebook,
+//   key: 'loginFacebook',
+//   cancel: 'app/logout',
+//   success: [   
+//     (data) => saveLoggedUser(data),       
+//     () => setAuthState(true),
+//     () => setToast('Logged successfully!!!'), 
+//     // () => forwardTo('/dashboard'),
+//   ],
+//   failure: [ 
+//     () => setToast('Couldn\'t login', 'danger') 
+//   ],
+// })
 
 
-const requestLoginGoogleAsync = createRequestSaga({
-  request: api.auth.loginGoogle,
-  key: 'loginGoogle',
-  cancel: 'app/logout',
-  success: [   
-    (data) => saveLoggedUser(data),   
-    () => setAuthState(true),    
-    () => setToast('Logged successfully!!!'), 
-    // () => forwardTo('/dashboard'), // action creator may return nothing to match
-  ],
-  failure: [ 
-    () => setToast('Couldn\'t login', 'danger') 
-  ],
-})
+// const requestLoginGoogleAsync = createRequestSaga({
+//   request: api.auth.loginGoogle,
+//   key: 'loginGoogle',
+//   cancel: 'app/logout',
+//   success: [   
+//     (data) => saveLoggedUser(data),   
+//     () => setAuthState(true),    
+//     () => setToast('Logged successfully!!!'), 
+//     // () => forwardTo('/dashboard'), // action creator may return nothing to match
+//   ],
+//   failure: [ 
+//     () => setToast('Couldn\'t login', 'danger') 
+//   ],
+// })
 
 const requestLoginAsync = createRequestSaga({
   request: api.auth.login,
@@ -54,7 +54,7 @@ const requestLoginAsync = createRequestSaga({
     ({data}) => saveLoggedUser(data),   
     () => setAuthState(true),    
     () => setToast('Logged successfully!!!'), 
-    () => forwardTo('/customer/profile'), // action creator may return nothing to match
+    // () => forwardTo('/customer/profile'), // action creator may return nothing to match
   ],
   failure: [ 
     () => setToast('Couldn\'t login', 'danger') 
@@ -124,8 +124,8 @@ const asyncAuthWatchers = [
   function* asyncLoginFetchWatcher() {
     // use takeLatest instead of take every, so double click in short time will not trigger more fork
     yield all([      
-      takeLatest('app/loginFacebook', requestLoginFacebookAsync),
-      takeLatest('app/loginGoogle', requestLoginGoogleAsync),
+      // takeLatest('app/loginFacebook', requestLoginFacebookAsync),
+      // takeLatest('app/loginGoogle', requestLoginGoogleAsync),
       takeLatest('app/login', requestLoginAsync),
       takeLatest('app/signup', requestSignupAsync),
 
