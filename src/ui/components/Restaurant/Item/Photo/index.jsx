@@ -13,15 +13,15 @@ import "./index.css";
 @translate('translations')
 export default class extends Component {
   static propTypes = {
+	  restaurant: PropTypes.object,
     uuid: PropTypes.string,
     name: PropTypes.string,
     address: PropTypes.string,
-    logo: PropTypes.string,
-	  outlet: PropTypes.Object
-  };
+    logo: PropTypes.string
+  }
 
   render() {
-    const { t, name, address, logo, outlet, uuid, ...props } = this.props;
+    const { t, name, address, logo, restaurant, uuid, ...props } = this.props;
     return (
       <div className="col-sm-6 col-12 my-3">
         <div className="media rounded">
@@ -31,12 +31,12 @@ export default class extends Component {
               <hr className="my-2" />
               {address}
               <br/>
-              <RestaurantOrderSetting outlet={outlet} />
+              <RestaurantOrderSetting outlet={restaurant} />
               <br />
-              <RestaurantTag outlet={outlet} />
+              <RestaurantTag outlet={restaurant} />
             </div>
         </div>
       </div>
-    );
+    )
   }
 }

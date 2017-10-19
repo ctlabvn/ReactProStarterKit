@@ -1,0 +1,87 @@
+{
+    "title": "Hottab",
+    "languages": {
+        "en": "English",
+        "vi": "Tiếng Việt",
+        "ko": "한국어"
+    },
+    "latest": "\ucd5c\uc2e0 \ub274\uc2a4",
+    "filters": {
+        "all_locations": "\ubaa8\ub4e0 \uc9c0\uc5ed",
+        "all_prices": "\ubaa8\ub4e0 \uac00\uaca9",
+        "all_ratings": "\ubaa8\ub4e0 \ud3c9\uac00"
+    },
+    "PLACEHOLDER": {
+        "TYPE_YOUR_PRODUCT": "\uc81c\ud488 \uc720\ud615"
+    },
+    "LABEL": {
+        "SUGGESSTION": "\ucd94\ucc9c",
+        "ALL_PRODUCTS": "\ubaa8\ub4e0 \uc81c\ud488",
+        "CHOOSE_CATEGORY": "\uc67c\ucabd\uc5d0\uc11c \ub2e4\ub978 \uce74\ud14c\uace0\ub9ac\ub97c \uc120\ud0dd\ud574\uc8fc\uc138\uc694",
+        "FEES": "\uc218\uc218\ub8cc",
+        "MIN_MAX_ORDER_AMOUNT": "\ucd5c\uc18c \ucd5c\ub300 \uc8fc\ubb38\uae08\uc561",
+        "DELIVERING_HOURS": "\ubc30\ub2ec \uc2dc\uac04",
+        "LOCAL_MAP": "\uc9c0\uc5ed \uc9c0\ub3c4",
+        "ADDRESS": "\uc8fc\uc18c",
+        "SHOPPING_CART_EMPTY": "\uc7a5\ubc14\uad6c\ub2c8\uac00 \ube44\uc5b4\uc788\uc2b5\ub2c8\ub2e4",
+        "YOUR_CART": "\uc7a5\ubc14\uad6c\ub2c8",
+        "SUBTOTAL": "\uc18c\uacc4",
+        "TOTAL_PRICE": "\uac00\uaca9 \ud569\uacc4",
+        "ADD_NOTE": "\uba54\ubaa8\ud558\uae30",
+        "TOTAL": "\ud569\uacc4",
+        "YOUR_ORDER": "\ub0b4 \uc8fc\ubb38",
+        "DELIVERY_ADDRESS": "\ubc30\ub2ec \uc8fc\uc18c",
+        "CREATE_ACCOUNT": "\uacc4\uc815 \uc0dd\uc131",
+        "HAVE_ACCOUNT": "\uc774\ubbf8 \uacc4\uc815\uc774 \uc788\uc2b5\ub2c8\ub2e4",
+        "PAGE_NOT_FOUND": "\ud398\uc774\uc9c0\ub97c \ucc3e\uc744 \uc218 \uc5c6\uc74c",
+        "PAGE_NOT_EXIST": "\uc8c4\uc1a1\ud569\ub2c8\ub2e4. \ucc3e\uc73c\uc2dc\ub294 \ud398\uc774\uc9c0\ub294 \ub354 \uc774\uc0c1 \uc874\uc7ac\ud558\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4",
+        "OUR_SUGGESTIONS": "\ucd94\ucc9c",
+        "PLAY_OUR_GAME": "\uac8c\uc784\uc744 \ud50c\ub808\uc774\ud558\uc2dc\uace0 \ucd94\ucc9c \uc81c\ud488 \uc911 \ud558\ub098\ub97c \ud68d\ub4dd\ud558\uc138\uc694",
+        "DELIVERY": "Delivery",
+        "TAKEAWAY": "Takeaway",
+        "SHOW_MORE": "Read more",
+        "SHOW_LESS": "Show less"
+    },
+    "format": {
+        "currency": "{{symbol}}{{price, 0,0.00}}"
+    },
+    "LINK": {
+        "FOOTER": {
+            "ABOUT_US": "\ud68c\uc0ac \uc18c\uac1c",
+            "TECHNOLOGY": "\uae30\uc220",
+            "LOGIN": "\ub85c\uadf8\uc778",
+            "JOIN_US": "\uac00\uc785",
+            "PARTNER": "\ud30c\ud2b8\ub108",
+            "SUPPORT": "\uc9c0\uc6d0\uc13c\ud130",
+            "HELP_CENTER": "\uace0\uac1d\uc13c\ud130",
+            "WATCH_OUR_VIDEO": "\ube44\ub514\uc624 \ubcf4\uae30",
+            "TERM_AND_CONDITIONS": "\uc774\uc6a9\uc57d\uad00",
+            "PRIVACY_POLICY": "\uac1c\uc778\uc815\ubcf4\ucc98\ub9ac\ubc29\uce68"
+        },
+        "HOME": "\ud648",
+        "RESTAURANT": "\uc2dd\ub2f9",
+        "BACK": "\ub4a4\ub85c"
+    },
+    "BUTTON": {
+        "ADD_TO_CART": "\uc7a5\ubc14\uad6c\ub2c8\uc5d0 \ucd94\uac00",
+        "PAY_NOW": "\uc9c0\ubd88\ud558\uae30",
+        "LOGIN": "\ub85c\uadf8\uc778",
+        "CONFIRM_PAY": "\ud655\uc778 & \uc9c0\ubd88",
+        "ADD_ADDRESS": "\uc8fc\uc18c \ucd94\uac00",
+        "UPDATE": "\uac31\uc2e0",
+        "REMOVE": "\uc81c\uac70",
+        "SUBMIT": "\uc81c\ucd9c"
+    },
+    "TAB": {
+        "MENU": "\uba54\ub274",
+        "DETAIL": "\uc138\ubd80 \uc0ac\ud56d",
+        "PICTURE": "\uc0ac\uc9c4"
+    },
+    "TABLE": {
+        "ITEM": "\uc81c\ud488",
+        "UNIT_PRICE": "\ub2e8\uc704 \uac00\uaca9",
+        "QUANTITY": "\uc218\ub7c9",
+        "TOTAL": "\ud569\uacc4",
+        "DELETE": "\uc0ad\uc81c"
+    }
+}

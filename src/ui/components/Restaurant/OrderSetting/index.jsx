@@ -5,12 +5,12 @@ import { translate } from "react-i18next";
 @translate('translations')
 export default class extends Component {
 	static propTypes = {
-		outlet: PropTypes.Object
+		outlet: PropTypes.object
 	};
 
 	render() {
 		const { t, outlet, ...props } = this.props;
-		const metadata = [];
+		const metadata = []
 		if(outlet.online_order_setting) {
 			if(outlet.online_order_setting.do_delivery) {
 				metadata.push(t('LABEL.DELIVERY'));
@@ -31,6 +31,6 @@ export default class extends Component {
 
 		return (
 			<span>{metadata.join(" | ")}</span>
-		);
+		)
 	}
 }

@@ -19,57 +19,57 @@ export default class extends Component {
     super(props);
     this.state = {
       hasMore: true,
-      elements: [],
+      elements: []
     };
     this.page = 1
   }
 
-	loadMore = async () => {
+	loadMoreElement = async () => {
 		await api.restaurant.getOutlets(this.page).then((ret) => {
-			const data = ret.data.data;
-			this.page++;
-			this.setState(state => ({
-				elements: state.elements.concat(data),
-				hasMore: data.length > 0,
-			}));
+			if(!ret.status && ret.data.data) {
+				const data = ret.data.data
+				this.page++
+				this.setState(state => ({
+					elements: state.elements.concat(data),
+					hasMore: data.length > 0
+				}))
+			}
 		}, (err) => {
-			console.log(err);
-		});
-	};
+			console.log(err)
+		})
+	}
+
+	showLoading = () => (
+		<div className="d-flex flex-row justify-content-center py-2">
+			<i className="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+		</div>
+	)
 
   render() {
-    
-    const { t } = this.props;
-    const { elements } = this.state;
+    const { elements } = this.state
 	  return (
       <div className="container-fluid bg-white py-4">
         <InfiniteScroller
             className="row d-flex justify-content-center"
             hasMore={this.state.hasMore}
-            sizes={options.sizes}
-            loader={
-              <div className="d-flex flex-row justify-content-center py-2">
-                <i className="fa fa-refresh fa-spin fa-3x fa-fw"></i>
-              </div>
-            }
-            loadMore={this.loadMore}
+            loader={this.showLoading()}
+            loadMore={this.loadMoreElement}
           >
             {
 	            elements.map((item, i) => (
-                <RestaurantItemPhoto
+		            <RestaurantItemPhoto
                   key={item.outlet_uuid}
                   uuid={item.outlet_uuid}
                   name={item.name}
                   address={item.address}
                   logo={item.logo}
-                  outlet={item}
-                  tags={item.tags}
+                  restaurant={item}
                 />
               ))
             }
           </InfiniteScroller>
       </div>
-    );
-
+    )
   }
+
 }

@@ -6,7 +6,7 @@ import './index.css';
 @translate('translations')
 export default class extends Component {
 	static propTypes = {
-		outlet: PropTypes.Object
+		outlet: PropTypes.object
 	};
 
 	render() {

@@ -6,7 +6,7 @@ import { Badge } from 'reactstrap';
 @translate('translations')
 export default class extends Component {
 	static propTypes = {
-		outlet: PropTypes.Object
+		outlet: PropTypes.object
 	};
 
 	render() {

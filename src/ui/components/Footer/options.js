@@ -8,5 +8,5 @@ export default {
     {title: 'LINK.FOOTER.PRIVACY_POLICY', link: '#'},
     {title: 'LINK.FOOTER.ABOUT_US', link: '#'},
   ],
-  locales: ['en','vi']
+  locales: ['en','vi', 'ko']
 }
