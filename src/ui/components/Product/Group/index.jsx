@@ -49,8 +49,8 @@ export default class extends Component {
     } = this.props;
 
     return (
-      <div>
-        <h2>{name}</h2>
+      <div className="container">
+        <h2 className="mb-3">{name}</h2>
 	      {products.length ? (
 		      products.map((item, index) => (
             <ProductItem
@@ -73,6 +73,7 @@ export default class extends Component {
             </p>
           </div>
 	      )}
+	      <div className="clearfix"></div>
       </div>
     );
   }
