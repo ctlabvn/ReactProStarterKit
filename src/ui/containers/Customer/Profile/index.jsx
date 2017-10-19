@@ -39,15 +39,15 @@ import { validate } from "./utils";
 export default class extends Component {
 
   updateCustomer = ({customer_uuid, name, phone, address})=> {
-    const {token} = this.props;
-    this.props.requestor('customer/requestUpdateCustomer', token, customer_uuid, name, phone);   
+    const {token, requestor} = this.props;
+    requestor('customer/requestUpdateCustomer', token, customer_uuid, name, phone);   
     // update address
     address.map(item=>{
       const {cus_address_uuid, name, address} = item;
       if(cus_address_uuid){
-        this.props.requestor('customer/requestUpdateAddress', token, cus_address_uuid, name, address);
+        requestor('customer/requestUpdateAddress', token, cus_address_uuid, name, address);
       } else {
-        this.props.requestor('customer/requestAddAddress', token, customer_uuid, name, address);
+        requestor('customer/requestAddAddress', token, customer_uuid, name, address);
       }
     });    
   };

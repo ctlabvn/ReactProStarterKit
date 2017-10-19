@@ -62,16 +62,15 @@ const requestLoginAsync = createRequestSaga({
 })
 
 
-const requestUpdateAccountAsync = createRequestSaga({
-  request: api.auth.updateAccount,
-  key: 'updateAccount',
-  cancel: 'app/updateAccount',
+const requestSignupAsync = createRequestSaga({
+  request: api.auth.signup,
+  key: 'signup',
+  cancel: 'app/login',
   success: [        
-    () => setToast('Update Account successfully!!!'),   
-    () => forwardTo('/admin'),  
+    () => setToast('Create Account successfully!!!'),       
   ],
   failure: [ 
-    () => setToast('Couldn\'t update', 'danger') 
+    () => setToast('Couldn\'t create account', 'danger') 
   ],
 })
 
@@ -128,7 +127,7 @@ const asyncAuthWatchers = [
       takeLatest('app/loginFacebook', requestLoginFacebookAsync),
       takeLatest('app/loginGoogle', requestLoginGoogleAsync),
       takeLatest('app/login', requestLoginAsync),
-      takeLatest('app/updateAccount', requestUpdateAccountAsync),
+      takeLatest('app/signup', requestSignupAsync),
 
       // customer
       takeLatest('customer/requestUpdateCustomer', updateCustomerAsync),

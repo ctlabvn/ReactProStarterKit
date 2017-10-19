@@ -25,14 +25,13 @@ export default {
     });
   },
 
-  signup(email, password, name, address_name, address) {
+  // wrong order if have many, so prevent wrong name when there are few params, otherwise remain
+  signup(email, password, extra) {
     return apiPost("/customer/signup", {
       email,
-      password,
-      name,
-      address_name,
-      address,
-      lang: i18n.language
+      password,      
+      lang: i18n.language,
+      ...extra
     });
   },
 
