@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { translate } from "react-i18next";
 
 // redux form
-import { Field, FieldArray, reduxForm } from "redux-form";
+import { Field, Fields, FieldArray, reduxForm } from "redux-form";
 
 // reactstrap
 import { Button, FormGroup, Label, Input } from "reactstrap";
@@ -15,9 +15,10 @@ import CardList from "./components/CardList";
 
 import * as orderSelectors from "~/store/selectors/order";
 import * as orderActions from "~/store/actions/order";
-
+import { GOOGLE_API_KEY } from "~/store/constants/api";
+import { fetchJson } from "~/store/api/common";
 import { history } from "~/store";
-
+import { getCurrentLocation } from "~/ui/utils";
 import { validate } from "./utils";
 
 import options from "./options";
@@ -27,7 +28,7 @@ import "./index.css";
 @connect(
   state => ({
     orderItems: orderSelectors.getItems(state),
-    initialValues: orderSelectors.getInfo(state),
+    initialValues: orderSelectors.getInfo(state)
   }),
   orderActions
 )
@@ -38,42 +39,89 @@ import "./index.css";
   enableReinitialize: true
 })
 export default class extends Component {
-
-  saveOrderInfo = (data) => {
-    this.props.updateOrder(data);    
+  saveOrderInfo = data => {
+    this.props.updateOrder(data);
     history.push("/checkout");
   };
 
-
-  renderOrderTypeField = ({input, label, meta: { touched, error, warning }, ...custom}) => {
+  renderOrderTypeField = ({
+    input,
+    label,
+    meta: { touched, error, warning },
+    ...custom
+  }) => {
     return (
       <div className="col-md-6 border border-left-0 pt-4 pb-4 pl-0">
         <h6 className="color-gray text-uppercase mb-4">{label}</h6>
         <FormGroup check className="d-flex flex-row justify-content-between">
-          {options.orderTypes.map((item, index) => (            
+          {options.orderTypes.map((item, index) => (
             <Label check key={index}>
-              <Input onChange={e=>input.onChange(item.id)} type="radio" defaultChecked={item.id===input.value} name="order_type" className="mr-2"  />
+              <Input
+                onChange={e => input.onChange(item.id)}
+                type="radio"
+                defaultChecked={item.id === input.value}
+                name="order_type"
+                className="mr-2"
+              />
               {item.title}
             </Label>
-
           ))}
         </FormGroup>
       </div>
     );
   };
 
-  renderAddress() {
+  async loadAddressFromGmap(input) {
+    // use guard code so do not have to remove } at the end
+
+    this.loadingIcon.classList.remove("invisible");
+    const { latitude, longitude } = await getCurrentLocation();
+    const { results } = await fetchJson(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${GOOGLE_API_KEY}`
+    );
+    this.loadingIcon.classList.add("invisible");
+    input.onChange(results[0].formatted_address);
+  }
+
+  renderAddress = ({ order_type, order_address }) => {
+    if (order_type.input.value !== 2) {
+      return null;
+    }
     return (
       <div className="col-md-6 border border-left-0 border-right-0 pt-4 pb-4 pl-4">
         <h6 className="color-gray text-uppercase mb-4">
-          {this.props.t("LABEL.ADDRESS")} <span className="color-gray-400">(delivery only)</span>
+          {this.props.t("LABEL.ADDRESS")}{" "}
+          <span className="color-gray-400">(delivery only)</span>
+          <Button
+            color="info"
+            onClick={() => this.loadAddressFromGmap(order_address.input)}
+            className="float-right"
+          >
+            <i
+              className="fa fa-refresh fa-spin mr-2 invisible"
+              ref={ref => (this.loadingIcon = ref)}
+            />
+            Load from Googlemap
+          </Button>
         </h6>
-        <Field name="order_address" placeholder="Type your address here" className="custom-input" component={InputField}/>
+        <Field
+          name="order_address"
+          placeholder="Type your address here"
+          className="custom-input"
+          component={InputField}
+        />
       </div>
     );
-  }
+  };
+
   render() {
-    const { orderItems, t, handleSubmit, submitting } = this.props;        
+    const {
+      orderItems,
+      t,
+      handleSubmit,
+      submitting,
+      initialValues: { order_type }
+    } = this.props;
     if (!orderItems || !orderItems.length) {
       return (
         <div className="text-center p-2">
@@ -106,15 +154,29 @@ export default class extends Component {
             30 m
           </small>
 
-          <CardList/>
-          
-          <Field label="Order type" name="order_type" component={this.renderOrderTypeField} />
-          {this.renderAddress()}
+          <CardList />
+
+          <Field
+            label="Order type"
+            name="order_type"
+            component={this.renderOrderTypeField}
+          />
+          <Fields
+            names={["order_type", "order_address"]}
+            component={this.renderAddress}
+          />
 
           <div className="mt-5 mb-4 d-flex w-100 justify-content-between">
             <div className="col-md-7 pl-0">
-              <h6 className="color-gray text-uppercase mb-4">{t("LABEL.ADD_NOTE")}</h6>              
-              <Field name="order_note" type="textarea" className="w-100 h-75 border-gray-300" component={InputField} />
+              <h6 className="color-gray text-uppercase mb-4">
+                {t("LABEL.ADD_NOTE")}
+              </h6>
+              <Field
+                name="order_note"
+                type="textarea"
+                className="w-100 h-75 border-gray-300"
+                component={InputField}
+              />
             </div>
 
             <div className="col-md-offset-1 col-md-4">
@@ -138,7 +200,7 @@ export default class extends Component {
                 </span>
               </h6>
 
-              <Field 
+              <Field
                 placeholder="Enter promo code"
                 className="custom-input text-uppercase"
                 name="order_promotion_code"
@@ -146,7 +208,7 @@ export default class extends Component {
               />
 
               <Button
-                className="btn bg-red btn-lg btn-block text-uppercase"                
+                className="btn bg-red btn-lg btn-block text-uppercase"
                 onClick={handleSubmit(this.saveOrderInfo)}
               >
                 {t("BUTTON.PAY_NOW")}
