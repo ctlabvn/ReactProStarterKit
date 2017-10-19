@@ -1,18 +1,21 @@
 import React, { Component } from "react";
+import { translate } from "react-i18next";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import ProductItem from "~/ui/components/Product/Item";
+import { connect } from "react-redux";
 
-import { translate } from "react-i18next";
+import ProductItem from "~/ui/components/Product/Item";
+import * as orderActions from "~/store/actions/order";
 
 import "./index.css";
 
 @translate("translations")
+@connect(null, orderActions)
 export default class extends Component {
   static propTypes = {
     name: PropTypes.string,
-	  products: PropTypes.Array
+	  products: PropTypes.array
   };
 
 	addOrderItem(item) {

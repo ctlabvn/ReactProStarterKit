@@ -12,12 +12,11 @@ import "./index.css";
 export default class extends Component {
 
   render() {
-    
     return (
       <div>
         <Filter/>
         <Result/>
       </div>
-    );
+    )
   }
 }
