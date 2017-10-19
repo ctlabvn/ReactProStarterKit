@@ -90,7 +90,7 @@ export default class extends Component {
         </Menu>
 
         <div className="w-100 text-center">
-          <Button color="primary">{this.props.t("BUTTON.CONFIRM_PAY")}</Button>
+          <Button onClick={this.createOrder} color="primary">{this.props.t("BUTTON.CONFIRM_PAY")}</Button>
         </div>
       </div>
     );
