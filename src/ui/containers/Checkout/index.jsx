@@ -58,7 +58,7 @@ export default class extends Component {
         customer_long: ret.longitude,
       },
       request_time: Date.now(),
-      order_type: orderInfo.order_type,
+      order_type: 0,//orderInfo.order_type,
       order_note: orderInfo.order_note,
     }
     // console.log(data);

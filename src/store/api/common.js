@@ -5,14 +5,16 @@ import { API_BASE, API_SECRET_KEY } from "~/store/constants/api";
 
 // import i18n from "~/i18n";
 
-export const rejectErrors = res => {
+export const rejectErrors = async (res) => {
   const { status } = res;
   if (status >= 200 && status < 300) {
     return res;
   }
+    
+  const ret = await res.json();  
   // we can get message from Promise but no need, just use statusText instead of
-  // server return errors
-  return Promise.reject({ message: res.statusText, status });
+  // server return errors, may be object message or plain text message
+  return Promise.reject({ message: ret.message || res.statusText, status });
 };
 
 // try invoke callback for refresh token here
