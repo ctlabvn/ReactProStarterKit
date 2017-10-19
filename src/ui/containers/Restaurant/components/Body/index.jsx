@@ -9,7 +9,7 @@ import Menu from "~/ui/components/Menu";
 import MenuItem from "~/ui/components/Menu/Item";
 import ProductItemPhoto from "~/ui/components/Product/Item/Photo";
 import Slider from "~/ui/components/Slider";
-import ProductItem from "~/ui/components/Product/Item";
+import ProductGroup from "~/ui/components/Product/Group";
 import ButtonRound from "~/ui/components/Button/Round";
 
 import * as orderActions from "~/store/actions/order";
@@ -29,42 +29,35 @@ export default class extends Component {
     };
   }
 
-  handleCategory = async currentCategoryUuid => {
-    await api.restaurant.getProductByCategory(currentCategoryUuid).then(ret => {
-      console.log(ret);
-	    this.setState({ products: ret.data.data });
-    }, err => console.log(err));
+  handleCategory = async childCategories => {
+	  const metadata = {};
+    for(var currentCategoryUuid of childCategories) {
+		  await api.restaurant.getProductByCategory(currentCategoryUuid).then(ret => {
+			  metadata[currentCategoryUuid] = ret.data.data;
+		  }, err => console.log(err));
+    }
+    this.setState({products : metadata});
   };
-
-  addOrderItem(item) {
-    const {
-      default_price,
-      item_options,
-      item_uuid,
-      currency,
-      name,
-      description
-    } = item;
-    this.props.addOrderItem({
-      item_uuid,
-      item_options,
-      price: default_price,
-      quantity: 1,
-      name,
-      description,
-      currency_symbol: currency.symbol
-    });
-  }
-
-  getProductImage(gallery) {
-    const galleryData = JSON.parse(gallery);
-    // return galleryData[0];
-    return "/images/donut.png";
-  }
 
   render() {
     const { t, outlet } = this.props;
     const { products, features } = this.state;
+    const treeCategory = {};
+    const treeCategoryName = {};
+	  outlet.categories.map(item => {
+		  treeCategoryName[item.category_uuid] = item.name;
+		  if(item.parent_uuid) {
+        if(treeCategory.hasOwnProperty(item.parent_uuid)) {
+          treeCategory[item.parent_uuid].push(item.category_uuid);
+        } else {
+	        treeCategory[item.parent_uuid] = [item.category_uuid];
+        }
+      } else {
+		    if(!treeCategory.hasOwnProperty(item.category_uuid)) {
+			    treeCategory[item.category_uuid] = [];
+        }
+      }
+    });
     
     return (
       <div className="row block bg-white mb-4 tab-content">
@@ -85,30 +78,30 @@ export default class extends Component {
 
         <div className="mt-5 row w-100">
           <Menu className="col col-md-2 list-group restaurant-cat">
-            {outlet.categories.map(item => (
-              <MenuItem
-                onClick={() => this.handleCategory(item.category_uuid)}
-                key={item.category_uuid}
-                title={item.name}
-              />
-            ))}
+            {outlet.categories.map(item => {
+              if(!item.parent_uuid) {
+	              return (
+                  <MenuItem
+                    onClick={() => this.handleCategory(treeCategory[item.category_uuid])}
+                    key={item.category_uuid}
+                    title={item.name}
+                  />
+                );
+              }
+            })}
           </Menu>
 
           <Col md="10">
-            {products.length ? (
-	            products.map((item, index) => (
-                <ProductItem
+            {Object.keys(products).length ? (
+	            Object.keys(products).map((item, index) => (
+                <ProductGroup
                   className="col-md-6 float-left pl-0 pr-5 mb-4"
-                  description={item.description}
+                  name={treeCategoryName[item]}
                   key={index}
-                  price={item.default_price}
-                  priceUnit={item.currency.symbol}
-                  title={item.name}
-                  image={this.getProductImage(item.gallery)}
-                  itemUuid={item.item_uuid}
-                  onIncrease={() => this.addOrderItem(item)}
+                  products={products[item]}
                 />
-              ))
+                )
+	            )
             ) : (
               <div className="text-center p-2">
                 <img src="/images/no-data.png" height="100" alt="" />
