@@ -84,7 +84,7 @@ export default class extends Component {
         </Slider>
 
         <div className="mt-5 row w-100">
-          <Menu className="col list-group restaurant-cat">
+          <Menu className="col col-md-2 list-group restaurant-cat">
             {outlet.categories.map(item => (
               <MenuItem
                 onClick={() => this.handleCategory(item.category_uuid)}
