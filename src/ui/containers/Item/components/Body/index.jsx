@@ -10,8 +10,7 @@ import options from "./options";
 export default class extends Component {
   render() {
     const { t, item, outlet } = this.props;
-    const gallery = (JSON.parse(item.gallery)).join('').split('');
-    console.log(gallery);
+    const gallery = JSON.parse(item.gallery);
 
     if(gallery.length) {
 	    return (

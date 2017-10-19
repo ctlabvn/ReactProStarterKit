@@ -44,7 +44,7 @@ export default class extends Component {
 	  return (
       <div className="container-fluid bg-white py-4">
         <InfiniteScroller
-            className="masonry row d-flex justify-content-center"
+            className="row d-flex justify-content-center"
             hasMore={this.state.hasMore}
             sizes={options.sizes}
             loader={
@@ -62,9 +62,8 @@ export default class extends Component {
                   name={item.name}
                   address={item.address}
                   logo={item.logo}
-                  onlineOrderSetting={item.online_order_setting}
+                  outlet={item}
                   tags={item.tags}
-                  image="/images/donut-square.png"
                 />
               ))
             }

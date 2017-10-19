@@ -1,25 +1,29 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { translate } from "react-i18next";
 import classNames from "classnames";
+
+import RestaurantOrderSetting from "~/ui/components/Restaurant/OrderSetting";
+import RestaurantTag from "~/ui/components/Restaurant/Tag";
 import MenuItem from "~/ui/components/Menu/Item";
 
 import "./index.css";
 
+@translate('translations')
 export default class extends Component {
   static propTypes = {
     uuid: PropTypes.string,
     name: PropTypes.string,
     address: PropTypes.string,
     logo: PropTypes.string,
-	  onlineOrderSetting: PropTypes.Object,
-	  tags: PropTypes.Array,
+	  outlet: PropTypes.Object
   };
 
   render() {
-    const { name, address, logo, onlineOrderSetting, tags, uuid, ...props } = this.props;
+    const { t, name, address, logo, outlet, uuid, ...props } = this.props;
     return (
-      <div className="col-6 my-3">
+      <div className="col-sm-6 col-12 my-3">
         <div className="media rounded">
           <img className="media-image d-flex mr-3 rounded" src={logo} alt="" />
             <div className="media-body">
@@ -27,13 +31,9 @@ export default class extends Component {
               <hr className="my-2" />
               {address}
               <br/>
-              {onlineOrderSetting && onlineOrderSetting.do_delivery ? <span className="badge badge-light mr-2">Delivery</span> : ''}
-              {onlineOrderSetting && onlineOrderSetting.do_takeaway ? <span className="badge badge-light mr-2">Takeaway</span> : ''}
-              {onlineOrderSetting && onlineOrderSetting.hours_open ? onlineOrderSetting.hours_open : ''}
+              <RestaurantOrderSetting outlet={outlet} />
               <br />
-              {tags && tags.map((item, index) => {
-                <span className="badge badge-secondary mr-2">{item.name}</span>
-              })}
+              <RestaurantTag outlet={outlet} />
             </div>
         </div>
       </div>

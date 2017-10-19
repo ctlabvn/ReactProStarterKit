@@ -192,7 +192,7 @@ a:hover {
 }
 
 .main-page{
-  margin-top: 100px;  
+  margin-top: 55px;
 }
 
 .vertical-center{
@@ -203,4 +203,10 @@ a:hover {
 
 .table-fixed{
   table-layout: fixed;
+}
+
+@media (max-width: 768px) {
+  .container-fluid {
+    padding: 0 15px;
+  }
 }

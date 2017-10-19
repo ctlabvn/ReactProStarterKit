@@ -35,7 +35,11 @@
     "PAGE_NOT_FOUND": "Page Not Found ",
     "PAGE_NOT_EXIST": "We're sorry, the page you were looking for doesn't exist anymore.",
     "OUR_SUGGESTIONS": "Our suggestions",
-    "PLAY_OUR_GAME": "Play to our game and try to win one of these suggested products"
+    "PLAY_OUR_GAME": "Play to our game and try to win one of these suggested products",
+    "DELIVERY": "Delivery",
+    "TAKEAWAY": "Takeaway",
+    "SHOW_MORE": "Read more",
+    "SHOW_LESS": "Show less"
   },
   "format": {
     "currency": "{{symbol}}{{price, 0,0.00}}"

@@ -6,6 +6,10 @@ import PhotoGroup from "~/ui/components/PhotoGroup";
 import Rating from "~/ui/components/Rating";
 import Menu from "~/ui/components/Menu";
 import MenuItem from "~/ui/components/Menu/Item";
+import RestaurantOrderSetting from "~/ui/components/Restaurant/OrderSetting";
+import RestaurantInfo from "~/ui/components/Restaurant/Info";
+import RestaurantTag from "~/ui/components/Restaurant/Tag";
+import Readmore from "~/ui/components/Restaurant/Readmore";
 
 import "./index.css";
 import options from "./options";
@@ -15,7 +19,7 @@ export default class extends Component {
 
   render() {
     const {t,outlet} = this.props;
-    const gallery = JSON.parse(outlet.gallery.replace(/\\/g, ''));
+    const gallery = outlet.gallery ? JSON.parse(outlet.gallery.replace(/\\/g, '')) : ["/images/no-image-icon.png"];
     console.log(typeof gallery);
 
     return (
@@ -36,27 +40,18 @@ export default class extends Component {
           <h2 className="font-weight-bold text-uppercase">{outlet.name}</h2>
 
           <div className="flex-row d-flex justify-content-between">
-            <span className="color-red">{outlet.address}</span>
-            <span>{outlet.phone}</span>
-            <span>Time: {outlet.online_order_setting && outlet.online_order_setting.hours_open ? outlet.online_order_setting.hours_open : ''}</span>
+            <RestaurantInfo outlet={outlet} />
           </div>
 
           <div className="flex-row d-flex justify-content-between">
-            {outlet.online_order_setting && outlet.online_order_setting.do_delivery ? '<span>Delivery</span>' : ''}
-            {outlet.online_order_setting && outlet.online_order_setting.do_takeaway ? '<span>Takeaway</span>' : ''}
-            <span>Min delivery:{outlet.online_order_setting && outlet.online_order_setting.min_delivery_cost ? outlet.online_order_setting.min_delivery_cost : ''}</span>
-            <span>Max delivery:{outlet.online_order_setting && outlet.online_order_setting.max_delivery_cost ? outlet.online_order_setting.max_delivery_cost : ''}</span>
-            <span>Fee: {outlet.online_order_setting && outlet.online_order_setting.delivery_fee ? outlet.online_order_setting.delivery_fee : ''}</span>
+            <RestaurantOrderSetting outlet={outlet} />
           </div>
 
-          <p className="w-100 mt-3 html-content" dangerouslySetInnerHTML={{__html:outlet.description}}/>
-          <a href="/"> See more</a>
+          <Readmore line="500" more={t('LABEL.SHOW_MORE')} less={t('LABEL.SHOW_LESS')}>
+            <p className="w-100 mt-3 html-content" dangerouslySetInnerHTML={{__html:outlet.description}}/>
+          </Readmore>
 
-          <Menu className="menu-tags text-uppercase mt-2">
-            {outlet.tags.map((item, index)=>
-              <MenuItem title={item.name} key={index}/>
-            )}                        
-          </Menu>
+          <RestaurantTag outlet={outlet} />
 
           <div className="border border-white-300 border-right-0 border-left-0 border-bottom-0 mt-4 left-side-block">
             <Menu className="menu-decorator text-uppercase">
