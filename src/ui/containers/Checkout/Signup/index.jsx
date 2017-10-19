@@ -34,8 +34,13 @@ import { validate } from "./utils";
   enableReinitialize: true
 })
 export default class extends Component {
+
+  signup = ({name, email, password, address, address_name}) => {
+
+  };
+
   render() {
-    const {t} = this.props;
+    const {t, submitting, handleSubmit} = this.props;
     return (
       <Form>
         <Row>
@@ -79,7 +84,7 @@ export default class extends Component {
           />
         </Row>
 
-        <Button color="primary">{t("BUTTON.SUBMIT")}</Button>
+        <Button disabled={submitting} onClick={handleSubmit(this.signup)} color="primary">{t("BUTTON.SUBMIT")}</Button>
       </Form>
     );
   }
