@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
 import { Row, Col, Label, Button } from "reactstrap";
 
+import { connect } from "react-redux";
+
 // redux form
 import { Field, FieldArray, reduxForm } from "redux-form";
 
@@ -11,6 +13,11 @@ import ProductItem from "~/ui/components/Product/Item";
 import MaskedInput from "~/ui/components/MaskedInput";
 import options from "./options";
 
+// store
+import api from "~/store/api";
+import * as authSelectors from "~/store/selectors/auth";
+import * as commonActions from "~/store/actions/common";
+
 @translate("translations")
 @reduxForm({
   form: "OrderHistory",
@@ -18,7 +25,21 @@ import options from "./options";
   destroyOnUnmount: false,
   enableReinitialize: true
 })
+@connect(
+  state => ({
+    token: authSelectors.getToken(state)
+  }),
+  commonActions
+)
 export default class extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      orderHistory: []
+    };
+  }
+
   renderMaskedInputField = ({ input, label }) => {
     return (
       <Col md="3">
@@ -33,12 +54,46 @@ export default class extends Component {
     );
   };
 
-  searchOrder = (data)=>{
-    console.log(data);
+  searchOrder = async ({ from, to }) => {
+    const { token } = this.props;
+    const options = {};
+    from && (options.from = from);
+    to && (options.to = to);
+    const ret = await api.order.getOrderHistory(token, options);
+    if (!ret.error) {
+      this.setState({ orderHistory: ret.data });
+    } else {
+      this.props.setToast("Operation failed!!!", "danger");
+    }
   };
 
+  renderOrder(order) {
+    const {t} = this.props;
+    return (      
+      <Col md="6" className="float-left" key={order.order_uuid}>
+        <h4 className="w-100">{order.outlet.name} {order.created_at}</h4>
+        {order.items.map(item => (
+          <div className="d-flex mb-4 justify-content-start" key={item.id}>
+            <div className="p-2">{item.qty}x</div>
+            <div className="p-2 d-flex flex-column">
+              {item.name}
+              <img className="rounded-circle align-self-start border" width={50} alt="..." src="/images/donut.png" />
+            </div>
+            <div className="ml-auto p-2">
+              {t("format.currency", {
+                price: item.price,
+                symbol: item.currency_symbol || 'đ'
+              })}
+            </div>
+          </div>
+        ))}        
+      </Col>
+    );
+  }
+
   render() {
-    const {submitting, handleSubmit} = this.props;
+    const { submitting, handleSubmit } = this.props;
+    const { orderHistory } = this.state;
     return (
       <div className="container">
         <Row>
@@ -54,21 +109,16 @@ export default class extends Component {
           />
 
           <Col className="d-flex col flex-column justify-content-end align-items-start">
-            <Button disabled={submitting} onClick={handleSubmit(this.searchOrder)}>Search</Button>
+            <Button
+              disabled={submitting}
+              onClick={handleSubmit(this.searchOrder)}
+            >
+              Search
+            </Button>
           </Col>
         </Row>
-
-        <Row className="mt-5">
-          {options.products.map((item, index) => (
-            <ProductItem
-              className="col-md-6 float-left pl-0 pr-5 mb-4"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
-              key={index}
-              price={10}
-              title={item}
-              image="/images/donut.png"
-            />
-          ))}
+        <Row className="mt-4 bg-white">
+          {orderHistory.map(order => this.renderOrder(order))}
         </Row>
       </div>
     );
