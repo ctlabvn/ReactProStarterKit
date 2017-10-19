@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 import { connect } from "react-redux";
+import { translate } from "react-i18next";
 
 // reactstrap
 import { Button, Popover, PopoverHeader, PopoverBody } from "reactstrap";
@@ -9,6 +10,7 @@ import { Button, Popover, PopoverHeader, PopoverBody } from "reactstrap";
 // components
 import AccountDropdown from "./components/AccountDropdown";
 import ProductItem from "~/ui/components/Product/Item";
+import LoginModal from "~/ui/components/LoginModal";
 
 // selectors && actions
 import * as orderActions from "~/store/actions/order";
@@ -16,6 +18,7 @@ import * as authSelectors from "~/store/selectors/auth";
 import * as orderSelectors from "~/store/selectors/order";
 import "./index.css";
 
+@translate("translations")
 @connect(state => ({
   isHome: state.routing.location.pathname === "/",
   isLogged: authSelectors.isLogged(state),
@@ -89,7 +92,7 @@ export default class extends Component {
   }
 
   render() {
-    const { isHome, isLogged, orderItems } = this.props;    
+    const { t, isHome, isLogged, orderItems } = this.props;    
     const totalQuantity = orderItems.reduce((a, item)=>a + item.quantity, 0);    
     return (
       <nav
@@ -126,8 +129,17 @@ export default class extends Component {
 
             {this.renderPopoverCart()}
 
-            {isLogged && <AccountDropdown />}
+            {!isLogged ? <Button
+                onClick={()=>this.loginModal.toggle()}                
+                className="btn-outline-danger btn-sm text-uppercase ml-4"
+              >
+                {t('LINK.FOOTER.LOGIN')}
+              </Button>                      
+          : <AccountDropdown />}
           </div>
+
+          <LoginModal onItemRef={ref => (this.loginModal = ref)} />
+
         </div>
       </nav>
     );

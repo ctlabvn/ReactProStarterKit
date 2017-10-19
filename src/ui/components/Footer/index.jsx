@@ -11,8 +11,6 @@ import Dropdown from "~/ui/components/Dropdown";
 import "./index.css";
 import options from "./options";
 
-import LoginModal from "./components/LoginModal";
-
 // selectors
 import * as authSelectors from "~/store/selectors/auth";
 
@@ -48,25 +46,14 @@ export default class extends Component {
           <MenuItem link="/about" title={t('LINK.FOOTER.ABOUT_US')} />
           <MenuItem link="/about" title={t('LINK.FOOTER.TECHNOLOGY')} />
           <MenuItem link="/about" title={t('LINK.FOOTER.JOIN_US')} />
-          {!isLogged && <MenuItem
-            onClick={()=>this.loginModal.toggle()}
-            title={
-              <button
-                type="button"
-                className="btn btn-outline-danger btn-sm text-uppercase"
-              >
-	              {t('LINK.FOOTER.LOGIN')}
-              </button>
-            }
-          />}
-
+          
         </Menu>
         <Menu className="bottom">
           {options.items.map((item, index) => (
             <MenuItem key={index} link={item.link} title={t(item.title)} />
           ))}
         </Menu>
-        <LoginModal onItemRef={ref => (this.loginModal = ref)} />
+        
       </footer>
     );
   }
