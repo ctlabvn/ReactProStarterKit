@@ -20,7 +20,6 @@ export default class extends Component {
   render() {
     const {t,outlet} = this.props;
     const gallery = outlet.gallery ? JSON.parse(outlet.gallery.replace(/\\/g, '')) : ["/images/no-image-icon.png"];
-    console.log(typeof gallery);
 
     return (
       <div className="row flex-nowrap d-flex flex-row justify-content-between block bg-white mb-4 mt-5">
