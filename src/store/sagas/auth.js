@@ -79,15 +79,17 @@ const requestUpdateAccountAsync = createRequestSaga({
 const requestLogoutAsync = createRequestSaga({
   request: api.auth.logout,
   key: 'logout',
-  success: [       
-    () => removeLoggedUser(),    
-    () => setAuthState(false),  
-    () => setToast('Logout successfully!!!'),  
-    () => forwardTo('/'),
+  success: [           
+    () => setToast('Logout successfully!!!'),      
   ],
   failure: [ 
     () => setToast('Couldn\'t logout', 'danger') 
   ],
+  stop: [
+    () => removeLoggedUser(),    
+    () => setAuthState(false),  
+    () => forwardTo('/'),
+  ]
 });
 
 const updateCustomerAsync = createRequestSaga({
