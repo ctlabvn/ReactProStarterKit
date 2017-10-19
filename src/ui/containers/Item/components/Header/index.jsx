@@ -4,6 +4,10 @@ import { translate } from "react-i18next";
 
 import Menu from "~/ui/components/Menu";
 import MenuItem from "~/ui/components/Menu/Item";
+import RestaurantOrderSetting from "~/ui/components/Restaurant/OrderSetting";
+import RestaurantInfo from "~/ui/components/Restaurant/Info";
+import RestaurantTag from "~/ui/components/Restaurant/Tag";
+import Readmore from "~/ui/components/Restaurant/Readmore";
 
 import "./index.css";
 import options from "./options";
@@ -35,15 +39,16 @@ export default class extends Component {
           <h2 className="font-weight-bold text-uppercase">{item.name}</h2>
 
           <div className="flex-row d-flex justify-content-between">
-            <span className="color-red">{outlet.address}</span>
+            <RestaurantInfo outlet={outlet} />
           </div>
 
           <div className="flex-row d-flex justify-content-between">
-
+            <RestaurantOrderSetting outlet={outlet} />
           </div>
 
-          <p className="w-100 mt-3 html-content" dangerouslySetInnerHTML={{__html:item.description}}/>
-          <a href="/"> See more</a>
+          <Readmore line="500" more={t('LABEL.SHOW_MORE')} less={t('LABEL.SHOW_LESS')}>
+            <p className="w-100 mt-3 html-content" dangerouslySetInnerHTML={{__html:item.description}}/>
+          </Readmore>
 
           <div className="border border-white-300 border-right-0 border-left-0 border-bottom-0 mt-4 left-side-block">
             <Menu className="menu-decorator text-uppercase">
