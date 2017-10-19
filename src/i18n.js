@@ -6,6 +6,8 @@ import { reactI18nextModule } from "react-i18next";
 import moment from "moment";
 import numeral from "numeral";
 
+import { VERSION } from "./store/constants/api";
+
 i18n
   .use(Backend)
   .use(LanguageDetector)
@@ -16,6 +18,12 @@ i18n
     // have a common namespace used around the full app
     ns: ["translations"],
     defaultNS: "translations",
+
+    backend: {
+      queryStringParams: {
+        v: VERSION
+      }
+    },
 
     debug: true,
 
