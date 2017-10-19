@@ -1,8 +1,7 @@
 {
   "name": "hotlab",
   "version": "0.1.0",
-  "private": true,
-  "homepage": "https://agiletechvn.github.io/Hottab",
+  "private": true,  
   "dependencies": {
     "autoprefixer": "7.1.2",
     "babel-core": "6.25.0",
