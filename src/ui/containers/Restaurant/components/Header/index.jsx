@@ -54,9 +54,10 @@ export default class extends Component {
 
           <div className="border border-white-300 border-right-0 border-left-0 border-bottom-0 mt-4 left-side-block">
             <Menu className="menu-decorator text-uppercase">
-            {options.menuItems.map((item, index) =>
-              <MenuItem active={index === 0} title={t(item)} key={index} id={item.id} />
-            )}
+            {options.menuItems.map((item, index) => {
+              let title = index === 0 ? t(item) + ` (${outlet.total_items})` : t(item);
+              return <MenuItem active={index === 0} title={title} key={index} id={item.id} />
+            })}
             </Menu>
           </div>
 

@@ -26,10 +26,12 @@ export default class extends Component {
     this.state = {
 	    products: [],
 	    features: [],
+	    isLoadingItem: false
     };
   }
 
   handleCategory = async childCategories => {
+	  this.setState({isLoadingItem : true});
 	  const metadata = {};
     for(var currentCategoryUuid of childCategories) {
 		  await api.restaurant.getProductByCategory(currentCategoryUuid).then(ret => {
@@ -37,11 +39,18 @@ export default class extends Component {
 		  }, err => console.log(err));
     }
     this.setState({products : metadata});
+	  this.setState({isLoadingItem : false});
   };
+
+	showLoading = () => (
+		<div className="col text-center py-2">
+			<i className="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+		</div>
+	)
 
   render() {
     const { t, outlet } = this.props;
-    const { products, features } = this.state;
+    const { products, features, isLoadingItem } = this.state;
     const treeCategory = {};
     const treeCategoryName = {};
 	  outlet.categories.map(item => {
@@ -54,29 +63,28 @@ export default class extends Component {
         }
       } else {
 		    if(!treeCategory.hasOwnProperty(item.category_uuid)) {
-			    treeCategory[item.category_uuid] = [];
+			    treeCategory[item.category_uuid] = [item.category_uuid ];
         }
       }
     });
     
     return (
       <div className="row block bg-white mb-4 tab-content">
-        <h3 className="font-largest color-black w-100 mb-4">
-          <span className="font-weight-bold">{t('LABEL.ALL_PRODUCTS')}</span> ({outlet.total_items})
-        </h3>
+	      {features.length ?
+		      <Slider className="mt-2" num={5} move={1}>
+			      {features.length ? features.map((item, index) => (
+				      <ProductItemPhoto
+					      key={index}
+					      price={10}
+					      title={item.name}
+					      image="/images/donut-square.png"
+				      />
+			      )) : ''}
+		      </Slider>
+		      : ''
+	      }
 
-        <Slider className="mt-2" num={5} move={1}>
-	        {features.length ? features.map((item, index) => (
-            <ProductItemPhoto
-              key={index}
-              price={10}
-              title={item.name}
-              image="/images/donut-square.png"
-            />
-          )) : ''}
-        </Slider>
-
-        <div className="mt-5 row w-100">
+        <div className="mt-3 row w-100">
           <Menu className="col col-md-2 list-group restaurant-cat">
             {outlet.categories.map(item => {
               if(!item.parent_uuid) {
@@ -91,6 +99,7 @@ export default class extends Component {
             })}
           </Menu>
 
+	        {!isLoadingItem ? (
           <Col md="10">
             {Object.keys(products).length ? (
 	            Object.keys(products).map((item, index) => (
@@ -111,6 +120,8 @@ export default class extends Component {
               </div>
             )}
           </Col>
+	        ) : this.showLoading()
+	        }
         </div>
 
       </div>

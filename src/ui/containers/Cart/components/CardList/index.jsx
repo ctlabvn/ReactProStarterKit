@@ -50,6 +50,7 @@ export default class extends Component {
           {orderItems.map(item => (
             <CardItem
               key={item.item_uuid}
+              uuid={item.item_uuid}
               title={item.name}
               image="/images/donut-square.png"
               vat={0}

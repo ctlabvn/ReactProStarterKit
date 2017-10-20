@@ -61,7 +61,7 @@ export default class extends Component {
               description={item.description}
               key={index}
               price={item.default_price}
-              priceUnit={item.currency.symbol}
+              priceUnit={item.currency && item.currency.symbol ? item.currency.symbol : ''}
               title={item.name}
               image={this.getProductImage(item.gallery)}
               itemUuid={item.item_uuid}
