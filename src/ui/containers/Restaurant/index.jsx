@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Body from "./components/Body";
 import Detail from "./components/Detail";
+import Spinner from "~/ui/components/Spinner";
 
 // store
 import api from "~/store/api";
@@ -45,11 +46,7 @@ export default class extends Component {
   render() {
     const { outlet } = this.state;
     if (!outlet) {
-      return (
-        <div className="d-flex flex-row justify-content-center">
-          <i className="fa fa-refresh fa-spin fa-3x fa-fw" />
-        </div>
-      );
+      return <Spinner/>;
     }
 
     return (

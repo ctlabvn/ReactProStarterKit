@@ -57,7 +57,8 @@ export default class extends Component {
         customer_lat: ret.latitude,
         customer_long: ret.longitude,
       },
-      request_time: Date.now(),
+      // The request time for delivery in seconds. 
+      request_time: orderInfo.request_time * 60,
       order_type: orderInfo.order_type,
       order_note: orderInfo.order_note,
     }

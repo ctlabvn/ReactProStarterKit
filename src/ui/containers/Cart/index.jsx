@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { translate } from "react-i18next";
+import classNames from "classnames";
 
 // redux form
 import { Field, Fields, FieldArray, reduxForm } from "redux-form";
@@ -9,9 +10,15 @@ import { Field, Fields, FieldArray, reduxForm } from "redux-form";
 // reactstrap
 import { Button, FormGroup, Label, Input } from "reactstrap";
 
+import {
+  DirectionsRenderer
+} from "react-google-maps";
+
 // components
 import { InputField } from "~/ui/components/ReduxForm";
 import CardList from "./components/CardList";
+import MaskedInput from "~/ui/components/MaskedInput";
+import GoogleMapKey from "~/ui/components/GoogleMapKey";
 
 import * as orderSelectors from "~/store/selectors/order";
 import * as orderActions from "~/store/actions/order";
@@ -39,6 +46,13 @@ import "./index.css";
   enableReinitialize: true
 })
 export default class extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      directions: null
+    };
+  }
+
   saveOrderInfo = data => {
     this.props.updateOrder(data);
     history.push("/checkout");
@@ -51,46 +65,73 @@ export default class extends Component {
     ...custom
   }) => {
     return (
-      <div className="col-md-6 border border-left-0 pt-4 pb-4 pl-0">
-        <h6 className="color-gray text-uppercase mb-4">{label}</h6>
-        <FormGroup check className="d-flex flex-row justify-content-between">
-          {options.orderTypes.map((item, index) => (
-            <Label check key={index}>
-              <Input
-                onChange={e => input.onChange(item.id)}
-                type="radio"
-                defaultChecked={item.id === input.value}
-                name="order_type"
-                className="mr-2"
-              />
-              {item.title}
-            </Label>
-          ))}
-        </FormGroup>
-      </div>
+      <FormGroup check className="d-flex col-md-6 justify-content-between">
+        {options.orderTypes.map((item, index) => (
+          <Label check key={index}>
+            <Input
+              onChange={e => input.onChange(item.id)}
+              type="radio"
+              defaultChecked={item.id === input.value}
+              name="order_type"
+              className="mr-2"
+            />
+            {item.title}
+          </Label>
+        ))}
+      </FormGroup>
     );
   };
 
+  async componentWillMount() {
+    const { latitude: lat, longitude: lng } = await getCurrentLocation();
+    this.setState({
+      lat,
+      lng
+    });    
+  }
+
   async loadAddressFromGmap(input) {
     // use guard code so do not have to remove } at the end
-
     this.loadingIcon.classList.remove("invisible");
-    const { latitude, longitude } = await getCurrentLocation();
+    const { lat, lng } = this.state;
     const { results } = await fetchJson(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${GOOGLE_API_KEY}`
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_API_KEY}`
     );
     this.loadingIcon.classList.add("invisible");
     input.onChange(results[0].formatted_address);
+
+    this.loadDirectionFromGmap();
+  }
+
+  async loadDirectionFromGmap(){
+    const Maps = window.google.maps;
+    const DirectionsService = new Maps.DirectionsService();
+
+      DirectionsService.route({
+        origin: new Maps.LatLng(41.8507300, -87.6512600),
+        destination: new Maps.LatLng(41.8525800, -87.6514100),
+        travelMode: Maps.TravelMode.DRIVING,
+      }, (result, status) => {
+        if (status === Maps.DirectionsStatus.OK) {                
+          this.setState({
+            directions: result,
+          });
+        } else {
+          console.error(`error fetching directions ${result}`);
+        }
+      });
   }
 
   renderAddress = ({ order_type, order_address }) => {
+    const {t} = this.props;
+    const {directions} = this.state;    
     if (order_type.input.value !== 2) {
       return null;
     }
     return (
-      <div className="col-md-6 border border-left-0 border-right-0 pt-4 pb-4 pl-4">
-        <h6 className="color-gray text-uppercase mb-4">
-          {this.props.t("LABEL.ADDRESS")}{" "}
+      <div className="col-md-6 pl-0">
+        <h6 className="color-gray text-uppercase mb-4 w-100">
+          {t("LABEL.ADDRESS")}{" "}
           <span className="color-gray-400">(delivery only)</span>
           <Button
             color="info"
@@ -103,16 +144,57 @@ export default class extends Component {
             />
             Load from Googlemap
           </Button>
-        </h6>
+        </h6>        
         <Field
           name="order_address"
           placeholder="Type your address here"
-          className="custom-input"
+          className="w-100"
           component={InputField}
         />
+
+        <h6 className="color-gray text-uppercase mb-4 w-100">
+          {t("LABEL.BUSINESS_ADDRESS")}
+          <span className="color-gray-400 float-right">Hottab company</span>
+        </h6>        
+
       </div>
     );
   };
+
+  renderRequestTimeField = ({ input }) => {
+    return (
+      <small>
+        <i className="fa fa-clock-o" aria-hidden="true" /> Delivery time :
+        <MaskedInput
+          // className="form-control"
+          mask="11"
+          placeholder="i"
+          {...input}
+        />{" "}
+        m
+      </small>
+    );
+  };
+
+  renderCurrency(label, price, className, symbol = "₫") {
+    const { t } = this.props;
+    return (
+      <h6
+        className={classNames(
+          "text-uppercase mb-4 d-flex justify-content-between",
+          className
+        )}
+      >
+        <span>{t(label)}</span>
+        <span>
+          {t("format.currency", {
+            price,
+            symbol
+          })}
+        </span>
+      </h6>
+    );
+  }
 
   render() {
     const {
@@ -121,7 +203,8 @@ export default class extends Component {
       handleSubmit,
       submitting,
       initialValues: { order_type }
-    } = this.props;
+    } = this.props;  
+
     if (!orderItems || !orderItems.length) {
       return (
         <div className="text-center p-2">
@@ -133,13 +216,14 @@ export default class extends Component {
       );
     }
 
+    const { lat, lng, directions } = this.state;
     const totalPrice = orderItems.reduce(
       (a, item) => a + item.quantity * item.price,
       0
     );
     return (
       <div className="container">
-        <div className="row block bg-white">
+        <div className="block bg-white">
           <nav className="breadcrumb text-uppercase color-gray-400 bg-transparent pl-0">
             <Link to="/" className="breadcrumb-item color-gray-400" href="#">
               &lt; {t("LINK.BACK")}
@@ -149,22 +233,39 @@ export default class extends Component {
           <h2 className="w-100 text-uppercase font-weight-bold color-black">
             {t("LABEL.YOUR_CART")}
           </h2>
-          <small>
-            <i className="fa fa-clock-o" aria-hidden="true" /> Delivery time :
-            30 m
-          </small>
+
+          <div className="d-flex col-md-6 justify-content-between">
+            <Field
+              name="request_time"
+              component={this.renderRequestTimeField}
+            />
+            <Field name="order_type" component={this.renderOrderTypeField} />
+          </div>
 
           <CardList />
 
-          <Field
-            label="Order type"
-            name="order_type"
-            component={this.renderOrderTypeField}
-          />
-          <Fields
-            names={["order_type", "order_address"]}
-            component={this.renderAddress}
-          />
+          <div className="row border p-2">
+            <Fields
+              names={["order_type", "order_address"]}
+              component={this.renderAddress}
+            />
+            <div className="col pr-0">
+            {lat &&
+              lng && (
+                
+                  <GoogleMapKey height={400} defaultCenter={{ lat, lng }}>
+                  {directions && <DirectionsRenderer directions={directions} />}
+                  </GoogleMapKey>                
+              )}
+              {directions &&
+        <div className="d-flex flex-row justify-content-between mt-auto w-100">
+          <span><strong>Distance:</strong> {directions.routes[0].legs[0].distance.text}</span>
+          <span><strong>Time estimated:</strong>{directions.routes[0].legs[0].duration.text}</span>
+        </div>
+      }
+            </div>
+
+          </div>
 
           <div className="mt-5 mb-4 d-flex w-100 justify-content-between">
             <div className="col-md-7 pl-0">
@@ -180,32 +281,28 @@ export default class extends Component {
             </div>
 
             <div className="col-md-offset-1 col-md-4">
-              <h6 className="color-gray text-uppercase mb-4 d-flex justify-content-between">
-                <span>{t("LABEL.SUBTOTAL")}</span>
-                <span>
-                  {t("format.currency", {
-                    price: totalPrice,
-                    symbol: orderItems[0].currency_symbol
-                  })}
-                </span>
-              </h6>
-
-              <h6 className="color-black text-uppercase font-weight-bold mb-4 d-flex justify-content-between">
-                <span>{t("LABEL.TOTAL_PRICE")}</span>
-                <span>
-                  {t("format.currency", {
-                    price: totalPrice,
-                    symbol: orderItems[0].currency_symbol
-                  })}
-                </span>
-              </h6>
-
-              <Field
-                placeholder="Enter promo code"
-                className="custom-input text-uppercase"
-                name="order_promotion_code"
-                component={InputField}
-              />
+              {this.renderCurrency(
+                "LABEL.SUBTOTAL",
+                totalPrice,
+                "color-gray",
+                orderItems[0].currency_symbol
+              )}
+              {this.renderCurrency("Delivery free", 0, "color-gray")}
+              {this.renderCurrency("Tax", 0, "color-gray")}
+              {this.renderCurrency(
+                "LABEL.TOTAL_PRICE",
+                totalPrice,
+                "color-black",
+                orderItems[0].currency_symbol
+              )}
+              {
+                // <Field
+                //   placeholder="Enter promo code"
+                //   className="custom-input text-uppercase"
+                //   name="order_promotion_code"
+                //   component={InputField}
+                // />
+              }
 
               <Button
                 className="btn bg-red btn-lg btn-block text-uppercase"
