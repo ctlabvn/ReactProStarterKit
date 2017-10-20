@@ -14,6 +14,7 @@ import LoginModal from "~/ui/components/LoginModal";
 
 // selectors && actions
 import * as orderActions from "~/store/actions/order";
+import * as authActions from "~/store/actions/auth";
 import * as authSelectors from "~/store/selectors/auth";
 import * as orderSelectors from "~/store/selectors/order";
 import "./index.css";
@@ -23,7 +24,8 @@ import "./index.css";
   isHome: state.routing.location.pathname === "/",
   isLogged: authSelectors.isLogged(state),
   orderItems: orderSelectors.getItems(state),
-}), orderActions)
+  config: authSelectors.getConfig(state),
+}), {...authActions, ...orderActions})
 export default class extends Component {
   constructor(props) {
     super(props);
@@ -46,6 +48,13 @@ export default class extends Component {
   decreaseOrder(item){
     this.props.updateOrderItem({...item, quantity: item.quantity-1});
   }
+
+	handleSearch = ({target, keyCode}) => {
+		clearTimeout(this.timeout);
+		const term = target.value.trim();
+		// action
+		setTimeout(() => this.props.updateConfig('searchStr', term), 1000);
+	}
 
   renderPopoverCart(){
     const {orderItems} = this.props;
@@ -92,7 +101,7 @@ export default class extends Component {
   }
 
   render() {
-    const { t, isHome, isLogged, orderItems } = this.props;    
+    const { t, isHome, isLogged, orderItems, config } = this.props;
     const totalQuantity = orderItems.reduce((a, item)=>a + item.quantity, 0);    
     return (
       <nav
@@ -101,15 +110,17 @@ export default class extends Component {
         })}
       >
         <div className="container-fluid p-0">
-          <div>
+          <div className="d-flex w-75">
             <Link className="navbar-brand" to="/">
               <img src="/images/logo.png" alt="" />
             </Link>
 
             <input
               type="text"
-              className="custom-input font-large color-gray"
-              placeholder="Type your search"
+              value={config.searchStr}
+              className="custom-input font-large color-gray w-100"
+              placeholder={t("PLACE_HOLDER.TYPE_YOUR_SEARCH")}
+              onChange={this.handleSearch}
             />
           </div>
 

@@ -12,7 +12,8 @@ export const initialState = {
   customer: {
     language: "vi"
   },
-  address: []
+  address: [],
+  config: {},
 };
 
 // Takes care of changing the application state
@@ -21,6 +22,8 @@ export const auth = (state = initialState, { type, payload }) => {
   switch (type) {
     case "app/setLanguage":
       return { ...state, customer: { ...state.customer, language: payload } };
+    case 'app/updateConfig':
+		  return {...state, config:{...state.config, [payload.key]: payload.value}};
     case "app/setAuthState":
       return { ...state, loggedIn: payload };
     case "app/saveLoggedUser":

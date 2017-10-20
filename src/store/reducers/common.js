@@ -34,3 +34,4 @@ export const toast = (state = null, { type, payload }) => {
       return state
   }
 }
+

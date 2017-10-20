@@ -11,3 +11,6 @@ export const getCustomer = state =>
   
 export const getAddress = state => 
   state.auth.address || initialState.address;
+
+export const getConfig = state =>
+	state.auth.config;

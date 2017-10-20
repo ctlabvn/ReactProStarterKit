@@ -5,6 +5,10 @@ export default {
     return apiGet('/restaurant/outlets', {page: page, pagination: 20})
   },
 
+	searchOutlet(page = 1, term = ''){
+    return apiGet('/restaurant/search', {page: page, keyword: term, pagination: 20})
+  },
+
   getOutlet(uuid){
     return apiGet(`/restaurant/outlets/${uuid}`)
   },

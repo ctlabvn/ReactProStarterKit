@@ -29,6 +29,11 @@ export const removeLoggedUser = () => ({
 })
 
 
+export const updateConfig = (key, value) => ({
+	type: 'app/updateConfig',
+	payload: {key, value}
+});
+
 // update customer
 export const updateCustomer = (data) => ({
   type: 'customer/updateCustomer',

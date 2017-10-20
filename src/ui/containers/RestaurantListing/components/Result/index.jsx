@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
+import { connect } from "react-redux";
 
 // component
 import InfiniteScroller from "~/ui/components/Scroller/Infinite";
@@ -11,8 +12,14 @@ import api from "~/store/api";
 import options from "./options";
 import "./index.css";
 
+// selectors && actions
+import * as authActions from "~/store/actions/auth";
+import * as authSelectors from "~/store/selectors/auth";
 
 @translate('translations')
+@connect(state => ({
+	config: authSelectors.getConfig(state),
+}), {...authActions})
 export default class extends Component {
 
 	constructor(props) {
@@ -25,18 +32,37 @@ export default class extends Component {
   }
 
 	loadMoreElement = async () => {
-		await api.restaurant.getOutlets(this.page).then((ret) => {
-			if(!ret.status && ret.data.data) {
-				const data = ret.data.data
-				this.page++
-				this.setState(prevState => ({
-					elements: prevState.elements.concat(data),
-					hasMore: data.length > 0
-				}))
-			}
-		}, (err) => {
-			console.log(err)
-		})
+		const { config } = this.props;
+		if(config.searchStr) {
+			await api.restaurant.searchOutlet(this.page, config.searchStr).then((ret) => {
+				this.updateView(ret);
+			}, (err) => {
+				console.log(err)
+			})
+		} else {
+			await api.restaurant.getOutlets(this.page).then((ret) => {
+				this.updateView(ret);
+			}, (err) => {
+				console.log(err)
+			})
+		}
+	}
+
+	updateView = (ret) => {
+		if(!ret.status && ret.data.data) {
+			const data = ret.data.data
+			this.page++
+			this.setState(prevState => ({
+				elements: prevState.elements.concat(data),
+				hasMore: data.length > 0
+			}))
+		}
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.setState({hasMore: true, elements: []});
+		this.page = 1;
+		this.loadMoreElement();
 	}
 
 	showLoading = () => (

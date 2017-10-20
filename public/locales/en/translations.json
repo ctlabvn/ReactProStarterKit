@@ -12,7 +12,8 @@
     "all_ratings": "All ratings"  
   },
   "PLACEHOLDER": {
-    "TYPE_YOUR_PRODUCT": "Type your product"
+    "TYPE_YOUR_PRODUCT": "Type your product",
+    "TYPE_YOUR_SEARCH": "Type your search"
   },
   "LABEL": {
     "SUGGESSTION": "Suggesstions",

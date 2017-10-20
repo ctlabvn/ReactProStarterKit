@@ -33,6 +33,7 @@ export const log = (data, type='table') => {
   }
 }
 
+
 // Little helper function to abstract going to different pages
 export const forwardTo = (location) => {
   history.push(location)
