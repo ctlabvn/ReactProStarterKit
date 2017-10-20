@@ -2,7 +2,8 @@ import { REHYDRATE } from "redux-persist/constants";
 
 export const initialState = {
   items: [],
-  info: {}
+  history: [],
+  info: {},
 };
 
 const updateItem = (state, index, payload) => {
@@ -47,6 +48,8 @@ export const order = (state = initialState, { type, payload }) => {
       return index === -1 ? state : updateItem(state, index, payload);
     case "order/update":
       return { ...state, info: { ...state.info, ...payload } };
+    case "order/updateHistory":
+      return { ...state, history: payload };
     case REHYDRATE:
       // save reject token do nothing
       const incoming = payload.order;

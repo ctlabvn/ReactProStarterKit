@@ -2,6 +2,7 @@ import { takeLatest, takeEvery, all } from "redux-saga/effects";
 
 import api from "~/store/api";
 import { setToast } from "~/store/actions/common";
+import { updateOrderHistory } from "~/store/actions/order";
 
 import { createRequestSaga } from "~/store/sagas/common";
 
@@ -14,6 +15,9 @@ const createOrder = createRequestSaga({
 
 const getOrderHistory = createRequestSaga({
   request: api.order.getOrderHistory,    
+  success: [
+    ({data}) => updateOrderHistory(data),
+  ]
 });
 
 // root saga reducer
