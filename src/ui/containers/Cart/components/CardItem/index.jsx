@@ -12,6 +12,7 @@ import "./index.css";
 @translate("translations")
 export default class extends Component {
   static propTypes = {
+    uuid: PropTypes.string,
     title: PropTypes.string,
     image: PropTypes.string,
     price: PropTypes.number,
@@ -36,14 +37,17 @@ export default class extends Component {
       onRemove,
       quantity,
       t,
+	    uuid,
       ...props
     } = this.props;
     const total = price * quantity;    
     return (
       <tr {...props} ref={ref=>this.element = ref}>
         <th className="card-title pl-0" scope="row">
-          <img src={image} atl="" />
-          <span className="ml-2">{title}</span>
+          <Link to={`/item/${uuid}`}>
+            <img src={image} atl="" />
+            <span className="ml-2">{title}</span>
+          </Link>
         </th>
         <td>
           {price}
