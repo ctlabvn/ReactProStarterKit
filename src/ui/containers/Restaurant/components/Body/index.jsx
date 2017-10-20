@@ -63,7 +63,7 @@ export default class extends Component {
         }
       } else {
 		    if(!treeCategory.hasOwnProperty(item.category_uuid)) {
-			    treeCategory[item.category_uuid] = [];
+			    treeCategory[item.category_uuid] = [item.category_uuid ];
         }
       }
     });
