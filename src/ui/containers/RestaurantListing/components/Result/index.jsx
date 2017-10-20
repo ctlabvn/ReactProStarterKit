@@ -29,8 +29,8 @@ export default class extends Component {
 			if(!ret.status && ret.data.data) {
 				const data = ret.data.data
 				this.page++
-				this.setState(state => ({
-					elements: state.elements.concat(data),
+				this.setState(prevState => ({
+					elements: prevState.elements.concat(data),
 					hasMore: data.length > 0
 				}))
 			}

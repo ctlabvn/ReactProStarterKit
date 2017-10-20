@@ -24,23 +24,28 @@ export default class extends Component {
   constructor(props) {
     super(props);
     this.state = {
-	    products: [],
+	    products: {},
 	    features: [],
 	    isLoadingItem: false
     };
   }
 
-  handleCategory = async childCategories => {
-	  this.setState({isLoadingItem : true});
-	  const metadata = {};
-    for(var currentCategoryUuid of childCategories) {
-		  await api.restaurant.getProductByCategory(currentCategoryUuid).then(ret => {
-			  metadata[currentCategoryUuid] = ret.data.data;
-		  }, err => console.log(err));
-    }
-    this.setState({products : metadata});
-	  this.setState({isLoadingItem : false});
-  };
+	handleCategory = async childCategories => {
+		this.setState({isLoadingItem : true, products: {}});
+		const lastChildCategory = childCategories[childCategories.length - 1];
+		for(const currentCategoryUuid of childCategories) {
+			api.restaurant.getProductByCategory(currentCategoryUuid).then(ret => {
+				this.setState((prevState) => {
+					let products = prevState.products
+					if(ret.data.data) {
+						products[currentCategoryUuid] = ret.data.data
+					}
+					return {products: products}
+				});
+				this.setState({isLoadingItem : false});
+			}, err => console.log(err));
+		}
+	};
 
 	showLoading = () => (
 		<div className="col text-center py-2">

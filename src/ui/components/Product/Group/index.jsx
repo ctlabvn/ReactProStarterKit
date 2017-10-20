@@ -53,8 +53,8 @@ export default class extends Component {
 
     return (
       <div className="container">
-        <h2 className="mb-3">{name}</h2>
-	      {products.length ? (
+	      {products.length ? <h2 className="mb-3">{name}</h2> : ''}
+	      {products.length ?
 		      products.map((item, index) => (
             <ProductItem
               className="col-md-6 float-left pl-0 pr-5 mb-4"
@@ -68,14 +68,7 @@ export default class extends Component {
               onIncrease={() => this.addOrderItem(item)}
             />
 		      ))
-	      ) : (
-          <div className="text-center p-2">
-            <img src="/images/no-data.png" height="100" alt="" />
-            <p className="color-gray text-uppercase">
-				      {t("LABEL.CHOOSE_CATEGORY")}
-            </p>
-          </div>
-	      )}
+	       : ''}
 	      <div className="clearfix"></div>
       </div>
     );

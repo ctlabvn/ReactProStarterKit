@@ -27,13 +27,15 @@ export default class extends Component {
         <div className="media rounded">
           <img className="media-image d-flex mr-3 rounded" src={logo} alt="" />
             <div className="media-body">
-              <Link to={`/restaurant/${uuid}`}><h5>{name}</h5></Link>
-              <hr className="my-2" />
-              {address}
-              <br/>
-              <RestaurantOrderSetting outlet={restaurant} />
-              <br />
-              <RestaurantTag outlet={restaurant} />
+              <div className="d-flex flex-column justify-content-between">
+                <div>
+                  <Link to={`/restaurant/${uuid}`}><h5>{name}</h5></Link>
+                  <hr className="my-2" />
+                </div>
+                {address && <div>{address}</div>}
+                <RestaurantOrderSetting outlet={restaurant} />
+                <RestaurantTag outlet={restaurant} />
+              </div>
             </div>
         </div>
       </div>
