@@ -29,8 +29,14 @@ export default class extends Component {
 			}
 		}
 
+		if(metadata.length) {
+			return (
+				<div>{metadata.join(" | ")}</div>
+			)
+		}
+
 		return (
-			<span>{metadata.join(" | ")}</span>
-		)
+			<div className="clearfix"></div>
+		);
 	}
 }

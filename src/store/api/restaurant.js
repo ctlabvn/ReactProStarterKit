@@ -15,6 +15,11 @@ export default {
 
 	getFeatureItem(outlet_uuid) {
 		return apiGet('/restaurant/featured/items', {outlet_uuid: outlet_uuid, featured: 1})
+  },
+
+  getRestaurantTag(outlet_uuid) {
+    return apiGet('/restaurant/tags', {outlet_uuid: outlet_uuid})
   }
+
 }
 
