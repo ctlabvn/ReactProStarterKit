@@ -11,11 +11,17 @@ import Spinner from "~/ui/components/Spinner";
 
 import { GOOGLE_API_KEY } from "~/store/constants/api";
 
-const MapWithScript = withScriptjs(
-  withGoogleMap(props => (
-    <GoogleMap defaultZoom={12} {...props}/>
-  ))
-);
+@withScriptjs
+@withGoogleMap
+class MapWithScript extends Component {
+  componentDidMount() {
+    this.props.onItemRef && this.props.onItemRef(this);
+  }
+
+  render() {
+    return <GoogleMap defaultZoom={12} {...this.props} />;
+  }
+}
 
 export default class extends Component {
   static propTypes = {
@@ -34,7 +40,7 @@ export default class extends Component {
     return (
       <MapWithScript
         googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${key}`}
-        loadingElement={<Spinner/>}
+        loadingElement={<Spinner />}
         containerElement={<div style={{ height }} />}
         mapElement={<div style={{ height: `100%` }} />}
         {...props}

@@ -8,17 +8,16 @@ import classNames from "classnames";
 import { Field, Fields, FieldArray, reduxForm } from "redux-form";
 
 // reactstrap
-import { Button, FormGroup, Label, Input } from "reactstrap";
+import { Button, FormGroup, Label, Input, DropdownItem } from "reactstrap";
 
-import {
-  DirectionsRenderer
-} from "react-google-maps";
+import { DirectionsRenderer } from "react-google-maps";
 
 // components
 import { InputField } from "~/ui/components/ReduxForm";
 import CardList from "./components/CardList";
 import MaskedInput from "~/ui/components/MaskedInput";
 import GoogleMapKey from "~/ui/components/GoogleMapKey";
+import Autocomplete from "~/ui/components/Autocomplete";
 
 import * as orderSelectors from "~/store/selectors/order";
 import * as orderActions from "~/store/actions/order";
@@ -49,9 +48,17 @@ export default class extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      directions: null
-    };
+      directions: null,
+      predictions:[],
+    };    
   }
+
+  initGmap = (ref)=>{
+    this.googleMap = ref;
+    this.Maps = window.google.maps;
+    this.directionsService = new this.Maps.DirectionsService();
+    this.placeService = new this.Maps.places.AutocompleteService();
+  };
 
   saveOrderInfo = data => {
     this.props.updateOrder(data);
@@ -87,7 +94,7 @@ export default class extends Component {
     this.setState({
       lat,
       lng
-    });    
+    });
   }
 
   async loadAddressFromGmap(input) {
@@ -103,28 +110,28 @@ export default class extends Component {
     this.loadDirectionFromGmap();
   }
 
-  async loadDirectionFromGmap(){
-    const Maps = window.google.maps;
-    const DirectionsService = new Maps.DirectionsService();
-
-      DirectionsService.route({
-        origin: new Maps.LatLng(41.8507300, -87.6512600),
-        destination: new Maps.LatLng(41.8525800, -87.6514100),
-        travelMode: Maps.TravelMode.DRIVING,
-      }, (result, status) => {
-        if (status === Maps.DirectionsStatus.OK) {                
+  async loadDirectionFromGmap() {        
+    this.directionsService.route(
+      {
+        origin: new this.Maps.LatLng(41.85073, -87.65126),
+        destination: new this.Maps.LatLng(41.85258, -87.65141),
+        travelMode: this.Maps.TravelMode.DRIVING
+      },
+      (result, status) => {
+        if (status === this.Maps.DirectionsStatus.OK) {
           this.setState({
-            directions: result,
+            directions: result
           });
         } else {
           console.error(`error fetching directions ${result}`);
         }
-      });
+      }
+    );
   }
 
   renderAddress = ({ order_type, order_address }) => {
-    const {t} = this.props;
-    const {directions} = this.state;    
+    const { t } = this.props;
+    const { directions, predictions } = this.state;
     if (order_type.input.value !== 2) {
       return null;
     }
@@ -144,19 +151,18 @@ export default class extends Component {
             />
             Load from Googlemap
           </Button>
-        </h6>        
+        </h6>
         <Field
           name="order_address"
           placeholder="Type your address here"
           className="w-100"
           component={InputField}
-        />
+        />        
 
         <h6 className="color-gray text-uppercase mb-4 w-100">
           {t("LABEL.BUSINESS_ADDRESS")}
           <span className="color-gray-400 float-right">Hottab company</span>
-        </h6>        
-
+        </h6>
       </div>
     );
   };
@@ -174,6 +180,25 @@ export default class extends Component {
         m
       </small>
     );
+  };
+
+  searchGoogleMap = (keywords) => {
+    if(!keywords.length || this.isSearching)
+      return
+    this.isSearching = true;
+    this.placeService.getQueryPredictions({ input: keywords }, (predictions, status)=>{      
+      if (status === this.Maps.places.PlacesServiceStatus.OK) {
+          this.setState({
+            predictions,
+          })
+          
+      } else {
+        this.setState({
+            predictions: [],
+          })
+      }
+      this.isSearching = false;
+    });
   };
 
   renderCurrency(label, price, className, symbol = "₫") {
@@ -196,14 +221,17 @@ export default class extends Component {
     );
   }
 
+  
+
   render() {
     const {
       orderItems,
       t,
       handleSubmit,
+      change,
       submitting,
       initialValues: { order_type }
-    } = this.props;  
+    } = this.props;
 
     if (!orderItems || !orderItems.length) {
       return (
@@ -216,7 +244,7 @@ export default class extends Component {
       );
     }
 
-    const { lat, lng, directions } = this.state;
+    const { lat, lng, directions, predictions } = this.state;
     const totalPrice = orderItems.reduce(
       (a, item) => a + item.quantity * item.price,
       0
@@ -250,21 +278,33 @@ export default class extends Component {
               component={this.renderAddress}
             />
             <div className="col pr-0">
-            {lat &&
-              lng && (
-                
-                  <GoogleMapKey height={400} defaultCenter={{ lat, lng }}>
-                  {directions && <DirectionsRenderer directions={directions} />}
-                  </GoogleMapKey>                
-              )}
-              {directions &&
-        <div className="d-flex flex-row justify-content-between mt-auto w-100">
-          <span><strong>Distance:</strong> {directions.routes[0].legs[0].distance.text}</span>
-          <span><strong>Time estimated:</strong>{directions.routes[0].legs[0].duration.text}</span>
-        </div>
-      }
-            </div>
+              <Autocomplete onSearch={this.searchGoogleMap}>
+                {predictions.map((prediction, index)=>
+                  <DropdownItem onClick={()=>change("order_address", prediction.description)} key={index}>{prediction.description}</DropdownItem>
+                )}
+              </Autocomplete>
 
+              {lat &&
+                lng && (
+                  <GoogleMapKey onItemRef={this.initGmap} height={400} defaultCenter={{ lat, lng }}>
+                    {directions && (
+                      <DirectionsRenderer directions={directions} />
+                    )}
+                  </GoogleMapKey>
+                )}
+              {directions && (
+                <div className="d-flex flex-row justify-content-between mt-auto w-100">
+                  <span>
+                    <strong>Distance:</strong>{" "}
+                    {directions.routes[0].legs[0].distance.text}
+                  </span>
+                  <span>
+                    <strong>Time estimated:</strong>
+                    {directions.routes[0].legs[0].duration.text}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="mt-5 mb-4 d-flex w-100 justify-content-between">
