@@ -60,12 +60,13 @@ export default class extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		const { config } = this.props;
-		if(config.searchStr && config.searchStr.length >= 3) {
-			this.setState({hasMore: true, elements: []});
-			this.page = 1;
-			this.loadMoreElement();
-		}
+		this.removeSearchResult();
+		this.loadMoreElement();
+	}
+
+	removeSearchResult = () => {
+		this.setState({hasMore: true, elements: []})
+		this.page = 1
 	}
 
 	showLoading = () => (
@@ -75,28 +76,29 @@ export default class extends Component {
 	)
 
   render() {
-    const { elements } = this.state
+    const { t } = this.props;
+    const { elements } = this.state;
 	  return (
       <div className="container-fluid bg-white py-4">
         <InfiniteScroller
-            className="row d-flex"
-            hasMore={this.state.hasMore}
-            loader={this.showLoading()}
-            loadMore={this.loadMoreElement}
-          >
-            {
-	            elements.map((item, i) => (
-		            <RestaurantItemPhoto
-                  key={item.outlet_uuid}
-                  uuid={item.outlet_uuid}
-                  name={item.name}
-                  address={item.address}
-                  logo={item.logo}
-                  restaurant={item}
-                />
-              ))
-            }
-          </InfiniteScroller>
+          className="row d-flex"
+          hasMore={this.state.hasMore}
+          loader={this.showLoading()}
+          loadMore={this.loadMoreElement}
+        >
+          {
+            elements.map((item, i) => (
+	            <RestaurantItemPhoto
+                key={item.outlet_uuid}
+                uuid={item.outlet_uuid}
+                name={item.name}
+                address={item.address}
+                logo={item.logo}
+                restaurant={item}
+              />
+            ))
+          }
+        </InfiniteScroller>
       </div>
     )
   }

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactDOM from 'react-dom';
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 import { connect } from "react-redux";
@@ -53,11 +54,17 @@ export default class extends Component {
 		clearTimeout(this.timeout);
 		const term = target.value.trim();
 		// action
-		setTimeout(() => this.props.updateConfig('searchStr', term), 500);
+		setTimeout(() => this.props.updateConfig('searchStr', term), 3000);
 	}
 
+	componentDidMount() {
+    if(this.props.config.searchStr) {
+	    ReactDOM.findDOMNode(this.refs.searchInput).value = this.props.config.searchStr;
+    }
+  }
+
   renderPopoverCart(){
-    const {orderItems} = this.props;
+    const {t, orderItems} = this.props;
     return (
       <Popover
               placement="bottom"
@@ -91,7 +98,7 @@ export default class extends Component {
                   <div className="text-center p-2">
                     <img src="/images/no-data.png" height="100" alt="" />
                     <p className="color-gray text-uppercase">
-                      Your shopping cart is empty.
+                      {t('LABEL.CART_EMPTY')}
                     </p>
                   </div>
                 )}
@@ -117,8 +124,9 @@ export default class extends Component {
 
             <input
               type="text"
+              ref="searchInput"
               className="custom-input font-large color-gray w-100"
-              placeholder={config.searchStr ? config.searchStr : t("PLACE_HOLDER.TYPE_YOUR_SEARCH")}
+              placeholder={t("PLACE_HOLDER.TYPE_YOUR_SEARCH")}
               onChange={this.handleSearch}
             />
           </div>
@@ -140,11 +148,11 @@ export default class extends Component {
             {this.renderPopoverCart()}
 
             {!isLogged ? <Button
-                onClick={()=>this.loginModal.toggle()}                
+                onClick={()=>this.loginModal.toggle()}
                 className="btn-outline-danger btn-sm text-uppercase ml-4"
               >
                 {t('LINK.FOOTER.LOGIN')}
-              </Button>                      
+              </Button>
           : <AccountDropdown />}
           </div>
 
