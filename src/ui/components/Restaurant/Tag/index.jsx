@@ -15,9 +15,9 @@ export default class extends Component {
 		}
 	}
 
-	// componentDidMount() {
-	// 	this.getRestaurantTag(this.props.outlet.outlet_uuid)
-	// }
+	componentDidMount() {
+		this.getRestaurantTag(this.props.outlet.outlet_uuid)
+	}
 
 	getRestaurantTag = outlet_uuid => {
 		api.restaurant.getRestaurantTag(outlet_uuid).then(ret => {
