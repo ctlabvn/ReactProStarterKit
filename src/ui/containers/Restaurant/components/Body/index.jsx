@@ -92,7 +92,7 @@ export default class extends Component {
   render() {
     const { t, outlet } = this.props;
     const { products, features, isLoadingItem, treeCategory, treeCategoryName } = this.state;
-
+    const canAddOrder = !!outlet.online_order_setting && outlet.online_order_setting.published && (outlet.online_order_setting.do_delivery || outlet.online_order_setting.do_takeaway);
 	  outlet.categories.map(item => {
 		  treeCategoryName[item.category_uuid] = item.name;
 		  if(item.parent_uuid) {
@@ -151,7 +151,7 @@ export default class extends Component {
                   name={treeCategoryName[item]}                  
                   key={index}
                   products={products[item]}
-                  onAddOrder={this.addOrderItem}
+                  onAddOrder={canAddOrder ? this.addOrderItem : null}
                 />
                 )
 	            )

@@ -14,7 +14,7 @@ export default class extends Component {
   static propTypes = {
     name: PropTypes.string,
 	  products: PropTypes.array,
-    onAddOrder: PropTypes.func.isRequired,
+    onAddOrder: PropTypes.func,
   };
 
 	getProductImage(gallery) {
@@ -45,7 +45,7 @@ export default class extends Component {
               title={item.name}
               image={this.getProductImage(item.gallery)}
               itemUuid={item.item_uuid}
-              onIncrease={()=>onAddOrder(item)}
+              onIncrease={onAddOrder ? ()=>onAddOrder(item) : null}
             />
 		      ))
 	       : ''}

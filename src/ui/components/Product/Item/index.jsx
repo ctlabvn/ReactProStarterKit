@@ -70,7 +70,7 @@ export default class extends Component {
           <div className="flex-row d-flex justify-content-between">
             <span className="pr-4">{description}</span>
             <div className="d-flex flex-column justify-content-between">
-            <ButtonRound icon="plus" onClick={onIncrease} />
+            {onIncrease && <ButtonRound icon="plus" onClick={onIncrease} />}
             {quantity > 1 && <ButtonRound icon="minus" onClick={onDecrease} />}
             </div>
           </div>
