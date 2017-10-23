@@ -37,8 +37,7 @@ export default class extends Component {
     };
   }
 
-  loadMoreElement = async (page) => {
-    // console.log('page', page)
+  loadMoreElement = async (page) => {    
     const { config } = this.props;
     try {
       let ret = [];
@@ -62,6 +61,7 @@ export default class extends Component {
     }
   };
 
+
   updateView = ret => {    
     if (!ret.status && ret.data.data) {
       const data = ret.data.data;      
@@ -72,11 +72,19 @@ export default class extends Component {
     }
   };
 
+	componentWillReceiveProps(nextProps) {
+		this.removeSearchResult();		
+	}
+
+	removeSearchResult = () => {
+    this.scroller.pageLoaded = 0;
+		this.setState({hasMore: true, elements: []})		
+	}
+
   componentWillReceiveProps(nextProps) {
     const { config } = this.props;
     if (config.searchStr && config.searchStr.length >= 3) {
-      this.scroller.pageLoaded = 0;
-      this.setState({ hasMore: true, elements: []});            
+      this.removeSearchResult();          
     }
   }
 
@@ -87,27 +95,31 @@ export default class extends Component {
   );
 
   render() {
+
+    const { t } = this.props;
     const { elements } = this.state;
-    return (
+	  return (
       <div className="container-fluid bg-white py-4">
         <InfiniteScroller
-          ref={ref=>this.scroller = ref}
           className="row d-flex"
           hasMore={this.state.hasMore}
           loader={this.showLoading()}
-          pageStart={elements.length ? 1 : 0}
           loadMore={this.loadMoreElement}
+          pageStart={elements.length ? 1 : 0}
+          ref={ref=>this.scroller = ref}
         >
-          {elements.map((item) => (
-            <RestaurantItemPhoto
-              key={item.outlet_uuid}
-              uuid={item.outlet_uuid}
-              name={item.name}
-              address={item.address}
-              logo={item.logo}
-              restaurant={item}
-            />
-          ))}
+          {
+            elements.map((item) => (
+	            <RestaurantItemPhoto
+                key={item.outlet_uuid}
+                uuid={item.outlet_uuid}
+                name={item.name}
+                address={item.address}
+                logo={item.logo}
+                restaurant={item}
+              />
+            ))
+          }
         </InfiniteScroller>
       </div>
     );
