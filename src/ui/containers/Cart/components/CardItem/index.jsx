@@ -54,9 +54,9 @@ export default class extends Component {
           {priceUnit}
         </td>
         <td>
-          <div className="d-flex flex-row align-items-center">
-            <ButtonRound icon="minus" onClick={onDecrease}/>
-            <span className="ml-2 mr-2">{quantity}</span>
+          <div className="d-flex flex-row align-items-center justify-content-center">
+            {quantity >0 && <ButtonRound icon="minus" onClick={onDecrease}/>}
+            {quantity >0 && <span className="ml-2 mr-2">{quantity}</span>}
             <ButtonRound icon="plus" onClick={onIncrease}/>
           </div>
         </td>        

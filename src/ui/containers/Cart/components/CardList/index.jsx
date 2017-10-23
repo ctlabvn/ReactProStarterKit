@@ -40,7 +40,7 @@ export default class extends Component {
           <tr>
             <th className="pl-0 w-25">{t("TABLE.ITEM")}</th>
             <th>{t("TABLE.UNIT_PRICE")}</th>
-            <th>{t("TABLE.QUANTITY")}</th>
+            <th className="text-center">{t("TABLE.QUANTITY")}</th>
             <th>Vat</th>
             <th>{t("TABLE.TOTAL")}</th>
             <th className="text-center">{t("TABLE.DELETE")}</th>
