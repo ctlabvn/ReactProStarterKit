@@ -25,7 +25,7 @@ export const order = (state = initialState, { type, payload }) => {
   switch (type) {
     case "order/clearItems":
       // force update order info belong to restaurant later, or better use other field
-      return {...state, items:[], info: {...state.info, outlet_uuid: null}}
+      return {...state, items:[], info: {...state.info, outlet_uuid: null, request_time: 0}}
     case "order/addItem":
       index = findIndex(state, payload);
       return index !== -1

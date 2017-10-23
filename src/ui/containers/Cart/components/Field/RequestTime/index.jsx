@@ -60,12 +60,16 @@ export default class extends Component {
         })} key={start} onClick={()=>input.onChange(start)}>{this.getTimeFormat(now, start)}</span>);
       }    
     }
+
       return (
         <small>
           <i className="fa fa-clock-o" aria-hidden="true" /> Delivery time :
-          <Dropdown className="scrollable float-right request-time" title={this.getTimeFormat(now, input.value || roundedMinute)}> 
-            {children}
-          </Dropdown>
+          {children.length 
+            ? <Dropdown className="scrollable float-right request-time" title={this.getTimeFormat(now, input.value || roundedMinute)}> 
+              {children}
+            </Dropdown>
+            : <span className="ml-2 text-warning">Closed</span>
+          }
         </small>
       );
     }

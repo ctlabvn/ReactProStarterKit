@@ -37,7 +37,7 @@ import "./index.css";
   state => ({
     orderItems: orderSelectors.getItems(state),
     orderInfo: orderSelectors.getInfo(state),
-    initialValues: orderSelectors.getInfo(state)
+    initialValues: {...orderSelectors.getInfo(state), request_time: 0}
   }),
   orderActions
 )
@@ -75,6 +75,12 @@ export default class extends Component {
     const {orderInfo, orderItems} = this.props;
     const {directions} = this.state;    
     const {distance, duration} = directions.routes[0].legs[0];
+
+    if(!orderInfo.request_time){
+      throw new SubmissionError({        
+        _error: 'Can not delivery due to time!',
+      })
+    }
 
     if(orderInfo.delivery_distance && (1000 * +orderInfo.delivery_distance)
       < directions.routes[0].legs[0].distance.value) {
@@ -146,7 +152,6 @@ export default class extends Component {
             this.setState({
               directions: result
             });
-            console.log(result)
           } else {
             console.error(
               `error fetching directions ${JSON.stringify(result)}`
@@ -163,7 +168,6 @@ export default class extends Component {
     if (order_type.input.value !== 2) {
       return null;
     }
-    console.log(error, order_address)
     return (
       <div className="col-md-6 pl-0">
         <h6 className="color-gray text-uppercase mb-4 w-100">
