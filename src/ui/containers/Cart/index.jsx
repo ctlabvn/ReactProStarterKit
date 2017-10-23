@@ -15,9 +15,11 @@ import { DirectionsRenderer } from "react-google-maps";
 // components
 import { InputField } from "~/ui/components/ReduxForm";
 import CardList from "./components/CardList";
-import MaskedInput from "~/ui/components/MaskedInput";
+import RequestTimeField from "./components/Field/RequestTime";
+import OrderTypeField from "./components/Field/OrderType";
 import GoogleMapKey from "~/ui/components/GoogleMapKey";
 import Autocomplete from "~/ui/components/Autocomplete";
+import ButtonRound from "~/ui/components/Button/Round";
 
 import * as orderSelectors from "~/store/selectors/order";
 import * as orderActions from "~/store/actions/order";
@@ -26,14 +28,15 @@ import { fetchJson } from "~/store/api/common";
 import { history } from "~/store";
 import { getCurrentLocation } from "~/ui/utils";
 import { validate } from "./utils";
+import { parseJsonToObject } from "~/store/utils/json";
 
-import options from "./options";
 import "./index.css";
 
 @translate("translations")
 @connect(
   state => ({
     orderItems: orderSelectors.getItems(state),
+    orderInfo: orderSelectors.getInfo(state),
     initialValues: orderSelectors.getInfo(state)
   }),
   orderActions
@@ -65,29 +68,6 @@ export default class extends Component {
     history.push("/checkout");
   };
 
-  renderOrderTypeField = ({
-    input,
-    label,
-    meta: { touched, error, warning },
-    ...custom
-  }) => {
-    return (
-      <FormGroup check className="d-flex col-md-6 justify-content-between">
-        {options.orderTypes.map((item, index) => (
-          <Label check key={index}>
-            <Input
-              onChange={e => input.onChange(item.id)}
-              type="radio"
-              defaultChecked={item.id === input.value}
-              name="order_type"
-              className="mr-2"
-            />
-            {item.title}
-          </Label>
-        ))}
-      </FormGroup>
-    );
-  };
 
   async componentWillMount() {
     const { latitude: lat, longitude: lng } = await getCurrentLocation();
@@ -152,11 +132,10 @@ export default class extends Component {
             Load from Googlemap
           </Button>
         </h6>
-        <Field
-          name="order_address"
+        <InputField          
           placeholder="Type your address here"
           className="w-100"
-          component={InputField}
+          {...order_address}
         />        
 
         <h6 className="color-gray text-uppercase mb-4 w-100">
@@ -167,19 +146,18 @@ export default class extends Component {
     );
   };
 
-  renderRequestTimeField = ({ input }) => {
-    return (
-      <small>
-        <i className="fa fa-clock-o" aria-hidden="true" /> Delivery time :
-        <MaskedInput
-          // className="form-control"
-          mask="11"
-          placeholder="i"
-          {...input}
-        />{" "}
-        m
-      </small>
-    );
+  renderTimePicker = ({request_time, order_type}) => {
+    const {orderInfo} = this.props;
+    const orderTypes = []
+    orderInfo.do_takeaway && orderTypes.push({id: 1, title: 'Pick-up'});
+    orderInfo.do_delivery && orderTypes.push({id: 2, title: 'Delivery'});
+    const hoursRange = parseJsonToObject(order_type.input.value === 1 ? orderInfo.hours_takeaway : orderInfo.hours_delivery);
+    return(
+      <div className="d-flex col-md-6 justify-content-between">
+        <RequestTimeField hoursRange={hoursRange} {...request_time} />
+        <OrderTypeField orderTypes={orderTypes} {...order_type} />
+      </div>
+    )
   };
 
   searchGoogleMap = (keywords) => {
@@ -219,8 +197,7 @@ export default class extends Component {
         </span>
       </h6>
     );
-  }
-
+  }  
   
 
   render() {
@@ -230,8 +207,10 @@ export default class extends Component {
       handleSubmit,
       change,
       submitting,
+      orderInfo,
+      clearItems,
       initialValues: { order_type }
-    } = this.props;
+    } = this.props;        
 
     if (!orderItems || !orderItems.length) {
       return (
@@ -258,17 +237,12 @@ export default class extends Component {
             </Link>
           </nav>
 
-          <h2 className="w-100 text-uppercase font-weight-bold color-black">
+          <h2 className="w-100 text-uppercase font-weight-bold color-black d-flex">
             {t("LABEL.YOUR_CART")}
+            <ButtonRound className="ml-4" onClick={clearItems} icon="times" />
           </h2>
 
-          <div className="d-flex col-md-6 justify-content-between">
-            <Field
-              name="request_time"
-              component={this.renderRequestTimeField}
-            />
-            <Field name="order_type" component={this.renderOrderTypeField} />
-          </div>
+          <Fields names={["order_type", "request_time"]} component={this.renderTimePicker} />
 
           <CardList />
 

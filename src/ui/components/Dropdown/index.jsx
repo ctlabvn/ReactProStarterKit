@@ -32,7 +32,7 @@ export default class extends Component {
   render() {
     const { title, children, className, ...props } = this.props;
     const childrenWithProps = React.Children.map(children, child =>
-      <DropdownItem>{child}</DropdownItem>
+      <DropdownItem onClick={child.props.onClick}>{child}</DropdownItem>
     );
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className={className}>
