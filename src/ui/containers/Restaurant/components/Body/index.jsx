@@ -11,6 +11,7 @@ import ProductItemPhoto from "~/ui/components/Product/Item/Photo";
 import Slider from "~/ui/components/Slider";
 import ProductGroup from "~/ui/components/Product/Group";
 import ButtonRound from "~/ui/components/Button/Round";
+import RestaurantProduct from "~/ui/components/Restaurant/Product";
 
 import * as orderActions from "~/store/actions/order";
 import * as orderSelectors from "~/store/selectors/order";
@@ -143,27 +144,10 @@ export default class extends Component {
           </Menu>
 
 	        {!isLoadingItem ? (
-          <Col md="10">
-            {Object.keys(products).length ? (
-	            Object.keys(products).map((item, index) => (
-                <ProductGroup
-                  className="col-md-6 float-left pl-0 pr-5 mb-4"
-                  name={treeCategoryName[item]}                  
-                  key={index}
-                  products={products[item]}
-                  onAddOrder={canAddOrder ? this.addOrderItem : null}
-                />
-                )
-	            )
-            ) : (
-              <div className="text-center p-2">
-                <img src="/images/no-data.png" height="100" alt="" />
-                <p className="color-gray text-uppercase">
-                  {t("LABEL.CHOOSE_CATEGORY")}
-                </p>
-              </div>
-            )}
-          </Col>
+	        	<RestaurantProduct
+			        products={products}
+			        treeCategoryName={treeCategoryName}
+			        onAddOrder={canAddOrder ? this.addOrderItem : null} />
 	        ) : this.showLoading()
 	        }
         </div>

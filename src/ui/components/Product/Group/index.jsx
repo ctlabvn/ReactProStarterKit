@@ -11,7 +11,15 @@ import "./index.css";
 
 @translate("translations")
 export default class extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			displayHeader: true
+		};
+	}
+
   static propTypes = {
+    term: PropTypes.string,
     name: PropTypes.string,
 	  products: PropTypes.array,
     onAddOrder: PropTypes.func,
@@ -23,6 +31,31 @@ export default class extends Component {
 		return "/images/donut.png";
 	}
 
+	componentWillReceiveProps(nextProps) {
+		this.handleSearch(nextProps);
+	}
+
+	handleSearch = (nextProps) => {
+		const term = nextProps.term;
+		const regex = new RegExp(term, 'ig');
+		const { products } = this.props;
+
+		this.setState({displayHeader: false});
+		products.map((product) => {
+			if(term.length) {
+				if(product.name && (product.name.search(regex) > 0)) {
+					product.display = true;
+					this.setState({displayHeader: true});
+				}	else {
+					product.display = false;
+				}
+			} else {
+				product.display = true
+				this.setState({displayHeader: true});
+			}
+		});
+	}
+
   render() {
     const {
       name,
@@ -30,10 +63,11 @@ export default class extends Component {
       t,
       onAddOrder,
     } = this.props;
+    const { displayHeader } = this.state;
 
     return (
       <div className="container">
-	      {products.length ? <h2 className="mb-3">{name}</h2> : ''}
+	      {displayHeader && products.length ? <h2 className="mb-3">{name}</h2> : ''}
 	      {products.length ?
 		      products.map((item, index) => (
             <ProductItem
@@ -46,6 +80,7 @@ export default class extends Component {
               image={this.getProductImage(item.gallery)}
               itemUuid={item.item_uuid}
               onIncrease={onAddOrder ? ()=>onAddOrder(item) : null}
+              displayItem={typeof item.display != "undefined" ? item.display : true}
             />
 		      ))
 	       : ''}
