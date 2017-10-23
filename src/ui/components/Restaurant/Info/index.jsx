@@ -25,7 +25,7 @@ export default class extends Component {
 				const workingTime = parseJsonToObject(outlet.online_order_setting.hours_open);
 				const todayString = getTodayString();
 				const hoursOpendata = workingTime[todayString.toString().toUpperCase()];
-				if(hoursOpendata.open) {
+				if(hoursOpendata && hoursOpendata.open) {
 					metadata.push(`${hoursOpendata.from} - ${hoursOpendata.to}`);
 				} else {
 					metadata.push(t('LABEL.RESTAURANT_CLOSED'));
