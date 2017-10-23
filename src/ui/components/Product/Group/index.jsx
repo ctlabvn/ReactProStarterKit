@@ -80,7 +80,7 @@ export default class extends Component {
               image={this.getProductImage(item.gallery)}
               itemUuid={item.item_uuid}
               onIncrease={onAddOrder ? ()=>onAddOrder(item) : null}
-              displayItem={typeof item.display != "undefined" ? item.display : true}
+              displayItem={typeof item.display != "undefined" ? !!item.display : true}
             />
 		      ))
 	       : ''}

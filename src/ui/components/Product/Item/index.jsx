@@ -21,13 +21,14 @@ export default class extends Component {
     image: PropTypes.string,
     quantity: PropTypes.number,
     imageSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    displayItem: PropTypes.boolean
+    displayItem: PropTypes.bool
   };
 
   static defaultProps = {
     priceUnit: "$",
     imageSize: 50,
     quantity: 1,
+    displayItem: true,
   };
 
   render() {

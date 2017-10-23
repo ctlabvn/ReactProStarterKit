@@ -19,7 +19,7 @@ export default class extends Component {
 	}
 
 	render() {
-		const { t, products, treeCategoryName, canAddOrder }  = this.props;
+		const { t, products, treeCategoryName, onAddOrder }  = this.props;
 		const { term } = this.state;
 		return (
 			<Col md="10">
@@ -45,7 +45,7 @@ export default class extends Component {
 								key={index}
 								term={term}
 								products={products[item]}
-								onAddOrder={canAddOrder ? this.addOrderItem : null}
+								onAddOrder={onAddOrder}
 							/>
 						)
 					)

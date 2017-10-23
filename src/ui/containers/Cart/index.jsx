@@ -5,12 +5,12 @@ import { translate } from "react-i18next";
 import classNames from "classnames";
 
 // redux form
-import { Field, Fields, FieldArray, reduxForm } from "redux-form";
+import { Field, Fields, FieldArray, reduxForm, SubmissionError } from "redux-form";
 
 // reactstrap
-import { Button, FormGroup, Label, Input, DropdownItem } from "reactstrap";
+import { Button, FormGroup, Label, Input, DropdownItem, Alert } from "reactstrap";
 
-import { DirectionsRenderer } from "react-google-maps";
+import { DirectionsRenderer, Marker } from "react-google-maps";
 
 // components
 import { InputField } from "~/ui/components/ReduxForm";
@@ -52,69 +52,116 @@ export default class extends Component {
     super(props);
     this.state = {
       directions: null,
-      predictions:[],
-    };    
+      predictions: []
+    };
+
+    // this.props.updateOrder({
+    //   restaurant_lat:21.0687001,
+    //   restaurant_long:105.82295049999993,
+    // });
   }
 
-  initGmap = (ref)=>{
+  initGmap = ref => {
     this.googleMap = ref;
     this.Maps = window.google.maps;
     this.directionsService = new this.Maps.DirectionsService();
     this.placeService = new this.Maps.places.AutocompleteService();
+    this.geocoder = new this.Maps.Geocoder();
+    const {order_lat, order_long} = this.props.orderInfo;
+    this.loadDirectionFromGmap(order_lat, order_long);
   };
 
   saveOrderInfo = data => {
-    this.props.updateOrder(data);
-    history.push("/checkout");
+    // this.props.updateOrder(data);
+    // history.push("/checkout");
+    const {orderInfo, orderItems} = this.props;
+    const {directions} = this.state;    
+    if(orderInfo.delivery_distance && (1000 * +orderInfo.delivery_distance)
+      < directions.routes[0].legs[0].distance.value) {
+      throw new SubmissionError({        
+        _error: 'Distance is too far!',
+      })
+    }    
+
+    const totalPrice = this.getTotalPrice();
+    if(orderInfo.min_delivery_cost && totalPrice < orderInfo.min_delivery_cost){
+      throw new SubmissionError({        
+        _error: 'Price is too low!',
+      })
+    }
+    if(orderInfo.max_delivery_cost && totalPrice > orderInfo.max_delivery_cost){
+      throw new SubmissionError({        
+        _error: 'Price is too high!',
+      })
+    }
+    
   };
 
+  getTotalPrice(){
+    const {orderItems} = this.props;
+    const totalPrice = orderItems.reduce(
+      (a, item) => a + item.quantity * item.price,
+      0
+    );
 
-  async componentWillMount() {
-    const { latitude: lat, longitude: lng } = await getCurrentLocation();
-    this.setState({
-      lat,
-      lng
-    });
+    return totalPrice;
   }
 
   async loadAddressFromGmap(input) {
     // use guard code so do not have to remove } at the end
     this.loadingIcon.classList.remove("invisible");
-    const { lat, lng } = this.state;
+    // const { lat, lng } = this.state;
+    const { latitude: lat, longitude: lng } = await getCurrentLocation();
     const { results } = await fetchJson(
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_API_KEY}`
     );
     this.loadingIcon.classList.add("invisible");
-    input.onChange(results[0].formatted_address);
-
-    this.loadDirectionFromGmap();
+    // input.onChange(results[0].formatted_address);
+    this.props.updateOrder({
+      order_lat: lat,
+      order_long: lng,
+      order_address: results[0].formatted_address
+    });
+    this.loadDirectionFromGmap(lat, lng);
   }
 
-  async loadDirectionFromGmap() {        
-    this.directionsService.route(
-      {
-        origin: new this.Maps.LatLng(41.85073, -87.65126),
-        destination: new this.Maps.LatLng(41.85258, -87.65141),
-        travelMode: this.Maps.TravelMode.DRIVING
-      },
-      (result, status) => {
-        if (status === this.Maps.DirectionsStatus.OK) {
-          this.setState({
-            directions: result
-          });
-        } else {
-          console.error(`error fetching directions ${result}`);
+  async loadDirectionFromGmap(lat, long) {
+    const { orderInfo } = this.props;
+    // const { lat, lng } = this.state;
+    const {
+      restaurant_lat,
+      restaurant_long,
+    } = orderInfo;
+    if (lat && long) {
+      this.directionsService.route(
+        {
+          origin: new this.Maps.LatLng(restaurant_lat, restaurant_long),
+          destination: new this.Maps.LatLng(lat, long),
+          travelMode: this.Maps.TravelMode.DRIVING
+        },
+        (result, status) => {
+          if (status === this.Maps.DirectionsStatus.OK) {
+            this.setState({
+              directions: result
+            });
+            console.log(result)
+          } else {
+            console.error(
+              `error fetching directions ${JSON.stringify(result)}`
+            );
+          }
         }
-      }
-    );
+      );
+    }
   }
 
   renderAddress = ({ order_type, order_address }) => {
-    const { t } = this.props;
+    const { t, orderInfo, error } = this.props;
     const { directions, predictions } = this.state;
     if (order_type.input.value !== 2) {
       return null;
     }
+    console.log(error, order_address)
     return (
       <div className="col-md-6 pl-0">
         <h6 className="color-gray text-uppercase mb-4 w-100">
@@ -132,51 +179,58 @@ export default class extends Component {
             Load from Googlemap
           </Button>
         </h6>
-        <InputField          
+        <InputField
           placeholder="Type your address here"
           className="w-100"
           {...order_address}
-        />        
+        />
 
         <h6 className="color-gray text-uppercase mb-4 w-100">
           {t("LABEL.BUSINESS_ADDRESS")}
-          <span className="color-gray-400 float-right">Hottab company</span>
+          <span className="color-gray-400 float-right">
+            {orderInfo.restaurant_address}
+          </span>
         </h6>
       </div>
     );
   };
 
-  renderTimePicker = ({request_time, order_type}) => {
-    const {orderInfo} = this.props;
-    const orderTypes = []
-    orderInfo.do_takeaway && orderTypes.push({id: 1, title: 'Take away'});
-    orderInfo.do_delivery && orderTypes.push({id: 2, title: 'Delivery'});
-    const hoursRange = parseJsonToObject(order_type.input.value === 1 ? orderInfo.hours_takeaway : orderInfo.hours_delivery);
-    return(
+  renderTimePicker = ({ request_time, order_type }) => {
+    const { orderInfo } = this.props;
+    const orderTypes = [];
+    orderInfo.do_takeaway && orderTypes.push({ id: 1, title: "Take away" });
+    orderInfo.do_delivery && orderTypes.push({ id: 2, title: "Delivery" });
+    const hoursRange = parseJsonToObject(
+      order_type.input.value === 1
+        ? orderInfo.hours_takeaway
+        : orderInfo.hours_delivery
+    );
+    return (
       <div className="d-flex col-md-6 pl-0 justify-content-between">
         <OrderTypeField orderTypes={orderTypes} {...order_type} />
-        <RequestTimeField hoursRange={hoursRange} {...request_time} />        
+        <RequestTimeField hoursRange={hoursRange} {...request_time} />
       </div>
-    )
+    );
   };
 
-  searchGoogleMap = (keywords) => {
-    if(!keywords.length || this.isSearching)
-      return
+  searchGoogleMap = keywords => {
+    if (!keywords.length || this.isSearching) return;
     this.isSearching = true;
-    this.placeService.getQueryPredictions({ input: keywords }, (predictions, status)=>{      
-      if (status === this.Maps.places.PlacesServiceStatus.OK) {
+    this.placeService.getQueryPredictions(
+      { input: keywords },
+      (predictions, status) => {
+        if (status === this.Maps.places.PlacesServiceStatus.OK) {
           this.setState({
-            predictions,
-          })
-          
-      } else {
-        this.setState({
-            predictions: [],
-          })
+            predictions
+          });
+        } else {
+          this.setState({
+            predictions: []
+          });
+        }
+        this.isSearching = false;
       }
-      this.isSearching = false;
-    });
+    );
   };
 
   renderCurrency(label, price, className, symbol = "₫") {
@@ -197,8 +251,22 @@ export default class extends Component {
         </span>
       </h6>
     );
-  }  
-  
+  }
+
+  chooseAddress({ description }) {
+    this.geocoder.geocode({ address: description }, (results, status) => {
+      if (status === this.Maps.GeocoderStatus.OK) {
+        const lat = results[0].geometry.location.lat();
+        const lng = results[0].geometry.location.lng();
+        this.props.updateOrder({
+          order_lat: lat,
+          order_long: lng,
+          order_address: description,
+        });
+        this.loadDirectionFromGmap(lat, lng);
+      }
+    });
+  }
 
   render() {
     const {
@@ -209,8 +277,9 @@ export default class extends Component {
       submitting,
       orderInfo,
       clearItems,
+      error,
       initialValues: { order_type }
-    } = this.props;        
+    } = this.props;
 
     if (!orderItems || !orderItems.length) {
       return (
@@ -222,12 +291,11 @@ export default class extends Component {
         </div>
       );
     }
-
-    const { lat, lng, directions, predictions } = this.state;
-    const totalPrice = orderItems.reduce(
-      (a, item) => a + item.quantity * item.price,
-      0
-    );
+    const { restaurant_lat, restaurant_long } = orderInfo;
+    const { directions, predictions } = this.state;
+    const position = { lat: restaurant_lat, lng: restaurant_long };
+    const totalPrice = this.getTotalPrice();
+    
     return (
       <div className="container">
         <div className="block bg-white">
@@ -242,7 +310,10 @@ export default class extends Component {
             <ButtonRound className="ml-4" onClick={clearItems} icon="times" />
           </h2>
 
-          <Fields names={["order_type", "request_time"]} component={this.renderTimePicker} />
+          <Fields
+            names={["order_type", "request_time"]}
+            component={this.renderTimePicker}
+          />
 
           <CardList />
 
@@ -253,19 +324,24 @@ export default class extends Component {
             />
             <div className="col pr-0">
               <Autocomplete onSearch={this.searchGoogleMap}>
-                {predictions.map((prediction, index)=>
-                  <DropdownItem onClick={()=>change("order_address", prediction.description)} key={index}>{prediction.description}</DropdownItem>
-                )}
+                {predictions.map((prediction, index) => (
+                  <DropdownItem
+                    onClick={() => this.chooseAddress(prediction)}
+                    key={index}
+                  >
+                    {prediction.description}
+                  </DropdownItem>
+                ))}
               </Autocomplete>
 
-              {lat &&
-                lng && (
-                  <GoogleMapKey onItemRef={this.initGmap} height={400} defaultCenter={{ lat, lng }}>
-                    {directions && (
-                      <DirectionsRenderer directions={directions} />
-                    )}
-                  </GoogleMapKey>
-                )}
+              <GoogleMapKey
+                onItemRef={this.initGmap}
+                height={400}
+                defaultCenter={position}
+              >
+                {directions ? <DirectionsRenderer directions={directions} /> : <Marker position={position}/>}
+              </GoogleMapKey>
+
               {directions && (
                 <div className="d-flex flex-row justify-content-between mt-auto w-100">
                   <span>
@@ -301,11 +377,11 @@ export default class extends Component {
                 "color-gray",
                 orderItems[0].currency_symbol
               )}
-              {this.renderCurrency("Delivery free", 0, "color-gray")}
-              {this.renderCurrency("Tax", 0, "color-gray")}
+              {this.renderCurrency("Delivery free", +orderInfo.delivery_fee, "color-gray")}
+              {this.renderCurrency("Tax", +orderInfo.consumer_taxes, "color-gray")}
               {this.renderCurrency(
                 "LABEL.TOTAL_PRICE",
-                totalPrice,
+                totalPrice + orderInfo.delivery_fee + orderInfo.consumer_taxes,
                 "color-black",
                 orderItems[0].currency_symbol
               )}
@@ -326,6 +402,11 @@ export default class extends Component {
               </Button>
             </div>
           </div>
+
+          {error && <Alert color="danger">
+        {error}
+      </Alert>}
+
         </div>
       </div>
     );

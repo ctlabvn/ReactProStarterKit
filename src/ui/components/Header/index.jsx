@@ -64,7 +64,7 @@ export default class extends Component {
   }
 
   renderPopoverCart(){
-    const {t, orderItems} = this.props;
+    const {t, orderItems} = this.props;    
     return (
       <Popover
               placement="bottom"

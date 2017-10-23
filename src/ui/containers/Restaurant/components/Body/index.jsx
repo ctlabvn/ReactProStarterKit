@@ -69,14 +69,13 @@ export default class extends Component {
 	);
 
   addOrderItem = (item) => {
-    const {orderInfo, outlet, clearItems, updateOrder} = this.props;
+    const {orderInfo, outlet, clearItems, updateOrder, addOrderItem} = this.props;
     if(orderInfo.outlet_uuid !== outlet.outlet_uuid){
       // first time or reset
       if(!orderInfo.outlet_uuid || window.confirm("Do you want to clear current orders?")){
-        clearItems();
-        updateOrder(outlet.online_order_setting);        
+        clearItems();           
       } else {
-        return ;
+        return;
       }
     }
 
@@ -88,7 +87,15 @@ export default class extends Component {
       name,
       description
     } = item;
-    this.props.addOrderItem({
+
+    // each time add order, we should update business info for sure
+    updateOrder({
+      ...outlet.online_order_setting,
+      restaurant_address: outlet.address,
+      restaurant_lat: outlet.lat,
+      restaurant_long: outlet.long, 
+    });     
+    addOrderItem({
       item_uuid,
       item_options,
       price: default_price,
@@ -104,6 +111,7 @@ export default class extends Component {
     const { products, features, isLoadingItem, treeCategory, treeCategoryName } = this.state;
 	  let firstCategory = '';
 	  const canAddOrder = !!outlet.online_order_setting && outlet.online_order_setting.published && (outlet.online_order_setting.do_delivery || outlet.online_order_setting.do_takeaway);
+    
 	  outlet.categories.map(item => {
 		  treeCategoryName[item.category_uuid] = item.name;
 		  if(item.parent_uuid) {
