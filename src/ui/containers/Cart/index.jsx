@@ -71,11 +71,11 @@ export default class extends Component {
     this.loadDirectionFromGmap(order_lat, order_long);
   };
 
-  saveOrderInfo = data => {
-    // this.props.updateOrder(data);
-    // history.push("/checkout");
+  saveOrderInfo = data => {    
     const {orderInfo, orderItems} = this.props;
     const {directions} = this.state;    
+    const {distance, duration} = directions.routes[0].legs[0];
+
     if(orderInfo.delivery_distance && (1000 * +orderInfo.delivery_distance)
       < directions.routes[0].legs[0].distance.value) {
       throw new SubmissionError({        
@@ -95,6 +95,8 @@ export default class extends Component {
       })
     }
     
+    this.props.updateOrder({...data, travel_time: duration.value/60});
+    history.push("/checkout");
   };
 
   getTotalPrice(){

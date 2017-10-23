@@ -39,8 +39,7 @@ import "./index.css";
 export default class extends Component {
 
   createOrder = async ()=>{
-    const {customer, orderItems, orderInfo, token, address, requestor} = this.props;
-    const ret = await getCurrentLocation();
+    const {customer, orderItems, orderInfo, token, address, requestor, clearItems} = this.props;    
     const addressItem = address.find(item=>item.cus_address_uuid === orderInfo.cus_address_uuid)
     const data = {
       items: orderItems.map(item => ({
@@ -54,16 +53,21 @@ export default class extends Component {
         customer_phone: customer.phone,
         customer_email: customer.email,
         customer_address: addressItem ? addressItem.address : "",
-        customer_lat: ret.latitude,
-        customer_long: ret.longitude,
+        customer_lat: orderInfo.order_lat,
+        customer_long: orderInfo.order_long,
       },
-      // The request time for delivery in seconds. 
-      request_time: orderInfo.request_time * 60,
+      // The request time for delivery in minutes. 
+      request_time: orderInfo.request_time + orderInfo.preparation_time + orderInfo.travel_time,
       order_type: orderInfo.order_type,
       order_note: orderInfo.order_note,
     }
     // console.log(data);
-    requestor("order/requestCreateOrder", data);
+    requestor("order/requestCreateOrder", data, (err, ret)=>{
+      if(!err){
+        // if success create order then clear all items
+        clearItems();
+      }
+    });
   };
 
   componentWillMount() {
