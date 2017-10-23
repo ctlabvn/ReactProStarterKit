@@ -9,12 +9,13 @@ export default ({
   meta: { touched, error, warning },
   orderTypes
 }) => (
-  <FormGroup check className="d-flex col-md-6 justify-content-between">
+  <FormGroup check className="d-flex justify-content-between">
     {orderTypes.map((item, index) => (
-      <Label check key={index}>
+      <Label check key={index} className="mr-4">
         <Input
           onChange={e => input.onChange(item.id)}
           type="radio"
+          defaultChecked={index === orderTypes.length - 1}
           defaultChecked={item.id === input.value}
           name="order_type"
           className="mr-2"

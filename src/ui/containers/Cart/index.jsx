@@ -149,13 +149,13 @@ export default class extends Component {
   renderTimePicker = ({request_time, order_type}) => {
     const {orderInfo} = this.props;
     const orderTypes = []
-    orderInfo.do_takeaway && orderTypes.push({id: 1, title: 'Pick-up'});
+    orderInfo.do_takeaway && orderTypes.push({id: 1, title: 'Take away'});
     orderInfo.do_delivery && orderTypes.push({id: 2, title: 'Delivery'});
     const hoursRange = parseJsonToObject(order_type.input.value === 1 ? orderInfo.hours_takeaway : orderInfo.hours_delivery);
     return(
-      <div className="d-flex col-md-6 justify-content-between">
-        <RequestTimeField hoursRange={hoursRange} {...request_time} />
+      <div className="d-flex col-md-6 pl-0 justify-content-between">
         <OrderTypeField orderTypes={orderTypes} {...order_type} />
+        <RequestTimeField hoursRange={hoursRange} {...request_time} />        
       </div>
     )
   };
