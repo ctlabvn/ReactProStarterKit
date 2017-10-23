@@ -12,7 +12,7 @@ export default class extends Component {
     loader: PropTypes.object,
     loadMore: PropTypes.func.isRequired,
     pageStart: PropTypes.number,
-    ref: PropTypes.func,
+    onItemRef: PropTypes.func,
     threshold: PropTypes.number,
     useCapture: PropTypes.bool,
     useWindow: PropTypes.bool
@@ -23,7 +23,7 @@ export default class extends Component {
     hasMore: false,
     initialLoad: true,
     pageStart: 0,
-    ref: null,
+    onItemRef: null,
     threshold: 250,
     useWindow: true,
     isReverse: false,
@@ -152,7 +152,7 @@ export default class extends Component {
       loader,
       loadMore,
       pageStart,
-      ref,
+      onItemRef,
       threshold,
       useCapture,
       useWindow,
@@ -161,8 +161,8 @@ export default class extends Component {
 
     props.ref = node => {
       this.scrollComponent = node;
-      if (ref) {
-        ref(node);
+      if (onItemRef) {        
+        onItemRef(node);
       }
     };
 

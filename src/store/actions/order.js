@@ -1,6 +1,5 @@
-export const setRestaurant = (data) => ({
-  type: 'order/setRestaurant',
-  payload:data,
+export const clearItems = () => ({
+  type: 'order/clearItems',  
 });
 
 export const updateOrder = (data) => ({

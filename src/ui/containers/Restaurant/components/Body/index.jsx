@@ -59,11 +59,12 @@ export default class extends Component {
 	);
 
   addOrderItem = (item) => {
-    const {orderInfo, outlet} = this.props;
+    const {orderInfo, outlet, clearItems, updateOrder} = this.props;
     if(orderInfo.outlet_uuid !== outlet.outlet_uuid){
       // first time or reset
       if(!orderInfo.outlet_uuid || window.confirm("Do you want to clear current orders?")){
-        this.props.setRestaurant(outlet.outlet_uuid);
+        clearItems();
+        updateOrder(outlet.online_order_setting);        
       } else {
         return ;
       }

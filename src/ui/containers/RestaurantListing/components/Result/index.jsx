@@ -63,7 +63,7 @@ export default class extends Component {
 
 
   updateView = ret => {    
-    if (!ret.status && ret.data.data) {
+    if (!ret.status && ret.data.data && !this.unmounted) {
       const data = ret.data.data;      
       this.setState(prevState => ({
         elements: prevState.elements.concat(data),
@@ -71,10 +71,6 @@ export default class extends Component {
       }));
     }
   };
-
-	componentWillReceiveProps(nextProps) {
-		this.removeSearchResult();		
-	}
 
 	removeSearchResult = () => {
     this.scroller.pageLoaded = 0;
@@ -86,6 +82,10 @@ export default class extends Component {
     if (config.searchStr && config.searchStr.length >= 3) {
       this.removeSearchResult();          
     }
+  }
+
+  componentWillUnmount(){
+    this.unmounted = true;
   }
 
   showLoading = () => (
@@ -106,7 +106,7 @@ export default class extends Component {
           loader={this.showLoading()}
           loadMore={this.loadMoreElement}
           pageStart={elements.length ? 1 : 0}
-          ref={ref=>this.scroller = ref}
+          onItemRef={ref=>this.scroller = ref}
         >
           {
             elements.map((item) => (
