@@ -27,10 +27,13 @@ export default class extends Component {
 					<div className="row">
 						<div className="col"></div>
 						<div className="form-group col-6 pull-right">
-							<input
-								className="form-control"
-								ref="searchProductInput"
-								onKeyUp={this.handleKeyUp} />
+							<div className="input-group">
+								<input
+									className="form-control"
+									ref="searchProductInput"
+									onKeyUp={this.handleKeyUp} />
+								<span className="input-group-addon" id="basic-addon2"><i className="fa fa-search"></i></span>
+							</div>
 						</div>
 					</div>
 				) : ''}

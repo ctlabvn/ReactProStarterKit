@@ -32,26 +32,35 @@ export default class extends Component {
 	    features: [],
 	    isLoadingItem: false,
 	    treeCategory: {},
-	    treeCategoryName: {}
+	    treeCategoryName: {},
+	    selectedCategory: ''
     };
   }
 
-	handleCategory = async childCategories => {
-		this.setState({isLoadingItem : true, products: {}});
-		const lastChildCategory = childCategories[childCategories.length - 1];
-		for(const currentCategoryUuid of childCategories) {
-			api.restaurant.getProductByCategory(currentCategoryUuid).then(ret => {
-				this.setState((prevState) => {
-					let products = prevState.products
-					if(ret.data.data) {
-						products[currentCategoryUuid] = ret.data.data
-					}
-					return {products: products}
-				});
-				this.setState({isLoadingItem : false});
-			}, err => console.log(err));
-		}
+	handleCategory = parentCategory => {
+  	this.setState({selectedCategory: parentCategory});
+  	this.loadProducts(parentCategory);
 	};
+
+  loadProducts = async (parentCategory) => {
+		const { treeCategory } = this.state;
+		const childCategories = treeCategory[parentCategory];
+
+	  this.setState({isLoadingItem : true, products: {}});
+
+	  for(const currentCategoryUuid of childCategories) {
+		  api.restaurant.getProductByCategory(currentCategoryUuid).then(ret => {
+			  this.setState((prevState) => {
+				  let products = prevState.products
+				  if(ret.data.data) {
+					  products[currentCategoryUuid] = ret.data.data
+				  }
+				  return {products: products}
+			  });
+			  this.setState({isLoadingItem : false});
+		  }, err => console.log(err));
+	  }
+  }
 
 	showLoading = () => (
 		<div className="col text-center py-2">
@@ -93,7 +102,8 @@ export default class extends Component {
   render() {
     const { t, outlet } = this.props;
     const { products, features, isLoadingItem, treeCategory, treeCategoryName } = this.state;
-    const canAddOrder = !!outlet.online_order_setting && outlet.online_order_setting.published && (outlet.online_order_setting.do_delivery || outlet.online_order_setting.do_takeaway);
+	  let firstCategory = '';
+	  const canAddOrder = !!outlet.online_order_setting && outlet.online_order_setting.published && (outlet.online_order_setting.do_delivery || outlet.online_order_setting.do_takeaway);
 	  outlet.categories.map(item => {
 		  treeCategoryName[item.category_uuid] = item.name;
 		  if(item.parent_uuid) {
@@ -106,11 +116,13 @@ export default class extends Component {
 		    if(!treeCategory.hasOwnProperty(item.category_uuid)) {
 			    treeCategory[item.category_uuid] = [item.category_uuid ];
         }
+        if(!firstCategory) {
+	        firstCategory = item.category_uuid;
+        }
       }
     });
 
-	  const firstCategory = Object.keys(treeCategory)[0] ? Object.keys(treeCategory)[0] : '';
-    
+
     return (
       <div className="row block bg-white mb-4 tab-content">
 	      {features.length ?
@@ -133,7 +145,7 @@ export default class extends Component {
               if(!item.parent_uuid) {
 	              return (
                   <MenuItem
-                    onClick={() => this.handleCategory(treeCategory[item.category_uuid])}
+                    onClick={() => this.handleCategory(item.category_uuid)}
                     key={item.category_uuid}
                     title={item.name}
                     clickIt={item.category_uuid === firstCategory}
