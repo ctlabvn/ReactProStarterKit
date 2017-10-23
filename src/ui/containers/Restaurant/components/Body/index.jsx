@@ -13,13 +13,16 @@ import ProductGroup from "~/ui/components/Product/Group";
 import ButtonRound from "~/ui/components/Button/Round";
 
 import * as orderActions from "~/store/actions/order";
+import * as orderSelectors from "~/store/selectors/order";
 
 import api from "~/store/api";
 import "./index.css";
 import options from "./options";
 
 @translate('translations')
-@connect(null, orderActions)
+@connect(state=>({
+  orderInfo: orderSelectors.getInfo(state)
+}), orderActions)
 export default class extends Component {
   constructor(props) {
     super(props);
@@ -53,7 +56,37 @@ export default class extends Component {
 		<div className="col text-center py-2">
 			<i className="fa fa-refresh fa-spin fa-3x fa-fw"></i>
 		</div>
-	)
+	);
+
+  addOrderItem = (item) => {
+    const {orderInfo, outlet} = this.props;
+    if(orderInfo.outlet_uuid !== outlet.outlet_uuid){
+      // first time or reset
+      if(!orderInfo.outlet_uuid || window.confirm("Do you want to clear current orders?")){
+        this.props.setRestaurant(outlet.outlet_uuid);
+      } else {
+        return ;
+      }
+    }
+
+    const {
+      default_price,
+      item_options,
+      item_uuid,
+      currency,
+      name,
+      description
+    } = item;
+    this.props.addOrderItem({
+      item_uuid,
+      item_options,
+      price: default_price,
+      quantity: 1,
+      name,
+      description,
+      currency_symbol: currency.symbol
+    });
+  };
 
   render() {
     const { t, outlet } = this.props;
@@ -114,9 +147,10 @@ export default class extends Component {
 	            Object.keys(products).map((item, index) => (
                 <ProductGroup
                   className="col-md-6 float-left pl-0 pr-5 mb-4"
-                  name={treeCategoryName[item]}
+                  name={treeCategoryName[item]}                  
                   key={index}
                   products={products[item]}
+                  onAddOrder={this.addOrderItem}
                 />
                 )
 	            )

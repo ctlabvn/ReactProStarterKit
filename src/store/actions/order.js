@@ -1,3 +1,8 @@
+export const setRestaurant = (data) => ({
+  type: 'order/setRestaurant',
+  payload:data,
+});
+
 export const updateOrder = (data) => ({
   type: 'order/update',
   payload: data,

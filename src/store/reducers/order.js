@@ -23,6 +23,8 @@ const findIndex = (state, payload) =>
 export const order = (state = initialState, { type, payload }) => {
   let index = -1;
   switch (type) {
+    case "order/setRestaurant":
+      return {...state, items:[], info: {...state.info, outlet_uuid: payload}}
     case "order/addItem":
       index = findIndex(state, payload);
       return index !== -1

@@ -6,37 +6,16 @@ import classNames from "classnames";
 import { connect } from "react-redux";
 
 import ProductItem from "~/ui/components/Product/Item";
-import * as orderActions from "~/store/actions/order";
 
 import "./index.css";
 
 @translate("translations")
-@connect(null, orderActions)
 export default class extends Component {
   static propTypes = {
     name: PropTypes.string,
-	  products: PropTypes.array
+	  products: PropTypes.array,
+    onAddOrder: PropTypes.func.isRequired,
   };
-
-	addOrderItem(item) {
-		const {
-			default_price,
-			item_options,
-			item_uuid,
-			currency,
-			name,
-			description
-		} = item;
-		this.props.addOrderItem({
-			item_uuid,
-			item_options,
-			price: default_price,
-			quantity: 1,
-			name,
-			description,
-			currency_symbol: currency.symbol
-		});
-	}
 
 	getProductImage(gallery) {
 		const galleryData = JSON.parse(gallery);
@@ -49,6 +28,7 @@ export default class extends Component {
       name,
 	    products,
       t,
+      onAddOrder,
     } = this.props;
 
     return (
@@ -65,7 +45,7 @@ export default class extends Component {
               title={item.name}
               image={this.getProductImage(item.gallery)}
               itemUuid={item.item_uuid}
-              onIncrease={() => this.addOrderItem(item)}
+              onIncrease={()=>onAddOrder(item)}
             />
 		      ))
 	       : ''}
