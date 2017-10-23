@@ -33,7 +33,7 @@ export default class extends Component {
 			return (
 				<div id="restaurant-tags" className="mt-3">
 					{tags && tags.map((item, index) => (
-						<Badge color="secondary mr-2 text-default">{item.name}</Badge>
+						<Badge key={index} color="secondary mr-2 text-default">{item.name}</Badge>
 					))}
 				</div>
 			);
