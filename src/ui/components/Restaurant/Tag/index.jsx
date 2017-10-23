@@ -4,6 +4,7 @@ import { translate } from "react-i18next";
 import { Badge } from 'reactstrap';
 
 import api from "~/store/api";
+import './index.css';
 
 @translate('translations')
 export default class extends Component {
@@ -32,7 +33,7 @@ export default class extends Component {
 			return (
 				<div id="restaurant-tags" className="mt-3">
 					{tags && tags.map((item, index) => (
-						<Badge color="secondary mr-2"><h5 className="m-0">{item.name}</h5></Badge>
+						<Badge color="secondary mr-2 text-default">{item.name}</Badge>
 					))}
 				</div>
 			);

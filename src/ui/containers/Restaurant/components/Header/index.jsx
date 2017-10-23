@@ -10,6 +10,7 @@ import RestaurantOrderSetting from "~/ui/components/Restaurant/OrderSetting";
 import RestaurantInfo from "~/ui/components/Restaurant/Info";
 import RestaurantTag from "~/ui/components/Restaurant/Tag";
 import Readmore from "~/ui/components/Restaurant/Readmore";
+import { parseJsonToObject } from "~/store/utils/json";
 
 import "./index.css";
 import options from "./options";
@@ -19,7 +20,7 @@ export default class extends Component {
 
   render() {
     const {t,outlet} = this.props;
-    const gallery = outlet.gallery ? JSON.parse(outlet.gallery.replace(/\\/g, '')) : ["/images/no-image-icon.png"];
+    const gallery = parseJsonToObject(outlet.gallery, ["/images/no-image-icon.png"]);
 
     return (
       <div className="row flex-nowrap d-flex flex-row justify-content-between block bg-white mb-4 mt-5">
@@ -36,7 +37,7 @@ export default class extends Component {
             </span>
           </nav>
 
-          <h2 className="font-weight-bold text-uppercase">{outlet.name}</h2>
+          <h2 className="font-weight-bold text-capitalize">{outlet.name}</h2>
 
           <div className="flex-row d-flex justify-content-between">
             <RestaurantInfo outlet={outlet} />

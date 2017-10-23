@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { translate } from "react-i18next";
 import './index.css';
+import { getTodayString } from "~/store/utils/datetime";
+import { parseJsonToObject } from "~/store/utils/json";
 
 @translate('translations')
 export default class extends Component {
@@ -20,7 +22,14 @@ export default class extends Component {
 				metadata.push(outlet.phone);
 			}
 			if(outlet.online_order_setting && outlet.online_order_setting.hours_open) {
-				metadata.push(outlet.online_order_setting.hours_open);
+				const workingTime = parseJsonToObject(outlet.online_order_setting.hours_open);
+				const todayString = getTodayString();
+				const hoursOpendata = workingTime[todayString.toString().toUpperCase()];
+				if(hoursOpendata.open) {
+					metadata.push(`${hoursOpendata.from} - ${hoursOpendata.to}`);
+				} else {
+					metadata.push(t('LABEL.RESTAURANT_CLOSED'));
+				}
 			}
 		}
 

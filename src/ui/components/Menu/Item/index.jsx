@@ -8,7 +8,8 @@ import "./index.css";
 export default class extends Component {
   static defaultProps = {
     activeClassName: "selected",
-    active: false
+    active: false,
+	  clickIt: false
   };
 
   renderLink(link, title) {
@@ -35,6 +36,14 @@ export default class extends Component {
 
   renderItem(title) {
     return <span>{title}</span>;
+  }
+
+  componentDidMount() {
+	  const { clickIt } = this.props;
+	  if(clickIt) {
+	    this.node.click();
+    }
+
   }
 
   render() {

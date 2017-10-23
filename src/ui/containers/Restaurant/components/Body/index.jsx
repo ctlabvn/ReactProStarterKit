@@ -26,7 +26,9 @@ export default class extends Component {
     this.state = {
 	    products: {},
 	    features: [],
-	    isLoadingItem: false
+	    isLoadingItem: false,
+	    treeCategory: {},
+	    treeCategoryName: {}
     };
   }
 
@@ -55,9 +57,8 @@ export default class extends Component {
 
   render() {
     const { t, outlet } = this.props;
-    const { products, features, isLoadingItem } = this.state;
-    const treeCategory = {};
-    const treeCategoryName = {};
+    const { products, features, isLoadingItem, treeCategory, treeCategoryName } = this.state;
+
 	  outlet.categories.map(item => {
 		  treeCategoryName[item.category_uuid] = item.name;
 		  if(item.parent_uuid) {
@@ -72,6 +73,8 @@ export default class extends Component {
         }
       }
     });
+
+	  const firstCategory = Object.keys(treeCategory)[0] ? Object.keys(treeCategory)[0] : '';
     
     return (
       <div className="row block bg-white mb-4 tab-content">
@@ -98,6 +101,7 @@ export default class extends Component {
                     onClick={() => this.handleCategory(treeCategory[item.category_uuid])}
                     key={item.category_uuid}
                     title={item.name}
+                    clickIt={item.category_uuid === firstCategory}
                   />
                 );
               }

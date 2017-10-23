@@ -60,13 +60,16 @@ export default class extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		this.setState({hasMore: true, elements: []});
-		this.page = 1;
-		this.loadMoreElement();
+		const { config } = this.props;
+		if(config.searchStr && config.searchStr.length >= 3) {
+			this.setState({hasMore: true, elements: []});
+			this.page = 1;
+			this.loadMoreElement();
+		}
 	}
 
 	showLoading = () => (
-		<div className="d-flex flex-row justify-content-center py-2">
+		<div className="col-12 text-center d-flex flex-row justify-content-center py-2">
 			<i className="fa fa-refresh fa-spin fa-3x fa-fw"></i>
 		</div>
 	)
@@ -76,7 +79,7 @@ export default class extends Component {
 	  return (
       <div className="container-fluid bg-white py-4">
         <InfiniteScroller
-            className="row d-flex justify-content-center"
+            className="row d-flex"
             hasMore={this.state.hasMore}
             loader={this.showLoading()}
             loadMore={this.loadMoreElement}

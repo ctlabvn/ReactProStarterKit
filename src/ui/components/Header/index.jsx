@@ -53,7 +53,7 @@ export default class extends Component {
 		clearTimeout(this.timeout);
 		const term = target.value.trim();
 		// action
-		setTimeout(() => this.props.updateConfig('searchStr', term), 1000);
+		setTimeout(() => this.props.updateConfig('searchStr', term), 500);
 	}
 
   renderPopoverCart(){
@@ -117,9 +117,8 @@ export default class extends Component {
 
             <input
               type="text"
-              value={config.searchStr}
               className="custom-input font-large color-gray w-100"
-              placeholder={t("PLACE_HOLDER.TYPE_YOUR_SEARCH")}
+              placeholder={config.searchStr ? config.searchStr : t("PLACE_HOLDER.TYPE_YOUR_SEARCH")}
               onChange={this.handleSearch}
             />
           </div>
