@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import Readmore from "~/ui/components/Restaurant/Readmore";
 
 import { translate } from "react-i18next";
 
@@ -71,7 +72,11 @@ export default class extends Component {
               />
             </Link>
             <div className="flex-row d-flex justify-content-between">
-              <span className="pr-4">{description}</span>
+              <div className="pr-4">
+                <Readmore line="2" more={t('LABEL.SHOW_MORE')} less={t('LABEL.SHOW_LESS')}>
+                  <p className="w-100 mt-3 html-content">{description}</p>
+                </Readmore>
+              </div>
               <div className="d-flex flex-column justify-content-between">
 						    {onIncrease && <ButtonRound icon="plus" onClick={onIncrease} />}
 						    {quantity > 0 && <ButtonRound icon="minus" onClick={onDecrease} />}

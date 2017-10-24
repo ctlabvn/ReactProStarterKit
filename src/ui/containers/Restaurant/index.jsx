@@ -35,9 +35,12 @@ export default class extends Component {
 
   async loadOutlet(uuid) {    
     try {
-      const ret = await api.restaurant.getOutlet(uuid);
+      // fetch outlet detail then push to state
+      const retOutlet = await api.restaurant.getOutlet(uuid);
+      const retOutletCaterogies = await api.restaurant.getCategories(uuid);
+      retOutlet.data.categories = retOutletCaterogies.data.data;
       // check ret.error then show ret.message
-      this.setState({ outlet: ret.data });
+      this.setState({ outlet: retOutlet.data });
     } catch (e) {
       this.props.setToast(e.message.general, "danger");
       this.setState({ outlet: {} });
@@ -60,13 +63,14 @@ export default class extends Component {
       return <EmptyResult/>;
     }
 
+    const toggleClass = "restaurant-tab";
     return (
       <div className="restaurant">
         <div className="container">
           <Header outlet={outlet} />
 
-          <Body outlet={outlet} id="tabBody" />
-          {/*<Detail outlet={outlet} id="tabDetail" />*/}
+          <Body outlet={outlet} toggleClass={toggleClass} />
+          <Detail outlet={outlet} toggleClass={toggleClass} />
 
           {/*<Footer outlet={outlet} />*/}
         </div>

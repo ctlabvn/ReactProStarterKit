@@ -164,7 +164,7 @@ export default class extends Component {
             {!isLogged ? (
               <Button
                 onClick={() => this.loginModal.toggle()}
-                className="btn-outline-danger btn-sm text-uppercase ml-4"
+                className="btn-outline-danger btn-sm text-capitalize ml-4"
               >
                 {t("LINK.FOOTER.LOGIN")}
               </Button>
