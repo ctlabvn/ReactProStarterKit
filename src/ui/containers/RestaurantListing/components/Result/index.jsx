@@ -41,14 +41,13 @@ export default class extends Component {
     const { config } = this.props;
     try {
       let ret = [];
-      if (config.searchStr) {
+      if (config.searchStr) {        
         ret = await api.restaurant.searchOutlet(page, config.searchStr);
-        this.updateView(ret);
+        this.updateView(ret);      
       } else {
         ret = await api.restaurant.getOutlets(page);
         this.updateView(ret);
       }
-
       if (page === 1) {
         this.props.saveRestaurants(ret);
       }
@@ -74,9 +73,9 @@ export default class extends Component {
 
   componentWillReceiveProps({ config }) {
     if (
-      config.searchStr &&
-      config.searchStr !== this.props.config.searchStr &&
-      config.searchStr.length >= 3
+      // config.searchStr &&
+      config.searchStr !== this.props.config.searchStr
+      // config.searchStr.length >= 3
     ) {
       this.removeSearchResult();
     }
