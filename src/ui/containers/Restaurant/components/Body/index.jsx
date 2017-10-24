@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
 import { connect } from "react-redux";
+import classNames from "classnames";
 
 import { Col } from "reactstrap";
 
@@ -107,72 +108,85 @@ export default class extends Component {
   };
 
   render() {
-    const { t, outlet } = this.props;
+    const { t, outlet, toggleClass } = this.props;
     const { products, features, isLoadingItem, treeCategory, treeCategoryName } = this.state;
 	  let firstCategory = '';
 	  const canAddOrder = !!outlet.online_order_setting && outlet.online_order_setting.published && (outlet.online_order_setting.do_delivery || outlet.online_order_setting.do_takeaway);
-    
-	  outlet.categories.map(item => {
-		  treeCategoryName[item.category_uuid] = item.name;
-		  if(item.parent_uuid) {
-        if(treeCategory.hasOwnProperty(item.parent_uuid)) {
-          treeCategory[item.parent_uuid].push(item.category_uuid);
-        } else {
-	        treeCategory[item.parent_uuid] = [item.category_uuid];
-        }
-      } else {
-		    if(!treeCategory.hasOwnProperty(item.category_uuid)) {
-			    treeCategory[item.category_uuid] = [item.category_uuid ];
-        }
-        if(!firstCategory) {
-	        firstCategory = item.category_uuid;
-        }
-      }
-    });
 
-
-    return (
-      <div className="row block bg-white mb-4 tab-content">
-	      {features.length ?
-		      <Slider className="mt-2" num={5} move={1}>
-			      {features.length ? features.map((item, index) => (
-				      <ProductItemPhoto
-					      key={index}
-					      price={10}
-					      title={item.name}
-					      image="/images/donut-square.png"
-				      />
-			      )) : ''}
-		      </Slider>
-		      : ''
-	      }
-
-        <div className="mt-3 row w-100">
-          <Menu className="col col-md-2 list-group restaurant-cat">
-            {outlet.categories.map(item => {
-              if(!item.parent_uuid) {
-	              return (
-                  <MenuItem
-                    onClick={() => this.handleCategory(item.category_uuid)}
-                    key={item.category_uuid}
-                    title={item.name}
-                    clickIt={item.category_uuid === firstCategory}
-                  />
-                );
-              }
-            })}
-          </Menu>
-
-	        {!isLoadingItem ? (
-	        	<RestaurantProduct
-			        products={products}
-			        treeCategoryName={treeCategoryName}
-			        onAddOrder={canAddOrder ? this.addOrderItem : null} />
-	        ) : this.showLoading()
+	  if(outlet.total_items) {
+		  outlet.categories.map(item => {
+			  treeCategoryName[item.category_uuid] = item.name;
+			  if(item.parent_uuid) {
+	        if(treeCategory.hasOwnProperty(item.parent_uuid)) {
+	          treeCategory[item.parent_uuid].push(item.category_uuid);
+	        } else {
+		        treeCategory[item.parent_uuid] = [item.category_uuid];
 	        }
-        </div>
+	      } else {
+			    if(!treeCategory.hasOwnProperty(item.category_uuid)) {
+				    treeCategory[item.category_uuid] = [item.category_uuid ];
+	        }
+	        if(!firstCategory) {
+		        firstCategory = item.category_uuid;
+	        }
+	      }
+	    });
 
-      </div>
-    );
+
+	    return (
+	      <div className={classNames("row block bg-white mb-4", toggleClass)} id="restaurant-body">
+		      {features.length ?
+			      <Slider className="mt-2" num={5} move={1}>
+				      {features.length ? features.map((item, index) => (
+					      <ProductItemPhoto
+						      key={index}
+						      price={10}
+						      title={item.name}
+						      image="/images/donut-square.png"
+					      />
+				      )) : ''}
+			      </Slider>
+			      : ''
+		      }
+
+	        <div className="mt-3 row w-100">
+	          <Menu className="col col-md-2 list-group restaurant-cat">
+	            {outlet.categories.map(item => {
+	              if(!item.parent_uuid) {
+		              return (
+	                  <MenuItem
+	                    onClick={() => this.handleCategory(item.category_uuid)}
+	                    key={item.category_uuid}
+	                    title={item.name}
+	                    clickIt={item.category_uuid === firstCategory}
+	                  />
+	                );
+	              }
+	            })}
+	          </Menu>
+
+		        {!isLoadingItem ? (
+		          <RestaurantProduct
+				        products={products}
+				        treeCategoryName={treeCategoryName}
+				        onAddOrder={canAddOrder ? this.addOrderItem : null} />
+		        ) : this.showLoading()
+		        }
+	        </div>
+
+	      </div>
+	    );
+	  }
+
+	  return (
+		  <div className={classNames("d-flex bg-white mb-4 justify-content-center", toggleClass)}>
+			  <div className="py-5">
+				  <img src="/images/no-data.png" height="100" alt="" />
+				  <p className="color-gray text-uppercase">
+					  {t("LABEL.NO_SEARCH_DATA")}
+				  </p>
+			  </div>
+		  </div>
+	  );
   }
 }

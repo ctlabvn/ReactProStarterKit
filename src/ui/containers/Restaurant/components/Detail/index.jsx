@@ -1,65 +1,132 @@
-// import React, { Component } from "react";
-// import { Link } from "react-router-dom";
-// import { translate } from "react-i18next";
-// import { MyMapComponent, MyFancyComponent } from '~/ui/Map';
-// import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
-//
-// import api from "~/store/api";
-// import "./index.css";
-// import options from "./options";
-//
-//
-// const ServicePointGoogleMap = withGoogleMap(({position}) => (
-//   <GoogleMap
-//     defaultZoom={12}
-//     defaultCenter={position}
-//   >
-//     <Marker key='VietNam' defaultAnimation={2}
-//             position={position}
-//     />
-//
-//   </GoogleMap>
-// ))
-//
-// @translate('translations')
-// export default class extends Component {
-//   render() {
-//     const { t, outlet } = this.props;
-//     const lat = outlet.lat;
-//     const lng = outlet.long;
-//     return (
-//       <div className="row block bg-white mb-4 tab-content">
-//         <h3 className="font-largest color-black w-100 mb-4">
-//           <span className="font-weight-bold">{t('LABEL.FEES')}</span>
-//         </h3>
-//         <p>{outlet.online_order_setting && outlet.online_order_setting.delivery_fee}</p>
-//
-//         <h3 className="font-largest color-black w-100 mb-4">
-//           <span className="font-weight-bold">{t('LABEL.MIN_MAX_ORDER_AMOUNT')}</span>
-//         </h3>
-//         <p>Min: {outlet.online_order_setting && outlet.online_order_setting.min_delivery_cost}</p>
-//         <p>Max: {outlet.online_order_setting && outlet.online_order_setting.max_delivery_cost}</p>
-//
-//         <h3 className="font-largest color-black w-100 mb-4">
-//           <span className="font-weight-bold">{t('LABEL.DELIVERING_HOURS')}</span>
-//         </h3>
-//         <p>{outlet.online_order_setting && outlet.online_order_setting.hours_delivery}</p>
-//
-//         <h3 className="font-largest color-black w-100 mb-4">
-//           <span className="font-weight-bold">{t('LABEL.LOCAL_MAP')}</span>
-//         </h3>
-// 	      {lat && lng &&
-//         <ServicePointGoogleMap
-//           containerElement={
-//             <div style={{ height: 400 }} />
-// 		      }
-//           mapElement={
-//             <div style={{ height: `100%` }} />
-// 		      }
-//           position={{lat:+lat,lng:+lng}}
-//         />
-// 	      }
-//       </div>
-//     );
-//   }
-// }
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { translate } from "react-i18next"
+import classNames from "classnames";
+
+import api from "~/store/api";
+import { DirectionsRenderer, Marker } from "react-google-maps";
+import GoogleMapKey from "~/ui/components/GoogleMapKey";
+import { parseJsonToObject } from "~/store/utils/json";
+import "./index.css";
+
+@translate('translations')
+export default class extends Component {
+	componentDidMount() {
+		const { outlet } = this.props;
+		this.setState({
+			lat: outlet.lat,
+			long: outlet.long,
+		});
+	}
+
+	formatCurrency = (price, symbol = '₫') => {
+		const { t } = this.props;
+		return t("format.currency", {
+				price: price,
+				symbol: symbol
+			}
+		);
+	}
+
+	initGmap = ref => {
+		this.googleMap = ref;
+		this.Maps = window.google.maps;
+		this.directionsService = new this.Maps.DirectionsService();
+		this.placeService = new this.Maps.places.AutocompleteService();
+		this.geocoder = new this.Maps.Geocoder();
+		const {lat, long} = this.props.outlet;
+		this.loadDirectionFromGmap(lat, long);
+	}
+
+	async loadDirectionFromGmap(lat, long) {
+		if (lat && long) {
+			this.directionsService.route(
+				{
+					origin: new this.Maps.LatLng(lat, long),
+					destination: new this.Maps.LatLng(lat, long),
+					travelMode: this.Maps.TravelMode.DRIVING
+				},
+				(result, status) => {
+					if (status === this.Maps.DirectionsStatus.OK) {
+						this.setState({
+							directions: result
+						});
+					} else {
+						console.error(
+							`error fetching directions ${JSON.stringify(result)}`
+						);
+					}
+				}
+			);
+		}
+	}
+
+	render() {
+		const { t, outlet, toggleClass } = this.props;
+		const lat = outlet.lat;
+		const lng = outlet.long;
+		const position = { lat: lat, lng: lng };
+		const hoursDelivery = outlet.online_order_setting.hours_delivery
+			? parseJsonToObject(outlet.online_order_setting.hours_delivery)
+			: false;
+
+		return (
+			<div className={classNames("row block bg-white mb-4", toggleClass)} id="restaurant-detail" style={{display: "none"}}>
+				{outlet.online_order_setting && (outlet.online_order_setting.delivery_fee !== 0) &&
+				<div className="w-100">
+					<h3 className="font-largest color-black w-100">
+						<span className="font-weight-bold">{t('LABEL.FEES')}</span>
+					</h3>
+					<p>
+						{this.formatCurrency(outlet.online_order_setting.delivery_fee)}
+					</p>
+				</div>
+				}
+
+				{outlet.online_order_setting  &&
+				<div className="w-100">
+					<h3 className="font-largest color-black w-100">
+						<span className="font-weight-bold">{t('LABEL.MIN_MAX_ORDER_AMOUNT')}</span>
+					</h3>
+					<ul>
+						<li>
+							<i className="fa fa-arrow-down"></i> {this.formatCurrency(outlet.online_order_setting.min_delivery_cost)}
+						</li>
+						<li>
+							<i class="fa fa-arrow-up"></i> {this.formatCurrency(outlet.online_order_setting.max_delivery_cost)}
+						</li>
+					</ul>
+				</div>
+				}
+
+				{hoursDelivery &&
+				<div className="w-100">
+					<h3 className="font-largest color-black w-100">
+						<span className="font-weight-bold">{t('LABEL.DELIVERING_HOURS')}</span>
+					</h3>
+					<ul>
+						{Object.keys(hoursDelivery).map((day, key) => {
+							return hoursDelivery[day].open ? (<li key={key}>{day} : {hoursDelivery[day].from} - {hoursDelivery[day].to}</li>) : '';
+						})}
+					</ul>
+				</div>
+				}
+
+				{lat && lng &&
+				<div className="w-100">
+					<h3 className="font-largest color-black w-100">
+						<span className="font-weight-bold">{t('LABEL.LOCAL_MAP')}</span>
+					</h3>
+					<GoogleMapKey
+						onItemRef={this.initGmap}
+						height={400}
+						defaultCenter={position}
+					>
+						{<Marker position={position} />}
+					</GoogleMapKey>
+				</div>
+				}
+			</div>
+		);
+	}
+}

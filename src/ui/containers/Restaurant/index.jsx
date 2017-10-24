@@ -60,13 +60,14 @@ export default class extends Component {
       return <EmptyResult/>;
     }
 
+    const toggleClass = "restaurant-tab";
     return (
       <div className="restaurant">
         <div className="container">
           <Header outlet={outlet} />
 
-          <Body outlet={outlet} id="tabBody" />
-          {/*<Detail outlet={outlet} id="tabDetail" />*/}
+          <Body outlet={outlet} toggleClass={toggleClass} />
+          <Detail outlet={outlet} toggleClass={toggleClass} />
 
           {/*<Footer outlet={outlet} />*/}
         </div>

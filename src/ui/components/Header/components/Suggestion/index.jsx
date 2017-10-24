@@ -81,9 +81,9 @@ export default class extends Component {
       <Autocomplete
         value={config.searchStr}
         className="header-suggestion"
-        buttonClass="border-0"
+        buttonClass="border-0 mt-2"
         inputClass="font-large color-gray"
-        placeholder={t("PLACE_HOLDER.TYPE_YOUR_SEARCH")}
+        placeholder={t("PLACEHOLDER.TYPE_YOUR_SEARCH")}
         onSearch={this.handleSearch}
       >
         {children}

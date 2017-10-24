@@ -8,6 +8,14 @@ export default class extends Component {
 		outlet: PropTypes.object
 	};
 
+	formatCurrency = (price, symbol = "₫") => {
+		const { t } = this.props;
+		return t("format.currency", {
+			price: price,
+			symbol: symbol
+		});
+	}
+
 	render() {
 		const { t, outlet, ...props } = this.props;
 		const metadata = []
@@ -19,13 +27,13 @@ export default class extends Component {
 				metadata.push(t('LABEL.TAKEAWAY'));
 			}
 			if(outlet.online_order_setting.min_delivery_cost) {
-				metadata.push(outlet.online_order_setting.min_delivery_cost);
+				metadata.push(this.formatCurrency(outlet.online_order_setting.min_delivery_cost));
 			}
 			if(outlet.online_order_setting.max_delivery_cost) {
-				metadata.push(outlet.online_order_setting.max_delivery_cost);
+				metadata.push(this.formatCurrency(outlet.online_order_setting.max_delivery_cost));
 			}
 			if(outlet.online_order_setting.delivery_fee) {
-				metadata.push(outlet.online_order_setting.delivery_fee);
+				metadata.push(this.formatCurrency(outlet.online_order_setting.delivery_fee));
 			}
 		}
 

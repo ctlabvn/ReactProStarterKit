@@ -28,7 +28,7 @@ export default class extends Component {
           "fixed-bottom": isHome
         })}
       >
-        <Menu className="text-uppercase">
+        <Menu className="text-capitalize">
           <MenuItem
             title={
               <Dropdown
