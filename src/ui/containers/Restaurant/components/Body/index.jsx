@@ -158,6 +158,7 @@ export default class extends Component {
 	                    onClick={() => this.handleCategory(item.category_uuid)}
 	                    key={item.category_uuid}
 	                    title={item.name}
+	                    totalItem={item.total_items}
 	                    clickIt={item.category_uuid === firstCategory}
 	                  />
 	                );

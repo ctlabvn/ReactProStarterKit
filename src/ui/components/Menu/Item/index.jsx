@@ -58,8 +58,8 @@ export default class extends Component {
   }
 
   render() {
-    const { idToggle, classToggle, title, link, active, onClick, className, activeClassName } = this.props;
-    return (
+    const { totalItem, idToggle, classToggle, title, link, active, onClick, className, activeClassName } = this.props;
+    return (totalItem != 0 &&
       <li
         ref={ref => (this.node = ref)}
         className={classNames("list-inline-item menu-item", {
