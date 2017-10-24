@@ -132,7 +132,7 @@ export default class extends Component {
 
 
     return (
-      <div className="row block bg-white mb-4 tab-content">
+      <div className="row block bg-white mb-4 tab-content restaurant-tab" id="restaurant-body">
 	      {features.length ?
 		      <Slider className="mt-2" num={5} move={1}>
 			      {features.length ? features.map((item, index) => (

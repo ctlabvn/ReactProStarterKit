@@ -54,8 +54,8 @@ export default class extends Component {
         <div className="container">
           <Header outlet={outlet} />
 
-          <Body outlet={outlet} id="tabBody" />
-          {/*<Detail outlet={outlet} id="tabDetail" />*/}
+          <Body outlet={outlet} />
+          <Detail outlet={outlet} />
 
           {/*<Footer outlet={outlet} />*/}
         </div>
