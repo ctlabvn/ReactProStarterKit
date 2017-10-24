@@ -39,8 +39,10 @@ export default class extends Component {
   }
 
   async getSuggestion(term){
-    const ret = await api.restaurant.getSuggestion(term);
-    this.setState({ suggestions: ret.data });
+    if(term){
+      const ret = await api.restaurant.getSuggestion(term);
+      this.setState({ suggestions: ret.data });
+    }
   }
 
   handleSearch = term => {

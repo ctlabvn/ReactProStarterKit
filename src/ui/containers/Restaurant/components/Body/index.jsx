@@ -21,60 +21,75 @@ import api from "~/store/api";
 import "./index.css";
 import options from "./options";
 
-@translate('translations')
-@connect(state=>({
-  orderInfo: orderSelectors.getInfo(state)
-}), orderActions)
+@translate("translations")
+@connect(
+  state => ({
+    orderInfo: orderSelectors.getInfo(state)
+  }),
+  orderActions
+)
 export default class extends Component {
   constructor(props) {
     super(props);
     this.state = {
-	    products: {},
-	    features: [],
-	    isLoadingItem: false,
-	    treeCategory: {},
-	    treeCategoryName: {},
-	    selectedCategory: ''
+      products: {},
+      features: [],
+      isLoadingItem: false,
+      treeCategory: {},
+      treeCategoryName: {},
+      selectedCategory: ""
     };
   }
 
-	handleCategory = parentCategory => {
-  	this.setState({selectedCategory: parentCategory});
-  	this.loadProducts(parentCategory);
-	};
+  handleCategory = parentCategory => {
+    this.setState({ selectedCategory: parentCategory });
+    this.loadProducts(parentCategory);
+  };
 
-  loadProducts = async (parentCategory) => {
-		const { treeCategory } = this.state;
-		const childCategories = treeCategory[parentCategory];
+  loadProducts = async parentCategory => {
+    const { treeCategory } = this.state;
+    const childCategories = treeCategory[parentCategory];
 
-	  this.setState({isLoadingItem : true, products: {}});
+    this.setState({ isLoadingItem: true, products: {} });
 
-	  for(const currentCategoryUuid of childCategories) {
-		  api.restaurant.getProductByCategory(currentCategoryUuid).then(ret => {
-			  this.setState((prevState) => {
-				  let products = prevState.products
-				  if(ret.data.data) {
-					  products[currentCategoryUuid] = ret.data.data
-				  }
-				  return {products: products}
-			  });
-			  this.setState({isLoadingItem : false});
-		  }, err => console.log(err));
-	  }
-  }
+    for (const currentCategoryUuid of childCategories) {
+      api.restaurant.getProductByCategory(currentCategoryUuid).then(
+        ret => {
+          this.setState(prevState => {
+            let products = prevState.products;
+            if (ret.data.data) {
+              products[currentCategoryUuid] = ret.data.data;
+            }
+            return { products: products };
+          });
+          this.setState({ isLoadingItem: false });
+        },
+        err => console.log(err)
+      );
+    }
+  };
 
-	showLoading = () => (
-		<div className="col text-center py-2">
-			<i className="fa fa-refresh fa-spin fa-3x fa-fw"></i>
-		</div>
-	);
+  showLoading = () => (
+    <div className="col text-center py-2">
+      <i className="fa fa-refresh fa-spin fa-3x fa-fw" />
+    </div>
+  );
 
-  addOrderItem = (item) => {
-    const {orderInfo, outlet, clearItems, updateOrder, addOrderItem} = this.props;
-    if(orderInfo.outlet_uuid !== outlet.outlet_uuid){
+  addOrderItem = item => {
+    const {
+      orderInfo,
+      outlet,
+      clearItems,
+      updateOrder,
+      addOrderItem
+    } = this.props;
+    if (orderInfo.outlet_uuid !== outlet.outlet_uuid) {
       // first time or reset
-      if(!orderInfo.outlet_uuid || window.confirm("Do you want to clear current orders?")){
-        clearItems();           
+      if (
+        !orderInfo.outlet_uuid ||
+        window.confirm("Do you want to clear current orders?")
+      ) {
+        clearItems();
       } else {
         return;
       }
@@ -94,8 +109,8 @@ export default class extends Component {
       ...outlet.online_order_setting,
       restaurant_address: outlet.address,
       restaurant_lat: outlet.lat,
-      restaurant_long: outlet.long, 
-    });     
+      restaurant_long: outlet.long
+    });
     addOrderItem({
       item_uuid,
       item_options,
@@ -108,73 +123,84 @@ export default class extends Component {
   };
 
   render() {
-    const { t, outlet, toggleClass } = this.props;
-    const { products, features, isLoadingItem, treeCategory, treeCategoryName } = this.state;
-	  let firstCategory = '';
-	  const canAddOrder = !!outlet.online_order_setting && outlet.online_order_setting.published && (outlet.online_order_setting.do_delivery || outlet.online_order_setting.do_takeaway);
+    const { t, outlet } = this.props;
+    const {
+      products,
+      features,
+      isLoadingItem,
+      treeCategory,
+      treeCategoryName
+    } = this.state;
+    let firstCategory = "";
+    const canAddOrder =
+      !!outlet.online_order_setting &&
+      outlet.online_order_setting.published &&
+      (outlet.online_order_setting.do_delivery ||
+        outlet.online_order_setting.do_takeaway);
+
+    outlet.categories && outlet.categories.forEach(item => {
+      treeCategoryName[item.category_uuid] = item.name;
+      if (item.parent_uuid) {
+        if (treeCategory.hasOwnProperty(item.parent_uuid)) {
+          treeCategory[item.parent_uuid].push(item.category_uuid);
+        } else {
+          treeCategory[item.parent_uuid] = [item.category_uuid];
+        }
+      } else {
+        if (!treeCategory.hasOwnProperty(item.category_uuid)) {
+          treeCategory[item.category_uuid] = [item.category_uuid];
+        }
+        if (!firstCategory) {
+          firstCategory = item.category_uuid;
+        }
+      }
+    });
 
 	  if(outlet.total_items) {
-		  outlet.categories.map(item => {
-			  treeCategoryName[item.category_uuid] = item.name;
-			  if(item.parent_uuid) {
-	        if(treeCategory.hasOwnProperty(item.parent_uuid)) {
-	          treeCategory[item.parent_uuid].push(item.category_uuid);
-	        } else {
-		        treeCategory[item.parent_uuid] = [item.category_uuid];
-	        }
-	      } else {
-			    if(!treeCategory.hasOwnProperty(item.category_uuid)) {
-				    treeCategory[item.category_uuid] = [item.category_uuid ];
-	        }
-	        if(!firstCategory) {
-		        firstCategory = item.category_uuid;
-	        }
-	      }
-	    });
-
-
 	    return (
-	      <div className={classNames("row block bg-white mb-4", toggleClass)} id="restaurant-body">
-		      {features.length ?
-			      <Slider className="mt-2" num={5} move={1}>
-				      {features.length ? features.map((item, index) => (
-					      <ProductItemPhoto
-						      key={index}
-						      price={10}
-						      title={item.name}
-						      image="/images/donut-square.png"
-					      />
-				      )) : ''}
-			      </Slider>
-			      : ''
-		      }
+	      <div className="row block bg-white mb-4 tab-content">
+	        {features.length ? (
+	          <Slider className="mt-2" num={5} move={1}>
+	            {features.length
+	              ? features.map((item, index) => (
+	                  <ProductItemPhoto
+	                    key={index}
+	                    price={10}
+	                    title={item.name}
+	                    image="/images/donut-square.png"
+	                  />
+	                ))
+	              : ""}
+	          </Slider>
+	        ) : (
+	          ""
+	        )}
 
 	        <div className="mt-3 row w-100">
 	          <Menu className="col col-md-2 list-group restaurant-cat">
-	            {outlet.categories.map(item => {
-	              if(!item.parent_uuid) {
-		              return (
+	            {outlet.categories &&
+	              outlet.categories
+	                .filter(item => !item.parent_uuid)
+	                .map(item => (
 	                  <MenuItem
 	                    onClick={() => this.handleCategory(item.category_uuid)}
 	                    key={item.category_uuid}
 	                    title={item.name}
-	                    totalItem={item.total_items}
 	                    clickIt={item.category_uuid === firstCategory}
 	                  />
-	                );
-	              }
-	            })}
+	                ))}
 	          </Menu>
 
-		        {!isLoadingItem ? (
-		          <RestaurantProduct
-				        products={products}
-				        treeCategoryName={treeCategoryName}
-				        onAddOrder={canAddOrder ? this.addOrderItem : null} />
-		        ) : this.showLoading()
-		        }
+	          {!isLoadingItem ? (
+	            <RestaurantProduct
+	              products={products}
+	              treeCategoryName={treeCategoryName}
+	              onAddOrder={canAddOrder ? this.addOrderItem : null}
+	            />
+	          ) : (
+	            this.showLoading()
+	          )}
 	        </div>
-
 	      </div>
 	    );
 	  }
