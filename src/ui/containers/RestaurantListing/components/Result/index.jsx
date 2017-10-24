@@ -23,7 +23,7 @@ import { store } from "~/store";
 @translate("translations")
 @connect(
   state => ({
-    config: authSelectors.getConfig(state),    
+    config: authSelectors.getConfig(state)
   }),
   { ...authActions, ...restaurantActions }
 )
@@ -33,38 +33,32 @@ export default class extends Component {
     const elements = restaurantSelectors.getList(store.getState());
     this.state = {
       hasMore: true,
-      elements,      
+      elements
     };
   }
 
-  loadMoreElement = async (page) => {    
+  loadMoreElement = async page => {
     const { config } = this.props;
     try {
       let ret = [];
-      if (config.searchStr) {
-        ret = await api.restaurant.searchOutlet(
-          page,
-          config.searchStr
-        );
-        this.updateView(ret);
+      if (config.searchStr) {        
+        ret = await api.restaurant.searchOutlet(page, config.searchStr);
+        this.updateView(ret);      
       } else {
         ret = await api.restaurant.getOutlets(page);
         this.updateView(ret);
       }
-
       if (page === 1) {
         this.props.saveRestaurants(ret);
-      }      
-
+      }
     } catch (err) {
       console.log(err);
     }
   };
 
-
-  updateView = ret => {    
+  updateView = ret => {
     if (!ret.status && ret.data.data && !this.unmounted) {
-      const data = ret.data.data;      
+      const data = ret.data.data;
       this.setState(prevState => ({
         elements: prevState.elements.concat(data),
         hasMore: data.length > 0
@@ -72,19 +66,22 @@ export default class extends Component {
     }
   };
 
-	removeSearchResult = () => {
+  removeSearchResult = () => {
     this.scroller.pageLoaded = 0;
-		this.setState({hasMore: true, elements: []})		
-	}
+    this.setState({ hasMore: true, elements: [] });
+  };
 
-  componentWillReceiveProps(nextProps) {
-    const { config } = this.props;
-    if (config.searchStr && config.searchStr.length >= 3) {
-      this.removeSearchResult();          
+  componentWillReceiveProps({ config }) {
+    if (
+      // config.searchStr &&
+      config.searchStr !== this.props.config.searchStr
+      // config.searchStr.length >= 3
+    ) {
+      this.removeSearchResult();
     }
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.unmounted = true;
   }
 
@@ -94,32 +91,45 @@ export default class extends Component {
     </div>
   );
 
-  render() {
-
+  renderResult(elements, hasMore) {
     const { t } = this.props;
-    const { elements } = this.state;
-	  return (
+    if (elements.length)
+      return elements.map(item => (
+        <RestaurantItemPhoto
+          key={item.outlet_uuid}
+          uuid={item.outlet_uuid}
+          name={item.name}
+          address={item.address}
+          logo={item.logo}
+          restaurant={item}
+        />
+      ));
+
+    if (!hasMore)
+      return (
+        <div className="d-flex flex-column w-100 justify-content-center align-items-center p-5">
+          <img src="/images/no-data.png" height="100" alt="" />
+          <p className="color-gray text-uppercase">{t("LABEL.RESULT_EMPTY")}</p>
+        </div>
+      );
+
+    return null;
+  }
+
+  render() {
+    const { t } = this.props;
+    const { elements, hasMore } = this.state;
+    return (
       <div className="container-fluid bg-white py-4">
         <InfiniteScroller
           className="row d-flex"
-          hasMore={this.state.hasMore}
+          hasMore={hasMore}
           loader={this.showLoading()}
           loadMore={this.loadMoreElement}
           pageStart={elements.length ? 1 : 0}
-          onItemRef={ref=>this.scroller = ref}
+          onItemRef={ref => (this.scroller = ref)}
         >
-          {
-            elements.map((item) => (
-	            <RestaurantItemPhoto
-                key={item.outlet_uuid}
-                uuid={item.outlet_uuid}
-                name={item.name}
-                address={item.address}
-                logo={item.logo}
-                restaurant={item}
-              />
-            ))
-          }
+          {this.renderResult(elements, hasMore)}
         </InfiniteScroller>
       </div>
     );

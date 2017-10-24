@@ -214,7 +214,7 @@ export default class extends Component {
     return (
       <div className="d-flex col-md-6 pl-0 justify-content-between">
         <OrderTypeField orderTypes={orderTypes} {...order_type} />
-        <RequestTimeField hoursRange={hoursRange} {...request_time} />
+        <RequestTimeField label={order_type.input.value === 1 ? 'Take away time' : 'Delivery time'} hoursRange={hoursRange} {...request_time} />
       </div>
     );
   };
