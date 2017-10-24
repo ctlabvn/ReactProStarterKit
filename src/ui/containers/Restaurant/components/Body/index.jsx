@@ -123,7 +123,7 @@ export default class extends Component {
   };
 
   render() {
-    const { t, outlet } = this.props;
+    const { t, outlet, toggleClass } = this.props;
     const {
       products,
       features,
@@ -138,28 +138,28 @@ export default class extends Component {
       (outlet.online_order_setting.do_delivery ||
         outlet.online_order_setting.do_takeaway);
 
-    outlet.categories && outlet.categories.forEach(item => {
-      treeCategoryName[item.category_uuid] = item.name;
-      if (item.parent_uuid) {
-        if (treeCategory.hasOwnProperty(item.parent_uuid)) {
-          treeCategory[item.parent_uuid].push(item.category_uuid);
-        } else {
-          treeCategory[item.parent_uuid] = [item.category_uuid];
-        }
-      } else {
-        if (!treeCategory.hasOwnProperty(item.category_uuid)) {
-          treeCategory[item.category_uuid] = [item.category_uuid];
-        }
-        if (!firstCategory) {
-          firstCategory = item.category_uuid;
-        }
-      }
-    });
-
 	  if(outlet.total_items) {
+      outlet.categories && outlet.categories.forEach(item => {
+        treeCategoryName[item.category_uuid] = item.name;
+        if (item.parent_uuid) {
+          if (treeCategory.hasOwnProperty(item.parent_uuid)) {
+            treeCategory[item.parent_uuid].push(item.category_uuid);
+          } else {
+            treeCategory[item.parent_uuid] = [item.category_uuid];
+          }
+        } else {
+          if (!treeCategory.hasOwnProperty(item.category_uuid)) {
+            treeCategory[item.category_uuid] = [item.category_uuid];
+          }
+          if (!firstCategory) {
+            firstCategory = item.category_uuid;
+          }
+        }
+      });
+
 	    return (
-	      <div className="row block bg-white mb-4 tab-content">
-	        {features.length ? (
+        <div className={classNames("row block bg-white mb-4", toggleClass)} id="restaurant-body">
+			    {features.length ? (
 	          <Slider className="mt-2" num={5} move={1}>
 	            {features.length
 	              ? features.map((item, index) => (
@@ -206,7 +206,7 @@ export default class extends Component {
 	  }
 
 	  return (
-		  <div className={classNames("d-flex bg-white mb-4 justify-content-center", toggleClass)}>
+		  <div className={classNames("d-flex bg-white mb-4 justify-content-center", toggleClass)} id="restaurant-body">
 			  <div className="py-5">
 				  <img src="/images/no-data.png" height="100" alt="" />
 				  <p className="color-gray text-uppercase">
