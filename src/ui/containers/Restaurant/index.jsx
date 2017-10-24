@@ -29,11 +29,11 @@ export default class extends Component {
   }
 
   componentWillMount() {
-    this.loadOutlet();
+    const { uuid } = this.props.match.params;
+    this.loadOutlet(uuid);
   }
 
-  async loadOutlet() {
-    const { uuid } = this.props.match.params;
+  async loadOutlet(uuid) {    
     try {
       const ret = await api.restaurant.getOutlet(uuid);
       // check ret.error then show ret.message
@@ -44,9 +44,9 @@ export default class extends Component {
     }
   }
 
-  componentWillReceiveProps({ language }) {
-    if (this.props.language !== language) {
-      this.loadOutlet();
+  componentWillReceiveProps({ language, match }) {    
+    if ((this.props.language !== language) || (this.props.match.params.uuid !== match.params.uuid)) {
+      this.loadOutlet(match.params.uuid);
     }
   }
 
