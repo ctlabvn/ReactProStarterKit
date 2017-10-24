@@ -93,7 +93,7 @@ export default class extends Component {
 							<i className="fa fa-arrow-down"></i> {this.formatCurrency(outlet.online_order_setting.min_delivery_cost)}
 						</li>
 						<li>
-							<i class="fa fa-arrow-up"></i> {this.formatCurrency(outlet.online_order_setting.max_delivery_cost)}
+							<i className="fa fa-arrow-up"></i> {this.formatCurrency(outlet.online_order_setting.max_delivery_cost)}
 						</li>
 					</ul>
 				</div>

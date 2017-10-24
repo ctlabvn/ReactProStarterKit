@@ -155,7 +155,7 @@ export default class extends Component {
             firstCategory = item.category_uuid;
           }
         }
-      });
+      })
 
 	    return (
         <div className={classNames("row block bg-white mb-4", toggleClass)} id="restaurant-body">
@@ -180,7 +180,7 @@ export default class extends Component {
 	          <Menu className="col col-md-2 list-group restaurant-cat">
 	            {outlet.categories &&
 	              outlet.categories
-	                .filter(item => !item.parent_uuid)
+	                .filter(item => !item.parent_uuid && item.total_items)
 	                .map(item => (
 	                  <MenuItem
 	                    onClick={() => this.handleCategory(item.category_uuid)}
