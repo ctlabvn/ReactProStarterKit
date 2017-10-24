@@ -47,7 +47,7 @@ export default class extends Component {
   }
 
   render() {
-    const { input, hoursRange } = this.props;
+    const { label, input, hoursRange } = this.props;
     const { roundedMinute } = this.state;
     const now = moment();
     const today = now.format("dddd").toUpperCase();
@@ -73,7 +73,7 @@ export default class extends Component {
 
     return (
       <small>
-        <i className="fa fa-clock-o" aria-hidden="true" /> Delivery time :
+        <i className="fa fa-clock-o" aria-hidden="true" /> {label} :
         {children.length ? (
           <Dropdown
             className="scrollable float-right request-time"
