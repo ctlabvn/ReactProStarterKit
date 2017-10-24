@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 // component
 import InfiniteScroller from "~/ui/components/Scroller/Infinite";
 import RestaurantItemPhoto from "~/ui/components/Restaurant/Item/Photo";
+import EmptyResult from "~/ui/components/EmptyResult";
 
 // store
 import api from "~/store/api";
@@ -106,12 +107,7 @@ export default class extends Component {
       ));
 
     if (!hasMore)
-      return (
-        <div className="d-flex flex-column w-100 justify-content-center align-items-center p-5">
-          <img src="/images/no-data.png" height="100" alt="" />
-          <p className="color-gray text-uppercase">{t("LABEL.RESULT_EMPTY")}</p>
-        </div>
-      );
+      return <EmptyResult/>;
 
     return null;
   }

@@ -7,16 +7,18 @@ import Footer from "./components/Footer";
 import Body from "./components/Body";
 import Detail from "./components/Detail";
 import Spinner from "~/ui/components/Spinner";
+import EmptyResult from "~/ui/components/EmptyResult";
 
 // store
 import api from "~/store/api";
 import * as authSelectors from "~/store/selectors/auth";
+import * as commonActions from "~/store/actions/common";
 
 import "./index.css";
 
 @connect(state => ({
   // language: authSelectors.getCustomer(state).language,
-}))
+}), commonActions)
 export default class extends Component {
   constructor(props) {
     super(props);
@@ -32,9 +34,14 @@ export default class extends Component {
 
   async loadOutlet() {
     const { uuid } = this.props.match.params;
-    const ret = await api.restaurant.getOutlet(uuid);
-    // check ret.error then show ret.message
-    this.setState({ outlet: ret.data });
+    try {
+      const ret = await api.restaurant.getOutlet(uuid);
+      // check ret.error then show ret.message
+      this.setState({ outlet: ret.data });
+    } catch (e) {
+      this.props.setToast(e.message.general, "danger");
+      this.setState({ outlet: {} });
+    }
   }
 
   componentWillReceiveProps({ language }) {
@@ -46,7 +53,11 @@ export default class extends Component {
   render() {
     const { outlet } = this.state;
     if (!outlet) {
-      return <Spinner/>;
+      return <Spinner />;
+    }
+
+    if(!outlet.name){
+      return <EmptyResult/>;
     }
 
     return (
