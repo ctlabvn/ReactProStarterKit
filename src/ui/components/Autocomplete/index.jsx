@@ -14,45 +14,60 @@ import "./index.css";
 
 export default class extends Component {
   static propTypes = {
-    onSearch: PropTypes.func.isRequired,
+    onSearch: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      dropdownOpen: false,      
+      dropdownOpen: false
     };
   }
 
-  toggle = (e) => {
-    const {dropdownOpen} = this.state;
-    if(e.target === this.input && dropdownOpen){
-      return
+  toggle = e => {
+    const { dropdownOpen } = this.state;
+    if (e.target === this.input && dropdownOpen) {
+      return;
     }
     this.setState({
       dropdownOpen: !dropdownOpen
     });
   };
 
-  search = (e) => {
+  search = e => {
     clearTimeout(this.timeout);
     const value = e.target.value;
     this.timeout = setTimeout(() => {
       this.props.onSearch(value);
       this.setState({
-        dropdownOpen: true,
-      })
+        dropdownOpen: true
+      });
     }, 1000);
   };
 
   render() {
-    const { children, onSearch, ...props } = this.props;
-    const { searchText, dropdownOpen } = this.state;    
+    const {
+      children,
+      value,
+      placeholder,
+      inputClass,
+      buttonClass,
+      onSearch,
+      ...props
+    } = this.props;
+    const { searchText, dropdownOpen } = this.state;
     return (
       <Dropdown isOpen={dropdownOpen} toggle={this.toggle} {...props}>
-        <DropdownToggle className="bg-transparent w-100">
-            <input onChange={this.search} className="custom-input w-100" ref={ref=>this.input = ref}/>
-        </DropdownToggle>                          
+        <DropdownToggle className={classNames("bg-transparent w-100",buttonClass)} >
+          <input
+            type="text"
+            placeholder={placeholder}
+            defaultValue={value}
+            onChange={this.search}
+            className={classNames("custom-input w-100", inputClass)}
+            ref={ref => (this.input = ref)}
+          />
+        </DropdownToggle>
         {!!children.length && <DropdownMenu>{children}</DropdownMenu>}
       </Dropdown>
     );

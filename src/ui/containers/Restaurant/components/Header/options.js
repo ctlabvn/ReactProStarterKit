@@ -5,8 +5,5 @@ export default {
     "/images/donut-square.png"
   ],
 
-	menuItems: [
-	  {name: "TAB.MENU", id: "restaurant-body"},
-    {name: "TAB.DETAIL", id: "restaurant-detail"}
-  ]
+	menuItems: ["TAB.MENU", "TAB.DETAIL"]
 };
