@@ -54,14 +54,8 @@ export default class extends Component {
 		clearTimeout(this.timeout);
 		const term = target.value.trim();
 		// action
-		setTimeout(() => this.props.updateConfig('searchStr', term), 3000);
+		this.timeout = setTimeout(() => this.props.updateConfig('searchStr', term), 1000);
 	}
-
-	componentDidMount() {
-    if(this.props.config.searchStr) {
-	    ReactDOM.findDOMNode(this.refs.searchInput).value = this.props.config.searchStr;
-    }
-  }
 
   renderPopoverCart(){
     const {t, orderItems} = this.props;    
@@ -124,7 +118,7 @@ export default class extends Component {
 
             <input
               type="text"
-              ref="searchInput"
+              defaultValue={config.searchStr}
               className="custom-input font-large color-gray w-100"
               placeholder={t("PLACE_HOLDER.TYPE_YOUR_SEARCH")}
               onChange={this.handleSearch}

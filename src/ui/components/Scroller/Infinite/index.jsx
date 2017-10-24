@@ -40,6 +40,9 @@ export default class extends Component {
   componentDidMount() {
     this.pageLoaded = this.props.pageStart;
     this.attachScrollListener();
+    if (this.props.onItemRef) {
+      this.props.onItemRef(this);
+    }
   }
 
   componentDidUpdate() {
@@ -130,6 +133,7 @@ export default class extends Component {
       this.detachScrollListener();
       // Call loadMore after detachScrollListener to allow for non-async loadMore functions
       if (typeof this.props.loadMore === "function") {
+        console.log("scroll page", this.pageLoaded);
         this.props.loadMore((this.pageLoaded += 1));
       }
     }
@@ -161,9 +165,6 @@ export default class extends Component {
 
     props.ref = node => {
       this.scrollComponent = node;
-      if (onItemRef) {        
-        onItemRef(node);
-      }
     };
 
     const childrenArray = [children];
