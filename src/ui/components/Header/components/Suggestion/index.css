@@ -2,4 +2,11 @@
   .dropdown-menu {
     width: 40em;
   }
+
+  .dropdown-item {
+    a {
+      width: 100%;
+      float: left;
+    }
+  }
 }
