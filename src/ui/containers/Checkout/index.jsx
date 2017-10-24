@@ -3,6 +3,8 @@ import { translate } from "react-i18next";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
+import moment from "moment";
+
 import { Row, Col, Button } from "reactstrap";
 
 // components
@@ -40,7 +42,9 @@ export default class extends Component {
 
   createOrder = async ()=>{
     const {customer, orderItems, orderInfo, token, address, requestor, clearItems} = this.props;    
-    const addressItem = address.find(item=>item.cus_address_uuid === orderInfo.cus_address_uuid)
+    const addressItem = address.find(item=>item.cus_address_uuid === orderInfo.cus_address_uuid);
+    const now = moment();
+    const request_time = 60 * ((orderInfo.request_time + orderInfo.preparation_time + orderInfo.travel_time) - (now.hour() * 60 + now.minute()));
     const data = {
       items: orderItems.map(item => ({
         item_uuid: item.item_uuid,
@@ -57,7 +61,7 @@ export default class extends Component {
         customer_long: orderInfo.order_long,
       },
       // The request time for delivery in minutes. 
-      request_time: orderInfo.request_time + orderInfo.preparation_time + orderInfo.travel_time,
+      request_time,
       order_type: orderInfo.order_type,
       order_note: orderInfo.order_note,
     }
