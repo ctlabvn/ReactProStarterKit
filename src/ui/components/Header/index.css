@@ -4,6 +4,16 @@
   border-bottom: 1px solid #e7e7e7;
 }
 
+.popover-cart{
+  max-width: 40em;
+
+  .btn-round{
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+}
+
 .navbar{
   padding-right: 40px;
   padding-left: 40px;

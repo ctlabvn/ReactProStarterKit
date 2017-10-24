@@ -15,7 +15,7 @@ import {
 
 // components
 import AccountDropdown from "./components/AccountDropdown";
-import ProductItem from "~/ui/components/Product/Item";
+import ButtonRound from "~/ui/components/Button/Round";
 import LoginModal from "~/ui/components/LoginModal";
 import Suggestion from "./components/Suggestion";
 
@@ -55,7 +55,38 @@ export default class extends Component {
   }
 
   decreaseOrder(item) {
-    this.props.updateOrderItem({ ...item, quantity: item.quantity - 1 });
+    if(item.quantity === 1){
+      if(window.confirm('Do you want to remove this item?')){
+        this.props.removeOrderItem(item);
+      }
+    } else {
+      this.props.updateOrderItem({ ...item, quantity: item.quantity - 1 });
+    }    
+  }
+
+  renderProductItem(item){
+    const {t} = this.props;
+    return (
+        <div
+          key={item.item_uuid}
+          className="d-flex flex-row p-2 border border-left-0 border-top-0 border-right-0">          
+            <Link className="flex-column d-flex col-md-5 p-0 align-items-start" to={`/item/${item.item_uuid}`}>
+              <span className="text-truncate w-100 color-black">{item.name}</span>
+              {item.description && <span className="text-truncate w-100 color-gray">{item.description}</span>}
+            </Link>
+            <div className="flex-row col d-flex align-items-center justify-content-between pr-0">                            
+              <ButtonRound className="p-0 mr-1" icon="plus" onClick={() => this.increaseOrder(item)} />
+              <span>{item.quantity}</span>
+              {item.quantity > 0 && <ButtonRound className="p-0 ml-1" icon="minus" onClick={() => this.decreaseOrder(item)} />}              
+              <span className="ml-2">
+                {t("format.currency", {
+                  price: item.price,
+                  symbol: item.currency_symbol
+                })}
+              </span>
+            </div>          
+        </div>
+      );
   }
 
   renderPopoverCart() {
@@ -63,6 +94,7 @@ export default class extends Component {
     return (
       <Popover
         placement="bottom"
+        className="popover-cart"
         isOpen={this.state.cartOpen}
         target="popoverCart"
         toggle={this.toggleCart}
@@ -70,22 +102,9 @@ export default class extends Component {
         <PopoverBody className="p-0">
           {orderItems.length ? (
             <div>
-              <div className="popover-cart pr-4 pt-4">
-                {orderItems.map(item => (
-                  <ProductItem
-                    className="mb-4"
-                    quantity={item.quantity}
-                    description={item.description}
-                    key={item.item_uuid}
-                    priceUnit={item.currency_symbol}
-                    price={item.price}
-                    title={item.name}
-                    onIncrease={() => this.increaseOrder(item)}
-                    onDecrease={() => this.decreaseOrder(item)}
-                  />
-                ))}
+              <div className="popover-cart">
+                {orderItems.map(item => this.renderProductItem(item))}
               </div>
-
               <Link
                 onClick={this.toggleCart}
                 className="btn bg-red btn-sm btn-block text-uppercase border-0"
