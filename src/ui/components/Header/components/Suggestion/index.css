@@ -1,8 +1,5 @@
-.header-suggestion{
-  .dropdown-menu {
-    width: 40em;
-  }
-
+.header-suggestion{  
+  width: 40em;  
   .dropdown-item {
     a {
       width: 100%;
