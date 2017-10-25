@@ -15,33 +15,7 @@ export default class extends Component {
 		super(props);
 
 		this.state = {
-			popovers: [
-				{
-					placement: 'bottom',
-					text: 'BUTTON.FILTER_LOCATION',
-          body: `<h1>Hello man</h1>`
-				},
-				{
-					placement: 'bottom',
-					text: 'BUTTON.FILTER_DISTANCE'
-				},
-				{
-					placement: 'bottom',
-					text: 'BUTTON.FILTER_ORDERING_METHODS'
-				},
-				{
-					placement: 'bottom',
-					text: 'BUTTON.FILTER_FEE'
-				},
-				{
-					placement: 'bottom',
-					text: 'BUTTON.FILTER_MINIMUM_ORDER'
-				},
-				{
-					placement: 'bottom',
-					text: 'BUTTON.FILTER_TAGS'
-				}
-			]
+			popovers: options.filters
 		};
 	}
 

@@ -74,7 +74,14 @@
         "ADD_ADDRESS": "\uc8fc\uc18c \ucd94\uac00",
         "UPDATE": "\uac31\uc2e0",
         "REMOVE": "\uc81c\uac70",
-        "SUBMIT": "\uc81c\ucd9c"
+        "SUBMIT": "\uc81c\ucd9c",
+        "FILTER": {
+            "LOCATION": "Location",
+            "ORDERING_METHODS": "Ordering Methods",
+            "FEES": "Fees",
+            "MINIMUM_ORDER": "Minimum Order",
+            "TAGS": "Tags"
+        }
     },
     "TAB": {
         "MENU": "\uba54\ub274",
