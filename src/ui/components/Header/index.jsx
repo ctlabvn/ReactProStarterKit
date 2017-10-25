@@ -75,9 +75,9 @@ export default class extends Component {
               {item.description && <span className="text-truncate w-100 color-gray">{item.description}</span>}
             </Link>
             <div className="flex-row col d-flex align-items-center justify-content-between pr-0">                            
-              <ButtonRound className="p-0 mr-1" icon="plus" onClick={() => this.increaseOrder(item)} />
+              {item.quantity > 0 && <ButtonRound className="p-0 mr-1" icon="minus" onClick={() => this.decreaseOrder(item)} />}
               <span>{item.quantity}</span>
-              {item.quantity > 0 && <ButtonRound className="p-0 ml-1" icon="minus" onClick={() => this.decreaseOrder(item)} />}              
+              <ButtonRound className="p-0 ml-1" icon="plus" onClick={() => this.increaseOrder(item)} />             
               <span className="ml-2">
                 {t("format.currency", {
                   price: item.price,
