@@ -51,7 +51,7 @@ export default class extends Component {
     const { roundedMinute } = this.state;
     const now = moment();
     const today = now.format("dddd").toUpperCase();
-    const range = hoursRange[today];
+    const range = hoursRange[today] || {};
     const min = this.getMinuteFromStr(range.from) || 0;
     const max = this.getMinuteFromStr(range.to) || 24 * 60;
     const children = [];

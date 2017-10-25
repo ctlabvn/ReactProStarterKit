@@ -9,8 +9,9 @@ import {
 } from "reactstrap";
 
 import * as commonActions from "~/store/actions/common";
+import * as orderActions from "~/store/actions/order";
 
-@connect(null, commonActions)
+@connect(null, {...commonActions, ...orderActions})
 export default class extends React.Component {
   constructor(props) {
     super(props);
@@ -26,7 +27,11 @@ export default class extends React.Component {
   };
 
   logout = () => {
-    this.props.requestor("app/logout");
+    const {requestor, updateOrderHistory} = this.props;
+    // empty order
+    updateOrderHistory(null)
+    // trigger logout
+    requestor("app/logout");
   };
 
   render() {

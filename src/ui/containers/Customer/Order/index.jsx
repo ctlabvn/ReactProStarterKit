@@ -12,6 +12,7 @@ import { Field, FieldArray, reduxForm } from "redux-form";
 import ProductItem from "~/ui/components/Product/Item";
 import MaskedInput from "~/ui/components/MaskedInput";
 import OrderItem from "./components/OrderItem";
+import EmptyResult from "~/ui/components/EmptyResult";
 
 import options from "./options";
 
@@ -31,12 +32,11 @@ import * as commonActions from "~/store/actions/common";
 @connect(
   state => ({
     token: authSelectors.getToken(state),
-    orderHistory: orderSelectors.getHistory(state),
+    orderHistory: orderSelectors.getHistory(state)
   }),
   commonActions
 )
 export default class extends Component {
-
   renderMaskedInputField = ({ input, label }) => {
     return (
       <Col md="3">
@@ -87,8 +87,16 @@ export default class extends Component {
           </Col>
         </Row>
         <Row>
-          {orderHistory.map(order => 
-            <OrderItem key={order.order_uuid} order={order} className="w-100  bg-dark color-white mt-4"/>
+          {orderHistory && orderHistory.length ? (
+            orderHistory.map(order => (
+              <OrderItem
+                key={order.order_uuid}
+                order={order}
+                className="w-100  bg-dark color-white mt-4"
+              />
+            ))
+          ) : (
+            <EmptyResult />
           )}
         </Row>
       </div>

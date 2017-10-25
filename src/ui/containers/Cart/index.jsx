@@ -5,10 +5,23 @@ import { translate } from "react-i18next";
 import classNames from "classnames";
 
 // redux form
-import { Field, Fields, FieldArray, reduxForm, SubmissionError } from "redux-form";
+import {
+  Field,
+  Fields,
+  FieldArray,
+  reduxForm,
+  SubmissionError
+} from "redux-form";
 
 // reactstrap
-import { Button, FormGroup, Label, Input, DropdownItem, Alert } from "reactstrap";
+import {
+  Button,
+  FormGroup,
+  Label,
+  Input,
+  DropdownItem,
+  Alert
+} from "reactstrap";
 
 import { DirectionsRenderer, Marker } from "react-google-maps";
 
@@ -30,14 +43,17 @@ import { getCurrentLocation } from "~/ui/utils";
 import { validate } from "./utils";
 import { parseJsonToObject } from "~/store/utils/json";
 
+import options from "./options";
+
 import "./index.css";
+
 
 @translate("translations")
 @connect(
   state => ({
     orderItems: orderSelectors.getItems(state),
     orderInfo: orderSelectors.getInfo(state),
-    initialValues: {...orderSelectors.getInfo(state), request_time: 0}
+    initialValues: { ...orderSelectors.getInfo(state) }
   }),
   orderActions
 )
@@ -67,46 +83,55 @@ export default class extends Component {
     this.directionsService = new this.Maps.DirectionsService();
     this.placeService = new this.Maps.places.AutocompleteService();
     this.geocoder = new this.Maps.Geocoder();
-    const {order_lat, order_long} = this.props.orderInfo;
+    const { order_lat, order_long } = this.props.orderInfo;
     this.loadDirectionFromGmap(order_lat, order_long);
   };
 
-  saveOrderInfo = data => {    
-    const {orderInfo, orderItems} = this.props;
-    const {directions} = this.state;    
-    const {distance, duration} = directions.routes[0].legs[0];
+  saveOrderInfo = data => {
+    const { orderInfo, orderItems } = this.props;
+    const { directions } = this.state;
+    const { distance, duration } = directions.routes[0].legs[0];
 
-    if(!orderInfo.request_time){
-      throw new SubmissionError({        
-        _error: 'Can not delivery due to time!',
-      })
+    // if(!orderInfo.request_time){
+    //   throw new SubmissionError({
+    //     _error: 'Can not delivery due to time!',
+    //   })
+    // }
+
+    if (
+      orderInfo.delivery_distance &&
+      1000 * +orderInfo.delivery_distance <
+        directions.routes[0].legs[0].distance.value
+    ) {
+      throw new SubmissionError({
+        _error: "Distance is too far!"
+      });
     }
-
-    if(orderInfo.delivery_distance && (1000 * +orderInfo.delivery_distance)
-      < directions.routes[0].legs[0].distance.value) {
-      throw new SubmissionError({        
-        _error: 'Distance is too far!',
-      })
-    }    
 
     const totalPrice = this.getTotalPrice();
-    if(orderInfo.min_delivery_cost && totalPrice < orderInfo.min_delivery_cost){
-      throw new SubmissionError({        
-        _error: 'Price is too low!',
-      })
+    if (
+      orderInfo.min_delivery_cost &&
+      totalPrice < orderInfo.min_delivery_cost
+    ) {
+      throw new SubmissionError({
+        _error: "Price is too low!"
+      });
     }
-    if(orderInfo.max_delivery_cost && totalPrice > orderInfo.max_delivery_cost){
-      throw new SubmissionError({        
-        _error: 'Price is too high!',
-      })
+    if (
+      orderInfo.max_delivery_cost &&
+      totalPrice > orderInfo.max_delivery_cost
+    ) {
+      throw new SubmissionError({
+        _error: "Price is too high!"
+      });
     }
-    
-    this.props.updateOrder({...data, travel_time: duration.value/60});
+
+    this.props.updateOrder({ ...data, travel_time: duration.value / 60 });
     history.push("/checkout");
   };
 
-  getTotalPrice(){
-    const {orderItems} = this.props;
+  getTotalPrice() {
+    const { orderItems } = this.props;
     const totalPrice = orderItems.reduce(
       (a, item) => a + item.quantity * item.price,
       0
@@ -115,16 +140,15 @@ export default class extends Component {
     return totalPrice;
   }
 
-  async loadAddressFromGmap(input) {
+  async loadAddressFromGmap() {
     // use guard code so do not have to remove } at the end
-    this.loadingIcon.classList.remove("invisible");
+    this.loadingIcon.classList.remove("hidden");
     // const { lat, lng } = this.state;
     const { latitude: lat, longitude: lng } = await getCurrentLocation();
     const { results } = await fetchJson(
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_API_KEY}`
     );
-    this.loadingIcon.classList.add("invisible");
-    // input.onChange(results[0].formatted_address);
+    this.loadingIcon.classList.add("hidden");
     this.props.updateOrder({
       order_lat: lat,
       order_long: lng,
@@ -136,10 +160,7 @@ export default class extends Component {
   async loadDirectionFromGmap(lat, long) {
     const { orderInfo } = this.props;
     // const { lat, lng } = this.state;
-    const {
-      restaurant_lat,
-      restaurant_long,
-    } = orderInfo;
+    const { restaurant_lat, restaurant_long } = orderInfo;
     if (lat && long) {
       this.directionsService.route(
         {
@@ -162,41 +183,86 @@ export default class extends Component {
     }
   }
 
-  renderAddress = ({ order_type, order_address }) => {
+  renderAddress = ({ order_type, order_address, directions, predictions }) => {
     const { t, orderInfo, error } = this.props;
-    const { directions, predictions } = this.state;
-    if (order_type.input.value !== 2) {
-      return null;
-    }
+    const position = {
+      lat: orderInfo.restaurant_lat,
+      lng: orderInfo.restaurant_long
+    };
+
     return (
       <div className="col-md-6 pl-0">
-        <h6 className="color-gray text-uppercase mb-4 w-100">
-          {t("LABEL.ADDRESS")}{" "}
-          <span className="color-gray-400">(delivery only)</span>
-          <Button
-            color="info"
-            onClick={() => this.loadAddressFromGmap(order_address.input)}
-            className="float-right"
-          >
-            <i
-              className="fa fa-refresh fa-spin mr-2 invisible"
-              ref={ref => (this.loadingIcon = ref)}
-            />
-            Load from Googlemap
-          </Button>
-        </h6>
-        <InputField
-          placeholder="Type your address here"
-          className="w-100"
-          {...order_address}
-        />
-
         <h6 className="color-gray text-uppercase mb-4 w-100">
           {t("LABEL.BUSINESS_ADDRESS")}
           <span className="color-gray-400 float-right">
             {orderInfo.restaurant_address}
           </span>
         </h6>
+
+        {order_type.input.value === options.orderTypes.DELIVERY && (
+          <div>
+            <h6 className="color-gray text-uppercase mb-4 w-100">
+              {t("LABEL.ADDRESS")}{" "}
+              <span className="color-gray-400 float-right">
+                {orderInfo.order_address}
+              </span>
+            </h6>
+
+            <div className="mb-2 d-flex justify-content-between">
+              <Autocomplete
+                className="w-100"
+                placeholder="Type your address here"
+                value={order_address.input.value}
+                onSearch={this.searchGoogleMap}
+              >
+                {predictions.map(({ description }, index) => (
+                  <DropdownItem
+                    onClick={() => this.chooseAddress(description)}
+                    key={index}
+                  >
+                    {description}
+                  </DropdownItem>
+                ))}
+              </Autocomplete>
+
+              <Button
+                color="info"
+                onClick={() => this.loadAddressFromGmap()}
+                className="ml-2 float-right"
+              >
+                <i
+                  className="fa fa-refresh fa-spin mr-2 hidden"
+                  ref={ref => (this.loadingIcon = ref)}
+                />
+                Map
+              </Button>
+            </div>
+            <GoogleMapKey
+              onItemRef={this.initGmap}
+              height={400}
+              defaultCenter={position}
+            >
+              {directions ? (
+                <DirectionsRenderer directions={directions} />
+              ) : (
+                <Marker position={position} />
+              )}
+            </GoogleMapKey>
+
+            {directions && (
+              <div className="d-flex flex-row justify-content-between mt-auto w-100">
+                <span>
+                  <strong>Distance:</strong>{" "}
+                  {directions.routes[0].legs[0].distance.text}
+                </span>
+                <span>
+                  <strong>Time estimated:</strong>
+                  {directions.routes[0].legs[0].duration.text}
+                </span>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     );
   };
@@ -204,17 +270,27 @@ export default class extends Component {
   renderTimePicker = ({ request_time, order_type }) => {
     const { orderInfo } = this.props;
     const orderTypes = [];
-    orderInfo.do_takeaway && orderTypes.push({ id: 1, title: "Take away" });
-    orderInfo.do_delivery && orderTypes.push({ id: 2, title: "Delivery" });
+    orderInfo.do_takeaway &&
+      orderTypes.push({ id: options.orderTypes.TAKE_AWAY, title: "Take away" });
+    orderInfo.do_delivery &&
+      orderTypes.push({ id: options.orderTypes.DELIVERY, title: "Delivery" });
     const hoursRange = parseJsonToObject(
-      order_type.input.value === 1
+      order_type.input.value === options.orderTypes.TAKE_AWAY
         ? orderInfo.hours_takeaway
         : orderInfo.hours_delivery
     );
     return (
       <div className="d-flex col-md-6 pl-0 justify-content-between">
         <OrderTypeField orderTypes={orderTypes} {...order_type} />
-        <RequestTimeField label={order_type.input.value === 1 ? 'Take away time' : 'Delivery time'} hoursRange={hoursRange} {...request_time} />
+        <RequestTimeField
+          label={
+            order_type.input.value === options.orderTypes.DELIVERY
+              ? "Delivery time"
+              : "Take away time"
+          }
+          hoursRange={hoursRange}
+          {...request_time}
+        />
       </div>
     );
   };
@@ -259,7 +335,7 @@ export default class extends Component {
     );
   }
 
-  chooseAddress({ description }) {
+  chooseAddress(description) {
     this.geocoder.geocode({ address: description }, (results, status) => {
       if (status === this.Maps.GeocoderStatus.OK) {
         const lat = results[0].geometry.location.lat();
@@ -267,7 +343,7 @@ export default class extends Component {
         this.props.updateOrder({
           order_lat: lat,
           order_long: lng,
-          order_address: description,
+          order_address: description
         });
         this.loadDirectionFromGmap(lat, lng);
       }
@@ -297,11 +373,10 @@ export default class extends Component {
         </div>
       );
     }
-    const { restaurant_lat, restaurant_long } = orderInfo;
+
     const { directions, predictions } = this.state;
-    const position = { lat: restaurant_lat, lng: restaurant_long };
     const totalPrice = this.getTotalPrice();
-    
+
     return (
       <div className="container">
         <div className="block bg-white">
@@ -326,65 +401,37 @@ export default class extends Component {
           <div className="row border p-2">
             <Fields
               names={["order_type", "order_address"]}
+              directions={directions}
+              predictions={predictions}
               component={this.renderAddress}
             />
             <div className="col pr-0">
-              <Autocomplete onSearch={this.searchGoogleMap}>
-                {predictions.map((prediction, index) => (
-                  <DropdownItem
-                    onClick={() => this.chooseAddress(prediction)}
-                    key={index}
-                  >
-                    {prediction.description}
-                  </DropdownItem>
-                ))}
-              </Autocomplete>
-
-              <GoogleMapKey
-                onItemRef={this.initGmap}
-                height={400}
-                defaultCenter={position}
-              >
-                {directions ? <DirectionsRenderer directions={directions} /> : <Marker position={position}/>}
-              </GoogleMapKey>
-
-              {directions && (
-                <div className="d-flex flex-row justify-content-between mt-auto w-100">
-                  <span>
-                    <strong>Distance:</strong>{" "}
-                    {directions.routes[0].legs[0].distance.text}
-                  </span>
-                  <span>
-                    <strong>Time estimated:</strong>
-                    {directions.routes[0].legs[0].duration.text}
-                  </span>
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="mt-5 mb-4 d-flex w-100 justify-content-between">
-            <div className="col-md-7 pl-0">
               <h6 className="color-gray text-uppercase mb-4">
                 {t("LABEL.ADD_NOTE")}
               </h6>
               <Field
                 name="order_note"
                 type="textarea"
-                className="w-100 h-75 border-gray-300"
+                className="w-100 border-gray-300"
                 component={InputField}
               />
-            </div>
 
-            <div className="col-md-offset-1 col-md-4">
               {this.renderCurrency(
                 "LABEL.SUBTOTAL",
                 totalPrice,
                 "color-gray",
                 orderItems[0].currency_symbol
               )}
-              {this.renderCurrency("Delivery free", +orderInfo.delivery_fee, "color-gray")}
-              {this.renderCurrency("Tax", +orderInfo.consumer_taxes, "color-gray")}
+              {this.renderCurrency(
+                "Delivery free",
+                +orderInfo.delivery_fee,
+                "color-gray"
+              )}
+              {this.renderCurrency(
+                "Tax",
+                +orderInfo.consumer_taxes,
+                "color-gray"
+              )}
               {this.renderCurrency(
                 "LABEL.TOTAL_PRICE",
                 totalPrice + orderInfo.delivery_fee + orderInfo.consumer_taxes,
@@ -399,20 +446,19 @@ export default class extends Component {
                 //   component={InputField}
                 // />
               }
-
-              <Button
-                className="btn bg-red btn-lg btn-block text-uppercase"
-                onClick={handleSubmit(this.saveOrderInfo)}
-              >
-                {t("BUTTON.PAY_NOW")}
-              </Button>
             </div>
           </div>
 
-          {error && <Alert color="danger">
-        {error}
-      </Alert>}
+          <div className="mt-5 mb-4 d-flex w-100 justify-content-end">
+            <Button
+              className="bg-red w-25 btn-lg btn-block text-uppercase"
+              onClick={handleSubmit(this.saveOrderInfo)}
+            >
+              {t("BUTTON.PAY_NOW")}
+            </Button>
+          </div>
 
+          {error && <Alert color="danger">{error}</Alert>}
         </div>
       </div>
     );
