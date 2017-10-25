@@ -18,8 +18,8 @@ export default {
     return apiGet(`/restaurant/outlets/${uuid}`);
   },
 
-  getCategories(uuid) {
-    return apiGet(`/restaurant/categories`, {outlet_uuid: uuid});
+  getCategories(uuid, page = 1) {
+    return apiGet(`/restaurant/categories`, {outlet_uuid: uuid, page: page});
   },
 
   getProductByCategory(category_uuid) {

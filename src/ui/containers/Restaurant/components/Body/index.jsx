@@ -122,7 +122,25 @@ export default class extends Component {
     });
   };
 
-  render() {
+	loadCategories = async () => {
+		const { outlet } = this.props;
+		var hasMore = true, page = 1;
+		while(hasMore) {
+			var retOutletCaterogies = await api.restaurant.getCategories(outlet.outlet_uuid, page);
+			hasMore = retOutletCaterogies.data.last_page > retOutletCaterogies.data.current_page;
+			outlet.categories = outlet.categories.concat(retOutletCaterogies.data.data);
+			this.setState({
+				outlet: outlet
+			});
+			page++;
+		}
+	}
+
+	componentDidMount() {
+	  this.loadCategories()
+  }
+
+	render() {
     const { t, outlet, toggleClass } = this.props;
     const {
       products,

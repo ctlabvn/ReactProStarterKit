@@ -52,7 +52,7 @@ export default class extends Component {
   componentDidMount() {
 	  const { clickIt } = this.props;
 	  if(clickIt) {
-	    this.node.click();
+	  	setTimeout(() => this.node.click(), 500);
     }
 
   }

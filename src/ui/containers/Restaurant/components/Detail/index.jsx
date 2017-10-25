@@ -65,7 +65,7 @@ export default class extends Component {
 		const { t, outlet, toggleClass } = this.props;
 		const lat = outlet.lat;
 		const lng = outlet.long;
-		const position = { lat: lat, lng: lng };
+		const position = { lat: +lat, lng: +lng };
 		const hoursDelivery = outlet.online_order_setting.hours_delivery
 			? parseJsonToObject(outlet.online_order_setting.hours_delivery)
 			: false;

@@ -37,11 +37,11 @@ export default class extends Component {
     try {
       // fetch outlet detail then push to state
       const retOutlet = await api.restaurant.getOutlet(uuid);
-      const retOutletCaterogies = await api.restaurant.getCategories(uuid);
-      retOutlet.data.categories = retOutletCaterogies.data.data;
       // check ret.error then show ret.message
+      retOutlet.data.categories = [];
       this.setState({ outlet: retOutlet.data });
     } catch (e) {
+      console.log(e);
       this.props.setToast(e.message.general, "danger");
       this.setState({ outlet: {} });
     }
