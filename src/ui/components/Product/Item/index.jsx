@@ -79,7 +79,7 @@ export default class extends Component {
               </div>
               <div className="d-flex flex-column justify-content-between">
 						    {onIncrease && <ButtonRound icon="plus" onClick={onIncrease} />}
-						    {quantity > 0 && <ButtonRound icon="minus" onClick={onDecrease} />}
+						    {/*{quantity > 0 && <ButtonRound icon="minus" onClick={onDecrease} />}*/}
               </div>
             </div>
           </div>

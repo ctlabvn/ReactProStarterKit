@@ -37,13 +37,13 @@ export default class extends Component {
 
 	handleSearch = (nextProps) => {
 		const term = nextProps.term;
-		const regex = new RegExp(term, 'ig');
+		const regex = new RegExp(term, "gmiu");
 		const { products } = this.props;
 
 		this.setState({displayHeader: false});
 		products.map((product) => {
 			if(term.length) {
-				if(product.name && (product.name.search(regex) > 0)) {
+				if(product.name && (product.name.search(regex) >= 0)) {
 					product.display = true;
 					this.setState({displayHeader: true});
 				}	else {

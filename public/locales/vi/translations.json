@@ -74,7 +74,14 @@
     "ADD_ADDRESS": "Add address",
     "UPDATE": "Update",
     "REMOVE": "remove",
-    "SUBMIT": "Submit"
+    "SUBMIT": "Submit",
+    "FILTER": {
+      "LOCATION": "Location",
+      "ORDERING_METHODS": "Ordering Methods",
+      "FEES": "Fees",
+      "MINIMUM_ORDER": "Minimum Order",
+      "TAGS": "Tags"
+    }
   },
   "TAB": {
     "MENU": "Menu",
