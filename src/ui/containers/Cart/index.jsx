@@ -159,12 +159,11 @@ export default class extends Component {
 
   async loadDirectionFromGmap(lat, long) {
     const { orderInfo } = this.props;
-    // const { lat, lng } = this.state;
-    const { restaurant_lat, restaurant_long } = orderInfo;
+    // const { lat, lng } = this.state;    
     if (lat && long) {
       this.directionsService.route(
         {
-          origin: new this.Maps.LatLng(restaurant_lat, restaurant_long),
+          origin: new this.Maps.LatLng(+orderInfo.restaurant_lat, +orderInfo.restaurant_long),
           destination: new this.Maps.LatLng(lat, long),
           travelMode: this.Maps.TravelMode.DRIVING
         },
@@ -186,8 +185,8 @@ export default class extends Component {
   renderAddress = ({ order_type, order_address, directions, predictions }) => {
     const { t, orderInfo, error } = this.props;
     const position = {
-      lat: orderInfo.restaurant_lat,
-      lng: orderInfo.restaurant_long
+      lat: +orderInfo.restaurant_lat,
+      lng: +orderInfo.restaurant_long
     };
 
     return (
