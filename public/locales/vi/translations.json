@@ -77,6 +77,7 @@
     "SUBMIT": "Submit",
     "FILTER": {
       "LOCATION": "Location",
+      "DISTANCE": "Distance",
       "ORDERING_METHODS": "Ordering Methods",
       "FEES": "Fees",
       "MINIMUM_ORDER": "Minimum Order",
