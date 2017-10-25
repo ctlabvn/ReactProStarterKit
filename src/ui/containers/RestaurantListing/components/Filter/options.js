@@ -46,7 +46,7 @@ export default {
 		},
 		{
 			placement: 'bottom',
-			text: 'BUTTON.FILTER_DISTANCE',
+			text: 'BUTTON.FILTER.DISTANCE',
 			body: `
 				<div className="w-100">
 					<ul className="list-unstyled">
