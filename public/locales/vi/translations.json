@@ -44,7 +44,10 @@
     "SHOW_LESS": "Show less",
     "RESTAURANT_CLOSED": "Closed",
     "NO_SEARCH_DATA": "No data",
-    "CART_EMPTY": "Your shopping cart is empty."
+    "CART_EMPTY": "Your shopping cart is empty.",
+    "MIN_ORDER": "Min order: ",
+    "MAX_ORDER": "Max order: ",
+    "DELIVERY_FEE": "Delivery fee: "
   },
   "format": {
     "currency": "{{symbol}}{{price, 0,0.00}}"

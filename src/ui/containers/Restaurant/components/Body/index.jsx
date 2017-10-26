@@ -36,13 +36,11 @@ export default class extends Component {
       features: [],
       isLoadingItem: false,
       treeCategory: {},
-      treeCategoryName: {},
-      selectedCategory: ""
+      treeCategoryName: {}
     };
   }
 
   handleCategory = parentCategory => {
-    this.setState({ selectedCategory: parentCategory });
     this.loadProducts(parentCategory);
   };
 
@@ -169,14 +167,14 @@ export default class extends Component {
           if (!treeCategory.hasOwnProperty(item.category_uuid)) {
             treeCategory[item.category_uuid] = [item.category_uuid];
           }
-          if (!firstCategory) {
+          if (!firstCategory && item.total_items) {
             firstCategory = item.category_uuid;
           }
         }
       })
 
 	    return (
-        <div className={classNames("row block bg-white mb-4", toggleClass)} id="restaurant-body">
+        <div className={classNames("row block bg-white mb-4 mt-5", toggleClass)} id="restaurant-body">
 			    {features.length ? (
 	          <Slider className="mt-2" num={5} move={1}>
 	            {features.length
@@ -224,8 +222,8 @@ export default class extends Component {
 	  }
 
 	  return (
-		  <div className={classNames("d-flex bg-white mb-4 justify-content-center", toggleClass)} id="restaurant-body">
-			  <div className="py-5">
+		  <div className={classNames("row block bg-white mb-4 mt-5", toggleClass)} id="restaurant-body">
+			  <div className="d-block text-center w-100 py-5">
 				  <img src="/images/no-data.png" height="100" alt="" />
 				  <p className="color-gray text-uppercase">
 					  {t("LABEL.NO_SEARCH_DATA")}

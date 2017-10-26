@@ -15,7 +15,7 @@ export default class extends Component {
   renderLink(link, title) {
     return (
       <NavLink
-        to={link}        
+        to={link}
         activeClassName={this.props.activeClassName}
       >
         {title}
@@ -53,9 +53,7 @@ export default class extends Component {
 	  const { clickIt } = this.props;
 	  if(clickIt) {
 		  this.node.click();
-	  	setTimeout(() => this.node.click(), 3000);
     }
-
   }
 
   render() {
