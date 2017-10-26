@@ -147,7 +147,7 @@ export default class extends Component {
       treeCategory,
       treeCategoryName
     } = this.state;
-    let firstCategory = "";
+    let categoryHasChildProduct = [];
     const canAddOrder =
       !!outlet.online_order_setting &&
       outlet.online_order_setting.published &&
@@ -163,12 +163,12 @@ export default class extends Component {
           } else {
             treeCategory[item.parent_uuid] = [item.category_uuid];
           }
+          if(item.total_items) {
+	          categoryHasChildProduct.push(item.parent_uuid);
+          }
         } else {
           if (!treeCategory.hasOwnProperty(item.category_uuid)) {
             treeCategory[item.category_uuid] = [item.category_uuid];
-          }
-          if (!firstCategory && item.total_items) {
-            firstCategory = item.category_uuid;
           }
         }
       })
@@ -196,15 +196,15 @@ export default class extends Component {
 	          <Menu className="col col-md-2 list-group restaurant-cat">
 	            {outlet.categories &&
 	              outlet.categories
-	                .filter(item => !item.parent_uuid && item.total_items)
-	                .map(item => (
-	                  <MenuItem
+	                .filter(item => !item.parent_uuid && (categoryHasChildProduct.indexOf(item.category_uuid) > -1 || item.total_items))
+	                .map((item, index) => {
+	                  return (<MenuItem
 	                    onClick={() => this.handleCategory(item.category_uuid)}
 	                    key={item.category_uuid}
 	                    title={item.name}
-	                    clickIt={item.category_uuid === firstCategory}
-	                  />
-	                ))}
+	                    clickIt={!index}
+	                  />)
+	                })}
 	          </Menu>
 
 	          {!isLoadingItem ? (
