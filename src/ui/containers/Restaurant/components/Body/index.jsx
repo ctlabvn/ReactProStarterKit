@@ -14,6 +14,7 @@ import ProductGroup from "~/ui/components/Product/Group";
 import ButtonRound from "~/ui/components/Button/Round";
 import RestaurantProduct from "~/ui/components/Restaurant/Product";
 import Image from "~/ui/components/Image";
+import IconLoading from "~/ui/components/Loading/icon";
 
 import * as orderActions from "~/store/actions/order";
 import * as orderSelectors from "~/store/selectors/order";
@@ -41,6 +42,7 @@ export default class extends Component {
       treeCategory: {},
       treeCategoryName: {}
     };
+	  this.loadCategories()
   }
 
   handleCategory = parentCategory => {
@@ -69,12 +71,6 @@ export default class extends Component {
       );
     }
   };
-
-  showLoading = () => (
-    <div className="col text-center py-2">
-      <i className="fa fa-refresh fa-spin fa-3x fa-fw" />
-    </div>
-  );
 
   addOrderItem = item => {
     const {
@@ -137,10 +133,6 @@ export default class extends Component {
 		}
 	}
 
-	componentDidMount() {
-	  this.loadCategories()
-  }
-
 	render() {
     const { t, outlet, toggleClass } = this.props;
     const {
@@ -154,7 +146,7 @@ export default class extends Component {
     const canAddOrder = checkOrderAvailable(outlet);
 
 	  if(outlet.total_items) {
-      outlet.categories && outlet.categories.forEach(item => {
+      !!outlet.categories && outlet.categories.forEach(item => {
         treeCategoryName[item.category_uuid] = item.name;
         if (item.parent_uuid) {
           if (treeCategory.hasOwnProperty(item.parent_uuid)) {
@@ -193,7 +185,7 @@ export default class extends Component {
 
 	        <div className="mt-3 row w-100">
 	          <Menu className="col col-md-2 list-group restaurant-cat">
-	            {outlet.categories &&
+	            {!!outlet.categories &&
 	              outlet.categories
 	                .filter(item => !item.parent_uuid && (categoryHasChildProduct.indexOf(item.category_uuid) > -1 || item.total_items))
 	                .map((item, index) => {
@@ -213,7 +205,7 @@ export default class extends Component {
 	              onAddOrder={canAddOrder ? this.addOrderItem : null}
 	            />
 	          ) : (
-	            this.showLoading()
+	            <IconLoading />
 	          )}
 	        </div>
 	      </div>

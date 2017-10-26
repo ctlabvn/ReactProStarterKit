@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import InfiniteScroller from "~/ui/components/Scroller/Infinite";
 import RestaurantItemPhoto from "~/ui/components/Restaurant/Item/Photo";
 import EmptyResult from "~/ui/components/EmptyResult";
+import IconLoading from "~/ui/components/Loading/icon";
 
 // store
 import api from "~/store/api";
@@ -86,10 +87,8 @@ export default class extends Component {
     this.unmounted = true;
   }
 
-  showLoading = () => (
-    <div className="col-12 text-center d-flex flex-row justify-content-center py-2">
-      <i className="fa fa-refresh fa-spin fa-3x fa-fw" />
-    </div>
+	showIconLoading = () => (
+    <IconLoading />
   );
 
   renderResult(elements, hasMore) {
@@ -120,7 +119,7 @@ export default class extends Component {
         <InfiniteScroller
           className="row d-flex"
           hasMore={hasMore}
-          loader={this.showLoading()}
+          loader={this.showIconLoading()}
           loadMore={this.loadMoreElement}
           pageStart={elements.length ? 1 : 0}
           onItemRef={ref => (this.scroller = ref)}

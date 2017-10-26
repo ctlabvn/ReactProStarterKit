@@ -14,3 +14,6 @@ export const getAddress = state =>
 
 export const getConfig = state =>
 	state.auth.config;
+
+export const getFilter = state =>
+	state.auth.filter;

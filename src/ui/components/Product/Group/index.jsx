@@ -65,8 +65,8 @@ export default class extends Component {
 
     return (
       <div className="container">
-        {displayHeader && products.length && <h2 className="mb-3">{name}</h2>}
-        {products.length
+        {displayHeader && products.length > 0 && <h2 className="mb-3">{name}</h2>}
+        {products.length > 0
           ? products.map((item, index) => (
               <ProductItem
                 className="col-md-6 float-left pl-0 pr-5 mb-4"

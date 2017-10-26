@@ -1,35 +1,5 @@
 import React, { Component } from "react";
 
-/*
-The user can filter by
-Location
-  All
-  City-district
-Distance
-  All
-  <= 1km
-  <= 2km
-  <= 5km
-  <= 10km
-Ordering methods
-  All
-  Delivery
-  Take-away
-  Pre-order
-  Delivery fee
-  All
-Fee
-  <=20,000 : less than 20,000
-  <= 50,000 : less than 50,000
-Minimum order
-  All
-  <= 100,000 : less than 100,000
-  <= 200,000 : less than 200,000
-Tags
-  All
-  Each tag name
- */
-
 export default {
 	filters: [
 		{
@@ -51,10 +21,10 @@ export default {
 				<div className="w-100">
 					<ul className="list-unstyled">
 						<li>All</li>
-						<li>Delivery</li>
-						<li>Take-away</li>
-						<li>Pre-order</li>
-						<li>Delivery fee</li>
+						<li><= 1km</li>
+						<li><= 2km</li>
+						<li><= 5km</li>
+						<li><= 10km</li>
 					</ul>
 				</div>
 			`
@@ -66,10 +36,10 @@ export default {
 				<div className="w-100">
 					<ul className="list-unstyled">
 						<li>All</li>
-						<li><= 1km</li>
-						<li><= 2km</li>
-						<li><= 5km</li>
-						<li><= 10km</li>
+						<li>Delivery</li>
+						<li>Take-away</li>
+						<li>Pre-order</li>
+						<li>Delivery fee</li>
 					</ul>
 				</div>
 			`
