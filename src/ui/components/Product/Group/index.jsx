@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { translate } from "react-i18next";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import classNames from "classnames";
-import { connect } from "react-redux";
+// import classNames from "classnames";
+// import { connect } from "react-redux";
 
 import ProductItem from "~/ui/components/Product/Item";
 
@@ -83,7 +83,7 @@ export default class extends Component {
                 itemUuid={item.item_uuid}
                 onIncrease={onAddOrder ? () => onAddOrder(item) : null}
                 displayItem={
-                  typeof item.display != "undefined" ? !!item.display : true
+                  typeof item.display !== "undefined" ? !!item.display : true
                 }
               />
             ))

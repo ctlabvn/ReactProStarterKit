@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import App from "./containers/App";
 
 import NotFound from "./containers/NotFound";
-import Home from "./containers/Home";
+// import Home from "./containers/Home";
 import Search from "./containers/Search";
 import Restaurant from "./containers/Restaurant";
 import Item from "./containers/Item";

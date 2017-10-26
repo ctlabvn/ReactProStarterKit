@@ -1,27 +1,27 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
 import { connect } from "react-redux";
 import classNames from "classnames";
 
-import { Col } from "reactstrap";
+// import { Col } from "reactstrap";
 
 import Menu from "~/ui/components/Menu";
 import MenuItem from "~/ui/components/Menu/Item";
 import ProductItemPhoto from "~/ui/components/Product/Item/Photo";
 import Slider from "~/ui/components/Slider";
-import ProductGroup from "~/ui/components/Product/Group";
-import ButtonRound from "~/ui/components/Button/Round";
+// import ProductGroup from "~/ui/components/Product/Group";
+// import ButtonRound from "~/ui/components/Button/Round";
 import RestaurantProduct from "~/ui/components/Restaurant/Product";
 import Image from "~/ui/components/Image";
 
 import * as orderActions from "~/store/actions/order";
 import * as orderSelectors from "~/store/selectors/order";
-import * as restaurantValidation from "~/store/utils/validation/restaurant";
+// import * as restaurantValidation from "~/store/utils/validation/restaurant";
 
 import api from "~/store/api";
 import "./index.css";
-import options from "./options";
+
 import {checkOrderAvailable} from "~/store/utils/validation/restaurant";
 
 @translate("translations")

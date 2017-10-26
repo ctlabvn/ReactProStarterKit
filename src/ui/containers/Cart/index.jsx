@@ -8,7 +8,7 @@ import classNames from "classnames";
 import {
   Field,
   Fields,
-  FieldArray,
+  // FieldArray,
   reduxForm,
   SubmissionError
 } from "redux-form";
@@ -16,9 +16,9 @@ import {
 // reactstrap
 import {
   Button,
-  FormGroup,
-  Label,
-  Input,
+  // FormGroup,
+  // Label,
+  // Input,
   DropdownItem,
   Alert
 } from "reactstrap";
@@ -88,9 +88,9 @@ export default class extends Component {
   };
 
   saveOrderInfo = data => {
-    const { orderInfo, orderItems } = this.props;
+    const { orderInfo } = this.props;
     const { directions } = this.state;
-    const { distance, duration } = directions.routes[0].legs[0];
+    const { duration } = directions.routes[0].legs[0];
 
     // if(!orderInfo.request_time){
     //   throw new SubmissionError({
@@ -359,7 +359,7 @@ export default class extends Component {
       orderInfo,
       clearItems,
       error,
-      initialValues: { order_type }
+      // initialValues: { order_type }
     } = this.props;
 
     if (!orderItems || !orderItems.length) {

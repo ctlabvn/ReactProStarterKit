@@ -5,7 +5,7 @@ import Filter from "./components/Filter";
 import Result from "./components/Result";
 
 // store
-import api from "~/store/api";
+// import api from "~/store/api";
 
 import "./index.css";
 
