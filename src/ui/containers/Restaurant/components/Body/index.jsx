@@ -22,7 +22,7 @@ import * as restaurantValidation from "~/store/utils/validation/restaurant";
 import api from "~/store/api";
 import "./index.css";
 import options from "./options";
-import {checkOrderAvailable} from "../../../../../store/utils/validation/restaurant";
+import {checkOrderAvailable} from "~/store/utils/validation/restaurant";
 
 @translate("translations")
 @connect(
@@ -37,10 +37,13 @@ export default class extends Component {
     this.state = {
       products: {},
       features: [],
+      categories: [],
       isLoadingItem: false,
       treeCategory: {},
       treeCategoryName: {}
     };
+
+    this.canAddOrder = checkOrderAvailable(props.outlet);
   }
 
   handleCategory = parentCategory => {
@@ -124,15 +127,16 @@ export default class extends Component {
   };
 
 	loadCategories = async () => {
-		const { outlet } = this.props;
+		const { categories } = this.state;
+    const { outlet } = this.props;
 		var hasMore = true, page = 1;
 		while(hasMore) {
 			var retOutletCaterogies = await api.restaurant.getCategories(outlet.outlet_uuid, page);
 			hasMore = retOutletCaterogies.data.last_page > retOutletCaterogies.data.current_page;
-			outlet.categories = outlet.categories.concat(retOutletCaterogies.data.data);
+      // update gradually
 			this.setState({
-				outlet: outlet
-			});
+        categories: [...categories, ...retOutletCaterogies.data.data]
+      });			
 			page++;
 		}
 	}
@@ -148,13 +152,14 @@ export default class extends Component {
       features,
       isLoadingItem,
       treeCategory,
-      treeCategoryName
+      treeCategoryName,
+      categories,
     } = this.state;
     let categoryHasChildProduct = [];
-    const canAddOrder = checkOrderAvailable(outlet);
+    
 
 	  if(outlet.total_items) {
-      outlet.categories && outlet.categories.forEach(item => {
+      categories.forEach(item => {
         treeCategoryName[item.category_uuid] = item.name;
         if (item.parent_uuid) {
           if (treeCategory.hasOwnProperty(item.parent_uuid)) {
@@ -193,8 +198,7 @@ export default class extends Component {
 
 	        <div className="mt-3 row w-100">
 	          <Menu className="col col-md-2 list-group restaurant-cat">
-	            {outlet.categories &&
-	              outlet.categories
+	            {categories
 	                .filter(item => !item.parent_uuid && (categoryHasChildProduct.indexOf(item.category_uuid) > -1 || item.total_items))
 	                .map((item, index) => {
 	                  return (<MenuItem
@@ -210,7 +214,7 @@ export default class extends Component {
 	            <RestaurantProduct
 	              products={products}
 	              treeCategoryName={treeCategoryName}
-	              onAddOrder={canAddOrder ? this.addOrderItem : null}
+	              onAddOrder={this.canAddOrder ? this.addOrderItem : null}
 	            />
 	          ) : (
 	            this.showLoading()
