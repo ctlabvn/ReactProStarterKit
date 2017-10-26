@@ -40,6 +40,11 @@ export default class extends Component {
 
 	render() {
 		const { t, outlet, item } = this.props;
+		const canAddOrder =
+			!!outlet.online_order_setting &&
+			outlet.online_order_setting.published &&
+			(outlet.online_order_setting.do_delivery ||
+				outlet.online_order_setting.do_takeaway);
 
 		return (
 			<div className="row flex-nowrap d-flex flex-row justify-content-between block bg-white mb-4 mt-5 w-100">
@@ -90,10 +95,10 @@ export default class extends Component {
 					<h3 className="text-right">
 						{t("format.currency", {
 							price: item.default_price,
-							symbol: item.currency.symbol
+							symbol: item.currency && item.currency.symbol ? item.currency.symbol : ''
 						})}
 					</h3>
-					<button className="btn btn-danger btn-lg" onClick={() => this.addOrderItem(item)}>{t('BUTTON.ADD_TO_CART')}</button>
+					{!!canAddOrder && <button className="btn btn-danger btn-lg" onClick={() => this.addOrderItem(item)}>{t('BUTTON.ADD_TO_CART')}</button>}
 				</div>
 			</div>
 		);
