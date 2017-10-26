@@ -17,10 +17,12 @@ import Image from "~/ui/components/Image";
 
 import * as orderActions from "~/store/actions/order";
 import * as orderSelectors from "~/store/selectors/order";
+import * as restaurantValidation from "~/store/utils/validation/restaurant";
 
 import api from "~/store/api";
 import "./index.css";
 import options from "./options";
+import {checkOrderAvailable} from "../../../../../store/utils/validation/restaurant";
 
 @translate("translations")
 @connect(
@@ -149,11 +151,7 @@ export default class extends Component {
       treeCategoryName
     } = this.state;
     let categoryHasChildProduct = [];
-    const canAddOrder =
-      !!outlet.online_order_setting &&
-      outlet.online_order_setting.published &&
-      (outlet.online_order_setting.do_delivery ||
-        outlet.online_order_setting.do_takeaway);
+    const canAddOrder = checkOrderAvailable(outlet);
 
 	  if(outlet.total_items) {
       outlet.categories && outlet.categories.forEach(item => {

@@ -10,9 +10,11 @@ import RestaurantInfo from "~/ui/components/Restaurant/Info";
 import Readmore from "~/ui/components/Restaurant/Readmore";
 import ProductOptions from "~/ui/components/Product/Options";
 import * as orderActions from "~/store/actions/order";
+import * as restaurantValidation from "~/store/utils/validation/restaurant";
 
 import "./index.css";
 import options from "./options";
+import {checkOrderAvailable} from "../../../../../store/utils/validation/restaurant";
 
 @translate('translations')
 @connect(null, orderActions)
@@ -40,11 +42,7 @@ export default class extends Component {
 
 	render() {
 		const { t, outlet, item } = this.props;
-		const canAddOrder =
-			!!outlet.online_order_setting &&
-			outlet.online_order_setting.published &&
-			(outlet.online_order_setting.do_delivery ||
-				outlet.online_order_setting.do_takeaway);
+		const canAddOrder = checkOrderAvailable(outlet);
 
 		return (
 			<div className="row flex-nowrap d-flex flex-row justify-content-between block bg-white mb-4 mt-5 w-100">
