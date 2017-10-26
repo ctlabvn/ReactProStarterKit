@@ -4,6 +4,7 @@ import { translate } from "react-i18next";
 import { Row, Col, Label, Button, Collapse } from "reactstrap";
 
 import ButtonRound from "~/ui/components/Button/Round";
+import Image from "~/ui/components/Image";
 
 @translate("translations")
 export default class extends Component {
@@ -40,7 +41,8 @@ export default class extends Component {
             <div className="p-2">{item.qty}x</div>
             <div className="p-2 d-flex flex-column">
               {item.name}
-              <img className="rounded-circle align-self-start border" width={50} alt="..." src="/images/donut.png" />
+              <Image className="align-self-start" width={50} alt="..." 
+                src={item.image.url_thumb} />
             </div>
             <div className="ml-auto p-2">
               {t("format.currency", {

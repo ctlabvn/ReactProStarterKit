@@ -1,13 +1,8 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 import { translate } from "react-i18next";
-import { connect } from "react-redux";
-import * as orderSelectors from "~/store/selectors/order";
 
 @translate("translations")
-@connect(state => ({
-  orderItems: orderSelectors.getItems(state)
-}))
 export default class extends Component {
   render() {
     const { orderItems, t } = this.props;
