@@ -102,3 +102,14 @@ export const validateLogin = (values) => {
 
   return errors
 };
+
+export const extractMessage = (message) => {
+  let messageValue = message.general;
+  for(let key in message){
+    if(key !== 'general'){
+      messageValue = message[key];
+      break;
+    }
+  }
+  return messageValue;
+}

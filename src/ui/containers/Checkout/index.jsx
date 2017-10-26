@@ -10,19 +10,21 @@ import { Row, Col, Button } from "reactstrap";
 // components
 import Menu from "~/ui/components/Menu";
 import MenuItem from "~/ui/components/Menu/Item";
+import EmptyResult from "~/ui/components/EmptyResult";
 
 // store
 import * as commonActions from "~/store/actions/common";
 import * as orderActions from "~/store/actions/order";
 import * as orderSelectors from "~/store/selectors/order";
 import * as authSelectors from "~/store/selectors/auth";
+import { history } from "~/store";
 
 // components
 import Signup from "./Signup";
 import Login from "./Login";
 import Order from "./Order";
 
-import { getCurrentLocation } from "~/ui/utils";
+import { getCurrentLocation, extractMessage } from "~/ui/utils";
 
 import "./index.css";
 
@@ -56,7 +58,7 @@ export default class extends Component {
         customer_name: customer.name,
         customer_phone: customer.phone,
         customer_email: customer.email,
-        customer_address: addressItem ? addressItem.address : "",
+        customer_address: orderInfo.order_address + (addressItem ? "\n" + addressItem.address : ""),
         customer_lat: orderInfo.order_lat,
         customer_long: orderInfo.order_long,
       },
@@ -70,9 +72,9 @@ export default class extends Component {
       if(!err){
         // if success create order then clear all items
         clearItems();
+        history.push("/customer/order");
       } else {
-          const messageValue = err.message['customer.customer_phone'] || err.message.order_type;
-          setToast(messageValue ? messageValue.join("\n") : "Create order failed!", "danger");        
+          setToast(extractMessage(err.message), "danger");        
       }
     });
   };
@@ -120,7 +122,11 @@ export default class extends Component {
   }
 
   render() {
-    const { t, isLogged } = this.props;
+    const { t, isLogged, orderItems } = this.props;
+    if(!orderItems.length){
+      return <EmptyResult/>;
+    }
+
     return (
       <div className="container">
         <Row>
@@ -128,7 +134,7 @@ export default class extends Component {
             {isLogged ? this.renderHasAccount() : this.renderHasNoAccount()}
           </Col>
           <Col>
-            <Order />
+            <Order orderItems={orderItems}/>
           </Col>
         </Row>
       </div>
