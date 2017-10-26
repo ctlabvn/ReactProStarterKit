@@ -38,7 +38,7 @@ export default class extends Component {
       // fetch outlet detail then push to state
       const retOutlet = await api.restaurant.getOutlet(uuid);
       // check ret.error then show ret.message
-      retOutlet.data.categories = [];
+      // retOutlet.data.categories = [];
       this.setState({ outlet: retOutlet.data });
     } catch (e) {
       console.log(e);

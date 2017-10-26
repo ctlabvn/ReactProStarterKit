@@ -1,6 +1,12 @@
-export const checkOrderAvailable = (outlet) => {
-	return
-		!!outlet.online_order_setting &&
-		outlet.online_order_setting.published &&
-		(outlet.online_order_setting.do_delivery || outlet.online_order_setting.do_takeaway);
+export const checkOrderAvailable = (outlet) => {  
+  if(!outlet.online_order_setting)
+    return false;
+  const {do_takeaway, do_delivery, hours_open, published} = outlet.online_order_setting
+  if(!published || !hours_open)
+    return false;
+  
+	if (!do_delivery && !do_takeaway){
+    return false;
+  }
+  return true;
 }

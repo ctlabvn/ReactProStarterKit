@@ -6,7 +6,7 @@ import Suggestion from "./components/Suggestion";
 import Result from "./components/Result";
 
 // store
-import api from "~/store/api";
+// import api from "~/store/api";
 
 import "./index.css";
 
