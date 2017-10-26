@@ -1,6 +1,6 @@
 export default {
   orderTypes: {
-    TAKE_AWAY: 1,
-    DELIVERY: 2,
+    TAKE_AWAY: 2,
+    DELIVERY: 3,
   }
 }
