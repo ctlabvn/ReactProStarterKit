@@ -41,7 +41,7 @@ import "./index.css";
 export default class extends Component {
 
   createOrder = async ()=>{
-    const {customer, orderItems, orderInfo, token, address, requestor, clearItems} = this.props;    
+    const {customer, orderItems, orderInfo, token, address, requestor, clearItems, setToast} = this.props;    
     const addressItem = address.find(item=>item.cus_address_uuid === orderInfo.cus_address_uuid);
     const now = moment();
     const request_time = 60 * ((orderInfo.request_time + orderInfo.preparation_time + orderInfo.travel_time) - (now.hour() * 60 + now.minute()));
@@ -70,6 +70,9 @@ export default class extends Component {
       if(!err){
         // if success create order then clear all items
         clearItems();
+      } else {
+          const messageValue = err.message['customer.customer_phone'] || err.message.order_type;
+          setToast(messageValue ? messageValue.join("\n") : "Create order failed!", "danger");        
       }
     });
   };

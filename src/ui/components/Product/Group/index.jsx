@@ -11,80 +11,84 @@ import "./index.css";
 
 @translate("translations")
 export default class extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			displayHeader: true
-		};
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      displayHeader: true
+    };
+  }
 
   static propTypes = {
     term: PropTypes.string,
     name: PropTypes.string,
-	  products: PropTypes.array,
-    onAddOrder: PropTypes.func,
+    products: PropTypes.array,
+    onAddOrder: PropTypes.func
   };
 
-	getProductImage(gallery) {
-		const galleryData = JSON.parse(gallery);
-		// return galleryData[0];
-		return "/images/donut.png";
-	}
+  getProductImage(gallery) {
+    try {
+      const galleryData = JSON.parse(gallery);
+      return galleryData[0];
+    } catch (e) {
+      return "/images/donut.png";
+    }
+  }
 
-	componentWillReceiveProps(nextProps) {
-		this.handleSearch(nextProps);
-	}
+  componentWillReceiveProps(nextProps) {
+    this.handleSearch(nextProps);
+  }
 
-	handleSearch = (nextProps) => {
-		const term = nextProps.term;
-		const regex = new RegExp(term, "gmiu");
-		const { products } = this.props;
+  handleSearch = nextProps => {
+    const term = nextProps.term;
+    const regex = new RegExp(term, "gmiu");
+    const { products } = this.props;
 
-		this.setState({displayHeader: false});
-		products.map((product) => {
-			if(term.length) {
-				if(product.name && (product.name.search(regex) >= 0)) {
-					product.display = true;
-					this.setState({displayHeader: true});
-				}	else {
-					product.display = false;
-				}
-			} else {
-				product.display = true
-				this.setState({displayHeader: true});
-			}
-		});
-	}
+    this.setState({ displayHeader: false });
+    products.map(product => {
+      if (term.length) {
+        if (product.name && product.name.search(regex) >= 0) {
+          product.display = true;
+          this.setState({ displayHeader: true });
+        } else {
+          product.display = false;
+        }
+      } else {
+        product.display = true;
+        this.setState({ displayHeader: true });
+      }
+    });
+  };
 
   render() {
-    const {
-      name,
-	    products,
-      t,
-      onAddOrder,
-    } = this.props;
+    const { name, products, t, onAddOrder } = this.props;
     const { displayHeader } = this.state;
 
     return (
       <div className="container">
-	      {displayHeader && products.length ? <h2 className="mb-3">{name}</h2> : ''}
-	      {products.length ?
-		      products.map((item, index) => (
-            <ProductItem
-              className="col-md-6 float-left pl-0 pr-5 mb-4"
-              description={item.description}
-              key={index}
-              price={item.default_price}
-              priceUnit={item.currency && item.currency.symbol ? item.currency.symbol : ''}
-              title={item.name}
-              image={this.getProductImage(item.gallery)}
-              itemUuid={item.item_uuid}
-              onIncrease={onAddOrder ? ()=>onAddOrder(item) : null}
-              displayItem={typeof item.display != "undefined" ? !!item.display : true}
-            />
-		      ))
-	       : ''}
-	      <div className="clearfix"></div>
+        {displayHeader && products.length && <h2 className="mb-3">{name}</h2>}
+        {products.length
+          ? products.map((item, index) => (
+              <ProductItem
+                className="col-md-6 float-left pl-0 pr-5 mb-4"
+                description={item.description}
+                key={index}
+                price={item.default_price}
+                priceUnit={
+                  item.currency && item.currency.symbol
+                    ? item.currency.symbol
+                    : ""
+                }
+                title={item.name}
+                image={this.getProductImage(item.gallery)}
+                itemUuid={item.item_uuid}
+                onIncrease={onAddOrder ? () => onAddOrder(item) : null}
+                displayItem={
+                  typeof item.display != "undefined" ? !!item.display : true
+                }
+              />
+            ))
+          : ""}
+        <div className="clearfix" />
       </div>
     );
   }

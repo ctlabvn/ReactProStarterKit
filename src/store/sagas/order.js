@@ -8,9 +8,9 @@ import { createRequestSaga } from "~/store/sagas/common";
 
 const createOrder = createRequestSaga({
   request: api.order.createOrder,  
-  success: [() => setToast("Create order successfully!!!")],
-  // check reason, can be message, object or whatever
-  failure: [({message}) => setToast(message.order_type.join("\n"), "danger")]
+  success: [
+    () => setToast("Create order successfully!!!"),
+  ]
 });
 
 const getOrderHistory = createRequestSaga({

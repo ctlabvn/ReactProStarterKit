@@ -7,6 +7,7 @@ import classNames from "classnames";
 import RestaurantOrderSetting from "~/ui/components/Restaurant/OrderSetting";
 import RestaurantTag from "~/ui/components/Restaurant/Tag";
 import MenuItem from "~/ui/components/Menu/Item";
+import Image from "~/ui/components/Image";
 
 import "./index.css";
 
@@ -25,7 +26,7 @@ export default class extends Component {
     return (
       <div className="col-sm-6 col-12 my-3">
         <div className="media rounded">
-          <img className="media-image d-flex mr-3 rounded" src={logo} alt="" />
+          <Image className="media-image d-flex mr-3 rounded" src={logo} alt="" />
             <div className="media-body">
               <div className="d-flex flex-column justify-content-between">
                 <div>

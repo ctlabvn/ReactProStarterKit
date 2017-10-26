@@ -8,6 +8,7 @@ import { translate } from "react-i18next";
 
 import HeadingDouble from "~/ui/components/Heading/Double";
 import ButtonRound from "~/ui/components/Button/Round";
+import Image from "~/ui/components/Image";
 
 import "./index.css";
 
@@ -55,7 +56,7 @@ export default class extends Component {
         <div
           className={classNames("d-flex flex-row align-items-center", className)}
         >
-			    {image && <img
+			    {image && <Image
             style={{ width: imageSize, height: imageSize }}
             src={image}
             alt="..."

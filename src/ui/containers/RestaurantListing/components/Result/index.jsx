@@ -109,7 +109,7 @@ export default class extends Component {
     if (!hasMore)
       return <EmptyResult/>;
 
-    return null;
+    return <div/>
   }
 
   render() {

@@ -16,15 +16,6 @@ export default class extends React.Component {
     value: ""
   };
 
-  constructor(props) {
-    super(props);
-
-    this._onChange = this._onChange.bind(this);
-    this._onKeyDown = this._onKeyDown.bind(this);
-    this._onPaste = this._onPaste.bind(this);
-    this._onKeyPress = this._onKeyPress.bind(this);
-  }
-
   componentWillMount() {
     const options = {
       pattern: this.props.mask,
@@ -62,7 +53,7 @@ export default class extends React.Component {
 
   componentWillUpdate(nextProps, nextState) {
     if (nextProps.mask !== this.props.mask) {
-      this._updatePattern(nextProps);
+      this.updatePattern(nextProps);
     }
   }
 
@@ -72,22 +63,22 @@ export default class extends React.Component {
     }
   }
 
-  _updatePattern(props) {
+  updatePattern(props) {
     this.mask.setPattern(props.mask, {
       value: this.mask.getRawValue(),
       selection: getSelection(this.input)
     });
   }
 
-  _updateMaskSelection() {
+  _updateMaskSelection=()=> {
     this.mask.selection = getSelection(this.input);
-  }
+  };
 
-  _updateInputSelection() {
+  _updateInputSelection=()=> {
     setSelection(this.input, this.mask.selection);
-  }
+  };
 
-  _onChange(e) {
+  _onChange=(e)=> {
     // console.log('onChange', JSON.stringify(getSelection(this.input)), e.target.value)
 
     const maskValue = this.mask.getValue();
@@ -108,9 +99,9 @@ export default class extends React.Component {
     if (this.props.onChange) {
       this.props.onChange(e);
     }
-  }
+  };
 
-  _onKeyDown(e) {
+  _onKeyDown=(e)=> {
     // console.log('onKeyDown', JSON.stringify(getSelection(this.input)), e.key, e.target.value)
 
     if (isUndo(e)) {
@@ -149,9 +140,9 @@ export default class extends React.Component {
         }
       }
     }
-  }
+  };
 
-  _onKeyPress(e) {
+  _onKeyPress=(e)=> {
     // console.log('onKeyPress', JSON.stringify(getSelection(this.input)), e.key, e.target.value)
 
     // Ignore modified key presses
@@ -169,9 +160,9 @@ export default class extends React.Component {
         this.props.onChange(e);
       }
     }
-  }
+  };
 
-  _onPaste(e) {
+  _onPaste=(e)=> {
     // console.log('onPaste', JSON.stringify(getSelection(this.input)), e.clipboardData.getData('Text'), e.target.value)
 
     e.preventDefault();
@@ -185,7 +176,7 @@ export default class extends React.Component {
         this.props.onChange(e);
       }
     }
-  }
+  };
 
   _getDisplayValue() {
     const value = this.mask.getValue();

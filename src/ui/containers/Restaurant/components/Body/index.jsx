@@ -13,6 +13,7 @@ import Slider from "~/ui/components/Slider";
 import ProductGroup from "~/ui/components/Product/Group";
 import ButtonRound from "~/ui/components/Button/Round";
 import RestaurantProduct from "~/ui/components/Restaurant/Product";
+import Image from "~/ui/components/Image";
 
 import * as orderActions from "~/store/actions/order";
 import * as orderSelectors from "~/store/selectors/order";
@@ -183,7 +184,7 @@ export default class extends Component {
 	                    key={index}
 	                    price={10}
 	                    title={item.name}
-	                    image="/images/donut-square.png"
+	                    image={item.gallery ? JSON.parse(item.gallery)[0] : "/images/donut-square.png"}
 	                  />
 	                ))
 	              : ""}
@@ -224,7 +225,7 @@ export default class extends Component {
 	  return (
 		  <div className={classNames("row block bg-white mb-4 mt-5", toggleClass)} id="restaurant-body">
 			  <div className="d-block text-center w-100 py-5">
-				  <img src="/images/no-data.png" height="100" alt="" />
+				  <Image src="/images/no-data.png" height="100" alt="" />
 				  <p className="color-gray text-uppercase">
 					  {t("LABEL.NO_SEARCH_DATA")}
 				  </p>
