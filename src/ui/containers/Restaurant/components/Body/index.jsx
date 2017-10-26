@@ -22,7 +22,7 @@ import * as orderSelectors from "~/store/selectors/order";
 import api from "~/store/api";
 import "./index.css";
 
-import {checkOrderAvailable} from "~/store/utils/validation/restaurant";
+import { checkOrderAvailable } from "~/store/utils/validation/restaurant";
 
 @translate("translations")
 @connect(
@@ -126,26 +126,33 @@ export default class extends Component {
     });
   };
 
-	loadCategories = async () => {
-		const { categories } = this.state;
+  loadCategories = async () => {
+    let categories = [];
     const { outlet } = this.props;
-		var hasMore = true, page = 1;
-		while(hasMore) {
-			var retOutletCaterogies = await api.restaurant.getCategories(outlet.outlet_uuid, page);
-			hasMore = retOutletCaterogies.data.last_page > retOutletCaterogies.data.current_page;
+    var hasMore = true,
+      page = 1;
+    while (hasMore) {
+      var retOutletCaterogies = await api.restaurant.getCategories(
+        outlet.outlet_uuid,
+        page
+      );
+      hasMore =
+        retOutletCaterogies.data.last_page >
+        retOutletCaterogies.data.current_page;
       // update gradually
-			this.setState({
-        categories: [...categories, ...retOutletCaterogies.data.data]
-      });			
-			page++;
-		}
-	}
+      categories = categories.concat(retOutletCaterogies.data.data);
+      this.setState({
+        categories
+      });
+      page++;
+    }
+  };
 
-	componentDidMount() {
-	  this.loadCategories()
+  componentDidMount() {
+    this.loadCategories();
   }
 
-	render() {
+  render() {
     const { t, outlet, toggleClass } = this.props;
     const {
       products,
@@ -153,12 +160,11 @@ export default class extends Component {
       isLoadingItem,
       treeCategory,
       treeCategoryName,
-      categories,
+      categories
     } = this.state;
     let categoryHasChildProduct = [];
-    
 
-	  if(outlet.total_items) {
+    if (outlet.total_items) {
       categories.forEach(item => {
         treeCategoryName[item.category_uuid] = item.name;
         if (item.parent_uuid) {
@@ -167,72 +173,89 @@ export default class extends Component {
           } else {
             treeCategory[item.parent_uuid] = [item.category_uuid];
           }
-          if(item.total_items) {
-	          categoryHasChildProduct.push(item.parent_uuid);
+          if (item.total_items) {
+            categoryHasChildProduct.push(item.parent_uuid);
           }
         } else {
           if (!treeCategory.hasOwnProperty(item.category_uuid)) {
             treeCategory[item.category_uuid] = [item.category_uuid];
           }
         }
-      })
+      });
 
-	    return (
-        <div className={classNames("row block bg-white mb-4 mt-5", toggleClass)} id="restaurant-body">
-			    {features.length ? (
-	          <Slider className="mt-2" num={5} move={1}>
-	            {features.length
-	              ? features.map((item, index) => (
-	                  <ProductItemPhoto
-	                    key={index}
-	                    price={10}
-	                    title={item.name}
-	                    image={item.gallery ? JSON.parse(item.gallery)[0] : "/images/donut-square.png"}
-	                  />
-	                ))
-	              : ""}
-	          </Slider>
-	        ) : (
-	          ""
-	        )}
+      return (
+        <div
+          className={classNames("row block bg-white mb-4 mt-5", toggleClass)}
+          id="restaurant-body"
+        >
+          {features.length ? (
+            <Slider className="mt-2" num={5} move={1}>
+              {features.length
+                ? features.map((item, index) => (
+                    <ProductItemPhoto
+                      key={index}
+                      price={10}
+                      title={item.name}
+                      image={
+                        item.gallery
+                          ? JSON.parse(item.gallery)[0]
+                          : "/images/donut-square.png"
+                      }
+                    />
+                  ))
+                : ""}
+            </Slider>
+          ) : (
+            ""
+          )}
 
-	        <div className="mt-3 row w-100">
-	          <Menu className="col col-md-2 list-group restaurant-cat">
-	            {categories
-	                .filter(item => !item.parent_uuid && (categoryHasChildProduct.indexOf(item.category_uuid) > -1 || item.total_items))
-	                .map((item, index) => {
-	                  return (<MenuItem
-	                    onClick={() => this.handleCategory(item.category_uuid)}
-	                    key={item.category_uuid}
-	                    title={item.name}
-	                    clickIt={!index}
-	                  />)
-	                })}
-	          </Menu>
+          <div className="mt-3 row w-100">
+            <Menu className="col col-md-2 list-group restaurant-cat">
+              {categories
+                .filter(
+                  item =>
+                    !item.parent_uuid &&
+                    (categoryHasChildProduct.indexOf(item.category_uuid) > -1 ||
+                      item.total_items)
+                )
+                .map((item, index) => {
+                  return (
+                    <MenuItem
+                      onClick={() => this.handleCategory(item.category_uuid)}
+                      key={item.category_uuid}
+                      title={item.name}
+                      clickIt={!index}
+                    />
+                  );
+                })}
+            </Menu>
 
-	          {!isLoadingItem ? (
-	            <RestaurantProduct
-	              products={products}
-	              treeCategoryName={treeCategoryName}
-	              onAddOrder={this.canAddOrder ? this.addOrderItem : null}
-	            />
-	          ) : (
-	            this.showLoading()
-	          )}
-	        </div>
-	      </div>
-	    );
-	  }
+            {!isLoadingItem ? (
+              <RestaurantProduct
+                products={products}
+                treeCategoryName={treeCategoryName}
+                onAddOrder={this.canAddOrder ? this.addOrderItem : null}
+              />
+            ) : (
+              this.showLoading()
+            )}
+          </div>
+        </div>
+      );
+    }
 
-	  return (
-		  <div className={classNames("row block bg-white mb-4 mt-5", toggleClass)} id="restaurant-body">
-			  <div className="d-block text-center w-100 py-5">
-				  <Image src="/images/no-data.png" height="100" alt="" />
-				  <p className="color-gray text-uppercase">
-					  {t("LABEL.NO_SEARCH_DATA")}
-				  </p>
-			  </div>
-		  </div>
-	  );
+    return (
+      <div
+        className={classNames("row block bg-white mb-4 mt-5", toggleClass)}
+        id="restaurant-body"
+      >
+        <div className="d-block text-center w-100 py-5">
+          <Image src="/images/no-data.png" height="100" alt="" />
+          <p className="color-gray text-uppercase">
+            {t("LABEL.NO_SEARCH_DATA")}
+          </p>
+        </div>
+      </div>
+    );
   }
 }
