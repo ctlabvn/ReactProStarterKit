@@ -1,13 +1,18 @@
 import React, { Component } from "react";
 import { translate } from "react-i18next";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 // redux form
 import { Field, FieldArray, reduxForm } from "redux-form";
 
 // reactstrap
-import { Button, Form, FormGroup, Row } from "reactstrap";
+import { 
+  Button, 
+  Form, 
+  // FormGroup, 
+  Row 
+} from "reactstrap";
 
 // store
 import * as commonActions from "~/store/actions/common";
@@ -42,14 +47,15 @@ export default class extends Component {
     const {token, requestor} = this.props;
     requestor('customer/requestUpdateCustomer', token, customer_uuid, name, phone);   
     // update address
-    address.map(item=>{
+    address.forEach(item=>{
       const {cus_address_uuid, name, address} = item;
       if(cus_address_uuid){
         requestor('customer/requestUpdateAddress', token, cus_address_uuid, name, address);
       } else {
         requestor('customer/requestAddAddress', token, customer_uuid, name, address);
       }
-    });    
+    });   
+    return true; 
   };
 
   renderAddress = ({ fields }) => {

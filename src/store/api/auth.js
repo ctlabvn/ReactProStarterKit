@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { apiPost, apiGet } from "~/store/api/common";
 
 import i18n from "~/i18n";

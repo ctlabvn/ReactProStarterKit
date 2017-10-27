@@ -7,15 +7,15 @@ import { connect } from "react-redux";
 import {
   Button,
   Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText,
+  // FormGroup,
+  // Label,
+  // Input,
+  // FormText,
   Row
 } from "reactstrap";
 
 // redux form
-import { Field, FieldArray, reduxForm } from "redux-form";
+import { Field, reduxForm } from "redux-form";
 
 // components
 import { InputField } from "~/ui/components/ReduxForm";

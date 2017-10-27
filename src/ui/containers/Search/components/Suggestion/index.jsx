@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
 
 // component
-import Dropdown from "~/ui/components/Dropdown";
+// import Dropdown from "~/ui/components/Dropdown";
 import Slider from "~/ui/components/Slider";
 import ProductItemPhoto from "~/ui/components/Product/Item/Photo";
 

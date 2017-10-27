@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
 
 // component
@@ -42,7 +42,7 @@ export default class extends Component {
 
   render() {
     
-    const {t} = this.props;    
+    // const {t} = this.props;    
 
     return (
       <div className="container-fluid bg-white pt-4">

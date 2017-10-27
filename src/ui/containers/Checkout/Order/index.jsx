@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
+// import { 
+//   Button, Form, FormGroup, Label, Input, FormText 
+// } from "reactstrap";
 import { translate } from "react-i18next";
 
 @translate("translations")

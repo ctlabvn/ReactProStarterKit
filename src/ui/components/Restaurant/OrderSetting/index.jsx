@@ -39,7 +39,7 @@ export default class extends Component {
 
 		if(metadata.length) {
 			return (
-				<div>{metadata.join(" | ")}</div>
+				<div {...props}>{metadata.join(" | ")}</div>
 			)
 		}
 

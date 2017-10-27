@@ -6,6 +6,7 @@ import { translate } from "react-i18next";
 
 // components
 import ButtonRound from "~/ui/components/Button/Round";
+import Image from "~/ui/components/Image";
 
 import "./index.css";
 
@@ -45,7 +46,7 @@ export default class extends Component {
       <tr {...props} ref={ref=>this.element = ref}>
         <th className="card-title pl-0" scope="row">
           <Link to={`/item/${uuid}`}>
-            <img src={image} atl="" />
+            <Image src={image} />
             <span className="ml-2">{title}</span>
           </Link>
         </th>

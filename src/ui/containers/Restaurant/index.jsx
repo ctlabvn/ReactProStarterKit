@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 // elements
 import Header from "./components/Header";
-import Footer from "./components/Footer";
+// import Footer from "./components/Footer";
 import Body from "./components/Body";
 import Detail from "./components/Detail";
 import Spinner from "~/ui/components/Spinner";
@@ -11,7 +11,7 @@ import EmptyResult from "~/ui/components/EmptyResult";
 
 // store
 import api from "~/store/api";
-import * as authSelectors from "~/store/selectors/auth";
+// import * as authSelectors from "~/store/selectors/auth";
 import * as commonActions from "~/store/actions/common";
 
 import "./index.css";

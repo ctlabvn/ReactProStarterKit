@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import classNames from "classnames";
+// import classNames from "classnames";
 
 import {
   Dropdown,
@@ -35,7 +35,7 @@ export default class extends Component {
       <DropdownItem onClick={child.props.onClick}>{child}</DropdownItem>
     );
     return (
-      <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className={className}>
+      <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className={className} {...props}>
         <DropdownToggle caret nav className="text-capitalize color-black">
           {title}
         </DropdownToggle>

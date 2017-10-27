@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { takeLatest, takeEvery, all } from "redux-saga/effects";
 
 import api from "~/store/api";

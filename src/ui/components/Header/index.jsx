@@ -8,9 +8,9 @@ import { translate } from "react-i18next";
 import {
   Button,
   Popover,
-  PopoverHeader,
+  // PopoverHeader,
   PopoverBody,
-  DropdownItem
+  // DropdownItem
 } from "reactstrap";
 
 // components

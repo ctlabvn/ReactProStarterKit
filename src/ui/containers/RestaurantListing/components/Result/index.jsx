@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
 import { connect } from "react-redux";
 
@@ -11,7 +11,7 @@ import IconLoading from "~/ui/components/Loading/icon";
 
 // store
 import api from "~/store/api";
-import options from "./options";
+// import options from "./options";
 import "./index.css";
 
 // selectors && actions
@@ -92,7 +92,7 @@ export default class extends Component {
   );
 
   renderResult(elements, hasMore) {
-    const { t } = this.props;
+    // const { t } = this.props;
     if (elements.length)
       return elements.map(item => (
         <RestaurantItemPhoto
@@ -112,7 +112,7 @@ export default class extends Component {
   }
 
   render() {
-    const { t } = this.props;
+    // const { t } = this.props;
     const { elements, hasMore } = this.state;
     return (
       <div className="container-fluid bg-white py-4">

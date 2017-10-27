@@ -183,7 +183,10 @@ export default class extends Component {
   }
 
   renderAddress = ({ order_type, order_address, directions, predictions }) => {
-    const { t, orderInfo, error } = this.props;
+    const { t, 
+      orderInfo, 
+      // error 
+    } = this.props;
     const position = {
       lat: +orderInfo.restaurant_lat,
       lng: +orderInfo.restaurant_long
@@ -354,8 +357,8 @@ export default class extends Component {
       orderItems,
       t,
       handleSubmit,
-      change,
-      submitting,
+      // change,
+      // submitting,
       orderInfo,
       clearItems,
       error,

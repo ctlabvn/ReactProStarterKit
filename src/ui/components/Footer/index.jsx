@@ -21,7 +21,7 @@ import * as authSelectors from "~/store/selectors/auth";
 }))
 export default class extends Component {
   render() {
-    const { t, i18n, isHome, isLogged } = this.props;
+    const { t, i18n, isHome } = this.props;
     return (
       <footer
         className={classNames("footer text-center menu-bottom", {

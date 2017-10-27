@@ -1,43 +1,34 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
+// import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
 import PopoverItem from "~/ui/components/PopoverItem";
 
-// store
-import * as authActions from "~/store/actions/auth";
-import * as authSelectors from "~/store/selectors/auth";
+// component
+// import Dropdown from "~/ui/components/Dropdown";
 
 import options from "./options";
 import "./index.css";
 
 @translate('translations')
-@connect(
-	state => ({
-		config: authSelectors.getFilter(state)
-	}),
-	authActions
-)
 export default class extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			popovers: options.filters
-		}
-	}
+	// constructor(props) {
+	// 	super(props);
 
-	handleFilter = () => {
-		console.log('ok');
-	}
+	// 	this.state = {
+	// 		popovers: options.filters
+	// 	};
+	// }
 
   render() {
-    const {t} = this.props
+    
+    // const {t} = this.props;
 	  return (
       <div className="d-flex justify-content-center mb-4">
-			  { this.state.popovers.map((popover, i) => {
-				  return <PopoverItem key={i} item={popover} id={i} onCheck={this.handleFilter()} />
+			  { options.filters.map((popover, i) => {
+				  return <PopoverItem key={i} item={popover} id={i} />;
 			  })}
       </div>
-	  )
+	  );
 
     // return (
     //   <div className="d-flex flex-row justify-content-center border-bottom search-filter">

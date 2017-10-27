@@ -4,7 +4,7 @@ import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Marker
+  // Marker
 } from "react-google-maps";
 
 import Spinner from "~/ui/components/Spinner";

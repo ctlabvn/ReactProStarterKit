@@ -44,7 +44,7 @@ export default class extends Component {
     const { products } = this.props;
 
     this.setState({ displayHeader: false });
-    products.map(product => {
+    products.forEach(product => {
       if (term.length) {
         if (product.name && product.name.search(regex) >= 0) {
           product.display = true;
@@ -60,7 +60,7 @@ export default class extends Component {
   };
 
   render() {
-    const { name, products, t, onAddOrder } = this.props;
+    const { name, products, onAddOrder } = this.props;
     const { displayHeader } = this.state;
 
     return (
@@ -81,7 +81,7 @@ export default class extends Component {
                 title={item.name}
                 image={this.getProductImage(item.gallery)}
                 itemUuid={item.item_uuid}
-                onIncrease={onAddOrder ? () => onAddOrder(item) : null}
+                onIncrease={!!item.currency && onAddOrder ? () => onAddOrder(item) : null}
                 displayItem={
                   typeof item.display !== "undefined" ? !!item.display : true
                 }

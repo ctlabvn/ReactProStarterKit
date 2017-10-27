@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 
 import {
-  Input,
+  // Input,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  // DropdownItem
 } from "reactstrap";
 
 import "./index.css";
@@ -55,7 +55,7 @@ export default class extends Component {
       onSearch,
       ...props
     } = this.props;
-    const { searchText, dropdownOpen } = this.state;
+    const { dropdownOpen } = this.state;
     return (
       <Dropdown isOpen={dropdownOpen} toggle={this.toggle} {...props}>
         <DropdownToggle className={classNames("bg-transparent w-100",buttonClass)} >

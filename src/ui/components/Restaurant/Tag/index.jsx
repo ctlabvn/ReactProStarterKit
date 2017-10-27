@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { translate } from "react-i18next";
 import { Badge } from 'reactstrap';
 

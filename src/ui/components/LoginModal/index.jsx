@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { translate } from "react-i18next";
 import { connect } from "react-redux";
-import classNames from "classnames";
+// import classNames from "classnames";
 
 // redux form
 import { Field, reduxForm } from "redux-form";
@@ -13,9 +13,9 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  InputGroup,
-  Input,
-  InputGroupAddon
+  // InputGroup,
+  // Input,
+  // InputGroupAddon
 } from "reactstrap";
 
 import * as commonActions from "~/store/actions/common";

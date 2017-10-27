@@ -1,11 +1,11 @@
 import React from "react";
-import { Field } from "redux-form";
+// import { Field } from "redux-form";
 import classNames from "classnames";
 import {
   Input,
   Label,
-  InputGroup,
-  InputGroupAddon,
+  // InputGroup,
+  // InputGroupAddon,
   FormGroup,
   FormFeedback
 } from "reactstrap";
