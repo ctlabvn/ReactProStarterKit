@@ -35,81 +35,38 @@ export default {
 		{
 			placement: 'bottom',
 			text: 'BUTTON.FILTER.LOCATION',
-			body: 
-				<div className="w-100">
-					<ul className="list-unstyled">
-						<li>All</li>
-						<li>Ha Noi</li>
-					</ul>
-				</div>
-			
+			name: 'filter[location]',
+			body: ['All', 'Ha Noi']
 		},
 		{
 			placement: 'bottom',
 			text: 'BUTTON.FILTER.DISTANCE',
-			body: 
-				<div className="w-100">
-					<ul className="list-unstyled">
-						<li>All</li>
-						<li>Delivery</li>
-						<li>Take-away</li>
-						<li>Pre-order</li>
-						<li>Delivery fee</li>
-					</ul>
-				</div>
-			
+			name: 'filter[distance]',
+			body: ['All', 'Delivery', 'Take-away', 'Pre-order', 'Deelivery fee']
 		},
 		{
 			placement: 'bottom',
 			text: 'BUTTON.FILTER.ORDERING_METHODS',
-			body: 
-				<div className="w-100">
-					<ul className="list-unstyled">
-						<li>All</li>
-						<li>&lt;= 1km</li>
-						<li>&lt;= 2km</li>
-						<li>&lt;= 5km</li>
-						<li>&lt;= 10km</li>
-					</ul>
-				</div>
-			
+			name: 'filter[order_method]',
+			body: ['All', '1km', '2km', '5km', '10km']
 		},
 		{
 			placement: 'bottom',
 			text: 'BUTTON.FILTER.FEES',
-			body: 
-				<div className="w-100">
-					<ul className="list-unstyled">
-						<li>All</li>
-						<li>&lt;= 20,000</li>
-						<li>&lt;= 50,000</li>
-					</ul>
-				</div>
-			
+			name: 'filter[fee]',
+			body: ['All', '20,000', '50,000']
 		},
 		{
 			placement: 'bottom',
 			text: 'BUTTON.FILTER.MINIMUM_ORDER',
-			body: 
-				<div className="w-100">
-					<ul className="list-unstyled">
-						<li>All</li>
-						<li>&lt;= 100,000</li>
-						<li>&lt;= 200,000</li>
-					</ul>
-				</div>
-			
+			name: 'filter[min_order]',
+			body: ['All', '100,000', '200,000']
 		},
 		{
 			placement: 'bottom',
 			text: 'BUTTON.FILTER.TAGS',
-			body: 
-				<div className="w-100">
-					<ul className="list-unstyled">
-						<li>All</li>
-					</ul>
-				</div>
-			
+			name: 'filter[tag]',
+			body: ['All', 'Cafe']
 		}
 	]
 };
