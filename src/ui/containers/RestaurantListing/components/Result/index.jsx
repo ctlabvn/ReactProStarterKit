@@ -87,10 +87,6 @@ export default class extends Component {
     this.unmounted = true;
   }
 
-	showIconLoading = () => (
-    <IconLoading />
-  );
-
   renderResult(elements, hasMore) {
     // const { t } = this.props;
     if (elements.length)
@@ -119,7 +115,7 @@ export default class extends Component {
         <InfiniteScroller
           className="row d-flex"
           hasMore={hasMore}
-          loader={this.showIconLoading()}
+          loader={<IconLoading />}
           loadMore={this.loadMoreElement}
           pageStart={elements.length ? 1 : 0}
           onItemRef={ref => (this.scroller = ref)}
