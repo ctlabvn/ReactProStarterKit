@@ -68,7 +68,8 @@ export default class extends Component {
     super(props);
     this.state = {
       directions: null,
-      predictions: []
+      predictions: [],
+      overlay: null,
     };
 
     // this.props.updateOrder({
@@ -99,7 +100,7 @@ export default class extends Component {
     // }
 
     if (
-      orderInfo.delivery_distance &&
+      +orderInfo.delivery_distance &&
       1000 * +orderInfo.delivery_distance <
         directions.routes[0].legs[0].distance.value
     ) {
@@ -159,11 +160,12 @@ export default class extends Component {
 
   async loadDirectionFromGmap(lat, long) {
     const { orderInfo } = this.props;
-    // const { lat, lng } = this.state;    
-    if (lat && long) {
+    const originLat = +orderInfo.restaurant_lat;
+    const originLong = +orderInfo.restaurant_long;
+    if (lat && long && originLat && originLong) {
       this.directionsService.route(
         {
-          origin: new this.Maps.LatLng(+orderInfo.restaurant_lat, +orderInfo.restaurant_long),
+          origin: new this.Maps.LatLng(originLat, originLong),
           destination: new this.Maps.LatLng(lat, long),
           travelMode: this.Maps.TravelMode.DRIVING
         },
@@ -179,6 +181,10 @@ export default class extends Component {
           }
         }
       );
+    } else {
+      this.setState({
+        overlay: 'Can not determine the routes'
+      })
     }
   }
 
@@ -239,6 +245,7 @@ export default class extends Component {
                 Map
               </Button>
             </div>
+
             <GoogleMapKey
               onItemRef={this.initGmap}
               height={400}
@@ -247,7 +254,10 @@ export default class extends Component {
               {directions ? (
                 <DirectionsRenderer directions={directions} />
               ) : (
-                <Marker position={position} />
+                (position.lat && position.lng) 
+                  ? <Marker position={position} />
+                  : <span className="w-100 text-center text-danger vertical-center">Can not address the location of business</span>
+                  
               )}
             </GoogleMapKey>
 
