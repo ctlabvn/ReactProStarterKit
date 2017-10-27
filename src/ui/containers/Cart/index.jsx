@@ -43,7 +43,7 @@ import { getCurrentLocation } from "~/ui/utils";
 import { validate } from "./utils";
 import { parseJsonToObject } from "~/store/utils/json";
 
-import options from "./options";
+import { ORDER_TYPE } from "~/ui/utils";
 
 import "./index.css";
 
@@ -210,7 +210,7 @@ export default class extends Component {
           </span>
         </h6>
 
-        {order_type.input.value === options.orderTypes.DELIVERY && (
+        {order_type.input.value === ORDER_TYPE.DELIVERY && (
           <div>
             <h6 className="color-gray text-uppercase mb-4 w-100">
               {t("LABEL.ADDRESS")}{" "}
@@ -286,11 +286,11 @@ export default class extends Component {
     const { orderInfo } = this.props;
     const orderTypes = [];
     orderInfo.do_takeaway &&
-      orderTypes.push({ id: options.orderTypes.TAKE_AWAY, title: "Take away" });
+      orderTypes.push({ id: ORDER_TYPE.TAKE_AWAY, title: "Take away" });
     orderInfo.do_delivery &&
-      orderTypes.push({ id: options.orderTypes.DELIVERY, title: "Delivery" });
+      orderTypes.push({ id: ORDER_TYPE.DELIVERY, title: "Delivery" });
     const hoursRange = parseJsonToObject(
-      order_type.input.value === options.orderTypes.TAKE_AWAY
+      order_type.input.value === ORDER_TYPE.TAKE_AWAY
         ? orderInfo.hours_takeaway
         : orderInfo.hours_delivery
     );
@@ -299,7 +299,7 @@ export default class extends Component {
         <OrderTypeField orderTypes={orderTypes} {...order_type} />
         <RequestTimeField
           label={
-            order_type.input.value === options.orderTypes.DELIVERY
+            order_type.input.value === ORDER_TYPE.DELIVERY
               ? "Delivery time"
               : "Take away time"
           }

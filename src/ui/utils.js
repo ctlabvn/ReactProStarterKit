@@ -1,6 +1,11 @@
 const KEYCODE_Z = 90;
 const KEYCODE_Y = 89;
 
+export const ORDER_TYPE = {
+  TAKE_AWAY: 2,
+  DELIVERY: 3,
+};
+
 export const getSiblings = node => {
   let child = node.parentNode.firstChild;
 

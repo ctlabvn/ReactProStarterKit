@@ -1,5 +1,5 @@
 import React from "react";
-import options from "../../../options";
+import { ORDER_TYPE } from "~/ui/utils";
 
 // reactstrap
 import { 
@@ -15,7 +15,7 @@ export default ({
   meta: { touched, error, warning },
   orderTypes
 }) => {
-  const checkedValue = input.value || options.orderTypes.DELIVERY;
+  const checkedValue = input.value || ORDER_TYPE.DELIVERY;
   return (
     <FormGroup check className="d-flex justify-content-between">
       {orderTypes.map((item, index) => (

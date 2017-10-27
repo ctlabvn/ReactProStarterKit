@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { Component } from "react";
 import { translate } from "react-i18next";
 // import { Link } from "react-router-dom";
@@ -5,7 +7,10 @@ import { connect } from "react-redux";
 
 import moment from "moment";
 
-import { Row, Col, Button } from "reactstrap";
+import { 
+  Row, Col, Button,
+  // Input, 
+} from "reactstrap";
 
 // components
 import Menu from "~/ui/components/Menu";
@@ -24,7 +29,7 @@ import Signup from "./Signup";
 import Login from "./Login";
 import Order from "./Order";
 
-import { extractMessage } from "~/ui/utils";
+import { extractMessage, ORDER_TYPE } from "~/ui/utils";
 
 import "./index.css";
 
@@ -47,6 +52,13 @@ export default class extends Component {
     const addressItem = address.find(item=>item.cus_address_uuid === orderInfo.cus_address_uuid);
     const now = moment();
     const request_time = 60 * ((orderInfo.request_time + orderInfo.preparation_time + orderInfo.travel_time) - (now.hour() * 60 + now.minute()));
+
+    const detailAddress = this.detailAddress.value.trim();
+
+    const customer_address = orderInfo.order_type === ORDER_TYPE.DELIVERY 
+      ? orderInfo.order_address + (detailAddress ? "\n" + detailAddress : "")
+      : addressItem.address;
+
     const data = {
       items: orderItems.map(item => ({
         item_uuid: item.item_uuid,
@@ -58,7 +70,7 @@ export default class extends Component {
         customer_name: customer.name,
         customer_phone: customer.phone,
         customer_email: customer.email,
-        customer_address: orderInfo.order_address + (addressItem ? "\n" + addressItem.address : ""),
+        customer_address,
         customer_lat: orderInfo.order_lat,
         customer_long: orderInfo.order_long,
       },
@@ -87,11 +99,22 @@ export default class extends Component {
     this.props.updateOrder({cus_address_uuid});
   }
 
-  renderHasAccount() {
+  renderDeliveryAddress(){
+    const { orderInfo, t } = this.props;
+    return (
+      <div className="w-100">
+        <h4 className="text-center">{t("LABEL.DELIVERY_ADDRESS")}</h4>
+        <strong>{orderInfo.order_address}</strong>
+        <input placeholder="Detail address:" className="form-control" ref={ref=>this.detailAddress=ref}/>
+      </div>
+    )
+  }
+
+  renderTakeawayAddress(){
     const { address, orderInfo, t } = this.props;
     return (
-      <div>
-        <h4 className="text-center">{t("LABEL.DELIVERY_ADDRESS")}</h4>
+    <div className="w-100">
+        <h4 className="text-center">{t("LABEL.TAKEAWAY_ADDRESS")}</h4>
         <Menu className="list-group">
           {address.map((item) => (
             <MenuItem
@@ -102,8 +125,19 @@ export default class extends Component {
             />
           ))}
         </Menu>
+    </div>
+    );
+  }
 
-        <div className="w-100 text-center">
+  renderHasAccount() {
+    const { orderInfo, t } = this.props;
+    
+    return (
+      <div>
+        
+        {orderInfo.order_type === ORDER_TYPE.DELIVERY ? this.renderDeliveryAddress() : this.renderTakeawayAddress()}        
+
+        <div className="d-flex w-100 text-center mt-4 justify-content-end">
           <Button onClick={this.createOrder} color="primary">{this.props.t("BUTTON.CONFIRM_PAY")}</Button>
         </div>
       </div>
