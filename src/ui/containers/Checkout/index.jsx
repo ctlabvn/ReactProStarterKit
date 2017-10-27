@@ -37,7 +37,7 @@ import "./index.css";
 @connect(
   state => ({
     isLogged: authSelectors.isLogged(state),
-    address: authSelectors.getAddress(state),
+    // address: authSelectors.getAddress(state),
     customer: authSelectors.getCustomer(state),
     orderItems: orderSelectors.getItems(state),
     orderInfo: orderSelectors.getInfo(state),
@@ -48,8 +48,10 @@ import "./index.css";
 export default class extends Component {
 
   createOrder = async ()=>{
-    const {customer, orderItems, orderInfo, address, requestor, clearItems, setToast} = this.props;    
-    const addressItem = address.find(item=>item.cus_address_uuid === orderInfo.cus_address_uuid);
+    const {customer, orderItems, orderInfo, 
+      // address, 
+      requestor, clearItems, setToast} = this.props;    
+    // const addressItem = address.find(item=>item.cus_address_uuid === orderInfo.cus_address_uuid);
     const now = moment();
     const request_time = 60 * ((orderInfo.request_time + orderInfo.preparation_time + orderInfo.travel_time) - (now.hour() * 60 + now.minute()));
 
@@ -57,7 +59,7 @@ export default class extends Component {
 
     const customer_address = orderInfo.order_type === ORDER_TYPE.DELIVERY 
       ? orderInfo.order_address + (detailAddress ? "\n" + detailAddress : "")
-      : addressItem.address;
+      : "";//addressItem.address;
 
     const data = {
       items: orderItems.map(item => ({
@@ -111,37 +113,29 @@ export default class extends Component {
   }
 
   renderTakeawayAddress(){
-    const { address, orderInfo, t } = this.props;
-    return (
-    <div className="w-100">
-        <h4 className="text-center">{t("LABEL.TAKEAWAY_ADDRESS")}</h4>
-        <Menu className="list-group">
-          {address.map((item) => (
-            <MenuItem
-              onClick={()=>this.updateOrderAddress(item)}
-              title={`${item.name} - ${item.address}`}
-              active={orderInfo.cus_address_uuid === item.cus_address_uuid}
-              key={item.cus_address_uuid}
-            />
-          ))}
-        </Menu>
-    </div>
-    );
+    return null
+    // const { address, orderInfo, t } = this.props;
+    // return (
+    // <div className="w-100">
+    //     <h4 className="text-center">{t("LABEL.TAKEAWAY_ADDRESS")}</h4>
+    //     <Menu className="list-group">
+    //       {address.map((item) => (
+    //         <MenuItem
+    //           onClick={()=>this.updateOrderAddress(item)}
+    //           title={`${item.name} - ${item.address}`}
+    //           active={orderInfo.cus_address_uuid === item.cus_address_uuid}
+    //           key={item.cus_address_uuid}
+    //         />
+    //       ))}
+    //     </Menu>
+    // </div>
+    // );
   }
 
   renderHasAccount() {
     const { orderInfo, t } = this.props;
     
-    return (
-      <div>
-        
-        {orderInfo.order_type === ORDER_TYPE.DELIVERY ? this.renderDeliveryAddress() : this.renderTakeawayAddress()}        
-
-        <div className="d-flex w-100 text-center mt-4 justify-content-end">
-          <Button onClick={this.createOrder} color="primary">{this.props.t("BUTTON.CONFIRM_PAY")}</Button>
-        </div>
-      </div>
-    );
+    return orderInfo.order_type === ORDER_TYPE.DELIVERY ? this.renderDeliveryAddress() : this.renderTakeawayAddress();        
   }
 
   renderHasNoAccount() {
@@ -169,6 +163,9 @@ export default class extends Component {
           </Col>
           <Col>
             <Order orderItems={orderItems}/>
+            <div className="d-flex w-100 text-center mt-4 justify-content-end">
+              <Button onClick={this.createOrder} color="primary">{this.props.t("BUTTON.CONFIRM_PAY")}</Button>
+            </div>
           </Col>
         </Row>
       </div>
