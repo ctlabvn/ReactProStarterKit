@@ -41,7 +41,7 @@ export default class extends Component {
 							<ul className="list-unstyled">
 								{item.body.map((line, index) => (
 									<li key={index}>
-										<input id={item.name + index} name={item.name} value={index} type="radio" onChange={this.handleFilter} checked={index == checkedItem} />
+										<input id={item.name + index} name={item.name} value={index} type="radio" onChange={this.handleFilter} checked={index === checkedItem} />
 										&nbsp; <label htmlFor={item.name + index}>{line}</label>
 									</li>
 								))}
