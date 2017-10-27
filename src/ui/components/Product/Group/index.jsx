@@ -81,7 +81,7 @@ export default class extends Component {
                 title={item.name}
                 image={this.getProductImage(item.gallery)}
                 itemUuid={item.item_uuid}
-                onIncrease={onAddOrder ? () => onAddOrder(item) : null}
+                onIncrease={!!item.currency && onAddOrder ? () => onAddOrder(item) : null}
                 displayItem={
                   typeof item.display !== "undefined" ? !!item.display : true
                 }
