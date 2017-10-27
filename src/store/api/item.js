@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { apiGet, apiPost } from './common'
 
 export default {

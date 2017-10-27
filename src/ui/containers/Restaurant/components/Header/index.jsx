@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
 
 import PhotoGroup from "~/ui/components/PhotoGroup";
-import Rating from "~/ui/components/Rating";
+// import Rating from "~/ui/components/Rating";
 import Menu from "~/ui/components/Menu";
 import MenuItem from "~/ui/components/Menu/Item";
 import RestaurantOrderSetting from "~/ui/components/Restaurant/OrderSetting";

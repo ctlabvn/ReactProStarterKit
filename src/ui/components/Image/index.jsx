@@ -5,11 +5,11 @@ import PropTypes from "prop-types";
 export default class Image extends Component {
   static propTypes = {
     src: PropTypes.string.isRequired,
-    fallbackSrc: PropTypes.string
+    fallbackSrc: PropTypes.string,    
   };
 
   static defaultProps = {
-    fallbackSrc: "/images/no-image-icon.png"
+    fallbackSrc: "/images/no-image-icon.png",    
   };
 
   constructor(props) {
@@ -25,9 +25,9 @@ export default class Image extends Component {
   render() {
     const { src, fallbackSrc, ...props } = this.props;
     if (this.state.failed) {
-      return <img src={fallbackSrc} {...props} />;
+      return <img alt="" src={fallbackSrc} {...props} />;
     } else {
-      return <img src={src} onError={this.fallback} {...props} />;
+      return <img alt="" src={src} onError={this.fallback} {...props} />;
     }
   }
 }

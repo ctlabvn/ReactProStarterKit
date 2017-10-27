@@ -10,11 +10,11 @@ import RestaurantInfo from "~/ui/components/Restaurant/Info";
 import Readmore from "~/ui/components/Restaurant/Readmore";
 import ProductOptions from "~/ui/components/Product/Options";
 import * as orderActions from "~/store/actions/order";
-import * as restaurantValidation from "~/store/utils/validation/restaurant";
+// import * as restaurantValidation from "~/store/utils/validation/restaurant";
 
 import "./index.css";
 import options from "./options";
-import {checkOrderAvailable} from "../../../../../store/utils/validation/restaurant";
+import {checkOrderAvailable} from "~/store/utils/validation/restaurant";
 
 @translate('translations')
 @connect(null, orderActions)

@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
-import classNames from "classnames";
+// import classNames from "classnames";
 
 import RestaurantOrderSetting from "~/ui/components/Restaurant/OrderSetting";
 import RestaurantTag from "~/ui/components/Restaurant/Tag";
-import MenuItem from "~/ui/components/Menu/Item";
+// import MenuItem from "~/ui/components/Menu/Item";
 import Image from "~/ui/components/Image";
 
 import "./index.css";
@@ -24,7 +24,7 @@ export default class extends Component {
   render() {
     const { t, name, address, logo, restaurant, uuid, ...props } = this.props;
     return (
-      <div className="col-sm-6 col-12 my-3">
+      <div className="col-sm-6 col-12 my-3" {...props}>
         <div className="media rounded">
           <Image className="media-image d-flex mr-3 rounded" src={logo} alt="" />
             <div className="media-body">

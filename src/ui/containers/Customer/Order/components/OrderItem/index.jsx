@@ -1,7 +1,11 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
-import { Row, Col, Label, Button, Collapse } from "reactstrap";
+import { 
+  // Row, Col, 
+  // Label, Button, 
+  Collapse 
+} from "reactstrap";
 
 import ButtonRound from "~/ui/components/Button/Round";
 import Image from "~/ui/components/Image";

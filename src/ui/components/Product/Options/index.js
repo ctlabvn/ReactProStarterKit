@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import classNames from "classnames";
+// import classNames from "classnames";
 
 import { translate } from "react-i18next";
 
-import HeadingDouble from "~/ui/components/Heading/Double";
-import ButtonRound from "~/ui/components/Button/Round";
+// import HeadingDouble from "~/ui/components/Heading/Double";
+// import ButtonRound from "~/ui/components/Button/Round";
 
 @translate("translations")
 export default class extends Component {

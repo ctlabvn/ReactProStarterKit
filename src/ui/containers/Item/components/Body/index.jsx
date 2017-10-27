@@ -4,12 +4,12 @@ import ProductItemPhoto from "~/ui/components/Product/Item/Photo";
 import Slider from "~/ui/components/Slider";
 
 import "./index.css";
-import options from "./options";
+// import options from "./options";
 
 @translate('translations')
 export default class extends Component {
   render() {
-    const { t, item, outlet } = this.props;
+    const { t, item } = this.props;
     const gallery = JSON.parse(item.gallery);
 
     if(gallery.length) {

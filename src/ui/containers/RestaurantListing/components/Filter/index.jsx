@@ -1,30 +1,30 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
 import PopoverItem from "~/ui/components/PopoverItem";
 
 // component
-import Dropdown from "~/ui/components/Dropdown";
+// import Dropdown from "~/ui/components/Dropdown";
 
 import options from "./options";
 import "./index.css";
 
 @translate('translations')
 export default class extends Component {
-	constructor(props) {
-		super(props);
+	// constructor(props) {
+	// 	super(props);
 
-		this.state = {
-			popovers: options.filters
-		};
-	}
+	// 	this.state = {
+	// 		popovers: options.filters
+	// 	};
+	// }
 
   render() {
     
-    const {t} = this.props;
+    // const {t} = this.props;
 	  return (
       <div className="d-flex justify-content-center mb-4">
-			  { this.state.popovers.map((popover, i) => {
+			  { options.filters.map((popover, i) => {
 				  return <PopoverItem key={i} item={popover} id={i} />;
 			  })}
       </div>

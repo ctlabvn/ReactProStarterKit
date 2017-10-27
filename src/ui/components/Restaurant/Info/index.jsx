@@ -34,7 +34,7 @@ export default class extends Component {
 		}
 
 		return (
-			<span>
+			<span {...props}>
 				{outlet.logo &&
 					<img className="rounded mr-4 img-logo" src={outlet.logo} alt="" />
 				}

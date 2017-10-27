@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { translate } from "react-i18next"
 import classNames from "classnames";
 
-import api from "~/store/api";
-import { DirectionsRenderer, Marker } from "react-google-maps";
+// import api from "~/store/api";
+import { Marker } from "react-google-maps";
 import GoogleMapKey from "~/ui/components/GoogleMapKey";
 import { parseJsonToObject } from "~/store/utils/json";
 import "./index.css";

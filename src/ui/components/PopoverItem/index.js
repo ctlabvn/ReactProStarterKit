@@ -28,7 +28,7 @@ export default class extends Component {
         </Button>
         <Popover placement={this.props.item.placement} isOpen={this.state.popoverOpen} target={'Popover-' + this.props.id} toggle={this.toggle}>
           <PopoverHeader>{item.title}</PopoverHeader>
-          <PopoverBody dangerouslySetInnerHTML={{__html:item.body}}></PopoverBody>
+          <PopoverBody>{item.body}</PopoverBody>
         </Popover>
       </span>
 		);

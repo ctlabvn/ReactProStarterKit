@@ -4,10 +4,16 @@ import { translate } from "react-i18next";
 import { connect } from "react-redux";
 
 // reactstrap
-import { Button, Form, FormGroup, Label, Input, FormText, Row } from "reactstrap";
+import { 
+  Button, Form, 
+  // FormGroup, 
+  // Label, Input, 
+  // FormText, 
+  Row 
+} from "reactstrap";
 
 // redux form
-import { Field, FieldArray, reduxForm } from "redux-form";
+import { Field, reduxForm } from "redux-form";
 
 // components
 import { InputField } from "~/ui/components/ReduxForm";

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { translate } from "react-i18next";
 
 // reactstrap
-import { Table, Button } from "reactstrap";
+import { Table } from "reactstrap";
 
 // components
 import CardItem from "../CardItem";
