@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 // elements
 import Header from "./components/Header";
 import Body from "./components/Body";
+import IconLoading from "~/ui/components/Loading/icon";
+
 
 // store
 import api from "~/store/api";
@@ -44,9 +46,7 @@ export default class extends Component {
     const { item, outlet } = this.state;
     if (!item) {
       return (
-        <div className="d-flex flex-row justify-content-center">
-          <i className="fa fa-refresh fa-spin fa-3x fa-fw" />
-        </div>
+        <IconLoading />
       );
     }
 

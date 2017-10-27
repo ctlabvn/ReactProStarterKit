@@ -21,18 +21,18 @@ export default class extends Component {
 
 	getRestaurantTag = outlet_uuid => {
 		api.restaurant.getRestaurantTag(outlet_uuid).then(ret => {
-			if(ret.data.outlet_tags) {
-				this.setState({tags: ret.data.outlet_tags})
+			if(ret.data) {
+				this.setState({tags: ret.data})
 			}
 		}, err => console.log(err))
 	}
 
 	render() {
 		const { tags } = this.state;
-		if(tags.length) {
+		if(tags) {
 			return (
 				<div id="restaurant-tags" className="mt-3">
-					{tags && tags.map((item, index) => (
+					{tags.map((item, index) => (
 						<Badge key={index} color="secondary mr-2 text-default">{item.name}</Badge>
 					))}
 				</div>

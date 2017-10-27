@@ -3,27 +3,11 @@ export const parseJsonToObject = (str, defaultValueIfFalse = {}) => {
 		return defaultValueIfFalse;
 	}
 
+	// we will have maximum 2 parse turns
 	try{
-		return JSON.parse(str);
+		const result = JSON.parse(str);
+		return typeof result === 'object' ? result : JSON.parse(result);
 	} catch(e){
 		return defaultValueIfFalse;
 	}
-
-	// const loopTimes = 10;
-	// const loopCounter = 0;
-
-	// console.log(str);
-	// if(str.indexOf('\\')) {
-	// 	str = str.replace(/\\/g, '');
-	// 	console.log(str);
-	// }
-
-	// while(typeof str !== 'object') {
-	// 	str = JSON.parse(str);
-	// 	this.loopCounter++;
-	// 	if(loopCounter > loopTimes) {
-	// 		return defaultValueIfFalse;
-	// 	}
-	// }
-	// return str;
 }

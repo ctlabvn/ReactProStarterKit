@@ -5,6 +5,7 @@ import { translate } from "react-i18next";
 // component
 import MasonryInfiniteScroller from "~/ui/components/Scroller/Infinite/Masonry";
 import ProductItemPhoto from "~/ui/components/Product/Item/Photo";
+import IconLoading from "~/ui/components/Loading/icon";
 
 import options from "./options";
 import "./index.css";
@@ -50,9 +51,7 @@ export default class extends Component {
             hasMore={this.state.hasMore}
             sizes={options.sizes}
             loader={
-              <div className="d-flex flex-row justify-content-center">
-                <i className="fa fa-refresh fa-spin fa-3x fa-fw"></i>
-              </div>
+	            <IconLoading />
             }
             loadMore={this.loadMore}
           >
