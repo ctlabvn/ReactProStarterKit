@@ -91,23 +91,26 @@ export default class extends Component {
   saveOrderInfo = data => {
     const { orderInfo } = this.props;
     const { directions } = this.state;
-    const { duration } = directions.routes[0].legs[0];
+    let travel_time = 0;
+    if(directions){
+      const { duration, distance } = directions.routes[0].legs[0];
+      travel_time = duration.value / 60;
+      if (
+        +orderInfo.delivery_distance &&
+        1000 * +orderInfo.delivery_distance < distance.value
+      ) {
+        throw new SubmissionError({
+          _error: "Distance is too far!"
+        });
+      }
+    }
+    
 
     // if(!orderInfo.request_time){
     //   throw new SubmissionError({
     //     _error: 'Can not delivery due to time!',
     //   })
     // }
-
-    if (
-      +orderInfo.delivery_distance &&
-      1000 * +orderInfo.delivery_distance <
-        directions.routes[0].legs[0].distance.value
-    ) {
-      throw new SubmissionError({
-        _error: "Distance is too far!"
-      });
-    }
 
     const totalPrice = this.getTotalPrice();
     if (
@@ -127,7 +130,7 @@ export default class extends Component {
       });
     }
 
-    this.props.updateOrder({ ...data, travel_time: duration.value / 60 });
+    this.props.updateOrder({ ...data, travel_time });
     history.push("/checkout");
   };
 
