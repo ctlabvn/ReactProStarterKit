@@ -1,4 +1,4 @@
-export const parseJsonToresult = (str, defaultValueIfFalse = {}) => {
+export const parseJsonToObject = (str, defaultValueIfFalse = {}) => {
 	if(!str) {
 		return defaultValueIfFalse;
 	}
@@ -10,12 +10,14 @@ export const parseJsonToresult = (str, defaultValueIfFalse = {}) => {
 	} catch(e){
 		return defaultValueIfFalse;
 	}
-	
-	if(typeof result === 'object') {
+
+	if(typeof result == 'object') {
 		return result;
-	} else if(typeof result === 'string') {
-		return parseJsonToresult(result);
-	} else {
+	}
+
+	try{
+		return JSON.parse(result);
+	} catch(e){
 		return defaultValueIfFalse;
 	}
 }
