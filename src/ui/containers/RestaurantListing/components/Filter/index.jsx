@@ -25,34 +25,26 @@ import api from "~/store/api";
 export default class extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			options: options.filters
-		};
 	}
 
 	loadOptionFilter = async () => {
-		const { options } = this.state;
-		const { filter } = this.state;
-		if(filter) {
-			this.setState({options: filter});
-		} else {
-			// update tag
+		const { filter } = this.props;
+		if(!filter) {
 			const tags = await api.setting.getSettingTags();
 			let tagData = {};
 			tags.data.map(item => {
 				tagData[item.tag_uuid] = item.name;
 			});
-			options.tags.body = {...options.tags.body, ...tagData};
+			options.filters.tags.body = {...options.filters.tags.body, ...tagData};
 
 			// update option
 			const staticOptions = await api.setting.getSettingOptions();
 			staticOptions.data.map(item => {
-				options[item.option_key].body = {...options[item.option_key].body, ...parseJsonToObject(item.option_value)};
+				options.filters[item.option_key].body = {...options.filters[item.option_key].body, ...parseJsonToObject(item.option_value)};
 			});
 
-			this.setState({options: options});
 			// save to redux
-			this.props.updateFilter(options);
+			this.props.updateFilter(options.filters);
 		}
 	}
 
@@ -62,11 +54,11 @@ export default class extends Component {
 
   render() {
     // const {t} = this.props;
-	  const { options } = this.state;
+	  const { filter } = this.props;
 	  return (
       <div className="d-flex justify-content-center mb-4">
-			  { Object.keys(options).map((type, i) => {
-				  return <PopoverItem key={i} item={options[type]} id={type} />;
+			  { Object.keys(filter).map((type, i) => {
+				  return <PopoverItem key={i} item={filter[type]} id={type} />;
 			  })}
       </div>
 	  );

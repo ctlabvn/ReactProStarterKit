@@ -36,37 +36,43 @@ export default {
 			placement: 'bottom',
 			text: 'BUTTON.FILTER.LOCATION',
 			name: 'filter[location]',
-			body: {'' : 'All'}
+			body: {'' : 'All'},
+			selected: ''
 		},
 		distance: {
 			placement: 'bottom',
 			text: 'BUTTON.FILTER.DISTANCE',
 			name: 'filter[distance]',
-			body: {'' : 'All'}
+			body: {'' : 'All'},
+			selected: ''
 		},
 		ordering_method: {
 			placement: 'bottom',
 			text: 'BUTTON.FILTER.ORDERING_METHODS',
 			name: 'filter[order_method]',
-			body: {'' : 'All'}
+			body: {'' : 'All'},
+			selected: ''
 		},
 		delivery_fee: {
 			placement: 'bottom',
 			text: 'BUTTON.FILTER.FEES',
 			name: 'filter[fee]',
-			body: {'' : 'All'}
+			body: {'' : 'All'},
+			selected: ''
 		},
 		minimum_order: {
 			placement: 'bottom',
 			text: 'BUTTON.FILTER.MINIMUM_ORDER',
 			name: 'filter[min_order]',
-			body: {'' : 'All'}
+			body: {'' : 'All'},
+			selected: ''
 		},
 		tags: {
 			placement: 'bottom',
 			text: 'BUTTON.FILTER.TAGS',
 			name: 'filter[tag]',
-			body: {'' : 'All'}
+			body: {'' : 'All'},
+			selected: ''
 		}
 	}
 };

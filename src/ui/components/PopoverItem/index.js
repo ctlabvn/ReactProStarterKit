@@ -1,8 +1,18 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 import { translate } from "react-i18next";
 
+import * as authActions from "~/store/actions/auth";
+import * as authSelectors from "~/store/selectors/auth";
+
 @translate('translations')
+@connect(
+	state => ({
+		filter: authSelectors.getFilter(state)
+	}),
+	authActions
+)
 export default class extends Component {
 	constructor(props) {
 		super(props);
@@ -10,11 +20,16 @@ export default class extends Component {
 		this.toggle = this.toggle.bind(this);
 		this.state = {
 			popoverOpen: false,
-			checkedItem: ''
+			checkedItem: this.props.item.selected
 		};
 	}
 
 	handleFilter = (e) => {
+		// update redux
+		const { id, filter } = this.props;
+		filter[id].selected = e.currentTarget.value;
+		this.props.updateFilter(filter);
+
 		this.setState({
 			checkedItem: e.currentTarget.value
 		})
