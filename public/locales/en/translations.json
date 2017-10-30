@@ -44,6 +44,7 @@
     "SHOW_LESS": "Show less",
     "RESTAURANT_CLOSED": "Closed",
     "NO_SEARCH_DATA": "No data",
+    "RESULT_EMPTY": "No data",
     "CART_EMPTY": "Your shopping cart is empty.",
     "MIN_ORDER": "Min order: ",
     "MAX_ORDER": "Max order: ",

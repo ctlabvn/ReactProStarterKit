@@ -16,7 +16,7 @@ export default class extends Component {
 
 	handleFilter = (e) => {
 		this.setState({
-			checkedItem: e.currentTarget.value
+			checkedItem: +e.currentTarget.value
 		})
 	}
 

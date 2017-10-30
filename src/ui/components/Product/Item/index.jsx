@@ -74,7 +74,7 @@ export default class extends Component {
             </Link>
             <div className="flex-row d-flex justify-content-between">
               <div className="pr-4">
-                <Readmore line="2" more={t('LABEL.SHOW_MORE')} less={t('LABEL.SHOW_LESS')}>
+                <Readmore line="10" more={t('LABEL.SHOW_MORE')} less={t('LABEL.SHOW_LESS')}>
                   <p className="w-100 mt-3 html-content">{description}</p>
                 </Readmore>
               </div>
