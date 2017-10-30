@@ -43,7 +43,7 @@ export default class extends Component {
     const { config } = this.props;
     try {
       let ret = [];
-      if (config.searchStr) {        
+      if (config.searchStr) {
         ret = await api.restaurant.searchOutlet(page, config.searchStr);
         this.updateView(ret);      
       } else {

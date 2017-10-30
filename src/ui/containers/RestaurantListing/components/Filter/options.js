@@ -31,43 +31,43 @@ Tags
  */
 // can have event here
 export default {
-	filters: [
-		{
+	filters: {
+		location: {
 			placement: 'bottom',
 			text: 'BUTTON.FILTER.LOCATION',
 			name: 'filter[location]',
-			body: ['All', 'Ha Noi']
+			body: {'' : 'All'}
 		},
-		{
+		distance: {
 			placement: 'bottom',
 			text: 'BUTTON.FILTER.DISTANCE',
 			name: 'filter[distance]',
-			body: ['All', 'Delivery', 'Take-away', 'Pre-order', 'Deelivery fee']
+			body: {'' : 'All'}
 		},
-		{
+		ordering_method: {
 			placement: 'bottom',
 			text: 'BUTTON.FILTER.ORDERING_METHODS',
 			name: 'filter[order_method]',
-			body: ['All', '1km', '2km', '5km', '10km']
+			body: {'' : 'All'}
 		},
-		{
+		delivery_fee: {
 			placement: 'bottom',
 			text: 'BUTTON.FILTER.FEES',
 			name: 'filter[fee]',
-			body: ['All', '20,000', '50,000']
+			body: {'' : 'All'}
 		},
-		{
+		minimum_order: {
 			placement: 'bottom',
 			text: 'BUTTON.FILTER.MINIMUM_ORDER',
 			name: 'filter[min_order]',
-			body: ['All', '100,000', '200,000']
+			body: {'' : 'All'}
 		},
-		{
+		tags: {
 			placement: 'bottom',
 			text: 'BUTTON.FILTER.TAGS',
 			name: 'filter[tag]',
-			body: ['All', 'Cafe']
+			body: {'' : 'All'}
 		}
-	]
+	}
 };
 

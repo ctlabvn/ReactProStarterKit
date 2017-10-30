@@ -26,7 +26,7 @@ export const auth = (state = initialState, { type, payload }) => {
     case 'app/updateConfig':
 		  return {...state, config:{...state.config, [payload.key]: payload.value}};
     case 'app/updateFilter':
-		  return {...state, filter:{...state.filter, [payload.key]: payload.value}};
+		  return {...state, filter:payload.key};
     case "app/setAuthState":
       return { ...state, loggedIn: payload };
     case "app/saveLoggedUser":
