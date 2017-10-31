@@ -1,15 +1,38 @@
 import React, { Component } from "react";
+import { translate } from "react-i18next";
+import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
-import { translate } from "react-i18next";
+import * as orderActions from "~/store/actions/order";
 
 @translate("translations")
+@connect(null, orderActions)
 export default class extends Component {
 	static propTypes = {
 		options: PropTypes.array,
 		currency: PropTypes.object,
 	};
+
+	addOrderItem(item) {
+		const {
+			default_price,
+			item_options,
+			item_uuid,
+			currency,
+			name,
+			description
+		} = item;
+		this.props.addOrderItem({
+			item_uuid,
+			item_options,
+			price: default_price,
+			quantity: 1,
+			name,
+			description,
+			currency_symbol: currency.symbol
+		});
+	}
 
 	handleSubmit = (e) => {
 		e.preventDefault();
@@ -30,8 +53,7 @@ export default class extends Component {
 	}
 
 	render() {
-		const { t, options, currency } = this.props;
-		console.log(options);
+		const { t, canAddOrder, item, options, currency } = this.props;
 		return (
 			<form id="add-options" onSubmit={this.handleSubmit}>
 				{options.map(parent => (
@@ -63,7 +85,8 @@ export default class extends Component {
 					</div>
 				))}
 				<div className="form-group text-right">
-					<button className="btn btn-danger">Add</button>
+					{!!canAddOrder && <button className="btn btn-danger btn-lg"
+					                          onClick={() => this.addOrderItem(item)}>{t('BUTTON.ADD_TO_CART')}</button>}
 				</div>
 			</form>
 		);
