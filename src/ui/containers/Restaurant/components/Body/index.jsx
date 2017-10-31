@@ -182,7 +182,6 @@ export default class extends Component {
           }
         }
       });
-      console.log(treeCategory);
 
       return (
         <div

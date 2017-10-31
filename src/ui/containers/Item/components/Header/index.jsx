@@ -76,9 +76,8 @@ export default class extends Component {
 						<p className="w-100 mt-3 html-content" dangerouslySetInnerHTML={{__html:item.description}}/>
 					</Readmore>
 
-					{item.item_options && item.item_options.map((item, index) => (
-						<ProductOptions options={item.optionSet} name={item.name} />
-					))}
+					{!!item.item_options && <ProductOptions options={item.item_options} currency={item.currency} />}
+
 
 					<div className="border border-white-300 border-right-0 border-left-0 border-bottom-0 mt-4 left-side-block">
 						<Menu className="menu-decorator text-uppercase">
