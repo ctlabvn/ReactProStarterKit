@@ -26,7 +26,7 @@ export default {
   getProductByCategory(category_uuid) {
     return apiGet("/restaurant/items", {
       category_uuid: category_uuid,
-      pagination: 100
+      pagination: 10000
     });
   },
 
