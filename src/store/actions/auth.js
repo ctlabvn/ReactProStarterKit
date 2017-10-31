@@ -34,9 +34,9 @@ export const updateConfig = (key, value) => ({
 	payload: {key, value}
 });
 
-export const updateFilter = (key, value) => ({
-	type: 'app/updateFilter',
-	payload: {key, value}
+export const updateFilters = (data) => ({
+	type: 'app/updateFilters',
+	payload: data
 });
 
 // update customer

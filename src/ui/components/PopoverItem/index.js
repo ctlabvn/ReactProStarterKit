@@ -9,7 +9,7 @@ import * as authSelectors from "~/store/selectors/auth";
 @translate('translations')
 @connect(
 	state => ({
-		filter: authSelectors.getFilter(state)
+		filters: authSelectors.getFilters(state)
 	}),
 	authActions
 )
@@ -26,9 +26,9 @@ export default class extends Component {
 
 	handleFilter = (e) => {
 		// update redux
-		const { id, filter } = this.props;
-		filter[id].selected = e.currentTarget.value;
-		this.props.updateFilter(filter);
+		const { id, filters } = this.props;
+		filters[id].selected = e.currentTarget.value;
+		this.props.updateFilters(filters);
 
 		this.setState({
 			checkedItem: e.currentTarget.value
@@ -47,7 +47,7 @@ export default class extends Component {
 
 		if(item) {
 			return (
-				<span>
+				!!item.body && <span>
 	        <Button className="mr-1" color="secondary" id={'Popover-' + id} onClick={this.toggle}>
 	          {t(item.text)}
 	        </Button>

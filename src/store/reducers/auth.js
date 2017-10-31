@@ -14,7 +14,7 @@ export const initialState = {
   },
   address: [],
   config: {},
-  filter: {},
+  filters: {},
 };
 
 // Takes care of changing the application state
@@ -24,9 +24,9 @@ export const auth = (state = initialState, { type, payload }) => {
     case "app/setLanguage":
       return { ...state, customer: { ...state.customer, language: payload } };
     case 'app/updateConfig':
-		  return {...state, config:{...state.config, [payload.key]: payload.value}};
-    case 'app/updateFilter':
-		  return {...state, filter:payload.key};
+		  return {...state, config: {...state.config, [payload.key]: payload.value}};
+    case 'app/updateFilters':
+		  return {...state, filters: {...state.config, ...payload}};
     case "app/setAuthState":
       return { ...state, loggedIn: payload };
     case "app/saveLoggedUser":

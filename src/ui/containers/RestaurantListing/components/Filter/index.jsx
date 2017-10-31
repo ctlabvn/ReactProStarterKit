@@ -18,7 +18,7 @@ import api from "~/store/api";
 @translate('translations')
 @connect(
 	state => ({
-		filter: authSelectors.getFilter(state)
+		filters: authSelectors.getFilters(state)
 	}),
 	authActions
 )
@@ -28,8 +28,8 @@ export default class extends Component {
 	}
 
 	loadOptionFilter = async () => {
-		const { filter } = this.props;
-		if(!filter) {
+		const { filters } = this.props;
+		if(!filters.length) {
 			const tags = await api.setting.getSettingTags();
 			let tagData = {};
 			tags.data.map(item => {
@@ -44,7 +44,7 @@ export default class extends Component {
 			});
 
 			// save to redux
-			this.props.updateFilter(options.filters);
+			this.props.updateFilters(options.filters);
 		}
 	}
 
@@ -54,11 +54,11 @@ export default class extends Component {
 
   render() {
     // const {t} = this.props;
-	  const { filter } = this.props;
+	  const { filters } = this.props;
 	  return (
-      <div className="d-flex justify-content-center mb-4">
-			  { Object.keys(filter).map((type, i) => {
-				  return <PopoverItem key={i} item={filter[type]} id={type} />;
+      !!filters && <div className="d-flex justify-content-center mb-4">
+			  { Object.keys(filters).map((type, i) => {
+				  return <PopoverItem key={i} item={filters[type]} id={type} />;
 			  })}
       </div>
 	  );

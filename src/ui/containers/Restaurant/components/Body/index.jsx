@@ -171,7 +171,7 @@ export default class extends Component {
           if (treeCategory.hasOwnProperty(item.parent_uuid)) {
             treeCategory[item.parent_uuid].push(item.category_uuid);
           } else {
-            treeCategory[item.parent_uuid] = [item.category_uuid];
+            treeCategory[item.parent_uuid] = [item.parent_uuid, item.category_uuid];
           }
           if (item.total_items) {
             categoryHasChildProduct.push(item.parent_uuid);
@@ -182,6 +182,7 @@ export default class extends Component {
           }
         }
       });
+      console.log(treeCategory);
 
       return (
         <div

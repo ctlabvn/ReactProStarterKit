@@ -25,7 +25,8 @@ import { store } from "~/store";
 @translate("translations")
 @connect(
   state => ({
-    config: authSelectors.getConfig(state)
+	  filters: authSelectors.getFilters(state),
+	  config: authSelectors.getConfig(state)
   }),
   { ...authActions, ...restaurantActions }
 )
@@ -40,7 +41,7 @@ export default class extends Component {
   }
 
   loadMoreElement = async page => {
-    const { config } = this.props;
+    const { config, filter } = this.props;
     try {
       let ret = [];
       if (config.searchStr) {
@@ -58,6 +59,10 @@ export default class extends Component {
     }
   };
 
+  standardFilter = () => {
+
+  }
+
   updateView = ret => {
     if (!ret.status && ret.data.data && !this.unmounted) {
       const data = ret.data.data;
@@ -73,7 +78,8 @@ export default class extends Component {
     this.setState({ hasMore: true, elements: [] });
   };
 
-  componentWillReceiveProps({ config }) {
+	componentWillReceiveProps(nextProps) {
+		const {config, filter} = nextProps;
     if (
       // config.searchStr &&
       config.searchStr !== this.props.config.searchStr
