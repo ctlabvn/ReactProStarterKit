@@ -59,7 +59,7 @@ export const apiCall = (url, options, token = null) =>
 
 // must have data to post, put should not return data
 export const apiPost = (url, data, method = "POST", token) => {
-  data = getExtendData(data);
+  // data = getExtendData(data);
   return apiCall(
     url + "?secret_key=" + API_SECRET_KEY,
     {
@@ -76,7 +76,7 @@ export const apiPost = (url, data, method = "POST", token) => {
 
 // should have data to get, delete should not return
 export const apiGet = (url, data, method = "GET", token) => {
-  data = getExtendData(data);
+  // data = getExtendData(data);
   return apiCall(
     `${url}?secret_key=${API_SECRET_KEY}` +
       (data
