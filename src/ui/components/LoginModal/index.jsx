@@ -52,25 +52,25 @@ export default class extends Component {
   };
 
   render() {
-    const { handleSubmit, submitting } = this.props;
+    const { t, handleSubmit, submitting } = this.props;
     return (
       <Modal
         isOpen={this.state.modal}
         toggle={this.toggle}
         className={this.props.className}
       >
-        <ModalHeader toggle={this.toggle}>Login</ModalHeader>
+        <ModalHeader toggle={this.toggle}>{t('LABEL.MODAL_LOGIN_HEADER')}</ModalHeader>
         <ModalBody>
           <Field
-            placeholder="Username"
-            className="mt-5"
+            placeholder={t('PLACEHOLDER.USERNAME')}
+            className="mt-3"
             name="email"
             component={InputField}
           />
 
           <Field
             className="mt-3"
-            placeholder="Password"
+            placeholder={t('PLACEHOLDER.PASSWORD')}
             type="password"
             name="password"
             component={InputField}
@@ -82,10 +82,10 @@ export default class extends Component {
             disabled={submitting}
             onClick={handleSubmit(this.login)}
           >
-            Submit
+	          {t('BUTTON.LOGIN')}
           </Button>{" "}
           <Button color="secondary" onClick={this.toggle}>
-            Cancel
+	          {t('BUTTON.CANCEL')}
           </Button>
         </ModalFooter>
       </Modal>

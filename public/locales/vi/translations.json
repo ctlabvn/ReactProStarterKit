@@ -13,7 +13,9 @@
   },
   "PLACEHOLDER": {
     "TYPE_YOUR_PRODUCT": "Type your product",
-    "TYPE_YOUR_SEARCH": "Type your search"
+    "TYPE_YOUR_SEARCH": "Type your search",
+    "USERNAME": "Username",
+    "PASSWORD": "Password"
   },
   "LABEL": {
     "SUGGESSTION": "Suggesstions",
@@ -48,7 +50,8 @@
     "CART_EMPTY": "Your shopping cart is empty.",
     "MIN_ORDER": "Min order: ",
     "MAX_ORDER": "Max order: ",
-    "DELIVERY_FEE": "Delivery fee: "
+    "DELIVERY_FEE": "Delivery fee: ",
+    "MODAL_LOGIN_HEADER": "LOGIN"
   },
   "format": {
     "currency": "{{symbol}}{{price, 0,0.00}}"
@@ -79,6 +82,8 @@
     "UPDATE": "Update",
     "REMOVE": "remove",
     "SUBMIT": "Submit",
+    "LOGIN": "Login",
+    "CANCEL": "Cancel",
     "FILTER": {
       "LOCATION": "Location",
       "DISTANCE": "Distance",

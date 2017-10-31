@@ -3,7 +3,7 @@ import "isomorphic-fetch";
 // default api_base for all request
 import { API_BASE, API_SECRET_KEY } from "~/store/constants/api";
 
-// import i18n from "~/i18n";
+import i18n from "~/i18n";
 
 export const rejectErrors = async (res) => {
   const { status } = res;
@@ -51,7 +51,7 @@ export const fetchJsonWithToken = (token, url, options = {}, ...args) => {
   );
 };
 
-// const getExtendData = data => ({ ...data, lang: i18n.language });
+const getExtendData = data => ({ ...data, lang: i18n.language });
 
 // default is get method, we can override header with method:PUT for sample
 export const apiCall = (url, options, token = null) =>
@@ -59,7 +59,7 @@ export const apiCall = (url, options, token = null) =>
 
 // must have data to post, put should not return data
 export const apiPost = (url, data, method = "POST", token) => {
-  // const dataPost = getExtendData(data);
+  data = getExtendData(data);
   return apiCall(
     url + "?secret_key=" + API_SECRET_KEY,
     {
@@ -76,7 +76,7 @@ export const apiPost = (url, data, method = "POST", token) => {
 
 // should have data to get, delete should not return
 export const apiGet = (url, data, method = "GET", token) => {
-  // const dataGet = getExtendData(data);
+  data = getExtendData(data);
   return apiCall(
     `${url}?secret_key=${API_SECRET_KEY}` +
       (data

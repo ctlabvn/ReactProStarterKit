@@ -13,7 +13,9 @@
     },
     "PLACEHOLDER": {
         "TYPE_YOUR_PRODUCT": "\uc81c\ud488 \uc720\ud615",
-        "TYPE_YOUR_SEARCH": "Type your search"
+        "TYPE_YOUR_SEARCH": "Type your search",
+        "USERNAME": "Username",
+        "PASSWORD": "Password"
     },
     "LABEL": {
         "SUGGESSTION": "\ucd94\ucc9c",
@@ -47,7 +49,8 @@
         "CART_EMPTY": "Your shopping cart is empty.",
         "MIN_ORDER": "Min order: ",
         "MAX_ORDER": "Max order: ",
-        "DELIVERY_FEE": "Delivery fee: "
+        "DELIVERY_FEE": "Delivery fee: ",
+        "MODAL_LOGIN_HEADER": "LOGIN"
     },
     "format": {
         "currency": "{{symbol}}{{price, 0,0.00}}"
@@ -78,6 +81,8 @@
         "UPDATE": "\uac31\uc2e0",
         "REMOVE": "\uc81c\uac70",
         "SUBMIT": "\uc81c\ucd9c",
+        "LOGIN": "Login",
+        "CANCEL": "Cancel",
         "FILTER": {
             "LOCATION": "Location",
             "DISTANCE": "Distance",
