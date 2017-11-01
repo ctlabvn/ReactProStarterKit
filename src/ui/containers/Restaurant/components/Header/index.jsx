@@ -48,7 +48,7 @@ export default class extends Component {
           </div>
 
           <Readmore line="500" more={t('LABEL.SHOW_MORE')} less={t('LABEL.SHOW_LESS')}>
-            <p className="w-100 mt-3 html-content" dangerouslySetInnerHTML={{__html:outlet.description.trim()}}/>
+            <p className="w-100 mt-3 html-content" dangerouslySetInnerHTML={{__html:outlet.description}}/>
           </Readmore>
 
           <RestaurantTag outlet={outlet} />
