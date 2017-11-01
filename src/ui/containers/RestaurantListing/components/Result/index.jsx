@@ -41,17 +41,16 @@ export default class extends Component {
   }
 
   loadMoreElement = async page => {
-    const { config, filter } = this.props;
-    try {
-      let ret = [];
-      if (config.searchStr) {
-        ret = await api.restaurant.searchOutlet(page, config.searchStr);
-        this.updateView(ret);      
-      } else {
-        ret = await api.restaurant.getOutlets(page);
-        this.updateView(ret);
-      }
-      if (page === 1) {
+    const { config, filters } = this.props;
+
+	  let data = this.standardFilter(filters);
+	  if(config.searchStr) data['keyword'] = config.searchStr;
+
+	  try {
+	    const ret = await api.restaurant.searchOutlet(page, data);
+	    this.updateView(ret);
+
+	    if (page === 1) {
         this.props.saveRestaurants(ret);
       }
     } catch (err) {
@@ -59,8 +58,17 @@ export default class extends Component {
     }
   };
 
-  standardFilter = () => {
-
+  standardFilter = (filter) => {
+    let result = {};
+    const listParam = Object.keys(filter);
+    if(listParam.length) {
+	    for(let key of listParam) {
+		    if(filter[key] && filter[key]['selected']) {
+			    result[key] = filter[key]['selected'];
+		    }
+	    }
+    }
+    return result;
   }
 
   updateView = ret => {
@@ -78,15 +86,8 @@ export default class extends Component {
     this.setState({ hasMore: true, elements: [] });
   };
 
-	componentWillReceiveProps(nextProps) {
-		const {config, filter} = nextProps;
-    if (
-      // config.searchStr &&
-      config.searchStr !== this.props.config.searchStr
-      // config.searchStr.length >= 3
-    ) {
-      this.removeSearchResult();
-    }
+	componentWillReceiveProps() {
+		this.removeSearchResult();
   }
 
   componentWillUnmount() {

@@ -2,17 +2,15 @@
 import { apiGet, apiPost } from "./common";
 import i18n from "~/i18n";
 
+export const DEFAULT_PAGINATION = 20;
 export default {
   getOutlets(page = 1) {
-    return apiGet("/restaurant/outlets", { page: page, pagination: 20 });
+    return apiGet("/restaurant/outlets", { page: page, pagination: DEFAULT_PAGINATION });
   },
 
-  searchOutlet(page = 1, term = "") {
-    return apiGet("/restaurant/search", {
-      page: page,
-      keyword: term,
-      pagination: 20
-    });
+  searchOutlet(page = 1, term = {}) {
+    const data = {...{page: page, pagination: DEFAULT_PAGINATION}, ...term};
+    return apiGet("/restaurant/filter", data);
   },
 
   getOutlet(uuid) {
