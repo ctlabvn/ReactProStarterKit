@@ -29,6 +29,7 @@ export default class extends Component {
 
 	loadOptionFilter = async () => {
 		const { filters } = this.props;
+
 		if(!filters.length) {
 			const tags = await api.setting.getSettingTags();
 			let tagData = {};
@@ -39,6 +40,7 @@ export default class extends Component {
 
 			// update option
 			const staticOptions = await api.setting.getSettingOptions();
+			console.log(staticOptions);
 			staticOptions.data.map(item => {
 				options.filters[item.option_key].body = {...options.filters[item.option_key].body, ...parseJsonToObject(item.option_value)};
 			});
