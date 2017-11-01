@@ -12,7 +12,7 @@ export default class extends Component {
     const { t, item } = this.props;
     const gallery = JSON.parse(item.gallery);
 
-    if(gallery.length) {
+    if(gallery && gallery.length) {
 	    return (
         <div className="row flex-nowrap d-flex flex-row justify-content-between block bg-white mb-4 mt-5 w-100">
           <Slider className="mt-2" num={5} move={1}>
