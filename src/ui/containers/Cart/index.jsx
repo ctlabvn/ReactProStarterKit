@@ -92,7 +92,7 @@ export default class extends Component {
     const { orderInfo } = this.props;
     const { directions } = this.state;
     let travel_time = 0;
-    if(directions){
+    if(orderInfo.order_type === ORDER_TYPE.DELIVERY && directions){
       const { duration, distance } = directions.routes[0].legs[0];
       travel_time = duration.value / 60;
       if (

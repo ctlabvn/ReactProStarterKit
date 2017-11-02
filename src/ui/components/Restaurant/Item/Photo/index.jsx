@@ -26,7 +26,7 @@ export default class extends Component {
     return (
       <div className="col-sm-6 col-12 my-3" {...props}>
         <div className="media rounded">
-          <Image className="media-image d-flex mr-3 rounded" src={logo} alt="" />
+          <Link to={`/restaurant/${uuid}`}><Image className="media-image d-flex mr-3 rounded" src={logo} alt="" /></Link>
             <div className="media-body">
               <div className="d-flex flex-column justify-content-between">
                 <div>
