@@ -64,6 +64,13 @@ export default class extends Component {
     requestor("order/getOrderHistory", token, options);
   };
 
+  componentDidMount(){
+    const {orderHistory} = this.props
+    if(!orderHistory || !orderHistory.length){
+      this.searchOrder({});
+    }
+  }
+
   render() {
     const { submitting, handleSubmit, orderHistory } = this.props;
     return (

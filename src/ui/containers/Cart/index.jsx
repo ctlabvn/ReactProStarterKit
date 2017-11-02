@@ -43,7 +43,7 @@ import { getCurrentLocation } from "~/ui/utils";
 import { validate } from "./utils";
 import { parseJsonToObject } from "~/store/utils/json";
 
-import { ORDER_TYPE } from "~/ui/utils";
+import { ORDER_TYPE, calculateOrderPrice } from "~/ui/utils";
 
 import "./index.css";
 
@@ -89,7 +89,7 @@ export default class extends Component {
   };
 
   saveOrderInfo = data => {
-    const { orderInfo } = this.props;
+    const { orderInfo, orderItems } = this.props;
     const { directions } = this.state;
     let travel_time = 0;
     if(orderInfo.order_type === ORDER_TYPE.DELIVERY && directions){
@@ -112,10 +112,11 @@ export default class extends Component {
     //   })
     // }
 
-    const totalPrice = this.getTotalPrice();
+    const orderPrices =  calculateOrderPrice(orderItems, orderInfo);
+
     if (
       orderInfo.min_delivery_cost &&
-      totalPrice < orderInfo.min_delivery_cost
+      orderPrices.total < orderInfo.min_delivery_cost
     ) {
       throw new SubmissionError({
         _error: "Price is too low!"
@@ -123,7 +124,7 @@ export default class extends Component {
     }
     if (
       orderInfo.max_delivery_cost &&
-      totalPrice > orderInfo.max_delivery_cost
+      orderPrices.total > orderInfo.max_delivery_cost
     ) {
       throw new SubmissionError({
         _error: "Price is too high!"
@@ -133,16 +134,6 @@ export default class extends Component {
     this.props.updateOrder({ ...data, travel_time });
     history.push("/checkout");
   };
-
-  getTotalPrice() {
-    const { orderItems } = this.props;
-    const totalPrice = orderItems.reduce(
-      (a, item) => a + item.quantity * item.price,
-      0
-    );
-
-    return totalPrice;
-  }
 
   async loadAddressFromGmap() {
     // use guard code so do not have to remove } at the end
@@ -389,8 +380,11 @@ export default class extends Component {
       );
     }
 
+    //consumer_discounts
+
     const { directions, predictions } = this.state;
-    const totalPrice = this.getTotalPrice();
+    const orderPrices =  calculateOrderPrice(orderItems, orderInfo);
+    const currency_symbol = orderItems[0].currency_symbol;
 
     return (
       <div className="container">
@@ -433,25 +427,33 @@ export default class extends Component {
 
               {this.renderCurrency(
                 "LABEL.SUBTOTAL",
-                totalPrice,
+                orderPrices.subtotal,
                 "color-gray",
-                orderItems[0].currency_symbol
+                currency_symbol
+              )}
+              {this.renderCurrency(
+                "Discount",
+                orderPrices.discount,
+                "color-gray",
+                currency_symbol
               )}
               {this.renderCurrency(
                 "Delivery free",
-                +orderInfo.delivery_fee,
-                "color-gray"
+                orderPrices.fee,
+                "color-gray",
+                currency_symbol
               )}
               {this.renderCurrency(
                 "Tax",
-                +orderInfo.consumer_taxes,
-                "color-gray"
+                orderPrices.tax,
+                "color-gray",
+                currency_symbol
               )}
               {this.renderCurrency(
                 "LABEL.TOTAL_PRICE",
-                totalPrice + orderInfo.delivery_fee + orderInfo.consumer_taxes,
+                orderPrices.total,
                 "color-black",
-                orderItems[0].currency_symbol
+                currency_symbol
               )}
               {
                 // <Field
