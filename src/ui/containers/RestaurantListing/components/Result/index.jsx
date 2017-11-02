@@ -33,7 +33,7 @@ import { store } from "~/store";
 export default class extends Component {
   constructor(props) {
     super(props);
-    const elements = restaurantSelectors.getList(store.getState());
+    const elements = [];//restaurantSelectors.getList(store.getState());
     this.state = {
       hasMore: true,
       elements
