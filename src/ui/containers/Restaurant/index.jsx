@@ -9,6 +9,8 @@ import Detail from "./components/Detail";
 import Spinner from "~/ui/components/Spinner";
 import EmptyResult from "~/ui/components/EmptyResult";
 
+import { extractMessage } from "~/ui/utils";
+
 // store
 import api from "~/store/api";
 // import * as authSelectors from "~/store/selectors/auth";
@@ -41,8 +43,8 @@ export default class extends Component {
       // retOutlet.data.categories = [];
       this.setState({ outlet: retOutlet.data });
     } catch (e) {
-      console.log(e);
-      this.props.setToast(e.message.general, "danger");
+      const message = extractMessage(e.message);
+      this.props.setToast(message, "danger");
       this.setState({ outlet: {} });
     }
   }
