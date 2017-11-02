@@ -151,7 +151,7 @@ export default class extends Component {
 	}
 
 	render() {
-		const { t, canAddOrder, item, options, currency } = this.props;
+		const { t, canAddOrder, options, currency } = this.props;
 		const { disableAddToCart } = this.state;
 		const symbol = currency.symbol ? currency.symbol : '₫';
 		return (
