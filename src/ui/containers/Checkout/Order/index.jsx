@@ -36,11 +36,6 @@ export default class extends Component {
       ...item,
       totalPrice: item.quantity * item.price
     }));
-
-    // const totalPrice = orderItemsWithTotalPrice.reduce(
-    //   (a, item) => a + item.totalPrice,
-    //   0
-    // );
     
 
     return (

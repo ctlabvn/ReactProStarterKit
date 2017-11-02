@@ -122,8 +122,12 @@ export const extractMessage = (message) => {
 export const calculateOrderPrice = (items, {consumer_discounts, consumer_taxes, delivery_fee}) => {
   const itemsSum = items.map(item=> (item.price + (item.options ? item.options.reduce((a,b)=>a+b.price, 0):0)) * item.quantity) 
     .reduce((a, b)=> a+b, 0)
-  const discountPercent = consumer_discounts ? consumer_discounts.reduce((a,b)=>a+b,0) : 0;
-  const taxPercent = consumer_taxes ? consumer_taxes.reduce((a,b)=>a+b,0) : 0;  
+  const discountPercent = 0;
+  // later
+  //consumer_discounts ? consumer_discounts.reduce((a,b)=>a+b,0) : 0;
+  const taxPercent = 0; 
+  // later
+  //consumer_taxes ? consumer_taxes.reduce((a,b)=>a+b,0) : 0;  
   const discount = itemsSum * discountPercent;
   const subtotal = itemsSum - discount;
   const tax = subtotal * taxPercent;
