@@ -25,9 +25,11 @@ export default class extends Component {
     const { t, name, address, logo, restaurant, uuid, ...props } = this.props;
     return (
       <div className="col-sm-6 col-12 my-3" {...props}>
-        <div className="media rounded">
-          <Link to={`/restaurant/${uuid}`}><Image className="media-image d-flex mr-3 rounded" src={logo} alt="" /></Link>
-            <div className="media-body">
+        <div className="media rounded ">
+            <div className="w-150">
+              <Link to={`/restaurant/${uuid}`}><Image className="media-image d-flex mr-3 rounded" src={logo} alt="" /></Link>
+            </div>
+            <div className="media-body w-100">
               <div className="d-flex flex-column justify-content-between">
                 <div>
                   <Link to={`/restaurant/${uuid}`}><h5>{name}</h5></Link>
