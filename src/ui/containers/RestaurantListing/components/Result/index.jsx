@@ -18,9 +18,9 @@ import "./index.css";
 import * as authActions from "~/store/actions/auth";
 import * as restaurantActions from "~/store/actions/restaurant";
 import * as authSelectors from "~/store/selectors/auth";
-import * as restaurantSelectors from "~/store/selectors/restaurant";
+// import * as restaurantSelectors from "~/store/selectors/restaurant";
 
-import { store } from "~/store";
+// import { store } from "~/store";
 
 @translate("translations")
 @connect(

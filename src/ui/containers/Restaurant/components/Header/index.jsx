@@ -55,8 +55,8 @@ export default class extends Component {
 
           <div className="border border-white-300 border-right-0 border-left-0 border-bottom-0 mt-4 left-side-block">
             <Menu className="menu-decorator text-uppercase">
-            {options.menuItems.map((item, index) => {
-              let title = index === 0 ? t(item.name) + ` (${outlet.total_items})` : t(item.name);
+            {options.menuItems.map((item, index) => {              
+              const title = <span>{t(item.name)} <span className="color-gray">({outlet.total_items})</span></span>;
               return <MenuItem active={index === 0} title={title} key={index} classToggle="restaurant-tab" idToggle={item.id} />
             })}
             </Menu>
