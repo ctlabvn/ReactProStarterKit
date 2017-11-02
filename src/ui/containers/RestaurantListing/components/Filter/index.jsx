@@ -23,9 +23,9 @@ import api from "~/store/api";
 	authActions
 )
 export default class extends Component {
-	constructor(props) {
-		super(props);
-	}
+	// constructor(props) {
+	// 	super(props);
+	// }
 
 	loadOptionFilter = async () => {
 		const { filters } = this.props;
@@ -33,7 +33,7 @@ export default class extends Component {
 		if(!filters.length) {
 			const tags = await api.setting.getSettingTags();
 			let tagData = {};
-			tags.data.map(item => {
+			tags.data.forEach(item => {
 				tagData[item.tag_uuid] = item.name;
 			});
 			options.filters.tags.body = {...options.filters.tags.body, ...tagData};
@@ -54,11 +54,11 @@ export default class extends Component {
 			options.filters.location.body = {...options.filters.location.body, ...citiesData};
 
 			// update option
-			// const staticOptions = await api.setting.getSettingOptions();
-			// console.log(staticOptions);
-			// staticOptions.data.map(item => {
-			// 	options.filters[item.option_key].body = {...options.filters[item.option_key].body, ...parseJsonToObject(item.option_value)};
-			// });
+			const staticOptions = await api.setting.getSettingOptions();
+			console.log(staticOptions);
+			staticOptions.data.forEach(item => {
+				options.filters[item.option_key].body = {...options.filters[item.option_key].body, ...parseJsonToObject(item.option_value)};
+			});
 
 			// save to redux
 			this.props.updateFilters(options.filters);
