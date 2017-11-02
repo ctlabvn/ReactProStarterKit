@@ -60,11 +60,11 @@ export default class extends Component {
     }
     const request_time = 60 * (minutesOfPreparation - minutesOfNow);
 
-    const detailAddress = this.detailAddress.value.trim();
+    const detailAddress = this.detailAddress ? this.detailAddress.value.trim() : '';
 
     const customer_address = orderInfo.order_type === ORDER_TYPE.DELIVERY 
       ? orderInfo.order_address + (detailAddress ? "\n" + detailAddress : "")
-      : "";//addressItem.address;
+      : "take_away is optional";//addressItem.address;
 
     const data = {
       items: orderItems.map(item => ({
@@ -155,7 +155,7 @@ export default class extends Component {
   }
 
   render() {
-    const { isLogged, orderItems } = this.props;
+    const { isLogged, orderItems, orderInfo } = this.props;
     if(!orderItems.length){
       return <EmptyResult/>;
     }
@@ -167,7 +167,7 @@ export default class extends Component {
             {isLogged ? this.renderHasAccount() : this.renderHasNoAccount()}
           </Col>
           <Col>
-            <Order orderItems={orderItems}/>
+            <Order orderItems={orderItems} orderInfo={orderInfo}/>
             <div className="d-flex w-100 text-center mt-4 justify-content-end">
               <Button onClick={this.createOrder} color="primary">{this.props.t("BUTTON.CONFIRM_PAY")}</Button>
             </div>
