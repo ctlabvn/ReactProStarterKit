@@ -17,14 +17,14 @@ import * as authSelectors from "~/store/selectors/auth";
 @translate("translations")
 @connect(state => ({
   isLogged: authSelectors.isLogged(state),
-  isHome: state.routing.location.pathname === "/"
+  isHome: state.routing.location.pathname === "/restaurant"
 }))
 export default class extends Component {
   render() {
     const { t, i18n, isHome } = this.props;
     return (
       <footer
-        className={classNames("footer text-center menu-bottom", {
+        className={classNames("footer text-center menu-bottom bg-white", {
           "fixed-bottom": isHome
         })}
       >

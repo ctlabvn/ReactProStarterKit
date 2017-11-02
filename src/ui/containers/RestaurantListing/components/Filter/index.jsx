@@ -38,6 +38,21 @@ export default class extends Component {
 			});
 			options.filters.tags.body = {...options.filters.tags.body, ...tagData};
 
+			// add countries
+			const countries = await api.setting.getSettingCountries();
+			let citiesData = {};
+			if(countries.data) {
+				for(let country of countries.data) {
+					const cities = await api.setting.getSettingCities(country.short_name);
+					if(cities.data) {
+						for(let city of cities.data) {
+							citiesData[city.short_name] = city.long_name;
+						}
+					}
+				}
+			}
+			options.filters.location.body = {...options.filters.location.body, ...citiesData};
+
 			// update option
 			const staticOptions = await api.setting.getSettingOptions();
 			console.log(staticOptions);
@@ -58,7 +73,7 @@ export default class extends Component {
     // const {t} = this.props;
 	  const { filters } = this.props;
 	  return (
-      !!filters && <div className="d-flex justify-content-center mb-4">
+      !!filters && <div className="d-flex justify-content-center my-5">
 			  { Object.keys(filters).map((type, i) => {
 				  return <PopoverItem key={i} item={filters[type]} id={type} />;
 			  })}
