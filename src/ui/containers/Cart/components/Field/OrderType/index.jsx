@@ -13,9 +13,10 @@ export default ({
   input,
   label,
   meta: { touched, error, warning },
+  checkedValue,
   orderTypes
 }) => {
-  const checkedValue = input.value || ORDER_TYPE.DELIVERY;
+  // const checkedValue = orderTypes.length === 1 ? orderTypes[0].id : (input.value || ORDER_TYPE.DELIVERY);  
   return (
     <FormGroup check className="d-flex justify-content-between">
       {orderTypes.map((item, index) => (

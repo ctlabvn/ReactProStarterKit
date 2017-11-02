@@ -76,6 +76,12 @@ export default class extends Component {
     //   restaurant_lat:21.0687001,
     //   restaurant_long:105.82295049999993,
     // });
+
+    this.orderTypes = [];
+    props.orderInfo.do_takeaway &&
+      this.orderTypes.push({ id: ORDER_TYPE.TAKE_AWAY, title: "Take away" });
+    props.orderInfo.do_delivery &&
+      this.orderTypes.push({ id: ORDER_TYPE.DELIVERY, title: "Delivery" });
   }
 
   initGmap = ref => {
@@ -182,6 +188,10 @@ export default class extends Component {
     }
   }
 
+  getOrderTypeValue(input){
+    return this.orderTypes.length === 1 ? this.orderTypes[0].id : (input.value || ORDER_TYPE.DELIVERY);
+  }
+
   renderAddress = ({ order_type, order_address, directions, predictions }) => {
     const { t, 
       orderInfo, 
@@ -192,6 +202,8 @@ export default class extends Component {
       lng: +orderInfo.restaurant_long
     };
 
+    const orderTypeValue = this.getOrderTypeValue(order_type.input);
+
     return (
       <div className="col-md-6 pl-0">
         <h6 className="color-gray text-uppercase mb-4 w-100">
@@ -201,7 +213,7 @@ export default class extends Component {
           </span>
         </h6>
 
-        {order_type.input.value === ORDER_TYPE.DELIVERY && (
+        {orderTypeValue === ORDER_TYPE.DELIVERY && (
           <div>
             <h6 className="color-gray text-uppercase mb-4 w-100">
               {t("LABEL.ADDRESS")}{" "}
@@ -275,22 +287,23 @@ export default class extends Component {
 
   renderTimePicker = ({ request_time, order_type }) => {
     const { orderInfo } = this.props;
-    const orderTypes = [];
-    orderInfo.do_takeaway &&
-      orderTypes.push({ id: ORDER_TYPE.TAKE_AWAY, title: "Take away" });
-    orderInfo.do_delivery &&
-      orderTypes.push({ id: ORDER_TYPE.DELIVERY, title: "Delivery" });
+    
+
+    const orderTypeValue = this.getOrderTypeValue(order_type.input);
+
     const hoursRange = parseJsonToObject(
-      order_type.input.value === ORDER_TYPE.TAKE_AWAY
+      orderTypeValue === ORDER_TYPE.TAKE_AWAY
         ? orderInfo.hours_takeaway
         : orderInfo.hours_delivery
     );
+
+
     return (
       <div className="d-flex col-md-6 pl-0 justify-content-between">
-        <OrderTypeField orderTypes={orderTypes} {...order_type} />
+        <OrderTypeField checkedValue={orderTypeValue} orderTypes={this.orderTypes} {...order_type} />
         <RequestTimeField
           label={
-            order_type.input.value === ORDER_TYPE.DELIVERY
+            orderTypeValue === ORDER_TYPE.DELIVERY
               ? "Delivery time"
               : "Take away time"
           }
