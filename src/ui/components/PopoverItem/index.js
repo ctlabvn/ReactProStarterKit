@@ -52,9 +52,10 @@ export default class extends Component {
 		if(item) {
 			return (
 				!!item.body && <span>
-	        <Button className="mr-1" color="secondary" id={'Popover-' + id} onClick={this.toggle}>
+	        <button className="mr-1 btn bg-transparent" id={'Popover-' + id} onClick={this.toggle}>
 	          {t(item.text)}
-	        </Button>
+	          <i className="fa fa-angle-down ml-1" />
+	        </button>
 	        <Popover placement={item.placement} isOpen={this.state.popoverOpen} target={'Popover-' + id} toggle={this.toggle}>
 	          <PopoverHeader>{item.title}</PopoverHeader>
 	          <PopoverBody>
