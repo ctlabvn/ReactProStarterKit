@@ -91,6 +91,8 @@ export default class extends Component {
       if(!err){
         // if success create order then clear all items
         clearItems();
+        // force reload
+        updateOrderHistory([]);
         history.push("/customer/order");
       } else {
           setToast(extractMessage(err.message), "danger");        

@@ -67,9 +67,9 @@ export default class extends Component {
   componentDidMount(){
     const {orderHistory} = this.props
     // always update
-    // if(!orderHistory || !orderHistory.length){
+    if(!orderHistory || !orderHistory.length){
       this.searchOrder({});
-    // }
+    }
   }
 
   render() {
