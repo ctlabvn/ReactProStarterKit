@@ -12,12 +12,12 @@ export default class App extends Component {
   render(){    
     
     const {children} = this.props
-
+    const minHeight = window.screen.height - 350;
     return (
       <div>     
         <Indicator/>
         <Header/>
-        <div className="main-page float-left w-100">
+        <div className="main-page float-left w-100" style={{minHeight}}>
           {children}
         </div>
         <Footer/>

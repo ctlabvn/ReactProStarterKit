@@ -48,6 +48,12 @@ export default {
     return apiPost("/auth/logout");
   },
 
+  resetPassword(email){
+    return apiPost('/customer/reset-password', {
+      email,      
+    });
+  },
+
   updateCustomer(token, customer_uuid, name, phone) {
     return apiPost('/customer', {
       token,

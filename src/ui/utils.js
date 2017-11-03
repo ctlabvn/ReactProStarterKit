@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const KEYCODE_Z = 90;
 const KEYCODE_Y = 89;
 
@@ -102,19 +104,37 @@ export const getCurrentLocation = () => {
   });
 };
 
-export const validateLogin = (values) => {
+export const isValidEmail = (values) => {
   const errors = {}
-  // first time it is empty
-  if(!values) return errors
-  if (!values.email) errors.email = 'Enter email'
+  if(!values) 
+    return errors;
+  if (!values.email){
+    errors.email = 'Enter email'
+  } else {
+    const email = values.email.trim();
+    // no-useless-escape
+    const test = email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) !== null
+    if(!test)  
+      errors.email = "Email is not valid";
+  } 
+  return errors;
+}
+
+export const isValidPhoneNumber = (phone) => {
+  return phone.match(/^\d{10,11}$/) !== null
+}
+
+export const validateLogin = (values) => {
+  const errors = isValidEmail(values);
+    
   if (!values.password) errors.password = 'Enter password'
 
   return errors
 };
 
 export const extractMessage = (message) => {
-  let messageValue = message.general;
-  for(let key in message){
+  let messageValue = message.general || message;  
+  if(typeof message === "object") for(let key in message){
     if(key !== 'general'){
       messageValue = message[key];
       break;

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // import { connect } from "react-redux";
-import { Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
+import { Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 import { translate } from "react-i18next";
 
 // import * as authActions from "~/store/actions/auth";

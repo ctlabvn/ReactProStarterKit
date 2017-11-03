@@ -87,7 +87,9 @@ export default class extends Component {
 
         </ModalBody>
         <ModalFooter>
-          <Link to="/password-reset">{t('password_reset')}</Link>
+          <div className="w-100 text-center">          
+            <Link onClick={this.toggle} to="/password-reset">{t('password_reset')}</Link>
+          </div>
         </ModalFooter>
       </Modal>
     );

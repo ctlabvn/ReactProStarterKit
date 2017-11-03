@@ -15,7 +15,7 @@ import {
 } from '~/store/actions/auth'
 
 
-// const requestLoginFacebookAsync = createRequestSaga({
+// const requestLoginFacebook = createRequestSaga({
 //   request: api.auth.loginFacebook,
 //   key: 'loginFacebook',
 //   cancel: 'app/logout',
@@ -31,7 +31,7 @@ import {
 // })
 
 
-// const requestLoginGoogleAsync = createRequestSaga({
+// const requestLoginGoogle = createRequestSaga({
 //   request: api.auth.loginGoogle,
 //   key: 'loginGoogle',
 //   cancel: 'app/logout',
@@ -46,7 +46,7 @@ import {
 //   ],
 // })
 
-const requestLoginAsync = createRequestSaga({
+const requestLogin = createRequestSaga({
   request: api.auth.login,
   key: 'login',
   cancel: 'app/logout',
@@ -62,7 +62,7 @@ const requestLoginAsync = createRequestSaga({
 })
 
 
-const requestSignupAsync = createRequestSaga({
+const requestSignup = createRequestSaga({
   request: api.auth.signup,
   key: 'signup',
   cancel: 'app/login',
@@ -75,7 +75,7 @@ const requestSignupAsync = createRequestSaga({
 })
 
 
-const requestLogoutAsync = createRequestSaga({
+const requestLogout = createRequestSaga({
   request: api.auth.logout,
   key: 'logout',
   success: [           
@@ -91,7 +91,7 @@ const requestLogoutAsync = createRequestSaga({
   ]
 });
 
-const updateCustomerAsync = createRequestSaga({
+const requestUpdateCustomer = createRequestSaga({
   request: api.auth.updateCustomer,
   success: [       
     ({data}) => updateCustomer(data),        
@@ -102,19 +102,23 @@ const updateCustomerAsync = createRequestSaga({
   ],
 })
 
-const updateAddressAsync = createRequestSaga({
+const requestUpdateAddress = createRequestSaga({
   request: api.auth.updateAddress,
   success: [       
     ({data}) => updateAddress(data),            
   ],
 })
 
-const addAddressAsync = createRequestSaga({
+const requestAddAddress = createRequestSaga({
   request: api.auth.addAddress,
   success: [       
     ({data}) => addAddress(data),            
   ],
-})
+});
+
+const requestResetPassword = createRequestSaga({
+  request: api.auth.resetPassword,
+});
 
 // root saga reducer
 const asyncAuthWatchers = [
@@ -124,22 +128,24 @@ const asyncAuthWatchers = [
   function* asyncLoginFetchWatcher() {
     // use takeLatest instead of take every, so double click in short time will not trigger more fork
     yield all([      
-      // takeLatest('app/loginFacebook', requestLoginFacebookAsync),
-      // takeLatest('app/loginGoogle', requestLoginGoogleAsync),
-      takeLatest('app/login', requestLoginAsync),
-      takeLatest('app/signup', requestSignupAsync),
+      // takeLatest('app/loginFacebook', requestLoginFacebook),
+      // takeLatest('app/loginGoogle', requestLoginGoogle),
+      takeLatest('app/login', requestLogin),
+      takeLatest('app/signup', requestSignup),
 
       // customer
-      takeLatest('customer/requestUpdateCustomer', updateCustomerAsync),
-      takeLatest('customer/requestAddAddress', addAddressAsync),
-      takeLatest('customer/requestUpdateAddress', updateAddressAsync),      
+      takeLatest('customer/requestUpdateCustomer', requestUpdateCustomer),
+      takeLatest('customer/requestAddAddress', requestAddAddress),
+      takeLatest('customer/requestUpdateAddress', requestUpdateAddress),      
+
+      takeLatest('customer/resetPassword', requestResetPassword),
     ])
   },
 
   function* asyncLogoutFetchWatcher() {
     // use takeLatest instead of take every, so double click in short time will not trigger more fork
     yield all([
-      takeLatest('app/logout', requestLogoutAsync),      
+      takeLatest('app/logout', requestLogout),      
     ])
   }
 ]

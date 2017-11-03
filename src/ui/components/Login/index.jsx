@@ -32,6 +32,7 @@ export default class extends Component {
   login = ({ email, password }) => {
     this.props.requestor("app/login", email, password, (err, ret) => {      
       this.props.reset();
+      this.props.onLogged && this.props.onLogged(ret);
     });
   };
 

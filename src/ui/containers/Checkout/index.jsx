@@ -25,8 +25,8 @@ import * as authSelectors from "~/store/selectors/auth";
 import { history } from "~/store";
 
 // components
-import Signup from "./Signup";
-import Login from "./Login";
+import Signup from "~/ui/components/Signup";
+import Login from "~/ui/components/Login";
 import Order from "./Order";
 
 import { extractMessage, ORDER_TYPE } from "~/ui/utils";
