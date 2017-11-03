@@ -11,11 +11,16 @@ import "./index.css";
 
 export default class extends Component {
 
+  onUpdateFilter = (filters)=>{
+    // console.log(filters);
+    this.result.removeSearchResult();
+  };
+
   render() {
     return (
       <div>
-        <Filter/>
-        <Result/>
+        <Filter onUpdateFilter={this.onUpdateFilter}/>
+        <Result onItemRef={ref=>this.result=ref}/>
       </div>
     )
   }

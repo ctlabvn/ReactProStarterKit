@@ -1,18 +1,18 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
+// import { connect } from "react-redux";
 import { Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 import { translate } from "react-i18next";
 
-import * as authActions from "~/store/actions/auth";
-import * as authSelectors from "~/store/selectors/auth";
+// import * as authActions from "~/store/actions/auth";
+// import * as authSelectors from "~/store/selectors/auth";
 
 @translate('translations')
-@connect(
-	state => ({
-		filters: authSelectors.getFilters(state)
-	}),
-	authActions
-)
+// @connect(
+// 	state => ({
+// 		filters: authSelectors.getFilters(state)
+// 	}),
+// 	authActions
+// )
 export default class extends Component {
 	constructor(props) {
 		super(props);
@@ -26,13 +26,17 @@ export default class extends Component {
 
 	handleFilter = (e) => {
 		// update redux
-		const { id, filters } = this.props;
-		filters[id].selected = e.currentTarget.value;
-		this.props.updateFilters(filters);
+		const { onSelectFilter } = this.props;
+		// filters[id].selected = e.currentTarget.value;
+
+
+		// this.props.updateFilters(filters);
 
 		this.setState({
 			checkedItem: e.currentTarget.value
-		})
+		});
+
+		onSelectFilter && onSelectFilter(e.currentTarget.value)
 	}
 
 	toggle() {
@@ -51,7 +55,7 @@ export default class extends Component {
 	        <Button className="mr-1" color="secondary" id={'Popover-' + id} onClick={this.toggle}>
 	          {t(item.text)}
 	        </Button>
-	        <Popover placement={item.placement} isOpen={this.state.popoverOpen} target={'Popover-' + this.props.id} toggle={this.toggle}>
+	        <Popover placement={item.placement} isOpen={this.state.popoverOpen} target={'Popover-' + id} toggle={this.toggle}>
 	          <PopoverHeader>{item.title}</PopoverHeader>
 	          <PopoverBody>
 		          <div className="w-100">

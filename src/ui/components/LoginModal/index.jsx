@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { translate } from "react-i18next";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 // import classNames from "classnames";
 
@@ -75,18 +76,18 @@ export default class extends Component {
             name="password"
             component={InputField}
           />
-        </ModalBody>
-        <ModalFooter>
+
           <Button
             color="primary"
             disabled={submitting}
             onClick={handleSubmit(this.login)}
           >
-	          {t('BUTTON.LOGIN')}
-          </Button>{" "}
-          <Button color="secondary" onClick={this.toggle}>
-	          {t('BUTTON.CANCEL')}
+            {t('BUTTON.LOGIN')}
           </Button>
+
+        </ModalBody>
+        <ModalFooter>
+          <Link to="/password-reset">{t('password_reset')}</Link>
         </ModalFooter>
       </Modal>
     );

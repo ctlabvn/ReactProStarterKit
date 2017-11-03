@@ -15,11 +15,19 @@ const getOutlets = createRequestSaga({
   failure: [() => setToast("Couldn't get data", "danger")]
 });
 
+const searchOutlet = createRequestSaga({
+  request: api.restaurant.searchOutlet
+});
+
+
 // root saga reducer
 export default [
   // watcher for schedule, define term here
   function* asyncUserFetchWatcher() {
     // use takeLatest instead of take every, so double click in short time will not trigger more fork
-    yield all([takeLatest("restaurant/getOutlets", getOutlets)]);
+    yield all([
+      takeLatest("restaurant/getOutlets", getOutlets),
+      takeLatest("restaurant/searchOutlet", searchOutlet),
+    ]);
   }
 ];

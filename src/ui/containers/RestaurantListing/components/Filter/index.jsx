@@ -55,14 +55,28 @@ export default class extends Component {
 
 			// update option
 			const staticOptions = await api.setting.getSettingOptions();
-			console.log(staticOptions);
+			// console.log(staticOptions);
 			staticOptions.data.forEach(item => {
 				options.filters[item.option_key].body = {...options.filters[item.option_key].body, ...parseJsonToObject(item.option_value)};
 			});
 
 			// save to redux
-			this.props.updateFilters(options.filters);
+			this.props.updateFilters(options.filters);			
 		}
+	}
+
+	onSelectFilter(id, selected){		
+		const { filters } = this.props;
+		options.filters = {
+			...filters,
+			[id]: {
+				...filters[id],
+				selected
+			}
+		};
+		this.props.updateFilters(options.filters);
+
+		this.props.onUpdateFilter && this.props.onUpdateFilter(options.filters);
 	}
 
 	componentDidMount() {
@@ -75,7 +89,7 @@ export default class extends Component {
 	  return (
       !!filters && <div className="d-flex justify-content-center my-5">
 			  { Object.keys(filters).map((type, i) => {
-				  return <PopoverItem key={i} item={filters[type]} id={type} />;
+				  return <PopoverItem key={i} item={filters[type]} id={type} onSelectFilter={(selected)=>this.onSelectFilter(type, selected)} />;
 			  })}
       </div>
 	  );

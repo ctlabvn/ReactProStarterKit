@@ -10,17 +10,20 @@ import EmptyResult from "~/ui/components/EmptyResult";
 import IconLoading from "~/ui/components/Loading/icon";
 
 // store
-import api from "~/store/api";
+// import api from "~/store/api";
 // import options from "./options";
 import "./index.css";
 
 // selectors && actions
 import * as authActions from "~/store/actions/auth";
 import * as restaurantActions from "~/store/actions/restaurant";
+import * as commonActions from "~/store/actions/common";
 import * as authSelectors from "~/store/selectors/auth";
 // import * as restaurantSelectors from "~/store/selectors/restaurant";
 
 // import { store } from "~/store";
+
+import {extractMessage} from "~/ui/utils";
 
 @translate("translations")
 @connect(
@@ -28,7 +31,7 @@ import * as authSelectors from "~/store/selectors/auth";
 	  filters: authSelectors.getFilters(state),
 	  config: authSelectors.getConfig(state)
   }),
-  { ...authActions, ...restaurantActions }
+  { ...authActions, ...restaurantActions, ...commonActions }
 )
 export default class extends Component {
   constructor(props) {
@@ -41,21 +44,20 @@ export default class extends Component {
   }
 
   loadMoreElement = async page => {
-    const { config, filters } = this.props;
+    const { config, filters, requestor, setToast } = this.props;
 
 	  let data = this.standardFilter(filters);
 	  if(config.searchStr) data['keyword'] = config.searchStr;
 
-	  try {
-	    const ret = await api.restaurant.searchOutlet(page, data);
-	    this.updateView(ret);
-
-	    if (page === 1) {
-        this.props.saveRestaurants(ret);
+    requestor("restaurant/searchOutlet", page, data, (err, ret)=>{
+      if(err){
+        setToast(extractMessage(err.message), "danger");
+        // show retry button
+      } else {
+        this.updateView(ret);  
       }
-    } catch (err) {
-      console.log(err);
-    }
+      
+    })
   };
 
   standardFilter = (filter) => {
@@ -86,8 +88,15 @@ export default class extends Component {
     this.setState({ hasMore: true, elements: [] });
   };
 
-	componentWillReceiveProps() {
-		this.removeSearchResult();
+  componentWillReceiveProps({config}) {
+    // console.log(config, this.props.config)
+    if(this.props.config.searchStr !== config.searchStr){
+      this.removeSearchResult();
+    }       
+  }
+
+	componentDidMount(){
+    this.props.onItemRef && this.props.onItemRef(this);
   }
 
   componentWillUnmount() {
