@@ -53,12 +53,14 @@ export default class extends Component {
       inputClass,
       buttonClass,
       onSearch,
+      prepend,
       ...props
     } = this.props;
     const { dropdownOpen } = this.state;
     return (
       <Dropdown isOpen={dropdownOpen} toggle={this.toggle} {...props}>
         <DropdownToggle className={classNames("bg-transparent w-100",buttonClass)} >
+          {prepend}
           <input
             type="text"
             placeholder={placeholder}

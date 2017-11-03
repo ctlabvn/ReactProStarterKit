@@ -81,6 +81,7 @@ export default class extends Component {
     }
     return (
       <Autocomplete
+        prepend={<i className="fa fa-search color-black-300 mr-2" />}
         value={config.searchStr}
         className="header-suggestion"
         buttonClass="border-0 mt-2"
