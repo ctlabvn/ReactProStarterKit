@@ -6,7 +6,8 @@ import { reactI18nextModule } from "react-i18next";
 import moment from "moment";
 import numeral from "numeral";
 
-import { VERSION } from "./store/constants/api";
+import {v4} from 'uuid';
+// import { VERSION } from "./store/constants/api";
 
 i18n
   .use(Backend)
@@ -21,7 +22,7 @@ i18n
 
     backend: {
       queryStringParams: {
-        v: VERSION
+        v: v4(),
       }
     },
 
@@ -45,5 +46,7 @@ i18n
       wait: true
     }
   });
+
+console.log(i18n)
 
 export default i18n;

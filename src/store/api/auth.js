@@ -1,7 +1,6 @@
 /* eslint-disable */
 import { apiPost, apiGet } from "~/store/api/common";
 
-import i18n from "~/i18n";
 
 export default {
   /**
@@ -22,7 +21,6 @@ export default {
     return apiPost("/customer/login", {
       email,
       password,
-      lang: i18n.language
     });
   },
 
@@ -31,7 +29,6 @@ export default {
     return apiPost("/customer/signup", {
       email,
       password,      
-      lang: i18n.language,
       ...extra
     });
   },
@@ -57,7 +54,6 @@ export default {
       customer_uuid,
       name,
       phone,
-      lang: i18n.language
     }, 'PUT');
   },
 
@@ -67,7 +63,6 @@ export default {
       customer_uuid,
       name,
       address,
-      lang: i18n.language
     });
   },
 
@@ -77,7 +72,6 @@ export default {
       cus_address_uuid,
       name,
       address,
-      lang: i18n.language
     }, 'PUT');
   },
 };

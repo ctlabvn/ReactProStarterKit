@@ -12,16 +12,45 @@ import "./index.css";
 import options from "./options";
 
 // selectors
+import api from "~/store/api";
 import * as authSelectors from "~/store/selectors/auth";
+import * as authActions from "~/store/actions/auth";
 
 @translate("translations")
-@connect(state => ({
-  isLogged: authSelectors.isLogged(state),
-  isHome: state.routing.location.pathname === "/restaurant"
-}))
+@connect(
+  state => ({
+    isLogged: authSelectors.isLogged(state),
+    config: authSelectors.getConfig(state),
+    isHome: state.routing.location.pathname === "/restaurant"
+  }),
+  authActions
+)
 export default class extends Component {
+  async componentWillMount() {
+    const { config, updateConfig } = this.props;
+    if (!config.languages) {
+      const ret = await api.setting.getSettingLanguages();
+      updateConfig("languages", ret.data);
+    }
+  }
+
+  renderLanguage() {
+    const { t, config, i18n } = this.props;
+    if (!config.languages) return t(`languages.${i18n.language}`);
+    const selectedItem = config.languages.find(item=>item.iso_code === i18n.language);
+    return (
+      <Dropdown title={selectedItem.name} className="dropup">
+        {config.languages.map(item => (
+          <a key={item.id} onClick={() => i18n.changeLanguage(item.iso_code)}>
+            {item.name}
+          </a>
+        ))}
+      </Dropdown>
+    );
+  }
+
   render() {
-    const { t, i18n, isHome } = this.props;
+    const { t, isHome } = this.props;
     return (
       <footer
         className={classNames("footer text-center menu-bottom bg-white", {
@@ -29,31 +58,16 @@ export default class extends Component {
         })}
       >
         <Menu className="text-capitalize">
-          <MenuItem
-            title={
-              <Dropdown
-                className="dropup"
-                title={t(`languages.${i18n.language}`)}
-              >
-                {options.locales.map(item => (
-                  <a key={item} onClick={() => i18n.changeLanguage(item)}>
-                    {t(`languages.${item}`)}
-                  </a>
-                ))}
-              </Dropdown>
-            }
-          />
-          <MenuItem link="/about" title={t('LINK.FOOTER.ABOUT_US')} />
-          <MenuItem link="/about" title={t('LINK.FOOTER.TECHNOLOGY')} />
-          <MenuItem link="/about" title={t('LINK.FOOTER.JOIN_US')} />
-          
+          <MenuItem title={this.renderLanguage()} />
+          <MenuItem link="/about" title={t("LINK.FOOTER.ABOUT_US")} />
+          <MenuItem link="/about" title={t("LINK.FOOTER.TECHNOLOGY")} />
+          <MenuItem link="/about" title={t("LINK.FOOTER.JOIN_US")} />
         </Menu>
         <Menu className="bottom">
           {options.items.map((item, index) => (
             <MenuItem key={index} link={item.link} title={t(item.title)} />
           ))}
         </Menu>
-        
       </footer>
     );
   }

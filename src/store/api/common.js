@@ -51,7 +51,9 @@ export const fetchJsonWithToken = (token, url, options = {}, ...args) => {
   );
 };
 
-const getExtendData = data => ({ ...data, lang: i18n.language });
+const sanitizeLanguage = lang => lang.replace(/^en[-_].*$/,'en');
+
+const getExtendData = data => ({ ...data, lang: sanitizeLanguage(i18n.language) });
 
 // default is get method, we can override header with method:PUT for sample
 export const apiCall = (url, options, token = null) =>

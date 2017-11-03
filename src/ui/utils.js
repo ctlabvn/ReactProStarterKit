@@ -74,11 +74,15 @@ export const setSelection = (el, selection) => {
   }
 };
 
-export const getCurrentLocation = () => {
-  const defaultCoords = { latitude: 21.0595054, longitude: 105.7787773 };
-  return new Promise(function(resolve, reject) {
-    if (window.location.hostname === "localhost") return resolve(defaultCoords);
+export const defaultCoords = (callback)=>{
+  fetch('http://www.geoplugin.net/json.gp').then(text=>text.json())
+    .then(json => callback({latitude:json.geoplugin_latitude, longitude: json.geoplugin_longitude}));
+};
 
+export const getCurrentLocation = () => {
+  // const defaultCoords = { latitude: 21.0595054, longitude: 105.7787773 };
+  return new Promise(function(resolve, reject) {
+    // if (window.location.hostname === "localhost") return resolve(defaultCoords);
     if (navigator.geolocation) {
       // Call getCurrentPosition with success and failure callbacks
       navigator.geolocation.getCurrentPosition(
@@ -88,12 +92,12 @@ export const getCurrentLocation = () => {
         function(ret) {
           // reject(ret)
           console.log(ret);
-          resolve(defaultCoords);
+          defaultCoords(defaultCoords=>resolve(defaultCoords));
         }
       );
     } else {
       alert("Sorry, your browser does not support geolocation services.");
-      resolve(defaultCoords);
+      defaultCoords(defaultCoords=>resolve(defaultCoords));
     }
   });
 };

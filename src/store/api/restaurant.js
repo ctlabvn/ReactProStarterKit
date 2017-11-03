@@ -1,6 +1,5 @@
 /* eslint-disable */
 import { apiGet, apiPost } from "./common";
-import i18n from "~/i18n";
 
 export const DEFAULT_PAGINATION = 20;
 export default {
@@ -42,7 +41,6 @@ export default {
   getSuggestion(keyword) {
     return apiGet("/restaurant/suggestion", {
       keyword,
-      lang: i18n.language,
       limit: 2
     });
   }

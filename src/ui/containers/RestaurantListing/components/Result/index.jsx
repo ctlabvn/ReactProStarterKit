@@ -28,6 +28,7 @@ import {extractMessage} from "~/ui/utils";
 @translate("translations")
 @connect(
   state => ({
+    language: authSelectors.getCustomer(state).language,
 	  filters: authSelectors.getFilters(state),
 	  config: authSelectors.getConfig(state)
   }),
@@ -88,9 +89,9 @@ export default class extends Component {
     this.setState({ hasMore: true, elements: [] });
   };
 
-  componentWillReceiveProps({config}) {
+  componentWillReceiveProps({config, language}) {
     // console.log(config, this.props.config)
-    if(this.props.config.searchStr !== config.searchStr){
+    if((this.props.config.searchStr !== config.searchStr) || (this.props.language !== language) ){
       this.removeSearchResult();
     }       
   }

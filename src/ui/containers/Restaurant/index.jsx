@@ -13,13 +13,13 @@ import { extractMessage } from "~/ui/utils";
 
 // store
 import api from "~/store/api";
-// import * as authSelectors from "~/store/selectors/auth";
+import * as authSelectors from "~/store/selectors/auth";
 import * as commonActions from "~/store/actions/common";
 
 import "./index.css";
 
 @connect(state => ({
-  // language: authSelectors.getCustomer(state).language,
+  language: authSelectors.getCustomer(state).language,
 }), commonActions)
 export default class extends Component {
   constructor(props) {
