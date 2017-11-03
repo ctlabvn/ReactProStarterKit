@@ -50,6 +50,7 @@ export default class extends Component {
   createOrder = async ()=>{
     const {customer, orderItems, orderInfo, 
       // address, 
+      updateOrderHistory,
       requestor, clearItems, setToast} = this.props;    
     // const addressItem = address.find(item=>item.cus_address_uuid === orderInfo.cus_address_uuid);
     const now = moment();
