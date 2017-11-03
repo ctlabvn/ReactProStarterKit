@@ -43,7 +43,8 @@ export default class extends Component {
 	render() {
 		const {t, outlet, item} = this.props;
 		const canAddOrder = checkOrderAvailable(outlet);
-
+		const showProductOptions = item.item_options && item.item_options.length > 0;
+		console.log({canAddOrder})
 		return (
 			<div>
 				<div className="row flex-nowrap d-flex flex-row justify-content-between pt-4 px-4 bg-white mt-5 w-100">
@@ -85,14 +86,14 @@ export default class extends Component {
 								symbol: item.currency && item.currency.symbol ? item.currency.symbol : ''
 							})}
 						</h3>
-						{!item.item_options && !!canAddOrder && <button className="btn btn-danger btn-lg"
+						{!showProductOptions && canAddOrder && <button className="btn btn-danger btn-lg"
 						                          onClick={() => this.addOrderItem(item)}>{t('BUTTON.ADD_TO_CART')}</button>}
 					</div>
 
 				</div>
 				<div className="row px-4 pb-4 bg-white w-100">
 					<div className="col-12">
-						{!!item.item_options && <ProductOptions options={item.item_options} currency={item.currency} canAddOrder={canAddOrder} item={item} />}
+						{showProductOptions && <ProductOptions options={item.item_options} currency={item.currency} canAddOrder={canAddOrder} item={item} />}
 						<div className="border border-white-300 border-right-0 border-left-0 border-bottom-0 mt-4 left-side-block">
 							<Menu className="menu-decorator text-uppercase">
 								{options.menuItems.map((item, index) =>

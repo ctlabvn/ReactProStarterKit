@@ -66,9 +66,10 @@ export default class extends Component {
 
   componentDidMount(){
     const {orderHistory} = this.props
-    if(!orderHistory || !orderHistory.length){
+    // always update
+    // if(!orderHistory || !orderHistory.length){
       this.searchOrder({});
-    }
+    // }
   }
 
   render() {
@@ -89,6 +90,7 @@ export default class extends Component {
 
           <Col className="d-flex col flex-column justify-content-end align-items-start">
             <Button
+              color="primary"
               disabled={submitting}
               onClick={handleSubmit(this.searchOrder)}
             >
@@ -102,7 +104,7 @@ export default class extends Component {
               <OrderItem
                 key={order.order_uuid}
                 order={order}
-                className="w-100  bg-dark color-white mt-4"
+                className="w-100 mt-4"
               />
             ))
           ) : (

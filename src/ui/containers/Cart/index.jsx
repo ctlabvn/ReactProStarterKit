@@ -479,9 +479,9 @@ export default class extends Component {
             </div>
           </div>
 
-          <div className="mt-5 mb-4 d-flex w-100 justify-content-end">
+          <div className="mt-5 mb-4 row justify-content-end">
             <Button
-              className="bg-red w-25 btn-lg btn-block text-uppercase"
+              className="bg-red w-25 btn-lg btn-block text-uppercase border-0"
               onClick={handleSubmit(this.saveOrderInfo)}
             >
               {t("BUTTON.PAY_NOW")}

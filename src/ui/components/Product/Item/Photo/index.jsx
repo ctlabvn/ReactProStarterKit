@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
+import Image from "~/ui/components/Image";
+
 import "./index.css";
 
 export default class ProductItemPhoto extends Component {
@@ -28,7 +30,7 @@ export default class ProductItemPhoto extends Component {
         )}
         {...props}
       >
-        <img width={imageSize} height={imageSize} src={image} alt="..." />
+        <Image width={imageSize} height={imageSize} src={image} alt="..." />
         <div className="w-100 flex-row d-flex justify-content-between color-black font-largest mt-2">
           <span>{title}</span>
           {price > 0 && (
