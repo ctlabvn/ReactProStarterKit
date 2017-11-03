@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
 import { 
@@ -13,9 +14,13 @@ import Image from "~/ui/components/Image";
 @translate("translations")
 export default class extends Component {
 
+  static propTypes = {
+    collapse: PropTypes.bool,
+  };
+
   static defaultProps = {
     collapse: false,
-  }
+  };
 
   constructor(props) {
     super(props);    
@@ -27,7 +32,7 @@ export default class extends Component {
   };
 
   render() {
-    const {t, order, ...props} = this.props;
+    const {t, order, collapse, ...props} = this.props;    
     return (      
       <div {...props}>
         <div style={{cursor:'pointer'}} onClick={this.toggle} className="w-100 border bg-red p-2  d-flex justify-content-between align-items-center">

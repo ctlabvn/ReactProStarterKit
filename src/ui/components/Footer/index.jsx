@@ -36,10 +36,11 @@ export default class extends Component {
 
   renderLanguage() {
     const { t, config, i18n } = this.props;
-    if (!config.languages) return t(`languages.${i18n.language}`);
+    const defaultLangName = t(`languages.${i18n.language}`);
+    if (!config.languages) return defaultLangName;
     const selectedItem = config.languages.find(item=>item.iso_code === i18n.language);
     return (
-      <Dropdown title={selectedItem.name} className="dropup">
+      <Dropdown title={selectedItem ? selectedItem.name : defaultLangName} className="dropup">
         {config.languages.map(item => (
           <a key={item.id} onClick={() => i18n.changeLanguage(item.iso_code)}>
             {item.name}
