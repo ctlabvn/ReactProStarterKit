@@ -5,7 +5,7 @@ import classNames from "classnames";
 import { getSiblings } from "~/ui/utils";
 import "./index.css";
 
-export default class extends Component {
+export default class MenuItem extends Component {
   static defaultProps = {
     activeClassName: "selected",
     active: false,

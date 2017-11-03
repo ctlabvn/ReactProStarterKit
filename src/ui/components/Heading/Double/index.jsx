@@ -1,16 +1,16 @@
 import React, { Component } from "react";
-// import PropTypes from "prop-types";
+import classNames from "classnames";
 
 import "./index.css";
 
-export default class extends Component {
+export default class HeadingDouble extends Component {
   render() {
-    const { leftTitle, rightTitle } = this.props;
+    const { leftTitle, rightTitle, className, ...props } = this.props;
     return (
-      <h3 className="d-flex flex-row justify-content-between font-large color-black border-bottom text-uppercase font-weight-bold pb-1">
+      <strong className={classNames("d-flex justify-content-between font-medium color-black border-bottom text-uppercase pb-1", className)} {...props}>
         <span>{leftTitle}</span>
         <span>{rightTitle}</span>
-      </h3>
+      </strong>
     );
   }
 }

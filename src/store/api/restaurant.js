@@ -2,7 +2,7 @@
 import { apiGet, apiPost } from "./common";
 
 export const DEFAULT_PAGINATION = 20;
-export default {
+const restaurant = {
   getOutlets(page = 1) {
     return apiGet("/restaurant/outlets", { page: page, pagination: DEFAULT_PAGINATION });
   },
@@ -27,6 +27,10 @@ export default {
     });
   },
 
+  getProductByCategories(categories_uuid) {    
+    return Promise.all(categories_uuid.map(category_uuid => restaurant.getProductByCategory(category_uuid)));
+  },
+
   getFeatureItem(outlet_uuid) {
     return apiGet("/restaurant/featured/items", {
       outlet_uuid: outlet_uuid,
@@ -45,3 +49,5 @@ export default {
     });
   }
 };
+
+export default restaurant;

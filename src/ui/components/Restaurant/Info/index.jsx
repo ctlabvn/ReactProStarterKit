@@ -6,7 +6,7 @@ import { getTodayString } from "~/store/utils/datetime";
 import { parseJsonToObject } from "~/store/utils/json";
 
 @translate('translations')
-export default class extends Component {
+export default class RestaurantInfo extends Component {
 	static propTypes = {
 		outlet: PropTypes.object
 	};

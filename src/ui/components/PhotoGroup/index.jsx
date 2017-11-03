@@ -7,7 +7,7 @@ import classNames from "classnames";
 
 import "./index.css";
 
-export default class extends Component {
+export default class PhotoGroup extends Component {
   static propTypes = {
     images: PropTypes.array
   };

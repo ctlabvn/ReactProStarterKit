@@ -4,7 +4,7 @@ import classNames from "classnames";
 
 import "./index.css";
 
-export default class extends Component {
+export default class ProductItemPhoto extends Component {
   static propTypes = {
     title: PropTypes.string,
     price: PropTypes.number,

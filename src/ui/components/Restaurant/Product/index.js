@@ -9,7 +9,7 @@ import ProductGroup from "~/ui/components/Product/Group";
 import IconLoading from "~/ui/components/Loading/icon";
 
 @translate('translations')
-export default class extends Component {
+export default class RestaurantProduct extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {

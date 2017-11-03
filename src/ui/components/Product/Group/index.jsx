@@ -10,7 +10,7 @@ import ProductItem from "~/ui/components/Product/Item";
 import "./index.css";
 
 @translate("translations")
-export default class extends Component {
+export default class ProductGroup extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -65,7 +65,7 @@ export default class extends Component {
 
     return (
       <div className="container">
-        {displayHeader && products.length > 0 && <h2 className="mb-3">{name}</h2>}
+        {displayHeader && products.length > 0 && <strong className="text-uppercase mb-3 color-black-300 w-100 float-left">{name}</strong>}
         {products.length > 0
           ? products.map((item, index) => (
               <ProductItem

@@ -12,7 +12,7 @@ import Image from "~/ui/components/Image";
 import "./index.css";
 
 @translate('translations')
-export default class extends Component {
+export default class RestaurantItemPhoto extends Component {
   static propTypes = {
 	  restaurant: PropTypes.object,
     uuid: PropTypes.string,

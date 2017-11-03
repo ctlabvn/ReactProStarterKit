@@ -15,21 +15,24 @@ import Slider from "~/ui/components/Slider";
 import RestaurantProduct from "~/ui/components/Restaurant/Product";
 import Image from "~/ui/components/Image";
 
+import * as commonActions from "~/store/actions/common";
 import * as orderActions from "~/store/actions/order";
 import * as orderSelectors from "~/store/selectors/order";
 // import * as restaurantValidation from "~/store/utils/validation/restaurant";
 
-import api from "~/store/api";
+// import api from "~/store/api";
 import "./index.css";
 
 import { checkOrderAvailable } from "~/store/utils/validation/restaurant";
+
+import { extractMessage } from "~/ui/utils";
 
 @translate("translations")
 @connect(
   state => ({
     orderInfo: orderSelectors.getInfo(state)
   }),
-  orderActions
+  {...commonActions, ...orderActions}
 )
 export default class extends Component {
   constructor(props) {
@@ -51,26 +54,45 @@ export default class extends Component {
   };
 
   loadProducts = async parentCategory => {
+    const { requestor, setToast } = this.props;
     const { treeCategory } = this.state;
+    const products = {};
     const childCategories = treeCategory[parentCategory];
 
-    this.setState({ isLoadingItem: true, products: {} });
+    this.setState({ isLoadingItem: true, products });
 
-    for (const currentCategoryUuid of childCategories) {
-      api.restaurant.getProductByCategory(currentCategoryUuid).then(
-        ret => {
-          this.setState(prevState => {
-            let products = prevState.products;
-            if (ret.data.data) {
-              products[currentCategoryUuid] = ret.data.data;
-            }
-            return { products: products };
-          });
-          this.setState({ isLoadingItem: false });
-        },
-        err => console.log(err)
-      );
-    }
+    requestor("restaurant/getProductByCategories", childCategories, (err, ret)=>{
+      // console.log(err, ret);
+      if(err){
+        setToast(extractMessage(err.message), "danger");
+      } else if(ret) {
+        ret.forEach(item=>item.data.data.forEach(product=>{
+          if(!products[product.category_uuid]){
+            products[product.category_uuid] = [];
+          }
+          products[product.category_uuid].push(product);
+        }))
+
+        this.setState({ isLoadingItem: false, products });
+      }
+    })
+    
+
+    // for (const currentCategoryUuid of childCategories) {
+    //   api.restaurant.getProductByCategory(currentCategoryUuid).then(
+    //     ret => {
+    //       this.setState(prevState => {
+    //         let products = prevState.products;
+    //         if (ret.data.data) {
+    //           products[currentCategoryUuid] = ret.data.data;
+    //         }
+    //         return { products: products };
+    //       });
+    //       this.setState({ isLoadingItem: false });
+    //     },
+    //     err => console.log(err)
+    //   );
+    // }
   };
 
   showLoading = () => (
@@ -126,25 +148,44 @@ export default class extends Component {
     });
   };
 
+  getCategories(outlet_uuid, page) {
+    const {requestor, setToast} = this.props;
+    return new Promise((resolve, reject)=>{
+      requestor('restaurant/getCategories',outlet_uuid, page, (err, ret)=>{
+        if(err) {
+          setToast(extractMessage(err.message), 'danger');
+          resolve(null)
+        } else {
+          resolve(ret)
+        }
+      })
+    })    
+  }
+
   loadCategories = async () => {
     let categories = [];
     const { outlet } = this.props;
     var hasMore = true,
       page = 1;
+
+
+
     while (hasMore) {
-      var retOutletCaterogies = await api.restaurant.getCategories(
+      var retOutletCaterogies = await this.getCategories(
         outlet.outlet_uuid,
         page
       );
-      hasMore =
+      hasMore = retOutletCaterogies &&
         retOutletCaterogies.data.last_page >
         retOutletCaterogies.data.current_page;
       // update gradually
-      categories = categories.concat(retOutletCaterogies.data.data);
-      this.setState({
-        categories
-      });
-      page++;
+      if(retOutletCaterogies.data){
+        categories = categories.concat(retOutletCaterogies.data.data);
+        this.setState({
+          categories
+        });
+        page++;
+      } 
     }
   };
 
@@ -221,6 +262,7 @@ export default class extends Component {
                 .map((item, index) => {
                   return (
                     <MenuItem
+                      className="text-uppercase font-weight-bold"
                       onClick={() => this.handleCategory(item.category_uuid)}
                       key={item.category_uuid}
                       title={item.name}

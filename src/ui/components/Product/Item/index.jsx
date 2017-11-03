@@ -13,7 +13,7 @@ import Image from "~/ui/components/Image";
 import "./index.css";
 
 @translate("translations")
-export default class extends Component {
+export default class ProductItem extends Component {
   static propTypes = {
     itemUuid: PropTypes.string,
     title: PropTypes.string,
@@ -65,6 +65,7 @@ export default class extends Component {
           <div className="flex-column d-flex ml-3 w-100">
             <Link to={`/item/${itemUuid}`}>
               <HeadingDouble
+                className="color-black-300"
                 leftTitle={title}
                 rightTitle={t("format.currency", {
 							    price: totalPrice,
