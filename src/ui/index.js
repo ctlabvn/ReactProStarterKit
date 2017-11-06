@@ -13,8 +13,8 @@ import Restaurant from "./containers/Restaurant";
 import Item from "./containers/Item";
 import RestaurantListing from "./containers/RestaurantListing";
 import Cart from "./containers/Cart";
-import CustomerProfile from "./containers/Customer/Profile";
-import Order from "./containers/Customer/Order";
+import Customer from "./containers/Customer";
+// import Order from "./containers/Customer/Order";
 import Checkout from "./containers/Checkout";
 import PasswordReset from "./containers/PasswordReset";
 
@@ -34,8 +34,7 @@ const Root = ({ store, history }) => (
           <Route exact path="/restaurant/:uuid" component={Restaurant} />
           <Route exact path="/item/:uuid" component={Item} />
           <Route exact path="/restaurant" component={RestaurantListing} />          
-          <Route exact path="/customer/profile" component={CustomerProfile} />
-          <Route exact path="/customer/order" component={Order} />
+          <Route path="/customer" component={Customer} />          
           <Route exact path="/password-reset" component={PasswordReset} />
           <Route component={NotFound} />
         </Switch>        

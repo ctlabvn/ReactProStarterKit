@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
 import { 
@@ -35,9 +36,9 @@ export default class extends Component {
     const {t, order, collapse, ...props} = this.props;    
     return (      
       <div {...props}>
-        <div style={{cursor:'pointer'}} onClick={this.toggle} className="w-100 border bg-red p-2  d-flex justify-content-between align-items-center">
+        <div style={{cursor:'pointer'}} onClick={this.toggle} className="w-100 p-2  d-flex justify-content-between align-items-center">
           
-          <Link className="color-white" to={`/restaurant/${order.outlet.uuid}`}>
+          <Link to={`/restaurant/${order.outlet.uuid}`}>
             <span className="font-weight-bold mr-2">{order.outlet.name}</span>
             <span>( {order.order.created_at} )</span>
           </Link>          
@@ -50,10 +51,11 @@ export default class extends Component {
             <ButtonRound className="ml-2" icon={this.state.collapse ? "plus" : "minus"}/> 
           </strong>  
 
-        </div>        
-        <Collapse className="p-2" isOpen={!this.state.collapse}>
+        </div>   
+        <hr/>     
+        <Collapse className={classNames("p-2 flex-wrap", {"d-flex":!this.state.collapse})} isOpen={!this.state.collapse}>
         {order.items.map(item => (
-          <div className="d-flex flex-column mb-4 col-md-3 float-left" key={item.id}>            
+          <div className="d-flex flex-column mb-4 col-md-3" key={item.id}>            
             <Link className="color-black-300" to={`/item/${item.id}`}>
               <span className="w-100 float-left">({item.qty}x) {item.name}</span>
               <Image width={120} alt="..." 
@@ -66,7 +68,7 @@ export default class extends Component {
               })}
             </div>
           </div>
-        ))}      
+        ))}               
         </Collapse>  
       </div>
     );

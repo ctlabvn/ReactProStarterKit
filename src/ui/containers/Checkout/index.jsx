@@ -84,7 +84,7 @@ export default class extends Component {
       },
       // The request time for delivery in minutes. 
       request_time,
-      order_type: orderInfo.order_type,
+      order_type: orderInfo.order_type || ORDER_TYPE.DELIVERY,
       order_note: orderInfo.order_note,
     }
     // console.log(data);
