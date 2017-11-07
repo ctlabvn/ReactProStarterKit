@@ -69,7 +69,7 @@ export default class ProductGroup extends Component {
         {products.length > 0
           ? products.map((item, index) => (
               <ProductItem
-                className="col-md-6 float-left pl-0 pr-5 mb-4"
+                className="col-md-6 float-left pl-0 pr-5 mb-5"
                 description={item.description}
                 key={index}
                 price={item.default_price}

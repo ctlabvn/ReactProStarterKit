@@ -59,8 +59,7 @@ export default class ProductItem extends Component {
 			    {image && <Image
             style={{ width: imageSize, height: imageSize }}
             src={image}
-            alt="..."
-            className="rounded-circle"
+            alt="..."            
           />}
           <div className="flex-column d-flex ml-3 w-100">
             <Link to={`/item/${itemUuid}`}>
