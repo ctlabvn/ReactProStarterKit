@@ -45,10 +45,10 @@ export default class extends Component {
     const childrenWithProps = React.Children.map(children, child => (
       <div
         className="slide"
-        // style={{
-        //   flex: `0 0 ${width}%`,
-        //   maxWidth: `${width}%`
-        // }}
+        style={{
+          flex: `0 0 ${width}%`,
+          maxWidth: `${width}%`
+        }}
       >
         {child}
       </div>

@@ -47,7 +47,15 @@ const restaurant = {
       keyword,
       limit: 2
     });
-  }
+  },
+
+  getProductFeatured(outlet_uuid, featured=1) {
+    return apiGet("/restaurant/featured/items", {
+      outlet_uuid,
+      featured,
+      pagination: DEFAULT_PAGINATION
+    });
+  },
 };
 
 export default restaurant;

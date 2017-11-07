@@ -6,6 +6,7 @@ import { translate } from "react-i18next";
 
 import { Col } from "reactstrap";
 import ProductGroup from "~/ui/components/Product/Group";
+import EmptyResult from "~/ui/components/EmptyResult";
 import IconLoading from "~/ui/components/Loading/icon";
 
 @translate('translations')
@@ -54,7 +55,7 @@ export default class RestaurantProduct extends Component {
 						}
 					</div>
 				) : (
-					<IconLoading />
+					<EmptyResult />
 				)}
 			</Col>
 		);

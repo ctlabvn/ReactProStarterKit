@@ -1,4 +1,4 @@
-import { call, put, take, race } from 'redux-saga/effects'
+import { call, put, take, race, takeEvery, takeLatest } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 
 import { 
@@ -159,4 +159,9 @@ export const createRequestSaga = ({request, key, start, stop, success, failure, 
       } 
     }
   }
+}
+
+export const takeRequest = (signal, request, multiple=false)=>{
+  const requestSaga = createRequestSaga({request});
+  return multiple ? takeEvery(signal, requestSaga) : takeLatest(signal, requestSaga);
 }
