@@ -36,7 +36,7 @@ export default class extends Component {
     );
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className={className} {...props}>
-        <DropdownToggle caret nav className="text-capitalize color-black">
+        <DropdownToggle caret nav>
           {title}
         </DropdownToggle>
         <DropdownMenu>{childrenWithProps}</DropdownMenu>

@@ -40,7 +40,7 @@ export default class extends Component {
     if (!config.languages) return defaultLangName;
     const selectedItem = config.languages.find(item=>item.iso_code === i18n.language);
     return (
-      <Dropdown title={selectedItem ? selectedItem.name : defaultLangName} className="dropup">
+      <Dropdown title={selectedItem ? selectedItem.name : defaultLangName} className="dropup text-uppercase">
         {config.languages.map(item => (
           <a key={item.id} onClick={() => i18n.changeLanguage(item.iso_code)}>
             {item.name}
@@ -58,7 +58,7 @@ export default class extends Component {
           "fixed-bottom": isHome
         })}
       >
-        <Menu className="text-capitalize">
+        <Menu className="text-uppercase">
           <MenuItem title={this.renderLanguage()} />
           <MenuItem link="/about" title={t("LINK.FOOTER.ABOUT_US")} />
           <MenuItem link="/about" title={t("LINK.FOOTER.TECHNOLOGY")} />
