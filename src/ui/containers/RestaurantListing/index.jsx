@@ -4,8 +4,8 @@ import React, { Component } from "react";
 import Filter from "./components/Filter";
 import Result from "./components/Result";
 
-// store
-// import api from "~/store/api";
+
+import { parseQuery } from "~/ui/utils";
 
 import "./index.css";
 
@@ -17,10 +17,12 @@ export default class extends Component {
   };
 
   render() {
+    const {location} = this.props;
+    const options = parseQuery(location);
     return (
       <div>
         <Filter onUpdateFilter={this.onUpdateFilter}/>
-        <Result onItemRef={ref=>this.result=ref}/>
+        <Result tags={options.tags} onItemRef={ref=>this.result=ref}/>
       </div>
     )
   }

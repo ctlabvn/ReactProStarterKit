@@ -160,3 +160,14 @@ export const calculateOrderPrice = (items, {consumer_discounts, consumer_taxes, 
 
   return {total, subtotal, tax, discount, fee: delivery_fee};
 }
+
+export const parseQuery = (location) => {
+    const query = location.search.substring(1);
+    const vars = query.split('&');
+    const ret = {};
+    for (let i = 0; i < vars.length; i++) {
+        const [key, value] = vars[i].split('=');
+        ret[key] = decodeURIComponent(value);
+    }
+    return ret;    
+}

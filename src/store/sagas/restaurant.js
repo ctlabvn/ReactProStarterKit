@@ -28,6 +28,7 @@ export default [
       takeRequest("restaurant/getProductByCategory", api.restaurant.getProductByCategory),
       takeRequest("restaurant/getProductByCategories", api.restaurant.getProductByCategories),
       takeRequest("restaurant/getProductFeatured", api.restaurant.getProductFeatured),
+      takeRequest("restaurant/getRestaurantTag", api.restaurant.getRestaurantTag),
     ]);
   }
 ];

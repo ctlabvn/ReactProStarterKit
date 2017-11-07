@@ -45,11 +45,11 @@ export default class extends Component {
   }
 
   loadMoreElement = async page => {
-    const { config, filters, requestor, setToast } = this.props;
+    const { config, filters, requestor, setToast, tags } = this.props;
 
 	  let data = this.standardFilter(filters);
-	  if(config.searchStr) data['keyword'] = config.searchStr;
-
+	  if(config.searchStr) data['keyword'] = config.searchStr;    
+    if(tags) data.tags = tags;
     requestor("restaurant/searchOutlet", page, data, (err, ret)=>{
       if(err){
         setToast(extractMessage(err.message), "danger");
