@@ -37,7 +37,7 @@ export default class extends Component {
             </span>
           </nav>
 
-          <h2 className="font-weight-bold text-capitalize">{outlet.name}</h2>
+          <h4 className="font-weight-bold text-uppercase color-black-400">{outlet.name}</h4>
 
           <div className="flex-row d-flex justify-content-between">
             <RestaurantInfo outlet={outlet} />
@@ -55,10 +55,9 @@ export default class extends Component {
 
           <div className="border border-white-300 border-right-0 border-left-0 border-bottom-0 mt-4 left-side-block">
             <Menu className="menu-decorator text-uppercase">
-            {options.menuItems.map((item, index) => {              
-              const title = <span>{t(item.name)} <span className="color-gray">({outlet.total_items})</span></span>;
-              return <MenuItem active={index === 0} title={title} key={index} classToggle="restaurant-tab" idToggle={item.id} />
-            })}
+            {options.menuItems.map((item, index) =>                 
+              <MenuItem active={index === 0} title={<strong className="color-black">{t(item.name)}</strong>} key={index} classToggle="restaurant-tab" idToggle={item.id} />
+            )}
             </Menu>
           </div>
 

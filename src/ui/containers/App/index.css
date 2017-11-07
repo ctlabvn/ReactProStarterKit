@@ -86,6 +86,10 @@ a:hover {
   color: $black-color-300;
 }
 
+.color-black-400{
+  color: $black-color-400;
+}
+
 .font-medium{
   font-size: 14px;
 }

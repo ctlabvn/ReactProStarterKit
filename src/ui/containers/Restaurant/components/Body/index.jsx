@@ -197,11 +197,13 @@ export default class extends Component {
 
     return (
       <div className="mb-4">
-        <Slider className="mt-2" num={6} move={1}>
+        <Slider className="mt-2" num={5} move={1}>
           {features.map((item, index) => (
             <Link to={`/item/${item.item_uuid}`} key={index}>
               <ProductItemPhoto
-                price={10}
+                className="color-gray font-medium text-uppercase font-weight-bold"
+                priceUnit={item.currency.symbol}
+                price={item.default_price}
                 title={item.name}
                 image={
                   item.gallery
@@ -270,6 +272,12 @@ export default class extends Component {
           className={classNames("row block bg-white mb-4 mt-5", toggleClass)}
           id="restaurant-body"
         >
+
+          <h5 className="mb-2">
+            <strong className="text-uppercase color-black">All products</strong> 
+            <span className="color-gray font-weight-normal"> ({outlet.total_items})</span>
+          </h5>
+
           {this.renderFeatured(features)}
 
           <div className="mt-3 row w-100">

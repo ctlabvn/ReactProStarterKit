@@ -8,6 +8,7 @@
 
   .slide-content{    
     overflow: hidden;
+    max-width: 1080px;
     .slide-content-inner{
       margin-left: -15px;
       overflow: visible !important;

@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { translate } from "react-i18next";
-import './index.css';
+
+import Image from "~/ui/components/Image";
+
 import { getTodayString } from "~/store/utils/datetime";
 import { parseJsonToObject } from "~/store/utils/json";
+import './index.css';
 
 @translate('translations')
 export default class RestaurantInfo extends Component {
@@ -36,7 +39,7 @@ export default class RestaurantInfo extends Component {
 		return (
 			<span {...props}>
 				{outlet.logo &&
-					<img className="rounded mr-4 img-logo" src={outlet.logo} alt="" />
+					<Image className="rounded mr-2 img-logo" src={outlet.logo} alt="" />
 				}
 				{metadata.join(" | ")}
 			</span>

@@ -64,7 +64,7 @@ export default class extends Component {
             </span>
 						</nav>
 
-						<h2 className="font-weight-bold text-uppercase">{item.name}</h2>
+						<h4 className="font-weight-bold text-uppercase color-black-400">{item.name}</h4>
 
 						<div className="flex-row d-flex justify-content-between">
 							<RestaurantInfo outlet={outlet}/>
