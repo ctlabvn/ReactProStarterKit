@@ -48,7 +48,7 @@ export default class extends Component {
               price: order.order.price,
               symbol: order.outlet.currency.symbol
             })}
-            <ButtonRound className="ml-2" icon={this.state.collapse ? "plus" : "minus"}/> 
+            <ButtonRound className="ml-2" icon={this.state.collapse ? "chevron-down" : "chevron-up"}/> 
           </strong>  
 
         </div>   

@@ -44,7 +44,6 @@ export default class extends Component {
 		const {t, outlet, item} = this.props;
 		const canAddOrder = checkOrderAvailable(outlet);
 		const showProductOptions = item.item_options && item.item_options.length > 0;
-		console.log({canAddOrder})
 		return (
 			<div>
 				<div className="row flex-nowrap d-flex flex-row justify-content-between pt-4 px-4 bg-white mt-5 w-100">
@@ -93,7 +92,7 @@ export default class extends Component {
 				</div>
 				<div className="row px-4 pb-4 bg-white w-100">
 					<div className="col-12">
-						{showProductOptions && <ProductOptions options={item.item_options} currency={item.currency} canAddOrder={canAddOrder} item={item} />}
+						{showProductOptions && <ProductOptions canAddOrder={canAddOrder} item={item} />}
 						<div className="border border-white-300 border-right-0 border-left-0 border-bottom-0 mt-4 left-side-block">
 							<Menu className="menu-decorator text-uppercase">
 								{options.menuItems.map((item, index) =>
