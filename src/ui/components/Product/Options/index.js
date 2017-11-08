@@ -20,6 +20,11 @@ export default class ProductOptions extends Component {
 	static propTypes = {
 		item: PropTypes.object,
 		onAddOrderItem: PropTypes.func.isRequired,
+		inline: PropTypes.bool,
+	};
+
+	static defaultProps = {
+	  inline: true,
 	};
 
 	handleSubmit = () => {
@@ -28,8 +33,7 @@ export default class ProductOptions extends Component {
 			spanTag.innerText = "";
 		}
 		// validate mandatory
-		let validateResult = this.validateMandatory();
-
+		const validateResult = this.validateMandatory();
 		if (validateResult) {
 			// save into order
 			this.props.onAddOrderItem(this.props.item, this.getOptionsUUID());			
@@ -47,24 +51,27 @@ export default class ProductOptions extends Component {
 			.reduce((a, b) => a.concat(b), []);		
 	}
 
+	getTotalPrice(){
+		return Object.values(this.state.form).map(set=>Object.keys(set).filter(key=>set[key]).reduce((a, b)=>a+set[b].price,0))
+			.reduce((a, b) => a + b, 0);		
+	}
+
 	validateMandatory(showError = true) {
 		const { item } = this.props;		
-		const { form } = this.state;
-		let validateResult = true;
-		
+		const { form } = this.state;		
 		for (let parent of item.item_options) {
 			if (parent.optionSet && parent.mandatory) {
 				// check state and show alert message
-				if (this.checkObjectFalse(form[parent.opt_set_uuid])) {
-					validateResult = false;
+				if (this.checkObjectFalse(form[parent.opt_set_uuid])) {					
 					if (showError) {
 						document.querySelector("#error-" + parent.opt_set_uuid).innerText =
 							"Error, this is mandatory!";
 					}
+					return false;
 				}
 			}
 		}
-		return validateResult;
+		return true;
 	}
 
 	checkObjectFalse(obj) {
@@ -117,16 +124,17 @@ export default class ProductOptions extends Component {
 	};
 
 	renderOption(symbol, parent, t) {
+		const {inline} = this.props;
 		const inputType = parent.multiple_choice ? "checkbox" : "radio";
 		const parentFormState = this.state.form[parent.opt_set_uuid];
 		return (
-			<div className="col-10 row">
+			<div className={classNames(inline?"col-10": "col-12","row")}>
 				{parent.optionSet.map((child, index) => {
 					const inputName = parent.multiple_choice
 						? `data[${parent.id}][${child.id}]`
 						: `data[${parent.id}]`;
 					return (
-						<div className="col-3" key={index}>
+						<div className={classNames(inline?"col-3": "col-12")} key={index}>
 							<p>
 								<input
 									key={child.option_uuid}
@@ -160,13 +168,13 @@ export default class ProductOptions extends Component {
 	}
 
 	render() {
-		const { t, item, canAddOrder } = this.props;		
+		const { t, item, canAddOrder, inline } = this.props;		
 		const { disableAddToCart } = this.state;		
 		return (
 			<div>
 				{item.item_options.map((parent, index) => (
 					<div className={classNames("row my-3", {"border-bottom":index < item.item_options.length -1})} key={parent.opt_set_uuid}>
-						<div className="col-2">
+						<div className={classNames(inline?"col-2": "col-12")}>
 							<span className={classNames({"border-bottom border-danger" : parent.mandatory})}>
 								{parent.name}
 							</span>
@@ -181,9 +189,20 @@ export default class ProductOptions extends Component {
 						</div>
 					</div>
 				))}
+				{!inline && 
+					<div className="float-right mb-3">
+						<strong>Total</strong>
+						<span className="ml-2 color-red">
+							{t("format.currency", {
+											price: this.getTotalPrice(),
+											symbol: item.currency.symbol
+										})}
+							</span>
+					</div>
+				}
 				<div className="form-group text-right">					
 						{canAddOrder && <button
-							className="btn btn-danger btn-lg"
+							className={classNames("btn btn-danger", inline ? "btn-lg" : "btn-block btn-sm")} 
 							disabled={disableAddToCart}
 							onClick={() => this.handleSubmit()}
 						>

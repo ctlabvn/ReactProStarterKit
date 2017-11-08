@@ -16,7 +16,7 @@ import "./index.css";
 export default class ProductItem extends Component {
   static propTypes = {
     itemUuid: PropTypes.string,
-    title: PropTypes.string,
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     price: PropTypes.number,
     description: PropTypes.string,
     priceUnit: PropTypes.string,
@@ -45,7 +45,7 @@ export default class ProductItem extends Component {
       itemUuid,
       quantity,
       onIncrease,
-      onDecrease,
+      onDecrease,      
       t,
 	    displayItem
     } = this.props;
@@ -53,7 +53,7 @@ export default class ProductItem extends Component {
     const totalPrice = price * quantity;
     if(displayItem) {
 	    return (
-        <div
+        <div          
           className={classNames("d-flex flex-row align-items-center", className)}
         >
 			    {image && <Image

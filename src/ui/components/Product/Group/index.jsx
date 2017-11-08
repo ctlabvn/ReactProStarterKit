@@ -5,7 +5,10 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 // import { connect } from "react-redux";
 
+import {PopoverHeader, PopoverBody, Popover} from "reactstrap";
+
 import ProductItem from "~/ui/components/Product/Item";
+import ProductOptions from "~/ui/components/Product/Options";
 
 import "./index.css";
 
@@ -14,7 +17,8 @@ export default class ProductGroup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayHeader: true
+      displayHeader: true,
+      selectedItem: null,
     };
   }
 
@@ -34,12 +38,11 @@ export default class ProductGroup extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.handleSearch(nextProps);
+  componentWillReceiveProps({term}) {
+    this.handleSearch(term);
   }
 
-  handleSearch = nextProps => {
-    const term = nextProps.term;
+  handleSearch = term => {    
     const regex = new RegExp(term, "gmiu");
     const { products } = this.props;
 
@@ -59,6 +62,33 @@ export default class ProductGroup extends Component {
     });
   };
 
+  processAddOrder = (item, onAddOrder)=>{
+    // console.log(item.item_options);
+    if(!!item.currency && onAddOrder){
+      if(item.item_options && item.item_options.length){
+        this.setState({
+          selectedItem: item,
+        });
+      } else {
+        onAddOrder(item);
+      }     
+    }     
+  };
+
+  renderPopover(onAddOrder){
+    const item = this.state.selectedItem;
+    if(item && onAddOrder) {
+      return (
+        <Popover placement="bottom" isOpen={true} target={`product-${item.item_uuid}`} toggle={()=>this.setState({selectedItem:null})}>
+            <PopoverHeader>{item.title}</PopoverHeader>
+            <PopoverBody>
+              <ProductOptions inline={false} onAddOrderItem={(item, item_options)=>onAddOrder({...item, item_options})} canAddOrder={true} item={item} />
+            </PopoverBody>
+          </Popover>        
+      );
+    }
+  }  
+
   render() {
     const { name, products, onAddOrder } = this.props;
     const { displayHeader } = this.state;
@@ -67,29 +97,27 @@ export default class ProductGroup extends Component {
       <div className="row">
         {displayHeader && products.length > 0 
           && <strong className="text-uppercase mb-3 color-black-300 col-md-12">{name}</strong>}
-        {products.length > 0
-          ? products.map((item, index) => (
-              <ProductItem
-                className={classNames("col-md-6 mb-5", {"pl-5": index % 2 === 1})}
-                description={item.description}
-                key={index}
+        {products && products.map((item, index) =>     
+            <div key={item.item_uuid} className={classNames("col-md-6 mb-5", {"pl-5": index % 2 === 1})}>
+              <ProductItem                
+                description={item.description}                                
                 price={item.default_price}
                 priceUnit={
                   item.currency && item.currency.symbol
                     ? item.currency.symbol
                     : ""
                 }
-                title={item.name}
+                title={<span id={`product-${item.item_uuid}`}>{item.name}</span>}
                 image={this.getProductImage(item.gallery)}
                 itemUuid={item.item_uuid}
-                onIncrease={!!item.currency && onAddOrder ? () => onAddOrder(item) : null}
+                onIncrease={()=>this.processAddOrder(item, onAddOrder)}
                 displayItem={
                   typeof item.display !== "undefined" ? !!item.display : true
                 }
-              />
-            ))
-          : ""}
-        <div className="clearfix" />
+              /> 
+            </div>           
+            )}        
+          {this.renderPopover(onAddOrder)}
       </div>
     );
   }

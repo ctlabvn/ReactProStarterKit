@@ -91,7 +91,7 @@ export default class extends Component {
     </div>
   );
 
-  addOrderItem = item => {
+  addOrderItem = (item, item_options=[]) => {
     const {
       orderInfo,
       outlet,
@@ -112,8 +112,7 @@ export default class extends Component {
     }
 
     const {
-      default_price,
-      item_options,
+      default_price,      
       item_uuid,
       currency,
       name,
