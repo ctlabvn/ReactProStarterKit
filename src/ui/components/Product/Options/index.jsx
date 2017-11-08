@@ -4,7 +4,11 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
+import {FormGroup, Label, Input} from "reactstrap";
+
 import * as orderActions from "~/store/actions/order";
+
+import "./index.css";
 
 @translate("translations")
 @connect(null, orderActions)
@@ -102,7 +106,7 @@ export default class ProductOptions extends Component {
 		this.resetFormTree();
 	}
 
-	handleChange = (parentUuid, child, multiChoice) => {
+	handleChange = (parentUuid, child, multiChoice) => {		
 		const { disableAddToCart, form } = this.state;
 		if (disableAddToCart) {
 			this.setState({
@@ -134,12 +138,9 @@ export default class ProductOptions extends Component {
 						? `data[${parent.id}][${child.id}]`
 						: `data[${parent.id}]`;
 					return (
-						<div className={classNames(inline?"col-3": "col-12")} key={index}>
-							<p>
-								<input
-									key={child.option_uuid}
-									id={child.option_uuid}
-									name={inputName}
+								<FormGroup className={classNames(inline?"col-3": "col-12")} key={index} check>
+            <Label className="font-weight-bold text-uppercase color-black-300" check>
+              <Input name={inputName}
 									checked={parentFormState ? !!parentFormState[child.option_uuid] : false}
 									onChange={() =>
 										this.handleChange(
@@ -148,9 +149,9 @@ export default class ProductOptions extends Component {
 											parent.multiple_choice
 										)}
 									type={inputType}
-									className="mr-1"
-								/>
-								<label htmlFor={child.option_uuid}>{child.name}</label>
+									/>{' '}
+              {child.name}
+              <br/>
 								{child.price > 0 && (
 									<small className="badge badge-danger">
 										{t("format.currency", {
@@ -159,9 +160,9 @@ export default class ProductOptions extends Component {
 										})}
 									</small>
 								)}
-							</p>
-						</div>
-					);
+            </Label>
+          </FormGroup>
+          );
 				})}
 			</div>
 		);
@@ -175,9 +176,9 @@ export default class ProductOptions extends Component {
 				{item.item_options.map((parent, index) => (
 					<div className={classNames("row my-3", {"border-bottom":index < item.item_options.length -1})} key={parent.opt_set_uuid}>
 						<div className={classNames(inline?"col-2": "col-12")}>
-							<span className={classNames({"border-bottom border-danger" : parent.mandatory})}>
-								{parent.name}
-							</span>
+							<strong className={classNames("group-label text-uppercase border-bottom", parent.mandatory ? "border-red color-red" : "border-gray-300 color-gray-300")}>
+								{parent.name}{parent.mandatory ? '*' : ''}
+							</strong>
 						</div>
 						{!!parent.optionSet &&
 							this.renderOption(item.currency.symbol, parent, t)}

@@ -134,6 +134,18 @@ a:hover {
   background-color: $red-color;
 }
 
+.border-red{
+  border-color: $red-color!important;
+}
+
+.border-gray{
+  border-color: $gray-color!important;
+}
+
+.color-gray-300{
+  color: $gray-color-300;
+}
+
 .border-white-300{
   border-color: $white-color-300;
 }

@@ -70,15 +70,17 @@ export default class extends Component {
         <div
           key={item.item_uuid}
           className="d-flex flex-row p-2 border border-left-0 border-top-0 border-right-0">          
-            <Link className="flex-column d-flex col-md-5 p-0 align-items-start" to={`/item/${item.item_uuid}`}>
+            <Link className="flex-column d-flex col-md-8 p-0 align-items-start" to={`/item/${item.item_uuid}`}>
               <span className="text-truncate w-100 color-black">{item.name}</span>
               {item.description && <span className="text-truncate w-100 color-gray">{item.description}</span>}
             </Link>
-            <div className="flex-row col d-flex align-items-center justify-content-between pr-0">                            
-              {item.quantity > 0 && <ButtonRound className="p-0 mr-1" icon="minus" onClick={() => this.decreaseOrder(item)} />}
-              <span>{item.quantity}</span>
-              <ButtonRound className="p-0 ml-1" icon="plus" onClick={() => this.increaseOrder(item)} />             
-              <span className="ml-2">
+            <div className="flex-row col d-flex align-items-start justify-content-between pr-0">                            
+              
+                {item.quantity > 0 && <ButtonRound className="p-0 mr-1" icon="minus" onClick={() => this.decreaseOrder(item)} />}
+                <span>{item.quantity}</span>
+                <ButtonRound className="p-0 ml-1" icon="plus" onClick={() => this.increaseOrder(item)} />             
+              
+              <span className="ml-auto pl-2">
                 {t("format.currency", {
                   price: item.price,
                   symbol: item.currency_symbol
