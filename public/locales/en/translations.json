@@ -6,10 +6,10 @@
     "ko": "한국어"
   },
   "latest": "Lastest News",
-  "filters":{
+  "filters": {
     "all_locations": "All locations",
     "all_prices": "All prices",
-    "all_ratings": "All ratings"  
+    "all_ratings": "All ratings"
   },
   "PLACEHOLDER": {
     "TYPE_YOUR_PRODUCT": "Type your product",
@@ -37,9 +37,11 @@
     "CREATE_ACCOUNT": "Create an account",
     "HAVE_ACCOUNT": "Have an account?",
     "PAGE_NOT_FOUND": "Page Not Found ",
-    "PAGE_NOT_EXIST": "We're sorry, the page you were looking for doesn't exist anymore.",
+    "PAGE_NOT_EXIST":
+      "We're sorry, the page you were looking for doesn't exist anymore.",
     "OUR_SUGGESTIONS": "Our suggestions",
-    "PLAY_OUR_GAME": "Play to our game and try to win one of these suggested products",
+    "PLAY_OUR_GAME":
+      "Play to our game and try to win one of these suggested products",
     "DELIVERY": "Delivery",
     "TAKEAWAY": "Takeaway",
     "SHOW_MORE": "Read more",
@@ -51,7 +53,15 @@
     "MIN_ORDER": "Min order: ",
     "MAX_ORDER": "Max order: ",
     "DELIVERY_FEE": "Delivery fee: ",
-    "MODAL_LOGIN_HEADER": "LOGIN"
+    "MODAL_LOGIN_HEADER": "LOGIN",
+    "NEW": "new",
+    "CANCELED": "canceled",
+    "CONFIRMED": "running",
+    "ON_THE_WAY": "serving",
+    "DELIVERED": "recieved",
+    "PAID": "paid",
+    "HOLD_ON": "hold-on",
+    "REFUND": "refund"
   },
   "format": {
     "currency": "{{symbol}}{{price, 0,0.00}}"

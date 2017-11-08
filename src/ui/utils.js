@@ -1,11 +1,56 @@
 /* eslint-disable */
+import i18n from "~/i18n";
 
 const KEYCODE_Z = 90;
 const KEYCODE_Y = 89;
 
 export const ORDER_TYPE = {
+  DINE_IN: 1,
   TAKE_AWAY: 2,
   DELIVERY: 3,
+  QUICK_SERVICE: 4,
+  PRE_ORDER: 5,
+
+  getString(status){
+    switch(status){
+      case this.DELIVERY: 
+        return i18n.t('LABEL.DELIVERY');
+      default:
+        return i18n.t('LABEL.TAKEAWAY');
+    }
+  }
+};
+
+export const ORDER_STATUS = {
+  NEW: -1,
+  CANCELED: 0,
+  CONFIRMED: 1,
+  ON_THE_WAY: 2,
+  DELIVERED: 3,
+  PAID: 4,
+  HOLD_ON: 5,
+  REFUND: 7,
+
+  getString(status){    
+    switch(status){
+      case this.NEW: 
+        return i18n.t('LABEL.NEW');
+      case this.CANCELED: 
+        return i18n.t('LABEL.CANCELED');
+      case this.CONFIRMED: 
+        return i18n.t('LABEL.CONFIRMED');
+      case this.ON_THE_WAY: 
+        return i18n.t('LABEL.ON_THE_WAY');
+      case this.DELIVERED: 
+        return i18n.t('LABEL.DELIVERED');
+      case this.PAID: 
+        return i18n.t('LABEL.PAID');
+      case this.HOLD_ON: 
+        return i18n.t('LABEL.HOLD_ON');
+      default: 
+        return i18n.t('LABEL.REFUND');      
+    }
+  }
 };
 
 export const getSiblings = node => {

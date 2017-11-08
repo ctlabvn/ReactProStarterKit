@@ -25,6 +25,8 @@ import * as authSelectors from "~/store/selectors/auth";
 import * as orderSelectors from "~/store/selectors/order";
 import * as commonActions from "~/store/actions/common";
 
+import "./index.css";
+
 @translate("translations")
 @reduxForm({
   form: "OrderHistory",
@@ -42,12 +44,12 @@ import * as commonActions from "~/store/actions/common";
 export default class extends Component {
   renderMaskedInputField = ({ input, label }) => {
     return (
-      <Col md="3">
-        <Label>{label}</Label>
+      <Col md="5">
+        <Label>{label}:</Label>
         <MaskedInput
-          className="form-control"
-          mask="1111-11-11 11:11:11"
-          placeholder="Y-m-d H:i:s"
+          className="ml-2 pl-2"
+          mask="1111-11-11 11:11"
+          placeholder="Y-m-d H:i"
           {...input}
         />
       </Col>
@@ -57,8 +59,8 @@ export default class extends Component {
   searchOrder = async ({ from, to }) => {
     const { token, requestor } = this.props;
     const options = {};
-    from && (options.from = from);
-    to && (options.to = to);
+    from && (options.from = from + ":00");
+    to && (options.to = to + ":00");
     // const ret = await api.order.getOrderHistory(token, options);
     // can store into redux
     requestor("order/getOrderHistory", token, options);
@@ -76,7 +78,7 @@ export default class extends Component {
     const { submitting, handleSubmit, orderHistory } = this.props;
     return (
       <div className="container">
-        <Row>
+        <Row className="no-gutters">
           <Field
             label="From date"
             name="from"
@@ -88,9 +90,10 @@ export default class extends Component {
             component={this.renderMaskedInputField}
           />
 
-          <Col className="d-flex col flex-column justify-content-end align-items-start">
+          <Col className="d-flex col flex-column justify-content-start align-items-start">
             <Button
-              color="primary"
+              size="sm"
+              color="danger"
               disabled={submitting}
               onClick={handleSubmit(this.searchOrder)}
             >
@@ -99,12 +102,33 @@ export default class extends Component {
           </Col>
         </Row>
         <Row>
+          
+        <div className="w-100 d-flex customer-order mt-4">
+          <strong className="col-2">
+            Status
+          </strong>
+
+          <strong className="col-2">
+            Type
+          </strong>
+
+          <strong className="col-4">
+            Restaurant name
+          </strong>          
+
+          <strong className="col-2">Date time</strong>
+          
+          <strong className="col">Amout</strong>  
+
+        </div>  
+
+          
           {orderHistory && orderHistory.length ? (
             orderHistory.map(order => (
               <OrderItem
                 key={order.order_uuid}
                 order={order}
-                className="w-100 mt-4"
+                className="w-100 mt-4 border color-black-300"
               />
             ))
           ) : (

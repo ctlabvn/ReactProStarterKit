@@ -12,6 +12,8 @@ import {
 import ButtonRound from "~/ui/components/Button/Round";
 import Image from "~/ui/components/Image";
 
+import { ORDER_STATUS, ORDER_TYPE } from "~/ui/utils";
+
 @translate("translations")
 export default class extends Component {
 
@@ -20,7 +22,7 @@ export default class extends Component {
   };
 
   static defaultProps = {
-    collapse: false,
+    collapse: true,
   };
 
   constructor(props) {
@@ -37,36 +39,48 @@ export default class extends Component {
     return (      
       <div {...props}>
         <div style={{cursor:'pointer'}} onClick={this.toggle} className="w-100 p-2  d-flex justify-content-between align-items-center">
-          
-          <Link to={`/restaurant/${order.outlet.uuid}`}>
-            <span className="font-weight-bold mr-2">{order.outlet.name}</span>
-            <span>( {order.order.created_at} )</span>
+            
+          <span className="col-2">
+            {ORDER_STATUS.getString(order.order.status)}
+          </span>
+
+          <span className="col-2">
+            {ORDER_TYPE.getString(order.order.order_type)}
+          </span>
+
+          <Link className="font-weight-bold col-4 color-black-300" to={`/restaurant/${order.outlet.uuid}`}>
+            {order.outlet.name}            
           </Link>          
+
+          <span className="col-2">{order.order.created_at}</span>
           
-          <strong className="d-flex flex-row align-items-center">            
+          <span className="col d-flex flex-row align-items-center color-red">            
             {t("format.currency", {
               price: order.order.price,
               symbol: order.outlet.currency.symbol
             })}
-            <ButtonRound className="ml-2" icon={this.state.collapse ? "chevron-down" : "chevron-up"}/> 
-          </strong>  
+            <ButtonRound className="ml-4" icon={this.state.collapse ? "chevron-down" : "chevron-up"}/> 
+          </span>  
 
         </div>   
-        <hr/>     
-        <Collapse className={classNames("p-2 flex-wrap", {"d-flex":!this.state.collapse})} isOpen={!this.state.collapse}>
+        {!this.state.collapse && <hr/>}     
+        <Collapse className={classNames("p-2 flex-wrap", this.state.collapse ? "invisible" : "d-flex")} isOpen={!this.state.collapse}>
         {order.items.map(item => (
           <div className="d-flex flex-column mb-4 col-md-3" key={item.id}>            
-            <Link className="color-black-300" to={`/item/${item.id}`}>
-              <span className="w-100 float-left">({item.qty}x) {item.name}</span>
-              <Image width={120} alt="..." 
+            <Link className="color-black-300" to={`/item/${item.id}`}>              
+              <Image width="100%" alt="..." 
                 src={item.image.url_thumb} />              
-            </Link>            
+                       
             <div className="color-black-300 mt-2">
+              <span className="w-100 float-left">({item.qty}x) {item.name}</span>
+              <span className="color-red">
               {t("format.currency", {
                 price: item.price * item.qty,
                 symbol: order.outlet.currency.symbol
               })}
+              </span>
             </div>
+            </Link> 
           </div>
         ))}               
         </Collapse>  

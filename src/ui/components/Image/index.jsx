@@ -9,7 +9,7 @@ export default class Image extends Component {
   };
 
   static defaultProps = {
-    fallbackSrc: "/images/no-image-icon.png",    
+    fallbackSrc: "//placehold.it/100",    
   };
 
   constructor(props) {

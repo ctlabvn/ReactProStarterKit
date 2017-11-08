@@ -208,7 +208,7 @@ export default class extends Component {
       <div className="col-md-6 pl-0">
         <h6 className="color-gray text-uppercase mb-4 w-100">
           {t("LABEL.BUSINESS_ADDRESS")}
-          <span className="color-gray-400 float-right">
+          <span className="color-gray-400 float-right mt-1">
             {orderInfo.restaurant_address}
           </span>
         </h6>
