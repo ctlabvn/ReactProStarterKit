@@ -43,7 +43,7 @@ export default class RestaurantProduct extends Component {
 						</div>
 						{Object.keys(products).map((item, index) => (
 								<ProductGroup
-									className="col-md-6 float-left pl-0 pr-5 mb-4"
+									className="col-md-6 float-left pl-0 mb-4"
 									name={treeCategoryName[item]}
 									key={index}
 									term={term}

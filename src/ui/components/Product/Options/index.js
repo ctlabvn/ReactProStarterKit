@@ -8,7 +8,7 @@ import * as orderActions from "~/store/actions/order";
 
 @translate("translations")
 @connect(null, orderActions)
-export default class extends Component {
+export default class ProductOptions extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -155,7 +155,7 @@ export default class extends Component {
 		const { disableAddToCart } = this.state;
 		const symbol = currency.symbol ? currency.symbol : '₫';
 		return (
-			<div id="add-options">
+			<div>
 				{options.map(parent => (
 					<div className="row my-3 border-bottom">
 						<div className="col-2">

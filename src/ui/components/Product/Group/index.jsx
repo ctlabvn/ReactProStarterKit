@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { translate } from "react-i18next";
 // import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-// import classNames from "classnames";
+import classNames from "classnames";
 // import { connect } from "react-redux";
 
 import ProductItem from "~/ui/components/Product/Item";
@@ -64,12 +64,13 @@ export default class ProductGroup extends Component {
     const { displayHeader } = this.state;
 
     return (
-      <div className="container">
-        {displayHeader && products.length > 0 && <strong className="text-uppercase mb-3 color-black-300 w-100 float-left">{name}</strong>}
+      <div className="row">
+        {displayHeader && products.length > 0 
+          && <strong className="text-uppercase mb-3 color-black-300 col-md-12">{name}</strong>}
         {products.length > 0
           ? products.map((item, index) => (
               <ProductItem
-                className="col-md-6 float-left pl-0 pr-5 mb-5"
+                className={classNames("col-md-6 mb-5", {"pl-5": index % 2 === 1})}
                 description={item.description}
                 key={index}
                 price={item.default_price}

@@ -35,7 +35,7 @@ export default class extends Component {
 			return (
 				<div id="restaurant-tags" className="mt-3">
 					{tags.map((item, index) => (
-						<Link to={`/restaurant?tags=${item.tag_uuid}`}>
+						<Link to={`/restaurant?tags=${item.tag_uuid}`} key={index}>
 							<Badge key={index} color="secondary mr-2 text-default">{item.name}</Badge>
 						</Link>
 					))}
