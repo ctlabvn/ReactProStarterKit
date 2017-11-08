@@ -20,10 +20,9 @@ import {checkOrderAvailable} from "~/store/utils/validation/restaurant";
 @connect(null, orderActions)
 export default class extends Component {
 
-	addOrderItem(item) {
+	addOrderItem(item, item_options=[]) {
 		const {
-			default_price,
-			item_options,
+			default_price,			
 			item_uuid,
 			currency,
 			name,
@@ -92,7 +91,7 @@ export default class extends Component {
 				</div>
 				<div className="row px-4 pb-4 bg-white w-100">
 					<div className="col-12">
-						{showProductOptions && <ProductOptions canAddOrder={canAddOrder} item={item} />}
+						{showProductOptions && <ProductOptions onAddOrderItem={(item,options)=>this.addOrderItem(item, options)} canAddOrder={canAddOrder} item={item} />}
 						<div className="border border-white-300 border-right-0 border-left-0 border-bottom-0 mt-4 left-side-block">
 							<Menu className="menu-decorator text-uppercase">
 								{options.menuItems.map((item, index) =>

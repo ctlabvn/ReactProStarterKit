@@ -18,27 +18,9 @@ export default class ProductOptions extends Component {
 	}
 
 	static propTypes = {
-		item: PropTypes.object
+		item: PropTypes.object,
+		onAddOrderItem: PropTypes.func.isRequired,
 	};
-
-	addOrderItem(item) {
-		const {
-			default_price,			
-			item_uuid,
-			currency,
-			name,
-			description
-		} = item;
-		this.props.addOrderItem({
-			item_uuid,
-			item_options: this.getOptionsUUID(),
-			price: default_price,
-			quantity: 1,
-			name,
-			description,
-			currency_symbol: currency.symbol
-		});
-	}
 
 	handleSubmit = () => {
 		// clean error
@@ -50,7 +32,9 @@ export default class ProductOptions extends Component {
 
 		if (validateResult) {
 			// save into order
+			this.props.onAddOrderItem(this.props.item, this.getOptionsUUID());			
 			// clear checked
+			this.resetFormTree();
 		} else {
 			this.setState({
 				disableAddToCart: true
@@ -67,7 +51,7 @@ export default class ProductOptions extends Component {
 		const { item } = this.props;		
 		const { form } = this.state;
 		let validateResult = true;
-		console.log(showError, form);
+		
 		for (let parent of item.item_options) {
 			if (parent.optionSet && parent.mandatory) {
 				// check state and show alert message
@@ -92,12 +76,12 @@ export default class ProductOptions extends Component {
 		return true;
 	}
 
-	componentDidMount() {
+	resetFormTree(){
 		const { item } = this.props;
 		let formTree = {};
 
 		for (let parent of item.item_options) {
-			if (!!parent.optionSet) {
+			if (parent.optionSet) {
 				formTree[parent.opt_set_uuid] = {};
 				for (let child of parent.optionSet) {
 					formTree[parent.opt_set_uuid][child.option_uuid] = false;
@@ -105,6 +89,10 @@ export default class ProductOptions extends Component {
 			}
 		}		
 		this.setState({ form: formTree });
+	}
+
+	componentDidMount() {
+		this.resetFormTree();
 	}
 
 	handleChange = (parentUuid, child, multiChoice) => {
@@ -130,6 +118,7 @@ export default class ProductOptions extends Component {
 
 	renderOption(symbol, parent, t) {
 		const inputType = parent.multiple_choice ? "checkbox" : "radio";
+		const parentFormState = this.state.form[parent.opt_set_uuid];
 		return (
 			<div className="col-10 row">
 				{parent.optionSet.map((child, index) => {
@@ -143,6 +132,7 @@ export default class ProductOptions extends Component {
 									key={child.option_uuid}
 									id={child.option_uuid}
 									name={inputName}
+									checked={parentFormState ? !!parentFormState[child.option_uuid] : false}
 									onChange={() =>
 										this.handleChange(
 											parent.opt_set_uuid,
