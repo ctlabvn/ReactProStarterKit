@@ -26,6 +26,7 @@ import * as authActions from "~/store/actions/auth";
   authActions
 )
 export default class extends Component {
+  
   async componentWillMount() {
     const { config, updateConfig } = this.props;
     if (!config.languages) {

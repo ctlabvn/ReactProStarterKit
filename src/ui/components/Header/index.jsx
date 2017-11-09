@@ -70,11 +70,11 @@ export default class extends Component {
         <div
           key={item.item_uuid}
           className="d-flex flex-row p-2 border border-left-0 border-top-0 border-right-0">          
-            <Link className="flex-column d-flex col-md-8 p-0 align-items-start" to={`/item/${item.item_uuid}`}>
+            <Link className="flex-column d-flex p-0 align-items-start" to={`/item/${item.item_uuid}`}>
               <span className="text-truncate w-100 color-black">{item.name}</span>
               {item.description && <span className="text-truncate w-100 color-gray">{item.description}</span>}
             </Link>
-            <div className="flex-row col d-flex align-items-start justify-content-between pr-0">                            
+            <div className="flex-row ml-2 d-flex align-items-start justify-content-between pr-0">                            
               
                 {item.quantity > 0 && <ButtonRound className="p-0 mr-1" icon="minus" onClick={() => this.decreaseOrder(item)} />}
                 <span>{item.quantity}</span>
