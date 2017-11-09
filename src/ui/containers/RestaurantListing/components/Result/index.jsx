@@ -50,11 +50,11 @@ export default class extends Component {
 	  let data = this.standardFilter(filters);
 	  if(config.searchStr) data['keyword'] = config.searchStr;    
     if(tags) data.tags = tags;
-    requestor("restaurant/searchOutlet", page, data, (err, ret)=>{
+    requestor("restaurant/searchOutlet", page, data, (err, ret)=>{      
       if(err){
         setToast(extractMessage(err.message), "danger");
         // show retry button
-      } else {
+      } else if(ret) {        
         this.updateView(ret);  
       }
       
@@ -75,7 +75,7 @@ export default class extends Component {
   }
 
   updateView = ret => {
-    if (!ret.status && ret.data.data && !this.unmounted) {
+    if (ret.data.data && !this.unmounted) {
       const data = ret.data.data;
       this.setState(prevState => ({
         elements: prevState.elements.concat(data),
