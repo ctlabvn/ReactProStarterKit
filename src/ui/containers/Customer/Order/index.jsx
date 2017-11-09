@@ -76,6 +76,29 @@ export default class extends Component {
 
   render() {
     const { submitting, handleSubmit, orderHistory } = this.props;
+    // orderHistory.forEach(c=>{
+    //   c.items.forEach((c1, index)=>{
+    //     c1.options = {
+    //     "total": "summary of all breakdown.total",
+    //     "mandatory": "0/1",
+    //     "breakdown": [
+    //       {
+    //         "name": "option" + index,
+    //         "price": 100000*(index+1),
+    //         "qty": index+1,
+    //         "total": 100000*(index+1),
+    //       },
+    //       {
+    //         "name": "option1" + index,
+    //         "price": 100000*(index+1),
+    //         "qty": index+1,
+    //         "total": 100000*(index+1),
+    //       }
+    //     ]
+    //   };
+
+    //   })
+    // })
     return (
       <div className="container">
         <Row className="no-gutters">
