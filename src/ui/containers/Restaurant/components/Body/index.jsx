@@ -31,6 +31,7 @@ import { extractMessage } from "~/ui/utils";
 @translate("translations")
 @connect(
   state => ({
+    orderItems: orderSelectors.getItems(state),
     orderInfo: orderSelectors.getInfo(state)
   }),
   { ...commonActions, ...orderActions }
@@ -45,7 +46,7 @@ export default class extends Component {
       isLoadingItem: false,
       treeCategory: {},
       treeCategoryName: {}
-    };    
+    };
   }
 
   handleCategory = parentCategory => {
@@ -89,9 +90,10 @@ export default class extends Component {
     </div>
   );
 
-  addOrderItem = (item, item_options=[]) => {
+  addOrderItem = (item, item_options = []) => {
     const {
       orderInfo,
+      orderItems,
       outlet,
       clearItems,
       updateOrder,
@@ -99,23 +101,22 @@ export default class extends Component {
     } = this.props;
     if (orderInfo.outlet_uuid !== outlet.outlet_uuid) {
       // first time or reset
-      if (
-        !orderInfo.outlet_uuid ||
-        window.confirm("Do you want to clear current orders?")
-      ) {
-        clearItems();
+      if (orderItems.length) {
+        if (
+          !orderInfo.outlet_uuid ||
+          window.confirm("Do you want to clear current orders?")
+        ) {
+          clearItems();
+        } else {
+          return;
+        }
       } else {
-        return;
+        // just clear because it is empty
+        clearItems();
       }
     }
 
-    const {
-      default_price,      
-      item_uuid,
-      currency,
-      name,
-      description
-    } = item;
+    const { default_price, item_uuid, currency, name, description } = item;
 
     // each time add order, we should update business info for sure
     updateOrder({
@@ -270,10 +271,12 @@ export default class extends Component {
           className={classNames("row block bg-white mb-4 mt-5", toggleClass)}
           id="restaurant-body"
         >
-
           <h5 className="mb-2">
-            <strong className="text-uppercase color-black">All products</strong> 
-            <span className="color-gray font-weight-normal"> ({outlet.total_items})</span>
+            <strong className="text-uppercase color-black">All products</strong>
+            <span className="color-gray font-weight-normal">
+              {" "}
+              ({outlet.total_items})
+            </span>
           </h5>
 
           {this.renderFeatured(features)}
