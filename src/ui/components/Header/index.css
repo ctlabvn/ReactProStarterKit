@@ -5,16 +5,22 @@
 }
 
 .popover-cart{
-  max-width: 40em;
+  max-width: 500px;
+  max-height: 400px;
+  
+  .text-truncate{
+    width: 300px;
+  }
+
+  .popover-body {    
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 
   .btn-round{
     width: 20px;
     height: 20px;
     font-size: 10px;
-  }
-
-  .text-truncate{
-    max-width: 400px;
   }
 }
 
@@ -23,11 +29,7 @@
   padding-left: 40px;
 }
 
-.popover-cart {
-  max-height: 400px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
+
 
 .navbar-brand > img {
   width: 48px;

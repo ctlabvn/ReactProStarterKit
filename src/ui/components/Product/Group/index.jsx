@@ -69,7 +69,6 @@ export default class ProductGroup extends Component {
           selectedItem: item,
         });
       } else {
-        console.log(onAddOrder, item)
         onAddOrder(item);
       }     
     // }     

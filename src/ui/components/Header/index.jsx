@@ -67,26 +67,27 @@ export default class extends Component {
   renderProductItem(item){
     const {t} = this.props;
     return (
-        <div
-          key={item.item_uuid}
-          className="d-flex flex-row p-2 border border-left-0 border-top-0 border-right-0">          
+        <div key={item.item_uuid} className="border-bottom ">
+        <div          
+          className="d-flex flex-row p-2 justify-content-start">          
             <Link className="flex-column d-flex p-0 align-items-start" to={`/item/${item.item_uuid}`}>
-              <span className="text-truncate w-100 color-black">{item.name}</span>
-              {item.description && <span className="text-truncate w-100 color-gray">{item.description}</span>}
+              <strong className="text-truncate color-black-300">{item.name}</strong>              
             </Link>
-            <div className="flex-row ml-2 d-flex align-items-start justify-content-between pr-0">                            
+                                       
               
                 {item.quantity > 0 && <ButtonRound className="p-0 mr-1" icon="minus" onClick={() => this.decreaseOrder(item)} />}
                 <span>{item.quantity}</span>
                 <ButtonRound className="p-0 ml-1" icon="plus" onClick={() => this.increaseOrder(item)} />             
               
-              <span className="ml-auto pl-2">
+              <span className="ml-auto pl-2 color-red">
                 {t("format.currency", {
                   price: item.price,
                   symbol: item.currency_symbol
                 })}
               </span>
-            </div>          
+                      
+        </div>
+        {item.description && <div className="ml-2 mr-2 mb-2 color-gray">{item.description}</div>}         
         </div>
       );
   }
@@ -104,9 +105,9 @@ export default class extends Component {
         <PopoverBody className="p-0">
           {orderItems.length ? (
             <div>
-              <div className="popover-cart">
-                {orderItems.map(item => this.renderProductItem(item))}
-              </div>
+              
+              {orderItems.map(item => this.renderProductItem(item))}
+              
               <Link
                 onClick={this.toggleCart}
                 className="btn bg-red btn-sm btn-block text-uppercase border-0"
