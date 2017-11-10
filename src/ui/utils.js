@@ -188,9 +188,13 @@ export const extractMessage = (message) => {
   return messageValue;
 }
 
+// item_options in item is different from item_options in product
+export const getItemPrice = (item) => {  
+  return item.price + (item.item_options ? item.item_options.reduce((a,b)=>a+b.price, 0):0);  
+};
+
 export const calculateOrderPrice = (items, {consumer_discounts, consumer_taxes, delivery_fee}) => {
-  const itemsSum = items.map(item=> (item.price + (item.options ? item.options.reduce((a,b)=>a+b.price, 0):0)) * item.quantity) 
-    .reduce((a, b)=> a+b, 0)
+  const itemsSum = items.map(item=> getItemPrice(item) * item.quantity).reduce((a, b)=> a+b, 0)
   const discountPercent = 0;
   // later
   //consumer_discounts ? consumer_discounts.reduce((a,b)=>a+b,0) : 0;

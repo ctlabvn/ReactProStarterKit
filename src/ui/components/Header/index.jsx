@@ -9,7 +9,7 @@ import {
   Button,
   Popover,
   // PopoverHeader,
-  PopoverBody,
+  PopoverBody
   // DropdownItem
 } from "reactstrap";
 
@@ -23,6 +23,7 @@ import Suggestion from "./components/Suggestion";
 import * as orderActions from "~/store/actions/order";
 import * as authSelectors from "~/store/selectors/auth";
 import * as orderSelectors from "~/store/selectors/order";
+import { getItemPrice } from "~/ui/utils";
 
 import "./index.css";
 
@@ -31,7 +32,7 @@ import "./index.css";
   state => ({
     isHome: state.routing.location.pathname === "/",
     isLogged: authSelectors.isLogged(state),
-    orderItems: orderSelectors.getItems(state),    
+    orderItems: orderSelectors.getItems(state)
   }),
   orderActions
 )
@@ -40,7 +41,7 @@ export default class extends Component {
     super(props);
 
     this.state = {
-      cartOpen: false,      
+      cartOpen: false
     };
   }
 
@@ -55,41 +56,64 @@ export default class extends Component {
   }
 
   decreaseOrder(item) {
-    if(item.quantity === 1){
-      if(window.confirm('Do you want to remove this item?')){
+    if (item.quantity === 1) {
+      if (window.confirm("Do you want to remove this item?")) {
         this.props.removeOrderItem(item);
       }
     } else {
       this.props.updateOrderItem({ ...item, quantity: item.quantity - 1 });
-    }    
+    }
   }
 
-  renderProductItem(item){
-    const {t} = this.props;
+  renderProductItem(item) {
+    const { t } = this.props;
     return (
-        <div key={item.item_uuid} className="border-bottom ">
-        <div          
-          className="d-flex flex-row p-2 justify-content-start">          
-            <Link className="flex-column d-flex p-0 align-items-start" to={`/item/${item.item_uuid}`}>
-              <strong className="text-truncate color-black-300">{item.name}</strong>              
-            </Link>
-                                       
-              
-                {item.quantity > 0 && <ButtonRound className="p-0 mr-1" icon="minus" onClick={() => this.decreaseOrder(item)} />}
-                <span>{item.quantity}</span>
-                <ButtonRound className="p-0 ml-1" icon="plus" onClick={() => this.increaseOrder(item)} />             
-              
-              <span className="ml-auto pl-2 color-red">
-                {t("format.currency", {
-                  price: (item.price * item.quantity),
-                  symbol: item.currency_symbol
-                })}
-              </span>
-                      
+      <div key={item.item_uuid} className="border-bottom ">
+        <div className="d-flex flex-row p-2 justify-content-start">
+          <Link
+            className="flex-column d-flex p-0 align-items-start"
+            to={`/item/${item.item_uuid}`}
+          >
+            <strong className="text-truncate color-black-300">
+              {item.name}
+            </strong>
+          </Link>
+
+          {item.quantity > 0 && (
+            <ButtonRound
+              className="p-0 mr-1"
+              icon="minus"
+              onClick={() => this.decreaseOrder(item)}
+            />
+          )}
+          <span>{item.quantity}</span>
+          <ButtonRound
+            className="p-0 ml-1"
+            icon="plus"
+            onClick={() => this.increaseOrder(item)}
+          />
+
+          <span className="ml-auto pl-2 color-red">
+            {t("format.currency", {
+              price: getItemPrice(item) * item.quantity,
+              symbol: item.currency_symbol
+            })}
+          </span>
         </div>
-        {item.description && <div className="ml-2 mr-2 mb-2 color-gray">{item.description}</div>}         
-        </div>
-      );
+        {item.item_options && item.item_options.map(item_option=>
+          <div key={item_option.option_uuid} className="ml-2 mr-2 mb-2 color-black-300">
+            (+1) <span className="text-uppercase">{item_option.name}</span>
+            <span className="ml-2 color-red">{t("format.currency", {
+              price: item_option.price,
+              symbol: item.currency_symbol
+            })}</span>
+          </div>
+        )}
+        {item.description && (
+          <div className="ml-2 mr-2 mb-2 color-gray">{item.description}</div>
+        )}
+      </div>
+    );
   }
 
   renderPopoverCart() {
@@ -105,9 +129,8 @@ export default class extends Component {
         <PopoverBody className="p-0">
           {orderItems.length ? (
             <div>
-              
               {orderItems.map(item => this.renderProductItem(item))}
-              
+
               <Link
                 onClick={this.toggleCart}
                 className="btn bg-red btn-sm btn-block text-uppercase border-0"
@@ -130,7 +153,7 @@ export default class extends Component {
   }
 
   render() {
-    const { t, isHome, isLogged, orderItems } = this.props;    
+    const { t, isHome, isLogged, orderItems } = this.props;
     const totalQuantity = orderItems.reduce((a, item) => a + item.quantity, 0);
     return (
       <nav
@@ -144,8 +167,7 @@ export default class extends Component {
               <img src="/images/logo.png" alt="" />
             </Link>
 
-            <Suggestion />   
-
+            <Suggestion />
           </div>
 
           <div className="d-flex align-items-center flex-row">

@@ -11,6 +11,8 @@ import CardItem from "../CardItem";
 import * as orderSelectors from "~/store/selectors/order";
 import * as orderActions from "~/store/actions/order";
 
+import {getItemPrice} from "~/ui/utils";
+
 @translate("translations")
 @connect(
   state => ({
@@ -38,7 +40,7 @@ export default class extends Component {
       <Table className="mt-4 text-uppercase table-fixed">
         <thead className="color-gray">
           <tr>
-            <th className="pl-0 w-25">{t("TABLE.ITEM")}</th>
+            <th className="pl-0 card-title">{t("TABLE.ITEM")}</th>
             <th>{t("TABLE.UNIT_PRICE")}</th>
             <th className="text-center">{t("TABLE.QUANTITY")}</th>
             <th>Vat</th>
@@ -54,7 +56,8 @@ export default class extends Component {
               title={item.name}
               image="/images/donut-square.png"
               vat={0}
-              price={item.price}
+              price={getItemPrice(item)}
+              options={item.item_options}
               priceUnit={item.currency_symbol}
               quantity={item.quantity}
               onIncrease={() => this.increaseOrder(item)}

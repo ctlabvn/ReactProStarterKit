@@ -42,7 +42,7 @@ export default class ProductOptions extends Component {
 		const validateResult = this.validateMandatory();
 		if (validateResult) {
 			// save into order
-			this.props.onAddOrderItem(this.props.item, this.getOptionsUUID());			
+			this.props.onAddOrderItem(this.props.item, this.getOptions());			
 			// clear checked
 			this.resetFormTree();
 		} else {
@@ -52,14 +52,13 @@ export default class ProductOptions extends Component {
 		}
 	};
 
-	getOptionsUUID(){
-		return Object.values(this.state.form).map(set=>Object.keys(set).filter(key=>set[key]))
-			.reduce((a, b) => a.concat(b), []);		
+	getOptions(){
+		return Object.values(this.state.form).map(set=>Object.values(set).filter(value=>value))
+			.reduce((a, b) => a.concat(b), []);
 	}
 
 	getTotalPrice(){
-		return Object.values(this.state.form).map(set=>Object.keys(set).filter(key=>set[key]).reduce((a, b)=>a+set[b].price,0))
-			.reduce((a, b) => a + b, 0);		
+		return this.getOptions().reduce((a, b)=>a+b.price,0);	
 	}
 
 	validateMandatory(showError = true) {

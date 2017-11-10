@@ -71,7 +71,7 @@ export default class extends Component {
       items: orderItems.map(item => ({
         item_uuid: item.item_uuid,
         item_quantity: item.quantity,
-        item_options: item.item_options,
+        item_options: item.item_options.map(item_option=>item_option.option_uuid),
       })),
       customer: {
         customer_uuid: customer.customer_uuid,
