@@ -62,17 +62,17 @@ export default class ProductGroup extends Component {
     });
   };
 
-  processAddOrder = (item, onAddOrder)=>{
-    // console.log(item.item_options);
-    if(!!item.currency && onAddOrder){
+  processAddOrder = (item, onAddOrder)=>{    
+    // if(!!item.currency){
       if(item.item_options && item.item_options.length){
         this.setState({
           selectedItem: item,
         });
       } else {
+        console.log(onAddOrder, item)
         onAddOrder(item);
       }     
-    }     
+    // }     
   };
 
   renderPopover(onAddOrder){
@@ -110,7 +110,7 @@ export default class ProductGroup extends Component {
                 title={<span id={`product-${item.item_uuid}`}>{item.name}</span>}
                 image={this.getProductImage(item.gallery)}
                 itemUuid={item.item_uuid}
-                onIncrease={()=>this.processAddOrder(item, onAddOrder)}
+                onIncrease={onAddOrder ? ()=>this.processAddOrder(item, onAddOrder) : null}
                 displayItem={
                   typeof item.display !== "undefined" ? !!item.display : true
                 }

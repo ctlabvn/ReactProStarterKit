@@ -11,13 +11,6 @@ import "./index.css";
 
 @translate('translations')
 export default class extends Component {
-	componentDidMount() {
-		const { outlet } = this.props;
-		this.setState({
-			lat: outlet.lat,
-			long: outlet.long,
-		});
-	}
 
 	formatCurrency = (price, symbol = '₫') => {
 		const { t } = this.props;
@@ -106,7 +99,7 @@ export default class extends Component {
 					</h3>
 					<ul>
 						{Object.keys(hoursDelivery).map((day, key) => {
-							return hoursDelivery[day].open ? (<li key={key}>{day} : {hoursDelivery[day].from} - {hoursDelivery[day].to}</li>) : '';
+							return hoursDelivery[day].open ? (<li key={key}>{day} : {hoursDelivery[day].from.time} - {hoursDelivery[day].to.time}</li>) : '';
 						})}
 					</ul>
 				</div>

@@ -33,7 +33,18 @@ export default class PhotoGroup extends Component {
     ];
   }
 
-  renderFour(images) {}
+  renderFour(images) {
+    return [
+      <div className="d-flex flex-row h-50" key={0}>
+        <img src={images[0]} alt="" className="w-50 align-self-stretch" />
+        <img src={images[1]} alt="" className="w-50 align-self-stretch" />
+      </div>,      
+      <div className="d-flex flex-row h-50" key={1}>
+        <img src={images[2]} alt="" className="w-50 align-self-stretch" />
+        <img src={images[3]} alt="" className="w-50 align-self-stretch" />
+      </div>
+    ];
+  }
 
   renderPhoto(images) {
     switch (images.length) {
@@ -43,10 +54,8 @@ export default class PhotoGroup extends Component {
         return this.renderTwo(images);
       case 3:
         return this.renderThree(images);
-      case 4:
-        return this.renderFour(images);
       default:
-        return null;
+        return this.renderFour(images);
     }
   }
 

@@ -45,9 +45,7 @@ export default class extends Component {
       isLoadingItem: false,
       treeCategory: {},
       treeCategoryName: {}
-    };
-
-    this.canAddOrder = checkOrderAvailable(props.outlet);
+    };    
   }
 
   handleCategory = parentCategory => {
@@ -236,6 +234,7 @@ export default class extends Component {
     let categoryHasChildProduct = [];
 
     const showCategories = [];
+    const canAddOrder = checkOrderAvailable(outlet);
 
     if (outlet.total_items) {
       categories.forEach(item => {
@@ -300,7 +299,7 @@ export default class extends Component {
               <RestaurantProduct
                 products={products}
                 treeCategoryName={treeCategoryName}
-                onAddOrder={this.canAddOrder ? this.addOrderItem : null}
+                onAddOrder={canAddOrder ? this.addOrderItem : null}
               />
             )}
           </div>

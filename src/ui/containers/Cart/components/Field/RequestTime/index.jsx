@@ -30,8 +30,8 @@ export default class extends Component {
   }
 
   getMinuteFromStr(value) {
-    if (!value) return null;
-    const now = moment(value, "hh:mm a");
+    if (!value) return null;    
+    const now = moment(value.time || value, "hh:mm a");
     return now.hour() * 60 + now.minute();
   }
 

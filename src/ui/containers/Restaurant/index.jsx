@@ -12,7 +12,7 @@ import EmptyResult from "~/ui/components/EmptyResult";
 import { extractMessage } from "~/ui/utils";
 
 // store
-import api from "~/store/api";
+// import api from "~/store/api";
 import * as authSelectors from "~/store/selectors/auth";
 import * as commonActions from "~/store/actions/common";
 
@@ -35,18 +35,19 @@ export default class extends Component {
     this.loadOutlet(uuid);
   }
 
-  async loadOutlet(uuid) {    
-    try {
-      // fetch outlet detail then push to state
-      const retOutlet = await api.restaurant.getOutlet(uuid);
-      // check ret.error then show ret.message
-      // retOutlet.data.categories = [];
-      this.setState({ outlet: retOutlet.data });
-    } catch (e) {
-      const message = extractMessage(e.message);
-      this.props.setToast(message, "danger");
-      this.setState({ outlet: {} });
-    }
+  loadOutlet(uuid) {    
+
+    const {requestor, setToast} = this.props;
+    requestor("restaurant/getOutlet", uuid, (err, ret)=>{
+      if(err){
+        const message = extractMessage(err.message);
+        setToast(message, "danger");
+        this.setState({ outlet: {} });
+      } else {        
+        this.setState({ outlet: ret.data });
+      }
+    });
+
   }
 
   componentWillReceiveProps({ language, match }) {    

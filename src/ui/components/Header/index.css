@@ -12,6 +12,10 @@
     height: 20px;
     font-size: 10px;
   }
+
+  .text-truncate{
+    max-width: 400px;
+  }
 }
 
 .navbar{

@@ -20,8 +20,7 @@ export default class extends Component {
 
   render() {
     const {t,outlet} = this.props;
-    const gallery = parseJsonToObject(outlet.gallery, ["/images/no-image-icon.png"]);
-
+    const gallery = parseJsonToObject(outlet.gallery, ["/images/no-image-icon.png"]);    
     return (
       <div className="row flex-nowrap d-flex flex-row justify-content-between block bg-white mb-4 mt-5">
         <div className="w-100 pr-5">

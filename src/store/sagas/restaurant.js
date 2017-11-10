@@ -21,7 +21,8 @@ export default [
   // watcher for schedule, define term here
   function* asyncUserFetchWatcher() {
     // use takeLatest instead of take every, so double click in short time will not trigger more fork
-    yield all([
+    yield all([      
+      takeRequest("restaurant/getOutlet", api.restaurant.getOutlet),
       takeLatest("restaurant/getOutlets", requestGetOutlets),
       takeRequest("restaurant/searchOutlet", api.restaurant.searchOutlet),
       takeRequest("restaurant/getCategories", api.restaurant.getCategories, true),
