@@ -20,6 +20,18 @@ import {checkOrderAvailable} from "~/store/utils/validation/restaurant";
 @connect(null, orderActions)
 export default class extends Component {
 
+	constructor(props) {
+	  super(props);
+	
+	  this.state = {
+	  	optionsPrice: 0,
+	  };
+	}
+
+	onChangeOption = (optionsPrice) => {
+		this.setState({optionsPrice});
+	};
+
 	addOrderItem(item, item_options=[]) {
 		const {
 			default_price,			
@@ -41,6 +53,7 @@ export default class extends Component {
 
 	render() {
 		const {t, outlet, item} = this.props;
+		const {optionsPrice} = this.state;
 		const canAddOrder = checkOrderAvailable(outlet);
 		const showProductOptions = item.item_options && item.item_options.length > 0;
 		return (
@@ -80,7 +93,7 @@ export default class extends Component {
 					<div className="col-3 d-flex flex-column justify-content-between align-content-between">
 						<h3 className="text-right">
 							{t("format.currency", {
-								price: item.default_price,
+								price: (item.default_price + optionsPrice),
 								symbol: item.currency && item.currency.symbol ? item.currency.symbol : ''
 							})}
 						</h3>
@@ -91,7 +104,8 @@ export default class extends Component {
 				</div>
 				<div className="row px-4 pb-4 bg-white w-100">
 					<div className="col-12">
-						{showProductOptions && <ProductOptions onAddOrderItem={(item,options)=>this.addOrderItem(item, options)} canAddOrder={canAddOrder} item={item} />}
+						{showProductOptions && 
+						<ProductOptions onChangeOption={this.onChangeOption} onAddOrderItem={(item,options)=>this.addOrderItem(item, options)} canAddOrder={canAddOrder} item={item} />}
 						<div className="border border-white-300 border-right-0 border-left-0 border-bottom-0 mt-4 left-side-block">
 							<Menu className="menu-decorator text-uppercase">
 								{options.menuItems.map((item, index) =>

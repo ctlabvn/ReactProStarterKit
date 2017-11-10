@@ -6,6 +6,7 @@ import classNames from "classnames";
 
 import {FormGroup, Label, Input} from "reactstrap";
 
+import api from "~/store/api";
 import * as orderActions from "~/store/actions/order";
 
 import "./index.css";
@@ -17,7 +18,8 @@ export default class ProductOptions extends Component {
 		super(props);
 		this.state = {
 			form: {},
-			disableAddToCart: false
+			disableAddToCart: false,
+			options: props.item.item_options,
 		};
 	}
 
@@ -61,9 +63,8 @@ export default class ProductOptions extends Component {
 	}
 
 	validateMandatory(showError = true) {
-		const { item } = this.props;		
-		const { form } = this.state;		
-		for (let parent of item.item_options) {
+		const { form, options } = this.state;		
+		for (let parent of options) {
 			if (parent.optionSet && parent.mandatory) {
 				// check state and show alert message
 				if (this.checkObjectFalse(form[parent.opt_set_uuid])) {					
@@ -88,10 +89,10 @@ export default class ProductOptions extends Component {
 	}
 
 	resetFormTree(){
-		const { item } = this.props;
+		const { options } = this.state;
 		let formTree = {};
 
-		for (let parent of item.item_options) {
+		for (let parent of options) {
 			if (parent.optionSet) {
 				formTree[parent.opt_set_uuid] = {};
 				for (let child of parent.optionSet) {
@@ -102,7 +103,14 @@ export default class ProductOptions extends Component {
 		this.setState({ form: formTree });
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
+		const {item} = this.props;
+		const needReload = item.item_options.some(itemOption => !itemOption.optionSet);
+		if(needReload){
+			// no need to show waiting, just update more
+			const ret = await api.item.getDetail(item.item_uuid);
+			this.setState({options: ret.data.item_options});
+		}
 		this.resetFormTree();
 	}
 
@@ -124,6 +132,8 @@ export default class ProductOptions extends Component {
 			: child;
 		this.setState({
 			form: form
+		}, ()=>{
+			this.props.onChangeOption && this.props.onChangeOption(this.getTotalPrice(), this);
 		});
 	};
 
@@ -132,7 +142,7 @@ export default class ProductOptions extends Component {
 		const inputType = parent.multiple_choice ? "checkbox" : "radio";
 		const parentFormState = this.state.form[parent.opt_set_uuid];
 		return (
-			<div className={classNames(inline?"col-10": "col-12","row")}>
+			<div className={classNames(inline?"col-10": "col-12 mt-4","row")}>
 				{parent.optionSet.map((child, index) => {
 					const inputName = parent.multiple_choice
 						? `data[${parent.id}][${child.id}]`
@@ -170,11 +180,11 @@ export default class ProductOptions extends Component {
 
 	render() {
 		const { t, item, canAddOrder, inline } = this.props;		
-		const { disableAddToCart } = this.state;		
+		const { disableAddToCart, options } = this.state;		
 		return (
 			<div>
-				{item.item_options.map((parent, index) => (
-					<div className={classNames("row my-3", {"border-bottom":index < item.item_options.length -1})} key={parent.opt_set_uuid}>
+				{options.map((parent, index) => (
+					<div className={classNames("row my-3", {"border-bottom":index < options.length -1})} key={parent.opt_set_uuid}>
 						<div className={classNames(inline?"col-2": "col-12")}>
 							<strong className={classNames("group-label text-uppercase border-bottom", parent.mandatory ? "border-red color-red" : "border-gray-300 color-gray-300")}>
 								{parent.name}{parent.mandatory ? '*' : ''}
