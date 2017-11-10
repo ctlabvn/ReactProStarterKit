@@ -237,4 +237,8 @@ a:hover {
   .container-fluid {
     padding: 0 15px;
   }
+
+  .block{    
+    padding: 10px !important;    
+  }
 }

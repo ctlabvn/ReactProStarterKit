@@ -69,7 +69,7 @@ export default class extends Component {
     const { t } = this.props;
     return (
       <div key={item.item_uuid} className="border-bottom ">
-        <div className="d-flex flex-row p-2 justify-content-start">
+        <div className="d-flex flex-row justify-content-start">
           <Link
             className="flex-column d-flex p-0 align-items-start"
             to={`/item/${item.item_uuid}`}
@@ -93,7 +93,7 @@ export default class extends Component {
             onClick={() => this.increaseOrder(item)}
           />
 
-          <span className="ml-auto pl-2 color-red">
+          <span className="ml-auto color-red">
             {t("format.currency", {
               price: getItemPrice(item) * item.quantity,
               symbol: item.currency_symbol
@@ -101,7 +101,7 @@ export default class extends Component {
           </span>
         </div>
         {item.item_options && item.item_options.map(item_option=>
-          <div key={item_option.option_uuid} className="ml-2 mr-2 mb-2 color-black-300">
+          <div key={item_option.option_uuid} className="mb-2 color-black-300">
             (+1) <span className="text-uppercase">{item_option.name}</span>
             {
             // <span className="ml-2 color-red">{t("format.currency", {
@@ -112,7 +112,7 @@ export default class extends Component {
           </div>
         )}
         {item.description && (
-          <div className="ml-2 mr-2 mb-2 color-gray">{item.description}</div>
+          <div className="mb-2 color-gray">{item.description}</div>
         )}
       </div>
     );
@@ -128,14 +128,14 @@ export default class extends Component {
         target="popoverCart"
         toggle={this.toggleCart}
       >
-        <PopoverBody className="p-0">
+        <PopoverBody className="p-2">
           {orderItems.length ? (
             <div>
               {orderItems.map(item => this.renderProductItem(item))}
 
               <Link
                 onClick={this.toggleCart}
-                className="btn bg-red btn-sm btn-block text-uppercase border-0"
+                className="btn mt-2 bg-red btn-sm btn-block text-uppercase border-0"
                 to="/cart"
               >
                 Process to checkout
