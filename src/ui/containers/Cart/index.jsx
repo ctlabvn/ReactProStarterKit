@@ -401,7 +401,7 @@ export default class extends Component {
 
     return (
       <div className="container">
-        <div className="block bg-white">
+        <div className="block bg-white box-shadow">
           <nav className="breadcrumb text-uppercase color-gray-400 bg-transparent pl-0">
             <Link to="/" className="breadcrumb-item color-gray-400" href="#">
               &lt; {t("LINK.BACK")}

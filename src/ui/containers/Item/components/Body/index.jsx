@@ -14,7 +14,7 @@ export default class extends Component {
 
     if(gallery && gallery.length) {
 	    return (
-        <div className="row flex-nowrap d-flex flex-row justify-content-between block bg-white mb-4 mt-5 w-100">
+        <div className="row flex-nowrap d-flex flex-row justify-content-between box-shadow block bg-white mb-4 mt-5 w-100">
           <Slider className="mt-2 w-100" num={5} move={1}>
 				    {gallery.map((item, index) => (
               <ProductItemPhoto
@@ -27,7 +27,7 @@ export default class extends Component {
 	    );
     }
     return (
-      <div className="row flex-nowrap d-flex flex-row justify-content-between block bg-white mb-4 mt-5 w-100">
+      <div className="row flex-nowrap d-flex flex-row justify-content-between box-shadow block bg-white mb-4 mt-5 w-100">
           {t('LABEL.NO_IMAGE')}
       </div>
     );

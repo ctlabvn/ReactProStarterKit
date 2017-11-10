@@ -37,7 +37,7 @@ export default class extends React.Component {
   render() {
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle nav={true} className="color-black ml-20">
+        <DropdownToggle nav={true} className="color-black ml-20 px-0">
           <i className="fa fa-bars" />
         </DropdownToggle>
         <DropdownMenu>

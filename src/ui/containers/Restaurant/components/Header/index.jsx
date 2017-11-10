@@ -22,47 +22,48 @@ export default class extends Component {
     const {t,outlet} = this.props;
     const gallery = parseJsonToObject(outlet.gallery, ["/images/no-image-icon.png"]);    
     return (
-      <div className="row flex-nowrap d-flex flex-row justify-content-between block bg-white mb-4 mt-5">
-        <div className="w-100 pr-5">
-          <nav className="breadcrumb text-uppercase color-gray-400 bg-transparent pl-0">
-            <Link className="breadcrumb-item color-gray-400" to={`/`}>
-	            {t('LINK.HOME')}
-            </Link>
-            <Link className="breadcrumb-item color-gray-400" to={`/restaurant`}>
-	            {t('LINK.RESTAURANT')}
-            </Link>
-            <span className="breadcrumb-item active color-gray-400">
-              {outlet.name}
-            </span>
-          </nav>
+      <div className="row bg-white box-shadow"> 
+        <div className="flex-md-nowrap mb-4 block d-md-flex flex-row justify-content-between w-100">
+          <div className="pr-md-5 w-100">
+            <nav className="breadcrumb text-uppercase color-gray-400 bg-transparent pl-0">
+              <Link className="breadcrumb-item color-gray-400" to={`/`}>
+  	            {t('LINK.HOME')}
+              </Link>
+              <Link className="breadcrumb-item color-gray-400" to={`/restaurant`}>
+  	            {t('LINK.RESTAURANT')}
+              </Link>
+              <span className="breadcrumb-item active color-gray-400">
+                {outlet.name}
+              </span>
+            </nav>
 
-          <h4 className="font-weight-bold text-uppercase color-black-400">{outlet.name}</h4>
+            <h4 className="font-weight-bold text-uppercase color-black-400">{outlet.name}</h4>
 
-          <div className="flex-row d-flex justify-content-between">
-            <RestaurantInfo outlet={outlet} />
+            <div className="flex-row d-flex justify-content-between">
+              <RestaurantInfo outlet={outlet} />
+            </div>
+
+            <div className="flex-row d-flex justify-content-between">
+              <RestaurantOrderSetting outlet={outlet} />
+            </div>
+
+            <Readmore line="500" more={t('LABEL.SHOW_MORE')} less={t('LABEL.SHOW_LESS')}>
+              <p className="w-100 mt-3 html-content" dangerouslySetInnerHTML={{__html:outlet.description}}/>
+            </Readmore>
+
+            <RestaurantTag outlet={outlet} />          
+
           </div>
 
-          <div className="flex-row d-flex justify-content-between">
-            <RestaurantOrderSetting outlet={outlet} />
-          </div>
-
-          <Readmore line="500" more={t('LABEL.SHOW_MORE')} less={t('LABEL.SHOW_LESS')}>
-            <p className="w-100 mt-3 html-content" dangerouslySetInnerHTML={{__html:outlet.description}}/>
-          </Readmore>
-
-          <RestaurantTag outlet={outlet} />
-
-          <div className="border border-white-300 border-right-0 border-left-0 border-bottom-0 mt-4 left-side-block">
-            <Menu className="menu-decorator text-uppercase">
-            {options.menuItems.map((item, index) =>                 
-              <MenuItem active={index === 0} title={<strong className="color-black">{t(item.name)}</strong>} key={index} classToggle="restaurant-tab" idToggle={item.id} />
-            )}
-            </Menu>
-          </div>
-
+          {gallery ? <PhotoGroup images={gallery} className="photo-group-large"/> : ''}        
         </div>
-
-        {gallery ? <PhotoGroup images={gallery} className="photo-group-large"/> : ''}
+          <div className="border border-white-300 bg-white w-100 border-right-0 border-left-0 border-bottom-0 mt-4">
+              <Menu className="menu-decorator text-uppercase">
+              {options.menuItems.map((item, index) =>                 
+                <MenuItem active={index === 0} title={<strong className="color-black">{t(item.name)}</strong>} key={index} classToggle="restaurant-tab" idToggle={item.id} />
+              )}
+              </Menu>
+          </div>
       </div>
     );
   }

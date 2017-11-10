@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import classNames from "classnames";
 
+import Image from "~/ui/components/Image";
 import Rating from "~/ui/components/Rating";
 
 export default class extends Component {
@@ -19,11 +20,11 @@ export default class extends Component {
           className
         )}
       >
-        <img
+        <Image
           style={{ width: size, height: size }}
           src={image}
           alt="..."
-          className="rounded-circle"
+          className="responsive rounded-circle"
         />
         <div className="flex-column ml-3">
           <div className="d-flex flex-row">

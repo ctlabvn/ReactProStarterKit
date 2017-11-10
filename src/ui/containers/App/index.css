@@ -165,7 +165,7 @@ a:hover {
 }
 
 .d-flex{
-  img {
+  img.responsive {
     align-self: center;
     max-width: 100%;
   }
@@ -203,8 +203,11 @@ a:hover {
 
 .block{
     border-radius: 0px !important;
-    padding: 30px !important;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.03);
+    padding: 30px !important;    
+}
+
+.box-shadow {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.03);
 }
 
 .xsmall{

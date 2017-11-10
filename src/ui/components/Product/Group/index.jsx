@@ -97,7 +97,7 @@ export default class ProductGroup extends Component {
         {displayHeader && products.length > 0 
           && <strong className="text-uppercase mb-3 color-black-300 col-md-12">{name}</strong>}
         {products && products.map((item, index) =>     
-            <div key={item.item_uuid} className={classNames("col-md-6 mb-5", {"pl-5": index % 2 === 1})}>
+            <div key={item.item_uuid} className={classNames("col-md-6 mb-5", {"pl-md-5": index % 2 === 1})}>
               <ProductItem                
                 description={item.description}                                
                 price={item.default_price}

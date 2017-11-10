@@ -268,7 +268,7 @@ export default class extends Component {
 
       return (
         <div
-          className={classNames("row block bg-white mb-4 mt-5", toggleClass)}
+          className={classNames("row block box-shadow bg-white mb-4 mt-5", toggleClass)}
           id="restaurant-body"
         >
           <h5 className="mb-2">
@@ -312,7 +312,7 @@ export default class extends Component {
 
     return (
       <div
-        className={classNames("row block bg-white mb-4 mt-5", toggleClass)}
+        className={classNames("row block box-shadow bg-white mb-4 mt-5", toggleClass)}
         id="restaurant-body"
       >
         <div className="d-block text-center w-100 py-5">

@@ -7,7 +7,7 @@
 .popover-cart{
   max-width: 500px;
   max-height: 400px;
-  
+
   .text-truncate{
     width: 300px;
   }
@@ -33,4 +33,20 @@
 
 .navbar-brand > img {
   width: 48px;
+}
+
+@media (max-width: 768px){
+  .navbar{
+    padding-right: 10px;
+    padding-left: 10px;
+  }  
+
+  .popover-cart{
+    max-width: 90%;
+    .text-truncate{
+      width: 160px;
+      white-space: normal;
+    }
+  }
+
 }

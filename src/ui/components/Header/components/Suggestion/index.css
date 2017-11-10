@@ -1,5 +1,9 @@
 .header-suggestion{  
-  width: 40em;  
+  .icon-search{
+    position: absolute;
+    top: 17px;
+    left: 0;
+  }  
   .dropdown-item {
     a {
       width: 100%;

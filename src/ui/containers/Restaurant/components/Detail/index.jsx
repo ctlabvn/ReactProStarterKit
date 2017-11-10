@@ -64,7 +64,7 @@ export default class extends Component {
 			: false;
 
 		return (
-			<div className={classNames("row block bg-white mb-4", toggleClass)} id="restaurant-detail" style={{display: "none"}}>
+			<div className={classNames("row block box-shadow bg-white mb-4", toggleClass)} id="restaurant-detail" style={{display: "none"}}>
 				{outlet.online_order_setting && (outlet.online_order_setting.delivery_fee !== 0) &&
 				<div className="w-100">
 					<h3 className="font-largest color-black w-100">

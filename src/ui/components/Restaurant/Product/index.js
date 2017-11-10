@@ -31,7 +31,7 @@ export default class RestaurantProduct extends Component {
 					<div>
 						<div className="row">
 							<div className="col"></div>
-							<div className="form-group col-6 pull-right">
+							<div className="form-group col-md-6 pull-right">
 								<div className="input-group">
 									<input
 										className="form-control"

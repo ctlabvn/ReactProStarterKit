@@ -159,12 +159,14 @@ export default class extends Component {
     const totalQuantity = orderItems.reduce((a, item) => a + item.quantity, 0);
     return (
       <nav
-        className={classNames("navbar fixed-top header container-fluid", {
+        className={classNames("navbar fixed-top header", {
           invisible: isHome
         })}
       >
-        <div className="container-fluid p-0">
-          <div className="d-flex w-75">
+        <div className={classNames("p-0 d-flex justify-content-between", {
+          'w-100': window.screen.width > 767,
+        })}>
+          <div className="d-flex">
             <Link className="navbar-brand" to="/">
               <img src="/images/logo.png" alt="" />
             </Link>

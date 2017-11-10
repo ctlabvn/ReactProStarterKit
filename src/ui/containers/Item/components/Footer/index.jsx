@@ -24,7 +24,7 @@ export default class extends Component {
     const commentsChunk = chunk(options.comments, 3);
 
     return (
-      <div className="row block bg-white mb-4">
+      <div className="row block box-shadow bg-white mb-4">
         <div className="col-md-6">
           <h3 className="font-largest color-black font-weight-bold">
             4.9
