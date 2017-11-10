@@ -81,7 +81,7 @@ export default class extends Component {
               
               <span className="ml-auto pl-2 color-red">
                 {t("format.currency", {
-                  price: item.price,
+                  price: (item.price * item.quantity),
                   symbol: item.currency_symbol
                 })}
               </span>
