@@ -54,7 +54,7 @@ export default class extends Component {
       requestor, clearItems, setToast} = this.props;    
     // const addressItem = address.find(item=>item.cus_address_uuid === orderInfo.cus_address_uuid);
     const now = moment();
-    const minutesOfNow = (now.hour() * 60 + now.minute());
+    const minutesOfNow = 0;//(now.hour() * 60 + now.minute());
     let minutesOfPreparation = orderInfo.request_time + orderInfo.preparation_time;
     if(orderInfo.order_type === ORDER_TYPE.DELIVERY){
       minutesOfPreparation += +orderInfo.travel_time;
