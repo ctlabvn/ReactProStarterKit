@@ -103,10 +103,12 @@ export default class extends Component {
         {item.item_options && item.item_options.map(item_option=>
           <div key={item_option.option_uuid} className="ml-2 mr-2 mb-2 color-black-300">
             (+1) <span className="text-uppercase">{item_option.name}</span>
-            <span className="ml-2 color-red">{t("format.currency", {
-              price: item_option.price,
-              symbol: item.currency_symbol
-            })}</span>
+            {
+            // <span className="ml-2 color-red">{t("format.currency", {
+            //   price: item_option.price,
+            //   symbol: item.currency_symbol
+            // })}</span>
+          }
           </div>
         )}
         {item.description && (

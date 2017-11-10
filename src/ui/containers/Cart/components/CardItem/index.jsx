@@ -56,12 +56,14 @@ export default class extends Component {
                 <small className="mt-2 color-black-300" key={item_option.option_uuid}>
                   (+1){" "}
                   <span className="text-uppercase">{item_option.name}</span>
-                  <span className="ml-2 color-red">
-                    {t("format.currency", {
-                      price: item_option.price,
-                      symbol: priceUnit
-                    })}
-                  </span>
+                 { 
+                  // <span className="ml-2 color-red">
+                  //   {t("format.currency", {
+                  //     price: item_option.price,
+                  //     symbol: priceUnit
+                  //   })}
+                  // </span>
+                }
                 </small>
               ))}
           </Link>
