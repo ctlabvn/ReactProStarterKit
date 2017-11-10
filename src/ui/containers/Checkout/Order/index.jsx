@@ -63,19 +63,19 @@ export default class extends Component {
                 "color-gray",
                 currency_symbol
               )}
-              {this.renderCurrency(
+              {!!orderPrices.discount && this.renderCurrency(
                 "Discount",
                 orderPrices.discount,
                 "color-gray",
                 currency_symbol
               )}
-              {this.renderCurrency(
+              {!!orderPrices.fee && this.renderCurrency(
                 "Delivery free",
                 orderPrices.fee,
                 "color-gray",
                 currency_symbol
               )}
-              {this.renderCurrency(
+              {!!orderPrices.tax && this.renderCurrency(
                 "Tax",
                 orderPrices.tax,
                 "color-gray",
