@@ -87,7 +87,7 @@ export default class extends Component {
     // const {t} = this.props;
 	  const { filters } = this.props;
 	  return (
-      !!filters && <div className="my-5 container">
+      !!filters && <div className="my-2 container">
 			  { Object.keys(filters).map((type, i) => {
 				  return <PopoverItem key={i} item={filters[type]} id={type} onSelectFilter={(selected)=>this.onSelectFilter(type, selected)} />;
 			  })}
