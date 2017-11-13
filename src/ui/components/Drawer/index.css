@@ -1,0 +1,52 @@
+@import "../../vars.css";
+
+.drawer{
+  transition: -ms-transform 304ms ease-out,-webkit-transform 304ms ease-out,transform 304ms ease-out !important;
+  position: fixed !important;
+  top: 0px !important;
+  right: 0px !important;
+  left: 0px !important;
+  bottom: 0px !important;
+  transform: translateY(0) !important;
+  z-index: 9;
+  .drawer-inner{
+    background-color: #ffffff !important;
+    height: 100% !important;
+    overflow: hidden !important;
+    list-style-type: none !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    padding: 24px !important;
+    padding-top: 88px !important;
+
+    >a{
+      padding-left: 20px;
+    }
+
+    ul.menu > li.menu-item, .popover-item{
+      width: 100%;
+      display: block;
+      text-align: left;
+      padding-left: 20px;
+
+      a{
+        padding-left:0;
+        color: $black-color-300;
+      }
+    }
+
+    .container, .popover-item>button{
+      padding-left: 0;
+      padding-right: 0;      
+    }
+
+    .footer{
+      margin-top: 0;
+      border-top: 1px solid $gray-color-300;
+    }
+  }
+}
+
+.drawer.hidden{
+  transform: translateY(-100%) !important;
+}

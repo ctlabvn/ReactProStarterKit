@@ -1,6 +1,8 @@
 /* eslint-disable */
 import i18n from "~/i18n";
 
+export const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(window.navigator.userAgent);
+
 const KEYCODE_Z = 90;
 const KEYCODE_Y = 89;
 

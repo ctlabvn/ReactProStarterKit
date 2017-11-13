@@ -53,7 +53,7 @@ export default class extends Component {
         <div
           style={{ cursor: "pointer" }}
           onClick={this.toggle}
-          className="w-100 d-md-flex justify-content-between align-items-center"
+          className="w-100 float-left d-md-flex justify-content-between align-items-center mb-2"
         >
 
           <span            
@@ -89,20 +89,19 @@ export default class extends Component {
               price: order.order.price,
               symbol: order.outlet.currency.symbol
             })}
-            <ButtonRound
-              className="d-none d-md-block"
-              icon={this.state.collapse ? "chevron-down" : "chevron-up"}
-            />
+            <i className={`color-black d-none d-md-block fa fa-${this.state.collapse ? "chevron-down" : "chevron-up"}`}/>            
           </span>
         </div>
-        {!this.state.collapse && <hr />}
+
+        {!this.state.collapse && <hr className="float-left w-100 mt-0"/>}
+        
         <Collapse
           className={classNames(
-            "flex-wrap",
-            this.state.collapse ? "invisible" : "d-flex"
+            "flex-wrap float-left",
+            this.state.collapse ? "invisible" : "d-md-flex"
           )}
           isOpen={!this.state.collapse}
-        >
+        >          
           <div className="d-flex col-md-12 justify-content-between font-largest">
             <div>
               <strong>{ORDER_TYPE.getString(order.order.order_type)}</strong>
@@ -118,12 +117,12 @@ export default class extends Component {
             </strong>
           </div>
 
-          <div className="d-flex col-md-12 mt-4 mb-4 justify-content-between">
+          <div className="d-flex col-md-12 my-4 justify-content-between">
             <span>{order.order.created_at}</span>
             <span>{this.getDatetimeOfOrder(order.order)}</span>
           </div>
 
-          <strong className="col-12 border-bottom mb-4">
+          <strong className="d-flex my-4 col-sm-12 border-bottom mb-4">
             {order.outlet.name}
           </strong>
 

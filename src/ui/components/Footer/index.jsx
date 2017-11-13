@@ -16,6 +16,8 @@ import api from "~/store/api";
 import * as authSelectors from "~/store/selectors/auth";
 import * as authActions from "~/store/actions/auth";
 
+import { isMobile } from "~/ui/utils";
+
 @translate("translations")
 @connect(
   state => ({
@@ -56,7 +58,7 @@ export default class extends Component {
     return (
       <footer
         className={classNames("footer text-center menu-bottom bg-white float-left w-100", {
-          "fixed-bottom": isHome
+          "fixed-bottom": isHome && !isMobile
         })}
       >
         <Menu className="text-uppercase">

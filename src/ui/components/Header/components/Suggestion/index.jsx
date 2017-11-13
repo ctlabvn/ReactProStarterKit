@@ -83,9 +83,6 @@ export default class extends Component {
       <Autocomplete
         prepend={<i className="fa fa-search color-black-300 mr-2 icon-search" />}
         value={config.searchStr}
-        style={{
-          // width: window.screen.width - 190,
-        }}
         className="header-suggestion"
         buttonClass="border-0 mt-2"
         inputClass="font-large color-gray pl-2"

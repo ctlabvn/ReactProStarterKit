@@ -5,6 +5,8 @@ import Header from '~/ui/components/Header'
 import Footer from '~/ui/components/Footer'
 import Indicator from '~/ui/components/Indicator'
 
+import { isMobile } from "~/ui/utils";
+
 import "./index.css";
 
 export default class App extends Component {
@@ -20,7 +22,7 @@ export default class App extends Component {
         <div className="main-page float-left w-100" style={{minHeight}}>
           {children}
         </div>
-        <Footer/>
+        {!isMobile && <Footer/>}
         <Toast/>        
       </div>
     )

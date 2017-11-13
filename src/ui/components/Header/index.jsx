@@ -18,12 +18,13 @@ import AccountDropdown from "./components/AccountDropdown";
 import ButtonRound from "~/ui/components/Button/Round";
 import LoginModal from "~/ui/components/LoginModal";
 import Suggestion from "./components/Suggestion";
+import Drawer from "~/ui/components/Drawer";
 
 // selectors && actions
 import * as orderActions from "~/store/actions/order";
 import * as authSelectors from "~/store/selectors/auth";
 import * as orderSelectors from "~/store/selectors/order";
-import { getItemPrice } from "~/ui/utils";
+import { getItemPrice, isMobile } from "~/ui/utils";
 
 import "./index.css";
 
@@ -41,7 +42,8 @@ export default class extends Component {
     super(props);
 
     this.state = {
-      cartOpen: false
+      cartOpen: false,
+      drawerOpen: false,
     };
   }
 
@@ -50,6 +52,14 @@ export default class extends Component {
     document.querySelector('body').style.overflow = cartOpen ? 'auto' : 'hidden';
     this.setState({
       cartOpen: !cartOpen
+    });
+  };
+
+  toggleDrawer = ()=>{
+    const {drawerOpen} = this.state;
+    document.querySelector('body').style.overflow = drawerOpen ? 'auto' : 'hidden';
+    this.setState({
+      drawerOpen: !drawerOpen
     });
   };
 
@@ -157,22 +167,30 @@ export default class extends Component {
     );
   }
 
+
   render() {
     const { t, isHome, isLogged, orderItems } = this.props;
+    const { drawerOpen } = this.state;
     const totalQuantity = orderItems.reduce((a, item) => a + item.quantity, 0);
     return (
+      <div>
       <nav
         className={classNames("navbar fixed-top header", {
           invisible: isHome
         })}
       >
-        <div className={classNames("p-0 d-flex justify-content-between", {
-          'w-100': window.screen.width > 767,
-        })}>
+        <div className="p-0 d-flex justify-content-between w-100">
           <div className="d-flex">
-            <Link className="navbar-brand" to="/">
+
+            {isMobile 
+              ? <span className="navbar-brand" onClick={this.toggleDrawer}>
+                  <img src="/images/logo.png" alt=""/>
+                  <i className={classNames("color-red ml-2 fa", drawerOpen ? "fa-angle-up" : "fa-angle-down")} />
+                </span>
+              : <Link className="navbar-brand" to="/">
               <img src="/images/logo.png" alt="" />
             </Link>
+            }                      
 
             <Suggestion />
           </div>
@@ -206,8 +224,10 @@ export default class extends Component {
           </div>
 
           <LoginModal onItemRef={ref => (this.loginModal = ref)} />
-        </div>
+        </div>        
       </nav>
+      {isMobile && <Drawer onClick={e=> e.target.getAttribute('href') !== '#' && this.toggleDrawer()} className={classNames({"hidden": !drawerOpen})}/>}
+      </div>
     );
   }
 }

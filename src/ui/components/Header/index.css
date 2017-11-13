@@ -11,6 +11,10 @@
     width: 300px;
   }
 
+  .popover-body{
+    max-height: 100%;
+  }
+
   .popover-cart-content {    
     overflow-y: auto;
     overflow-x: hidden;
@@ -27,12 +31,12 @@
 .navbar{
   padding-right: 40px;
   padding-left: 40px;
-}
-
-
-
-.navbar-brand > img {
-  width: 48px;
+  .navbar-brand {
+    z-index: 1;
+    >img{
+      width: 48px;
+    }
+  }
 }
 
 @media (max-width: 768px){

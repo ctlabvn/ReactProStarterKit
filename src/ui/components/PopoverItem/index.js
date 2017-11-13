@@ -51,7 +51,7 @@ export default class extends Component {
 
 		if(item) {
 			return (
-				!!item.body && <span>
+				!!item.body && <span className="popover-item">
 	        <button className="mr-1 btn bg-transparent" id={'Popover-' + id} onClick={this.toggle}>
 	          {t(item.text)}
 	          <i className="fa fa-angle-down ml-1" />
