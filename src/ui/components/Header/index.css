@@ -5,16 +5,16 @@
 }
 
 .popover-cart{
-  max-width: 500px;
-  max-height: 400px;
+  max-width: 500px;  
 
   .text-truncate{
     width: 300px;
   }
 
-  .popover-body {    
+  .popover-cart-content {    
     overflow-y: auto;
     overflow-x: hidden;
+    max-height: 400px;    
   }
 
   .btn-round{

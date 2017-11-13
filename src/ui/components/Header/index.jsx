@@ -46,8 +46,10 @@ export default class extends Component {
   }
 
   toggleCart = () => {
+    const {cartOpen} = this.state;
+    document.querySelector('body').style.overflow = cartOpen ? 'auto' : 'hidden';
     this.setState({
-      cartOpen: !this.state.cartOpen
+      cartOpen: !cartOpen
     });
   };
 
@@ -68,7 +70,7 @@ export default class extends Component {
   renderProductItem(item) {
     const { t } = this.props;
     return (
-      <div key={item.item_uuid} className="border-bottom ">
+      <div key={item.item_uuid} className="border-bottom py-2">
         <div className="d-flex flex-row justify-content-start">
           <Link
             className="flex-column d-flex p-0 align-items-start"
@@ -131,8 +133,9 @@ export default class extends Component {
         <PopoverBody className="p-2">
           {orderItems.length ? (
             <div>
-              {orderItems.map(item => this.renderProductItem(item))}
-
+              <div className="popover-cart-content">
+                {orderItems.map(item => this.renderProductItem(item))}
+              </div>
               <Link
                 onClick={this.toggleCart}
                 className="btn mt-2 bg-red btn-sm btn-block text-uppercase border-0"

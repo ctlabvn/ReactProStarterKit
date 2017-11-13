@@ -219,7 +219,7 @@ a:hover {
 }
 
 .main-page{
-  padding-top: 55px;
+  padding-top: 90px;
   background-color: #f7f7f7;
 }
 
@@ -238,7 +238,32 @@ a:hover {
     padding: 0 15px;
   }
 
+  .main-page{
+    background-color: $white-color;
+  }
+
   .block{    
     padding: 10px !important;    
   }
+
+  .table-responsive {
+    thead{
+      display: none;
+    }
+    .row{
+      margin: 0;
+      padding: 15px;
+    }
+    .column, td, th{
+      text-align: right;
+      float: left;
+      width: 100%;      
+    }
+    .column:before, td:before, th:before{
+      content: attr(data-title);
+      float: left;
+      font-weight: bold;
+    }
+  }
 }
+

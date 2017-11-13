@@ -68,14 +68,14 @@ export default class extends Component {
         </Row>
         <Row>
           <Field
-            className="col"
+            className="col-md-6"
             label="Email"
             name="email"
             component={InputField}
           />
 
           <Field
-            className="col"
+            className="col-md-6"
             label="Password"
             name="password"
             type="password"
@@ -85,14 +85,14 @@ export default class extends Component {
 
         <Row>
           <Field
-            className="col"
+            className="col-md-6"
             label="Address name"
             name="address_name"
             component={InputField}
           />
 
           <Field
-            className="col"
+            className="col-md-6"
             label="Address"
             name="address"
             component={InputField}

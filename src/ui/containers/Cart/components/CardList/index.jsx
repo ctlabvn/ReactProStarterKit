@@ -37,7 +37,7 @@ export default class extends Component {
   render() {
     const { orderItems, t } = this.props;
     return (
-      <Table className="mt-4 text-uppercase table-fixed">
+      <Table className="mt-4 text-uppercase table-fixed table-responsive">
         <thead className="color-gray">
           <tr>
             <th className="pl-0 card-title">{t("TABLE.ITEM")}</th>

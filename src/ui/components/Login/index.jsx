@@ -42,14 +42,14 @@ export default class extends Component {
       <Form>
         <Row>
           <Field
-            className="col"
+            className="col-md-6"
             label="Email"
             name="email"
             component={InputField}
           />
 
           <Field
-            className="col"
+            className="col-md-6"
             label="Password"
             name="password"
             type="password"

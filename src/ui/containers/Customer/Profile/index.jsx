@@ -81,7 +81,7 @@ export default class extends Component {
   render() {
     const { handleSubmit, submitting, t } = this.props;
     return (
-      <div className="personal-info pl-5">
+      <div className="personal-info pl-md-5 my-md-0 my-4">
         <h3>Personal info</h3>
 
         <Field label="Username" name="name" component={InputField} />

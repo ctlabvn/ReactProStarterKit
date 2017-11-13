@@ -51,7 +51,7 @@ export default class extends Component {
     const { match } = this.props;    
     return (
       <div className="container">
-        <h1>Edit Profile</h1>
+        <h2>Edit Profile</h2>
         <hr />
         <div className="row">
           <div className="col-md-4">

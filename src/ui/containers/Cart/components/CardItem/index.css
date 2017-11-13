@@ -1,5 +1,5 @@
 .card-title {
-  width: 300px;
+  min-width: 300px;
   img {
     width: 50px;
   }

@@ -18,9 +18,9 @@ export default class AdressListField extends Component {
   render() {
     const { t, fields } = this.props;
     return (
-      <div className="mt-4 mb-4">
+      <div className="my-4">
         {fields.map((member, index) => (
-          <Row key={index} className="mb-4">
+          <Row key={index} className="mb-4 p-2">
             <Field
               className="col mb-0"
               placeholder={t("Name")}

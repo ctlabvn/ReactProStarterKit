@@ -45,7 +45,7 @@ export default class extends Component {
     const total = price * quantity;
     return (
       <tr {...props} ref={ref => (this.element = ref)}>
-        <th className="card-title pl-0" scope="row">
+        <th className="card-title pl-md-0" scope="row">
           <Link to={`/item/${uuid}`} className="color-black-300">
             <div className="d-flex align-items-center">
               <Image src={image} />
@@ -68,33 +68,33 @@ export default class extends Component {
               ))}
           </Link>
         </th>
-        <td>
+        <td data-title={t("TABLE.UNIT_PRICE")}>
           {t("format.currency", {
             price,
             symbol: priceUnit
           })}
         </td>
-        <td>
-          <div className="d-flex flex-row align-items-center justify-content-center">
+        <td data-title={t("TABLE.QUANTITY")}>
+          <div className="d-flex flex-row align-items-center justify-content-center float-md-none float-right">
             {quantity > 0 && <ButtonRound icon="minus" onClick={onDecrease} />}
             {quantity > 0 && <span className="ml-2 mr-2">{quantity}</span>}
             <ButtonRound icon="plus" onClick={onIncrease} />
           </div>
         </td>
-        <td>
+        <td data-title={t("LABEL.VAT")}>
           {t("format.currency", {
             price: total * vat,
             symbol: priceUnit
           })}
         </td>
-        <td>
+        <td data-title={t("TABLE.TOTAL")}>
           {t("format.currency", {
             price: total * (1 - vat),
             symbol: priceUnit
           })}
         </td>
-        <td className="text-center">
-          <i className="fa fa-times" aria-hidden="true" onClick={onRemove} />
+        <td data-title={t("TABLE.DELETE")} className="text-center">
+          <i className="fa fa-times float-md-none float-right" aria-hidden="true" onClick={onRemove} />
         </td>
       </tr>
     );

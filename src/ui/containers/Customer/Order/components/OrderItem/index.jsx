@@ -53,32 +53,44 @@ export default class extends Component {
         <div
           style={{ cursor: "pointer" }}
           onClick={this.toggle}
-          className="w-100 p-2  d-flex justify-content-between align-items-center"
+          className="w-100 d-md-flex justify-content-between align-items-center"
         >
-          <span className="col-2">
+
+          <span            
+            className="d-flex d-sm-none justify-content-between align-items-center row"            
+          >
+            <Link className="font-weight-bold color-black-300 "
+              to={`/restaurant/${order.outlet.uuid}`}>
+            {order.outlet.name}</Link>
+            <ButtonRound
+              className="float-right btn-sm"
+              icon={this.state.collapse ? "chevron-down" : "chevron-up"}
+            />
+          </span>
+          <span className="col-md-1 column" data-title="Status">
             {ORDER_STATUS.getString(order.order.status)}
           </span>
 
-          <span className="col-2">
+          <span className="col-md-2 column" data-title="Type">
             {ORDER_TYPE.getString(order.order.order_type)}
           </span>
 
-          <Link
-            className="font-weight-bold col-4 color-black-300"
+          <Link            
+            className="d-md-block d-none font-weight-bold col-md-4 color-black-300 column"
             to={`/restaurant/${order.outlet.uuid}`}
           >
             {order.outlet.name}
           </Link>
 
-          <span className="col-2">{order.order.created_at}</span>
+          <span className="col-md-2 column" data-title="Date time">{order.order.created_at}</span>
 
-          <span className="col d-flex flex-row align-items-center color-red">
+          <span data-title="Amout" className="col d-md-flex flex-row align-items-center justify-content-between color-red column">
             {t("format.currency", {
               price: order.order.price,
               symbol: order.outlet.currency.symbol
             })}
             <ButtonRound
-              className="ml-4"
+              className="d-none d-md-block"
               icon={this.state.collapse ? "chevron-down" : "chevron-up"}
             />
           </span>
@@ -86,7 +98,7 @@ export default class extends Component {
         {!this.state.collapse && <hr />}
         <Collapse
           className={classNames(
-            "p-2 flex-wrap",
+            "flex-wrap",
             this.state.collapse ? "invisible" : "d-flex"
           )}
           isOpen={!this.state.collapse}

@@ -192,6 +192,17 @@ export default class extends Component {
     return this.orderTypes.length === 1 ? this.orderTypes[0].id : (input.value || ORDER_TYPE.DELIVERY);
   }
 
+  renderAddressLabel(label, address){
+    return (
+        <h6 className="color-gray text-uppercase mb-4 w-100">
+          {label}:
+          <span className="color-gray-400 ml-2">
+            {address}
+          </span>
+        </h6>
+    )
+  }
+
   renderAddress = ({ order_type, order_address, directions, predictions }) => {
     const { t, 
       orderInfo, 
@@ -205,22 +216,13 @@ export default class extends Component {
     const orderTypeValue = this.getOrderTypeValue(order_type.input);
 
     return (
-      <div className="col-md-6 pl-0">
-        <h6 className="color-gray text-uppercase mb-4 w-100">
-          {t("LABEL.BUSINESS_ADDRESS")}
-          <span className="color-gray-400 float-right mt-1">
-            {orderInfo.restaurant_address}
-          </span>
-        </h6>
+      <div className="col-md-6 pr-md-4">
+        
+        {this.renderAddressLabel(t("LABEL.BUSINESS_ADDRESS"), orderInfo.restaurant_address)}
 
         {orderTypeValue === ORDER_TYPE.DELIVERY && (
           <div>
-            <h6 className="color-gray text-uppercase mb-4 w-100">
-              {t("LABEL.ADDRESS")}{" "}
-              <span className="color-gray-400 float-right">
-                {orderInfo.order_address}
-              </span>
-            </h6>
+            {this.renderAddressLabel(t("LABEL.ADDRESS"), orderInfo.order_address)}
 
             <div className="mb-2 d-flex justify-content-between">
               <Autocomplete
@@ -420,14 +422,14 @@ export default class extends Component {
 
           <CardList />
 
-          <div className="row border p-2">
+          <div className="row border p-2 no-gutters">
             <Fields
               names={["order_type", "order_address"]}
               directions={directions}
               predictions={predictions}
               component={this.renderAddress}
             />
-            <div className="col pr-0">
+            <div className="col">
               <h6 className="color-gray text-uppercase mb-4">
                 {t("LABEL.ADD_NOTE")}
               </h6>
@@ -479,9 +481,9 @@ export default class extends Component {
             </div>
           </div>
 
-          <div className="mt-5 mb-4 row justify-content-end">
+          <div className="my-4 row justify-content-end">
             <Button
-              className="bg-red w-25 btn-lg btn-block text-uppercase border-0"
+              className="bg-red col-md-3 btn-lg btn-block text-uppercase border-0"
               onClick={handleSubmit(this.saveOrderInfo)}
             >
               {t("BUTTON.PAY_NOW")}

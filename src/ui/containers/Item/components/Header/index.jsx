@@ -57,9 +57,9 @@ export default class extends Component {
 		const canAddOrder = checkOrderAvailable(outlet);
 		const showProductOptions = item.item_options && item.item_options.length > 0;
 		return (
-			<div>
-				<div className="row flex-nowrap d-flex flex-row justify-content-between pt-4 px-4 bg-white mt-5 w-100">
-					<div className="col-9 pr-5">
+			<div className="bg-white px-md-0 px-2">
+				<div className="flex-md-nowrap d-md-flex justify-content-between pt-4 px-md-4 mt-5 w-100 row no-gutters">
+					<div className="col-md-9 pr-md-5">
 						<nav className="breadcrumb text-uppercase color-gray-400 bg-transparent pl-0">
 							<Link className="breadcrumb-item color-gray-400" to={`/`}>
 								{t('LINK.HOME')}
@@ -90,7 +90,7 @@ export default class extends Component {
 						</Readmore>
 
 					</div>
-					<div className="col-3 d-flex flex-column justify-content-between align-content-between">
+					<div className="col-md-3 d-flex flex-column justify-content-between align-content-between">
 						<h3 className="text-right">
 							{t("format.currency", {
 								price: (item.default_price + optionsPrice),
@@ -102,18 +102,16 @@ export default class extends Component {
 					</div>
 
 				</div>
-				<div className="row px-4 pb-4 bg-white w-100">
-					<div className="col-12">
+				<div className="px-md-4 pb-4 w-100">					
 						{showProductOptions && 
 						<ProductOptions onChangeOption={this.onChangeOption} onAddOrderItem={(item,options)=>this.addOrderItem(item, options)} canAddOrder={canAddOrder} item={item} />}
-						<div className="border border-white-300 border-right-0 border-left-0 border-bottom-0 mt-4 left-side-block">
+						<div className="border border-white-300 border-right-0 border-left-0 border-bottom-0 mt-4">
 							<Menu className="menu-decorator text-uppercase">
 								{options.menuItems.map((item, index) =>
 									<MenuItem active={index === 0} title={t(item)} key={index}/>
 								)}
 							</Menu>
 						</div>
-					</div>
 				</div>
 			</div>
 		);

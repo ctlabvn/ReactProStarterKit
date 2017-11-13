@@ -141,13 +141,13 @@ export default class ProductOptions extends Component {
 		const inputType = parent.multiple_choice ? "checkbox" : "radio";
 		const parentFormState = this.state.form[parent.opt_set_uuid];
 		return (
-			<div className={classNames(inline?"col-10": "col-12 mt-4","row")}>
+			<div className={classNames(inline?"col-md-10 mt-md-0 mt-2 no-gutters": "col-12 mt-4")}>
 				{parent.optionSet.map((child, index) => {
 					const inputName = parent.multiple_choice
 						? `data[${parent.id}][${child.id}]`
 						: `data[${parent.id}]`;
 					return (
-								<FormGroup className={classNames(inline?"col-3": "col-12")} key={index} check>
+								<FormGroup className={classNames(inline?"col-md-3": "col-12")} key={index} check>
             <Label className="font-weight-bold text-uppercase color-black-300" check>
               <Input name={inputName}
 									checked={parentFormState ? !!parentFormState[child.option_uuid] : false}
@@ -178,13 +178,13 @@ export default class ProductOptions extends Component {
 	}
 
 	render() {
-		const { t, item, canAddOrder, inline } = this.props;		
+		const { t, item, canAddOrder, inline, ...props } = this.props;		
 		const { disableAddToCart, options } = this.state;		
 		return (
-			<div>
+			<div {...props}>
 				{options.map((parent, index) => (
-					<div className={classNames("row my-3", {"border-bottom":index < options.length -1})} key={parent.opt_set_uuid}>
-						<div className={classNames(inline?"col-2": "col-12")}>
+					<div className={classNames("my-3 row no-gutters", {"border-bottom":index < options.length -1})} key={parent.opt_set_uuid}>
+						<div className={classNames(inline?"col-md-2": "col-12")}>
 							<strong className={classNames("group-label text-uppercase border-bottom", parent.mandatory ? "border-red color-red" : "border-gray-300 color-gray-300")}>
 								{parent.name}{parent.mandatory ? '*' : ''}
 							</strong>

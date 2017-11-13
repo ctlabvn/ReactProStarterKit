@@ -44,15 +44,15 @@ import "./index.css";
 export default class extends Component {
   renderMaskedInputField = ({ input, label }) => {
     return (
-      <Col md="5">
+      <div className="col-md-5 col-sm-12">
         <Label>{label}:</Label>
         <MaskedInput
-          className="ml-2 pl-2"
+          className="ml-2 pl-2 float-right"
           mask="1111-11-11 11:11"
           placeholder="Y-m-d H:i"
           {...input}
         />
-      </Col>
+      </div>
     );
   };
 
@@ -101,7 +101,7 @@ export default class extends Component {
     // })
     return (
       <div className="container">
-        <Row className="no-gutters">
+        <Row className="my-2">
           <Field
             label="From date"
             name="from"
@@ -113,7 +113,7 @@ export default class extends Component {
             component={this.renderMaskedInputField}
           />
 
-          <Col className="d-flex col flex-column justify-content-start align-items-start">
+          <Col className="d-flex col flex-column justify-content-end align-items-end mt-2 mt-md-0">
             <Button
               size="sm"
               color="danger"
@@ -125,9 +125,10 @@ export default class extends Component {
           </Col>
         </Row>
         <Row>
+
           
-        <div className="w-100 d-flex customer-order mt-4">
-          <strong className="col-2">
+        <div className="w-100 customer-order mt-4 d-none d-md-flex">
+          <strong className="col-1">
             Status
           </strong>
 
@@ -151,7 +152,7 @@ export default class extends Component {
               <OrderItem
                 key={order.order_uuid}
                 order={order}
-                className="w-100 mt-4 border color-black-300"
+                className="w-100 mb-4 bg-white border color-black-300 table-responsive"
               />
             ))
           ) : (

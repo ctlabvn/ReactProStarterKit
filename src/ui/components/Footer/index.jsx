@@ -55,7 +55,7 @@ export default class extends Component {
     const { t, isHome } = this.props;
     return (
       <footer
-        className={classNames("footer text-center menu-bottom bg-white", {
+        className={classNames("footer text-center menu-bottom bg-white float-left w-100", {
           "fixed-bottom": isHome
         })}
       >

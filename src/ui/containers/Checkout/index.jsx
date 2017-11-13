@@ -170,10 +170,10 @@ export default class extends Component {
             {isLogged ? this.renderHasAccount() : this.renderHasNoAccount()}
           </Col>
           <Col>
-            <Order orderItems={orderItems} orderInfo={orderInfo}/>
-            <div className="d-flex w-100 text-center mt-4 justify-content-end">
+            <Order orderItems={orderItems} orderInfo={orderInfo} className="mt-md-0 mt-4"/>
+            {isLogged && <div className="d-flex w-100 text-center my-4 justify-content-end">
               <Button onClick={this.createOrder} color="primary">{this.props.t("BUTTON.CONFIRM_PAY")}</Button>
-            </div>
+            </div>}
           </Col>
         </Row>
       </div>

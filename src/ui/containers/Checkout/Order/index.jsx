@@ -27,7 +27,7 @@ export default class extends Component {
 
 
   render() {
-    const { orderItems, orderInfo, t } = this.props;
+    const { orderItems, orderInfo, t, ...props } = this.props;
 
     const orderPrices =  calculateOrderPrice(orderItems, orderInfo);
     const currency_symbol = orderItems[0].currency_symbol;
@@ -39,7 +39,7 @@ export default class extends Component {
     
 
     return (
-      <div>
+      <div {...props}>
         <h4>{t("LABEL.YOUR_ORDER")}</h4>
         {orderItemsWithTotalPrice.map(item => (
           <div className="d-flex justify-content-start" key={item.item_uuid}>
