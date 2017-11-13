@@ -43,7 +43,7 @@ export default class extends Component {
         const message = extractMessage(err.message);
         setToast(message, "danger");
         this.setState({ outlet: {} });
-      } else {        
+      } else if(ret) {        
         this.setState({ outlet: ret.data });
       }
     });

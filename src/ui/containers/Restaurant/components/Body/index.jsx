@@ -166,7 +166,7 @@ export default class extends Component {
         retOutletCaterogies.data.last_page >
           retOutletCaterogies.data.current_page;
       // update gradually
-      if (retOutletCaterogies.data) {
+      if (retOutletCaterogies && retOutletCaterogies.data) {
         categories = categories.concat(retOutletCaterogies.data.data);
         page++;
       }
