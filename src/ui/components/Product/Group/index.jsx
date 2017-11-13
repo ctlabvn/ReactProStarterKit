@@ -81,7 +81,7 @@ export default class ProductGroup extends Component {
         <Popover placement="bottom" isOpen={true} target={`product-${item.item_uuid}`} toggle={()=>this.setState({selectedItem:null})}>
             <PopoverHeader>{item.title}</PopoverHeader>
             <PopoverBody>
-              <ProductOptions inline={false} onAddOrderItem={(item, item_options)=>onAddOrder({...item, item_options})} canAddOrder={true} item={item} />
+              <ProductOptions inline={false} onAddOrderItem={onAddOrder} canAddOrder={true} item={item} />
             </PopoverBody>
           </Popover>        
       );

@@ -90,7 +90,7 @@ export default class extends Component {
     </div>
   );
 
-  addOrderItem = (item, item_options = []) => {
+  handleAddOrderItem = (item, item_options = []) => {
     const {
       orderInfo,
       orderItems,
@@ -302,7 +302,7 @@ export default class extends Component {
               <RestaurantProduct
                 products={products}
                 treeCategoryName={treeCategoryName}
-                onAddOrder={canAddOrder ? this.addOrderItem : null}
+                onAddOrder={canAddOrder ? this.handleAddOrderItem : null}
               />
             )}
           </div>
