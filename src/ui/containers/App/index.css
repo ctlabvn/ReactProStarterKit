@@ -238,6 +238,10 @@ a:hover {
     padding: 0 15px;
   }
 
+  .fixed-bottom{
+    position: relative;
+  }
+
   .main-page{
     background-color: $white-color;
   }
