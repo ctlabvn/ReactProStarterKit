@@ -17,23 +17,27 @@ export default class extends Component {
 	}
 
 	render() {
-		const { t, outlet, ...props } = this.props;
+		const { t, outlet:{online_order_setting:setting}, ...props } = this.props;
 		const metadata = []
-		if(outlet.online_order_setting) {
-			if(outlet.online_order_setting.do_delivery) {
+		if(setting) {
+			if(setting.do_delivery) {
 				metadata.push(t('LABEL.DELIVERY'));
 			}
-			if(outlet.online_order_setting.do_takeaway) {
+			if(setting.do_takeaway) {
 				metadata.push(t('LABEL.TAKEAWAY'));
 			}
-			if(outlet.online_order_setting.min_delivery_cost) {
-				metadata.push(t('LABEL.MIN_ORDER') + ' ' + this.formatCurrency(outlet.online_order_setting.min_delivery_cost));
-			}
-			if(outlet.online_order_setting.max_delivery_cost) {
-				metadata.push(t('LABEL.MAX_ORDER') + ' ' + this.formatCurrency(outlet.online_order_setting.max_delivery_cost));
-			}
-			if(outlet.online_order_setting.delivery_fee) {
-				metadata.push(t('LABEL.DELIVERY_FEE') + ' ' + this.formatCurrency(outlet.online_order_setting.delivery_fee));
+
+			// display this for delivery only
+			if(setting.do_delivery) {
+				if(setting.min_delivery_cost) {
+					metadata.push(t('LABEL.MIN_ORDER') + ' ' + this.formatCurrency(setting.min_delivery_cost));
+				}
+				if(setting.max_delivery_cost) {
+					metadata.push(t('LABEL.MAX_ORDER') + ' ' + this.formatCurrency(setting.max_delivery_cost));
+				}
+				if(setting.delivery_fee) {
+					metadata.push(t('LABEL.DELIVERY_FEE') + ' ' + this.formatCurrency(setting.delivery_fee));
+				}
 			}
 		}
 

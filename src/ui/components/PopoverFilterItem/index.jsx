@@ -83,7 +83,7 @@ export default class PopoverFilterItem extends Component {
 							<PopoverBody>
 								<div className="w-100">
 									<ul className="list-unstyled">
-										{Object.keys(item.body).map((line, index) => (
+										{Object.keys(item.body).sort().map((line, index) => (
 											<li key={index}>
 												<input
 													id={item.body[line] + index}

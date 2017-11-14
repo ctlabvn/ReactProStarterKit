@@ -19,7 +19,7 @@ import options from "./options";
 export default class extends Component {
 
   render() {
-    const {t,outlet} = this.props;
+    const {t,outlet, active, onSelectItem} = this.props;
     const gallery = parseJsonToObject(outlet.gallery, ["/images/no-image-icon.png"]);    
     return (
       <div className="row bg-white box-shadow"> 
@@ -55,12 +55,12 @@ export default class extends Component {
 
           </div>
 
-          {gallery ? <PhotoGroup images={gallery} className="photo-group-large"/> : ''}        
+          {gallery ? <PhotoGroup images={gallery} className="photo-group-large mt-md-0 mt-4"/> : ''}        
         </div>
           <div className="border border-white-300 bg-white w-100 border-right-0 border-left-0 border-bottom-0 mt-4">
               <Menu className="menu-decorator text-uppercase">
-              {options.menuItems.map((item, index) =>                 
-                <MenuItem active={index === 0} title={<strong className="color-black">{t(item.name)}</strong>} key={index} classToggle="restaurant-tab" idToggle={item.id} />
+              {options.menuItems.map((item) =>                 
+                <MenuItem active={active === item.id} onClick={()=>onSelectItem && onSelectItem(item.id)} title={<strong className="color-black">{t(item.name)}</strong>} key={item.id}/>
               )}
               </Menu>
           </div>

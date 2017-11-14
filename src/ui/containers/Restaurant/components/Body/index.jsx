@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
 import { connect } from "react-redux";
-import classNames from "classnames";
+// import classNames from "classnames";
 
 // import { Col } from "reactstrap";
 
@@ -242,7 +242,7 @@ export default class extends Component {
   }
 
   render() {
-    const { t, outlet, toggleClass } = this.props;
+    const { t, outlet } = this.props;
     const {
       products,
       features,
@@ -286,10 +286,7 @@ export default class extends Component {
       });
 
       return (
-        <div
-          className={classNames("row block box-shadow bg-white mb-4 mt-5", toggleClass)}
-          id="restaurant-body"
-        >
+        <div className="w-100">
           <h5 className="mb-2">
             <strong className="text-uppercase color-black">All products</strong>
             <span className="color-gray font-weight-normal">
@@ -330,14 +327,11 @@ export default class extends Component {
     }
 
     return (
-      <div
-        className={classNames("row block box-shadow bg-white mb-4 mt-5", toggleClass)}
-        id="restaurant-body"
-      >
+      
         <div className="d-block text-center w-100 py-5">
           <EmptyResult label={t("LABEL.NO_SEARCH_DATA")} />
         </div>
-      </div>
+      
     );
   }
 }

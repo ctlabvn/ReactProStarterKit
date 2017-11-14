@@ -32,15 +32,15 @@ export default class MenuItem extends Component {
       siblings.map(sibling => sibling.classList.remove(activeClassName));
     }
 
-	  const idToggle = this.node.getAttribute("data-toggle-id");
-	  const classToggle = this.node.getAttribute("data-toggle-class");
-	  if (idToggle && classToggle) {
-		  var selects = document.getElementsByClassName(classToggle);
-		  for (var i = 0, il = selects.length; i < il; i++) {
-			  selects[i].style.display = "none";
-		  }
-		  document.getElementById(idToggle).style.display = "block";
-	  }
+	  // const idToggle = this.node.getAttribute("data-toggle-id");
+	  // const classToggle = this.node.getAttribute("data-toggle-class");
+	  // if (idToggle && classToggle) {
+		 //  var selects = document.getElementsByClassName(classToggle);
+		 //  for (var i = 0, il = selects.length; i < il; i++) {
+			//   selects[i].style.visibility = "hidden";
+		 //  }
+		 //  document.getElementById(idToggle).style.visibility = "visible";
+	  // }
 
 	  onClick && onClick(e);
   }
@@ -57,15 +57,15 @@ export default class MenuItem extends Component {
   }
 
   render() {
-    const { totalItem, idToggle, classToggle, title, link, active, onClick, className, activeClassName } = this.props;
+    const { totalItem, title, link, active, onClick, className, activeClassName } = this.props;
     return (totalItem !== 0 &&
       <li
         ref={ref => (this.node = ref)}
         className={classNames("list-inline-item menu-item", {
           [activeClassName]: active
         }, className)}
-        data-toggle-id={idToggle}
-        data-toggle-class={classToggle}
+        // data-toggle-id={idToggle}
+        // data-toggle-class={classToggle}
         onClick={e => this.handleClick(e, onClick)}
       >
         {link ? this.renderLink(link, title) : this.renderItem(title)}

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import { Link } from "react-router-dom";
 import { translate } from "react-i18next"
-import classNames from "classnames";
+// import classNames from "classnames";
 
 // import api from "~/store/api";
 import { Marker } from "react-google-maps";
@@ -55,16 +55,17 @@ export default class extends Component {
 	}
 
 	render() {
-		const { t, outlet, toggleClass } = this.props;
+		const { t, outlet } = this.props;
 		const lat = outlet.lat;
 		const lng = outlet.long;
 		const position = { lat: +lat, lng: +lng };
+		console.log(position)
 		const hoursDelivery = outlet.online_order_setting && outlet.online_order_setting.hours_delivery
 			? parseJsonToObject(outlet.online_order_setting.hours_delivery)
 			: false;
 
 		return (
-			<div className={classNames("row block box-shadow bg-white mb-4", toggleClass)} id="restaurant-detail" style={{display: "none"}}>
+			<div className="w-100">
 				{outlet.online_order_setting && (outlet.online_order_setting.delivery_fee !== 0) &&
 				<div className="w-100">
 					<h3 className="font-largest color-black w-100">
@@ -111,7 +112,7 @@ export default class extends Component {
 						<span className="font-weight-bold">{t('LABEL.LOCAL_MAP')}</span>
 					</h3>
 					<GoogleMapKey
-						onItemRef={this.initGmap}
+						onItemRef={this.initGmap}						
 						height={400}
 						defaultCenter={position}
 					>

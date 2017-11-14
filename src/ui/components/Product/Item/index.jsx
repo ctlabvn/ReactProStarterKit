@@ -22,15 +22,13 @@ export default class ProductItem extends Component {
     priceUnit: PropTypes.string,
     image: PropTypes.string,
     quantity: PropTypes.number,
-    imageSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    displayItem: PropTypes.bool
+    imageSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),    
   };
 
   static defaultProps = {
     priceUnit: "$",
     imageSize: 50,
-    quantity: 1,
-    displayItem: true,
+    quantity: 1,    
   };
 
   render() {
@@ -46,12 +44,11 @@ export default class ProductItem extends Component {
       quantity,
       onIncrease,
       onDecrease,      
-      t,
-	    displayItem
+      t
     } = this.props;
 
     const totalPrice = price * quantity;
-    if(displayItem) {
+    
 	    return (
         <div          
           className={classNames("d-flex flex-row align-items-center", className)}
@@ -86,8 +83,5 @@ export default class ProductItem extends Component {
           </div>
         </div>
 	    );
-    }
-
-    return '';
   }
 }

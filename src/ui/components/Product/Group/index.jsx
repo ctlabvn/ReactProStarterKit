@@ -5,6 +5,10 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 // import { connect } from "react-redux";
 
+
+import Fuse from 'fuse.js';
+
+
 import {PopoverHeader, PopoverBody, Popover} from "reactstrap";
 
 import ProductItem from "~/ui/components/Product/Item";
@@ -16,10 +20,15 @@ import "./index.css";
 export default class ProductGroup extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      displayHeader: true,
+    this.state = {      
       selectedItem: null,
+      displayProducts: props.products,
     };
+
+    this.searchEngine = new Fuse(props.products, {
+      threshold: 0.3,
+      keys: ['name', 'description']
+    });    
   }
 
   static propTypes = {
@@ -43,23 +52,11 @@ export default class ProductGroup extends Component {
   }
 
   handleSearch = term => {    
-    const regex = new RegExp(term, "gmiu");
-    const { products } = this.props;
-
-    this.setState({ displayHeader: false });
-    products.forEach(product => {
-      if (term.length) {
-        if (product.name && product.name.search(regex) >= 0) {
-          product.display = true;
-          this.setState({ displayHeader: true });
-        } else {
-          product.display = false;
-        }
-      } else {
-        product.display = true;
-        this.setState({ displayHeader: true });
-      }
-    });
+    let displayProducts = this.props.products;
+    if(term){
+      displayProducts = this.searchEngine.search(term);
+    } 
+    this.setState({displayProducts});
   };
 
   processAddOrder = (item, onAddOrder)=>{    
@@ -89,14 +86,13 @@ export default class ProductGroup extends Component {
   }  
 
   render() {
-    const { name, products, onAddOrder } = this.props;
-    const { displayHeader } = this.state;
+    const { name, onAddOrder, ...props } = this.props;
+    const { displayProducts } = this.state;
 
     return (
-      <div className="row">
-        {displayHeader && products.length > 0 
-          && <strong className="text-uppercase mb-3 color-black-300 col-md-12">{name}</strong>}
-        {products && products.map((item, index) =>     
+      <div {...props}>
+        <strong className="text-uppercase mb-3 color-black-300 col-md-12">{name}</strong>
+        {displayProducts && displayProducts.map((item, index) =>     
             <div key={item.item_uuid} className={classNames("col-md-6 mb-5", {"pl-md-5": index % 2 === 1})}>
               <ProductItem                
                 description={item.description}                                
@@ -109,10 +105,7 @@ export default class ProductGroup extends Component {
                 title={<span id={`product-${item.item_uuid}`}>{item.name}</span>}
                 image={this.getProductImage(item.gallery)}
                 itemUuid={item.item_uuid}
-                onIncrease={onAddOrder ? ()=>this.processAddOrder(item, onAddOrder) : null}
-                displayItem={
-                  typeof item.display !== "undefined" ? !!item.display : true
-                }
+                onIncrease={onAddOrder ? ()=>this.processAddOrder(item, onAddOrder) : null}                
               /> 
             </div>           
             )}        

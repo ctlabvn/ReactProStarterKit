@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
+import classNames from "classnames";
 // elements
 import Header from "./components/Header";
 // import Footer from "./components/Footer";
@@ -26,9 +26,33 @@ export default class extends Component {
     super(props);
 
     this.state = {
-      outlet: null
+      outlet: null,
+      tabID: "restaurant-body",
     };
+
+    this.tabContent = {}
   }
+
+  getTabContent(tabID, outlet){    
+    switch(tabID){
+      case "restaurant-body":
+        return <Body outlet={outlet} />;
+      default:
+        return <Detail outlet={outlet} />
+    }
+  }
+
+  initTabContent(tabID, outlet, forceUpdate = false){    
+    if(!this.tabContent[tabID]){
+      this.tabContent[tabID] = this.getTabContent(tabID, outlet);
+      forceUpdate && this.forceUpdate();
+    }
+  }
+
+  handleSelectTab = (tabID) => {
+    this.setState({tabID});
+    this.initTabContent(tabID, this.state.outlet, true);
+  };
 
   componentWillMount() {
     const { uuid } = this.props.match.params;
@@ -36,7 +60,7 @@ export default class extends Component {
   }
 
   loadOutlet(uuid) {    
-
+    const {tabID} = this.state;
     const {requestor, setToast} = this.props;
     requestor("restaurant/getOutlet", uuid, (err, ret)=>{
       if(err){
@@ -44,6 +68,7 @@ export default class extends Component {
         setToast(message, "danger");
         this.setState({ outlet: {} });
       } else if(ret) {        
+        this.initTabContent(tabID, ret.data);
         this.setState({ outlet: ret.data });
       }
     });
@@ -57,7 +82,7 @@ export default class extends Component {
   }
 
   render() {
-    const { outlet } = this.state;
+    const { outlet, tabID } = this.state;
     if (!outlet) {
       return <Spinner />;
     }
@@ -66,14 +91,17 @@ export default class extends Component {
       return <EmptyResult/>;
     }
 
-    const toggleClass = "restaurant-tab";
+    
     return (
       <div className="restaurant">
         <div className="container">
-          <Header outlet={outlet} />
+          <Header outlet={outlet} active={tabID} onSelectItem={this.handleSelectTab} />
 
-          <Body outlet={outlet} toggleClass={toggleClass} />
-          <Detail outlet={outlet} toggleClass={toggleClass} />
+          {Object.keys(this.tabContent).map(key=>
+            <div key={key} className={classNames("row block box-shadow bg-white mb-4 mt-5", {"hidden": key !== tabID})}>
+              {this.tabContent[key]}
+            </div>
+          )}
 
           {/*<Footer outlet={outlet} />*/}
         </div>
