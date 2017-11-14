@@ -15,7 +15,7 @@ import * as authActions from "~/store/actions/auth";
 import * as authSelectors from "~/store/selectors/auth";
 import api from "~/store/api";
 
-import { isMobile } from "~/ui/utils";
+// import { isMobile } from "~/ui/utils";
 
 @translate('translations')
 @connect(

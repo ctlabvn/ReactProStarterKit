@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import classNames from "classnames";
 import Footer from "~/ui/components/Footer";
 import Filter from "~/ui/components/Restaurant/Filter";
-import { isMobile } from "~/ui/utils";
+// import { isMobile } from "~/ui/utils";
 
 import "./index.css";
 

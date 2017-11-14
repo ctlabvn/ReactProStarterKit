@@ -301,7 +301,7 @@ export default class extends Component {
 
 
     return (
-      <div className="d-flex col-md-6 pl-0 justify-content-between">
+      <div className="d-md-flex col-md-6 pl-0 pr-0 justify-content-between">
         <OrderTypeField checkedValue={orderTypeValue} orderTypes={this.orderTypes} {...order_type} />
         <RequestTimeField
           label={

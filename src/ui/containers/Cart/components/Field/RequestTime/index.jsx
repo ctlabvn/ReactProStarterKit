@@ -76,6 +76,7 @@ export default class extends Component {
         <i className="fa fa-clock-o" aria-hidden="true" /> {label} :
         {children.length ? (
           <Dropdown
+            right={true}
             className="scrollable float-right request-time"
             title={this.getTimeFormat(now, input.value || roundedMinute)}
           >

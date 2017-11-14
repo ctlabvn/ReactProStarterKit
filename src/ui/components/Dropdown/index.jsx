@@ -30,16 +30,16 @@ export default class extends Component {
   };
 
   render() {
-    const { title, children, className, ...props } = this.props;
+    const { title, children, className, right, ...props } = this.props;
     const childrenWithProps = React.Children.map(children, child =>
       <DropdownItem onClick={child.props.onClick}>{child}</DropdownItem>
     );
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className={className} {...props}>
-        <DropdownToggle caret nav>
+        <DropdownToggle caret nav className="text-info" >
           {title}
         </DropdownToggle>
-        <DropdownMenu>{childrenWithProps}</DropdownMenu>
+        <DropdownMenu right={right}>{childrenWithProps}</DropdownMenu>
       </Dropdown>
     );
   }
