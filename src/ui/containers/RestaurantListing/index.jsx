@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 
 // elements
-import Filter from "./components/Filter";
+import Filter from "~/ui/components/Restaurant/Filter";
 import Result from "./components/Result";
 
 
-import { parseQuery } from "~/ui/utils";
+import { parseQuery, isMobile } from "~/ui/utils";
 
 import "./index.css";
 
@@ -13,7 +13,7 @@ export default class extends Component {
 
   onUpdateFilter = (filters)=>{
     // console.log(filters);
-    this.result.removeSearchResult();
+    // this.result.removeSearchResult();
   };
 
   render() {
@@ -21,7 +21,7 @@ export default class extends Component {
     const options = parseQuery(location);
     return (
       <div>
-        <Filter onUpdateFilter={this.onUpdateFilter}/>
+        {!isMobile && <Filter onUpdateFilter={this.onUpdateFilter}/>}
         <Result tags={options.tags} onItemRef={ref=>this.result=ref}/>
       </div>
     )

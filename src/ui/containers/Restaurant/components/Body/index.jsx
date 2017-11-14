@@ -150,26 +150,45 @@ export default class extends Component {
     });
   }
 
+  getAllCategories(outlet_uuid) {
+    const { requestor, setToast } = this.props;
+    return new Promise((resolve, reject) => {
+      requestor("restaurant/getAllCategories", outlet_uuid, (err, ret) => {
+        if (err) {
+          setToast(extractMessage(err.message), "danger");
+          resolve(null);
+        } else {
+          resolve(ret);
+        }
+      });
+    });
+  }
+
   loadCategories = async () => {
     let categories = [];
     const { outlet } = this.props;
-    let hasMore = true,
-      page = 1;
+    // let hasMore = true,
+    //   page = 1;
 
-    while (hasMore) {
-      const retOutletCaterogies = await this.getCategories(
-        outlet.outlet_uuid,
-        page
-      );
-      hasMore =
-        retOutletCaterogies &&
-        retOutletCaterogies.data.last_page >
-          retOutletCaterogies.data.current_page;
-      // update gradually
-      if (retOutletCaterogies && retOutletCaterogies.data) {
-        categories = categories.concat(retOutletCaterogies.data.data);
-        page++;
-      }
+    // while (hasMore) {
+    //   const retOutletCaterogies = await this.getCategories(
+    //     outlet.outlet_uuid,
+    //     page
+    //   );
+    //   hasMore =
+    //     retOutletCaterogies &&
+    //     retOutletCaterogies.data.last_page >
+    //       retOutletCaterogies.data.current_page;
+    //   // update gradually
+    //   if (retOutletCaterogies && retOutletCaterogies.data) {
+    //     categories = categories.concat(retOutletCaterogies.data.data);
+    //     page++;
+    //   }
+    // }
+
+    const ret = await this.getAllCategories(outlet.outlet_uuid);
+    if(ret){
+      categories = ret.data;
     }
     // console.log(categories)
     // bind data

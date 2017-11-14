@@ -229,7 +229,7 @@ export default class extends Component {
                 className="w-100"
                 placeholder="Type your address here"
                 value={order_address.input.value}
-                onSearch={this.searchGoogleMap}
+                onSearch={this.searchGoogleMap}                          
               >
                 {predictions.map(({ description }, index) => (
                   <DropdownItem

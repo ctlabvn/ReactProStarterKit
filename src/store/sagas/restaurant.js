@@ -26,6 +26,7 @@ export default [
       takeLatest("restaurant/getOutlets", requestGetOutlets),
       takeRequest("restaurant/searchOutlet", api.restaurant.searchOutlet),
       takeRequest("restaurant/getCategories", api.restaurant.getCategories, true),
+      takeRequest("restaurant/getAllCategories", api.restaurant.getAllCategories),      
       takeRequest("restaurant/getProductByCategory", api.restaurant.getProductByCategory),
       takeRequest("restaurant/getProductByCategories", api.restaurant.getProductByCategories),
       takeRequest("restaurant/getProductFeatured", api.restaurant.getProductFeatured),

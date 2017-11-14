@@ -16,17 +16,19 @@ export default class extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			tags: []
+			tags: props.outlet.tags,
 		}
 	}
 
 	componentDidMount() {
 		const {requestor, outlet} = this.props;
-		requestor("restaurant/getRestaurantTag", outlet.outlet_uuid, (err, ret)=>{
-			if(ret.data){
-				this.setState({tags: ret.data})
-			}
-		})
+		if(!this.state.tags){
+			requestor("restaurant/getRestaurantTag", outlet.outlet_uuid, (err, ret)=>{
+				if(ret.data){
+					this.setState({tags: ret.data})
+				}
+			})
+		}
 	}
 
 	render() {

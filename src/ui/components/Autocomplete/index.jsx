@@ -10,6 +10,8 @@ import {
   // DropdownItem
 } from "reactstrap";
 
+import { isMobile } from "~/ui/utils";
+
 import "./index.css";
 
 export default class extends Component {
@@ -70,7 +72,9 @@ export default class extends Component {
             ref={ref => (this.input = ref)}
           />
         </DropdownToggle>
-        {!!children.length && <DropdownMenu>{children}</DropdownMenu>}
+        {!!children.length && <DropdownMenu style={isMobile ? {
+              width: 280
+            } : {maxWidth: 600}}>{children}</DropdownMenu>}
       </Dropdown>
     );
   }

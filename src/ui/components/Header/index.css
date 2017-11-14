@@ -43,6 +43,13 @@
   .navbar{
     padding-right: 10px;
     padding-left: 10px;
+
+    .navbar-brand  {
+      margin-right: 10px;
+      > img {
+        width: 40px;
+      }
+    }
   }  
 
   .popover-cart{

@@ -4,10 +4,9 @@
     top: 17px;
     left: 0;
   }  
-  .dropdown-item {
-    a {
-      width: 100%;
-      float: left;
+  .dropdown-item {    
+    a {      
+      float: left;      
     }
   }
 }

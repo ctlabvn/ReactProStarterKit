@@ -226,7 +226,7 @@ export default class extends Component {
           <LoginModal onItemRef={ref => (this.loginModal = ref)} />
         </div>        
       </nav>
-      {isMobile && <Drawer onClick={e=> e.target.getAttribute('href') !== '#' && this.toggleDrawer()} className={classNames({"hidden": !drawerOpen})}/>}
+      {isMobile && <Drawer className={classNames({"hidden": !drawerOpen})}/>}
       </div>
     );
   }

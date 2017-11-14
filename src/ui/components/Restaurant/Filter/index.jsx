@@ -83,32 +83,14 @@ export default class extends Component {
 
 	componentDidMount() {
 		this.loadOptionFilter();
-
-		const drawer = document.querySelector('#drawer .drawer-inner');
-		if(drawer && this.filter){
-			this.filter.style.display = 'block';			
-			drawer.insertBefore(this.filter, document.querySelector('#home-link'));			
-			document.querySelector('#home-link').style.display = 'none';
-		} else {
-			document.querySelector('#home-link').style.display = 'block';
-		}
-	}
-
-	componentWillUnmount(){
-		const drawer = document.querySelector('#drawer .drawer-inner');
-		if(drawer && this.filter){			
-			drawer.removeChild(this.filter);			
-		} 
-		document.querySelector('#home-link').style.display = 'block';
 	}
 
   render() {
     // const {t} = this.props;
-	  const { filters } = this.props;
+	  const { filters, placeOnDrawer } = this.props;
 	  return (
-      !!filters && <div ref={ref=>this.filter=ref} className="my-2 container" style={{
-      	display: isMobile ? 'none' : 'block',
-      }}>
+      !!filters && <div className="my-2 container">
+      	{placeOnDrawer && <hr/>}
 			  { Object.keys(filters).map((type, i) => {
 				  return <PopoverItem key={i} item={filters[type]} id={type} onSelectFilter={(selected)=>this.onSelectFilter(type, selected)} />;
 			  })}

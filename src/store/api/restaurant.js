@@ -12,12 +12,16 @@ const restaurant = {
     return apiGet("/restaurant/filter", data);
   },
 
-  getOutlet(uuid) {
-    return apiGet(`/restaurant/outlets/${uuid}`);
+  getOutlet(outlet_uuid) {
+    return apiGet(`/restaurant/outlets/${outlet_uuid}`);
   },
 
-  getCategories(uuid, page = 1) {
-    return apiGet(`/restaurant/categories`, {outlet_uuid: uuid, page: page});
+  getCategories(outlet_uuid, page = 1) {
+    return apiGet("/restaurant/categories", {outlet_uuid, page: page});
+  },
+
+  getAllCategories(outlet_uuid) {
+    return apiGet("/restaurant/all-categories", {outlet_uuid});
   },
 
   getProductByCategory(category_uuid) {

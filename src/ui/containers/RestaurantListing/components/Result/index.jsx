@@ -89,9 +89,13 @@ export default class extends Component {
     this.setState({ hasMore: true, elements: [] });
   };
 
-  componentWillReceiveProps({config, language}) {
+  componentWillReceiveProps({config, language, filters}) {
     // console.log(config, this.props.config)
-    if((this.props.config.searchStr !== config.searchStr) || (this.props.language !== language) ){
+    if(
+      (this.props.config.searchStr !== config.searchStr) 
+      || (this.props.language !== language) 
+      || (this.props.filters !== filters)
+      ){
       this.removeSearchResult();
     }       
   }

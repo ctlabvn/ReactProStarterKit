@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import classNames from "classnames";
 import { DropdownItem } from "reactstrap";
 import { connect } from "react-redux";
 import { translate } from "react-i18next";
@@ -12,6 +13,7 @@ import Image from "~/ui/components/Image";
 import * as authActions from "~/store/actions/auth";
 import * as authSelectors from "~/store/selectors/auth";
 import api from "~/store/api";
+import { isMobile } from "~/ui/utils";
 
 import "./index.css";
 
@@ -85,7 +87,7 @@ export default class extends Component {
         value={config.searchStr}
         className="header-suggestion"
         buttonClass="border-0 mt-2"
-        inputClass="font-large color-gray pl-2"
+        inputClass={classNames({"font-medium": isMobile}, "color-gray pl-2")}
         placeholder={t("PLACEHOLDER.TYPE_YOUR_SEARCH")}
         onSearch={this.handleSearch}
       >
