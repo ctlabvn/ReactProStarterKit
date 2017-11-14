@@ -2,7 +2,7 @@ import React, { Component } from "react";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { translate } from "react-i18next";
-import PopoverItem from "~/ui/components/PopoverItem";
+import PopoverFilterItem from "~/ui/components/PopoverFilterItem";
 import { parseJsonToObject } from "~/store/utils/json";
 
 // component
@@ -53,7 +53,7 @@ export default class extends Component {
 					}
 				}
 			}
-			options.filters.location.body = {...options.filters.location.body, ...citiesData};
+			options.filters.city.body = {...options.filters.city.body, ...citiesData};
 
 			// update option
 			const staticOptions = await api.setting.getSettingOptions();
@@ -73,7 +73,7 @@ export default class extends Component {
 			...filters,
 			[id]: {
 				...filters[id],
-				selected
+				selected: selected.join(",")
 			}
 		};
 		this.props.updateFilters(options.filters);
@@ -92,7 +92,7 @@ export default class extends Component {
       !!filters && <div className="my-2 container">
       	{placeOnDrawer && <hr/>}
 			  { Object.keys(filters).map((type, i) => {
-				  return <PopoverItem key={i} item={filters[type]} id={type} onSelectFilter={(selected)=>this.onSelectFilter(type, selected)} />;
+				  return <PopoverFilterItem key={i} item={filters[type]} id={type} onSelectFilter={(selected)=>this.onSelectFilter(type, selected)} />;
 			  })}
       </div>
 	  );

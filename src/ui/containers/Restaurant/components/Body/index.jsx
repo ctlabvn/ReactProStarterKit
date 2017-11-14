@@ -274,8 +274,8 @@ export default class extends Component {
         } else {
           // console.log(item.total_items, categoryHasChildProduct, item.category_uuid);
           if (
-            categoryHasChildProduct.indexOf(item.category_uuid) > -1 ||
-            item.total_items !== 0
+            categoryHasChildProduct.indexOf(item.category_uuid) > -1 
+            || item.total_items !== 0
           ) {
             showCategories.push(item);
           }
