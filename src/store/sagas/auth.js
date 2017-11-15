@@ -2,7 +2,7 @@ import { takeLatest, all } from 'redux-saga/effects'
 
 import api from '~/store/api'
 import { createRequestSaga } from '~/store/sagas/common'
-import { setToast, forwardTo } from '~/store/actions/common'
+import { setToast } from '~/store/actions/common'
 
 import { 
   setAuthState,   
@@ -87,7 +87,7 @@ const requestLogout = createRequestSaga({
   stop: [
     () => removeLoggedUser(),    
     () => setAuthState(false),  
-    () => forwardTo('/'),
+    // () => forwardTo('/'),
   ]
 });
 

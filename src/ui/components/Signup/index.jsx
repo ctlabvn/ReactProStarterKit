@@ -33,15 +33,17 @@ import { validate } from "./utils";
   enableReinitialize: true
 })
 export default class extends Component {
-  signup = ({ name, email, password, address, address_name }) => {
+  signup = ({ name, email, password, address, phone, address_name }) => {
     const { requestor } = this.props;
-
+    
     requestor(
       "app/signup",
       email,
       password,
+      // extra fields
       {
         name,
+        phone,
         address_name,
         address
       },
@@ -60,9 +62,15 @@ export default class extends Component {
       <Form>
         <Row>
           <Field
-            className="col"
+            className="col-md-6"
             label="Name"
             name="name"
+            component={InputField}
+          />
+          <Field
+            className="col-md-6"
+            label="Phone"
+            name="phone"
             component={InputField}
           />
         </Row>

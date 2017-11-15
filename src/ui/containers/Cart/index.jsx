@@ -288,7 +288,7 @@ export default class extends Component {
   };
 
   renderTimePicker = ({ request_time, order_type }) => {
-    const { orderInfo } = this.props;
+    const { orderInfo, t } = this.props;
     
 
     const orderTypeValue = this.getOrderTypeValue(order_type.input);
@@ -305,9 +305,9 @@ export default class extends Component {
         <OrderTypeField checkedValue={orderTypeValue} orderTypes={this.orderTypes} {...order_type} />
         <RequestTimeField
           label={
-            orderTypeValue === ORDER_TYPE.DELIVERY
-              ? "Delivery time"
-              : "Take away time"
+            t(orderTypeValue === ORDER_TYPE.DELIVERY
+              ? "LABEL.DELIVERY"
+              : "LABEL.TAKEAWAY")
           }
           hoursRange={hoursRange}
           {...request_time}
@@ -441,31 +441,31 @@ export default class extends Component {
               />
 
               {this.renderCurrency(
-                "LABEL.SUBTOTAL",
+                t("LABEL.SUBTOTAL"),
                 orderPrices.subtotal,
                 "color-gray",
                 currency_symbol
               )}
               {!!orderPrices.discount && this.renderCurrency(
-                "Discount",
+                t("LABEL.DISCOUNT"),
                 orderPrices.discount,
                 "color-gray",
                 currency_symbol
               )}
               {!!orderPrices.fee && this.renderCurrency(
-                "Delivery free",
+                t("LABEL.DELIVERY_FREE"),
                 orderPrices.fee,
                 "color-gray",
                 currency_symbol
               )}
               {!!orderPrices.tax && this.renderCurrency(
-                "Tax",
+                t("LABEL.TAX"),
                 orderPrices.tax,
                 "color-gray",
                 currency_symbol
               )}
               {this.renderCurrency(
-                "LABEL.TOTAL_PRICE",
+               t("LABEL.TOTAL_PRICE"),
                 orderPrices.total,
                 "color-black",
                 currency_symbol

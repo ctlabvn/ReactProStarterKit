@@ -8,8 +8,11 @@ import { Table } from "reactstrap";
 
 // components
 import CardItem from "../CardItem";
+import ModalConfirm from "~/ui/components/ModalConfirm";
+
 import * as orderSelectors from "~/store/selectors/order";
 import * as orderActions from "~/store/actions/order";
+
 
 import {getItemPrice} from "~/ui/utils";
 
@@ -22,6 +25,12 @@ import {getItemPrice} from "~/ui/utils";
 )
 export default class extends Component {
 
+  constructor(props) {
+    super(props);
+  
+    this.selectedItem = null;
+  }
+
   increaseOrder(item) {
     this.props.updateOrderItem({ ...item, quantity: item.quantity + 1 });
   }
@@ -30,14 +39,24 @@ export default class extends Component {
     this.props.updateOrderItem({ ...item, quantity: item.quantity - 1 });
   }
 
-  removeOrder(item) {
-    this.props.removeOrderItem(item);
+  removeOrder(item) {    
+    this.selectedItem = item;
+    this.modal.open();
   }
+
+  handleCancelModal=()=>{
+    this.modal.close();
+  };
+
+  handleConfirmModal=()=>{
+    this.props.removeOrderItem(this.selectedItem);
+    this.modal.close();
+  };
 
   render() {
     const { orderItems, t } = this.props;
-    return (
-      <Table className="mt-4 text-uppercase table-fixed table-responsive">
+    return [
+      <Table key="cartList" className="mt-4 text-uppercase table-fixed table-responsive">
         <thead className="color-gray">
           <tr>
             <th className="pl-0 card-title">{t("TABLE.ITEM")}</th>
@@ -66,7 +85,13 @@ export default class extends Component {
             />
           ))}
         </tbody>
-      </Table>
-    );
+      </Table>,
+        <ModalConfirm key="modal" onItemRef={ref=>this.modal = ref} 
+          onCancel={this.handleCancelModal}
+          onOK={this.handleConfirmModal} 
+        >
+          {t('LABEL.CONFIRM_REMOVE_CART_ITEM')}
+        </ModalConfirm>
+      ];
   }
 }

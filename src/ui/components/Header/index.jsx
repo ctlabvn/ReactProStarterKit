@@ -17,6 +17,7 @@ import LoginModal from "~/ui/components/LoginModal";
 import Suggestion from "./components/Suggestion";
 import PopoverCart from "./components/PopoverCart";
 import Drawer from "~/ui/components/Drawer";
+import ModalConfirm from "~/ui/components/ModalConfirm";
 
 // selectors && actions
 import * as orderActions from "~/store/actions/order";
@@ -42,6 +43,8 @@ export default class extends Component {
     this.state = {
       drawerOpen: false,
     };
+
+    this.selectedItem = null;
   }
 
   toggleDrawer = ()=>{
@@ -57,13 +60,24 @@ export default class extends Component {
   };
 
   decreaseOrder=(item)=> {
+    this.selectedItem = item;
     if (item.quantity === 1) {
-      if (window.confirm("Do you want to remove this item?")) {
-        this.props.removeOrderItem(item);
-      }
+      // if (window.confirm("Do you want to remove this item?")) {
+      //   this.props.removeOrderItem(item);
+      // }
+      this.modal.open();
     } else {
       this.props.updateOrderItem({ ...item, quantity: item.quantity - 1 });
     }
+  };
+
+  handleCancelModal=()=>{
+    this.modal.close();
+  };
+
+  handleConfirmModal=()=>{
+    this.props.removeOrderItem(this.selectedItem);
+    this.modal.close();
   };
 
   render() {
@@ -132,6 +146,14 @@ export default class extends Component {
         </div>        
       </nav>
       {isMobile && <Drawer className={classNames({"hidden": !drawerOpen})}/>}
+
+      <ModalConfirm key="modal" onItemRef={ref=>this.modal = ref} 
+          onCancel={this.handleCancelModal}
+          onOK={this.handleConfirmModal} 
+        >
+          {t('LABEL.CONFIRM_REMOVE_CART_ITEM')}
+        </ModalConfirm>
+
       </div>
     );
   }

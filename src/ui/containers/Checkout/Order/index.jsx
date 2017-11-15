@@ -71,34 +71,34 @@ export default class extends Component {
         <hr />
 
         {this.renderCurrency(
-          "LABEL.SUBTOTAL",
+          t("LABEL.SUBTOTAL"),
           orderPrices.subtotal,
           "color-gray",
           currency_symbol
         )}
         {!!orderPrices.discount &&
           this.renderCurrency(
-            "Discount",
+            t("LABEL.DISCOUNT"),
             orderPrices.discount,
             "color-gray",
             currency_symbol
           )}
         {!!orderPrices.fee &&
           this.renderCurrency(
-            "Delivery free",
+            t("LABEL.DELIVERY_FREE"),
             orderPrices.fee,
             "color-gray",
             currency_symbol
           )}
         {!!orderPrices.tax &&
           this.renderCurrency(
-            "Tax",
+            t("LABEL.TAX"),
             orderPrices.tax,
             "color-gray",
             currency_symbol
           )}
         {this.renderCurrency(
-          "LABEL.TOTAL_PRICE",
+          t("LABEL.TOTAL_PRICE"),
           orderPrices.total,
           "color-black",
           currency_symbol

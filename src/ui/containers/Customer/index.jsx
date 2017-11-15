@@ -20,6 +20,8 @@ import Order from "./Order";
 // import * as authActions from "~/store/actions/auth";
 // import * as authSelectors from "~/store/selectors/auth";
 
+import { VERSION } from "~/store/constants/api";
+
 @translate("translations")
 export default class extends Component {
   renderProfileMenu() {
@@ -31,12 +33,14 @@ export default class extends Component {
             Profile
           </NavLink>
         </ListGroupItem>
+        {VERSION > 1 &&
         <ListGroupItem>
           <NavLink activeClassName="font-weight-bold" className="color-black" to="/customer/payment">
             <i className="fa fa-credit-card mr-2" />
             Payment
           </NavLink>
         </ListGroupItem>
+      }
         <ListGroupItem>
           <NavLink activeClassName="font-weight-bold" className="color-black" to="/customer/order">
             <i className="fa fa-history mr-2" />
@@ -55,6 +59,8 @@ export default class extends Component {
         <hr />
         <div className="row">
           <div className="col-md-4">
+
+            {VERSION > 1 &&
             <div className="text-center mb-4">
               <img
                 src="//placehold.it/100"
@@ -63,7 +69,7 @@ export default class extends Component {
               />
               <input type="file" className="form-control border-0" />
             </div>
-
+          }
             {this.renderProfileMenu()}
           </div>
 

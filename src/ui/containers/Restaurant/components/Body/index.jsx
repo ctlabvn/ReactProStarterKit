@@ -14,6 +14,7 @@ import Slider from "~/ui/components/Slider";
 // import ButtonRound from "~/ui/components/Button/Round";
 import RestaurantProduct from "~/ui/components/Restaurant/Product";
 import EmptyResult from "~/ui/components/EmptyResult";
+import ModalConfirm from "~/ui/components/ModalConfirm";
 // import Image from "~/ui/components/Image";
 
 import * as commonActions from "~/store/actions/common";
@@ -47,6 +48,8 @@ export default class extends Component {
       treeCategory: {},
       treeCategoryName: {}
     };
+
+    this.processingItem = null;
   }
 
   handleCategory = parentCategory => {
@@ -90,42 +93,39 @@ export default class extends Component {
     </div>
   );
 
-  handleAddOrderItem = (item, item_options = []) => {
-    const {
-      orderInfo,
-      orderItems,
-      outlet,
-      clearItems,
-      updateOrder,
-      addOrderItem
-    } = this.props;
-    if (orderInfo.outlet_uuid !== outlet.outlet_uuid) {
-      // first time or reset
-      if (orderItems.length) {
-        if (
-          !orderInfo.outlet_uuid ||
-          window.confirm("Do you want to clear current orders?")
-        ) {
-          clearItems();
-        } else {
-          return;
-        }
-      } else {
-        // just clear because it is empty
-        clearItems();
-      }
-    }
+  handleCancelModal=()=>{
+    this.modal.close();
+  };
 
-    const { default_price, item_uuid, currency, name, description } = item;
+  handleConfirmModal=()=>{
+    this.props.clearItems();
+    this.doAddOrderItem();
+    this.modal.close();
+  };
 
+  doAddOrderItem = () => {
     // each time add order, we should update business info for sure
+    const {outlet, updateOrder, addOrderItem} = this.props
     updateOrder({
       ...outlet.online_order_setting,
       restaurant_address: outlet.address,
       restaurant_lat: outlet.lat,
       restaurant_long: outlet.long
     });
-    addOrderItem({
+    // then add current proccessing order
+    addOrderItem(this.processingItem);
+  };
+
+  handleAddOrderItem = (item, item_options = []) => {
+    const {
+      orderInfo,
+      orderItems,
+      outlet,
+      clearItems,
+    } = this.props;
+
+    const { default_price, item_uuid, currency, name, description } = item;
+    this.processingItem = {
       item_uuid,
       item_options,
       price: default_price,
@@ -133,7 +133,25 @@ export default class extends Component {
       name,
       description,
       currency_symbol: currency.symbol
-    });
+    };
+
+    if (orderInfo.outlet_uuid !== outlet.outlet_uuid) {
+      // first time or reset
+      if (orderItems.length) {
+        if (!orderInfo.outlet_uuid) {
+          clearItems();
+        } else {
+          // wait for modal actions
+          this.modal.open();
+          return;
+        }
+      } else {
+        // just clear because it is empty
+        clearItems();
+      }
+    }
+    // add now
+    this.doAddOrderItem();
   };
 
   getCategories(outlet_uuid, page) {
@@ -322,6 +340,14 @@ export default class extends Component {
               />
             )}
           </div>
+
+          <ModalConfirm onItemRef={ref=>this.modal = ref} 
+            onCancel={this.handleCancelModal}
+            onOK={this.handleConfirmModal} 
+          >
+            {t('LABEL.CONFIRM_REMOVE_ORDER')}
+          </ModalConfirm>
+
         </div>
       );
     }

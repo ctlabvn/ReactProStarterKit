@@ -63,7 +63,11 @@
     "HOLD_ON": "hold-on",
     "REFUND": "refund",
     "PASSWORD_RESET": "Reset password",
-    "OPTION_IS_MANDATORY": "This option is mandatory, please fill it up"
+    "OPTION_IS_MANDATORY": "This option is mandatory, please fill it up",
+    "DELIVERY_FREE": "Delivery free",
+    "TAX": "Tax",
+    "CONFIRM_REMOVE_ORDER": "Do you want to clear the current order",
+    "CONFIRM_REMOVE_CART_ITEM": "Do you want remove this item from your cart"
   },
   "format": {
     "currency": "{{symbol}}{{price, 0,0.00}}"
