@@ -151,6 +151,10 @@ export default class extends Component {
       <div>
         <h4 className="text-center">{this.props.t("LABEL.CREATE_ACCOUNT")}</h4>
         <Signup />
+        <div className="position-relative w-100 mt-5">
+          <hr/>
+          <Button color="secondary" className="bg-white btn-or position-center" outline>Or</Button>
+        </div>
         <h4 className="text-center mt-5">{this.props.t("LABEL.HAVE_ACCOUNT")}</h4>
         <Login />
       </div>
@@ -166,15 +170,15 @@ export default class extends Component {
     return (
       <div className="container">
         <Row>
-          <Col md="8">
+          <div className="col-md-8">
             {isLogged ? this.renderHasAccount() : this.renderHasNoAccount()}
-          </Col>
-          <Col>
+          </div>
+          <div className="col-md-4">
             <Order orderItems={orderItems} orderInfo={orderInfo} className="mt-md-0 mt-4"/>
             {isLogged && <div className="d-flex w-100 text-center my-4 justify-content-end">
               <Button onClick={this.createOrder} color="primary">{this.props.t("BUTTON.CONFIRM_PAY")}</Button>
             </div>}
-          </Col>
+          </div>
         </Row>
       </div>
     );
