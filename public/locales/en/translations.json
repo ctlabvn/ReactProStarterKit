@@ -61,7 +61,8 @@
     "DELIVERED": "recieved",
     "PAID": "paid",
     "HOLD_ON": "hold-on",
-    "REFUND": "refund"
+    "REFUND": "refund",
+    "PASSWORD_RESET": "Reset password"
   },
   "format": {
     "currency": "{{symbol}}{{price, 0,0.00}}"
