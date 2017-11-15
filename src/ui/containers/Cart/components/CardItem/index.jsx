@@ -53,7 +53,7 @@ export default class extends Component {
             </div>            
             {options &&
               options.map(item_option => (
-                <small className="mt-2 color-black-300" key={item_option.option_uuid}>
+                <small className="mt-2 color-black-300 float-left" key={item_option.option_uuid}>
                   (+1){" "}
                   <span className="text-uppercase">{item_option.name}</span>
                  { 
