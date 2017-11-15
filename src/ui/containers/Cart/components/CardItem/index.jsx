@@ -94,7 +94,7 @@ export default class extends Component {
           })}
         </td>
         <td data-title={t("TABLE.DELETE")} className="text-center">
-          <ButtonRound className="float-md-none float-right btn-danger" icon="times" aria-hidden="true" onClick={onRemove} />
+          <ButtonRound className="float-right btn-danger" icon="times" aria-hidden="true" onClick={onRemove} />
         </td>
       </tr>
     );
