@@ -25,8 +25,8 @@
 
 @media (max-width: 768px){
 
-  .popover-cart{
-    max-width: 90%;
+  .popover-cart{    
+    max-width: calc(100vw - 10px);
     .text-truncate{
       width: 160px;
       white-space: normal;

@@ -109,7 +109,7 @@ export default class extends Component {
       <Popover        
         isOpen={this.state.cartOpen}            
         toggle={this.toggle}
-        className="popover-cart"
+        className="popover-cart box-shadow"
         {...props}
       >
         <PopoverBody className="p-2">
