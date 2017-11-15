@@ -78,9 +78,9 @@ export default class extends Component {
 							</span>
 						</nav>
 
-						<h4 className="text-uppercase color-black-400 w-100 d-md-flex justify-content-between">
-							<strong>{item.name}</strong>
-							<span className="color-red">
+						<h4 className="text-uppercase color-black-400 row no-gutters">
+							<strong className="col-md-8">{item.name}</strong>
+							<span className="col-md-4 color-red text-md-right">
 								{t("format.currency", {
 									price: item.default_price + optionsPrice,
 									symbol:
