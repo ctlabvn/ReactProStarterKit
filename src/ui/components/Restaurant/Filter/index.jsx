@@ -76,13 +76,16 @@ export default class extends Component {
 				selected: selected.join(",")
 			}
 		};
-		this.props.updateFilters(options.filters);
-
+		this.props.updateFilters(options.filters);		
 		this.props.onUpdateFilter && this.props.onUpdateFilter(options.filters);
+		options.ready = true;
 	}
 
 	componentDidMount() {
-		this.loadOptionFilter();
+		// cache after amount of time, will define later
+		// if(!this.props.filters.city){
+			this.loadOptionFilter();
+		// }		
 	}
 
   render() {

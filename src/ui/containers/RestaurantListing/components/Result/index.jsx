@@ -9,6 +9,9 @@ import RestaurantItemPhoto from "~/ui/components/Restaurant/Item/Photo";
 import EmptyResult from "~/ui/components/EmptyResult";
 import IconLoading from "~/ui/components/Loading/icon";
 
+// options
+import FilterOptions from "~/ui/components/Restaurant/Filter/options";
+
 // store
 // import api from "~/store/api";
 // import options from "./options";
@@ -23,21 +26,21 @@ import * as authSelectors from "~/store/selectors/auth";
 
 // import { store } from "~/store";
 
-import {extractMessage} from "~/ui/utils";
+import { extractMessage } from "~/ui/utils";
 
 @translate("translations")
 @connect(
   state => ({
     language: authSelectors.getCustomer(state).language,
-	  filters: authSelectors.getFilters(state),
-	  config: authSelectors.getConfig(state)
+    filters: authSelectors.getFilters(state),
+    config: authSelectors.getConfig(state)
   }),
   { ...authActions, ...restaurantActions, ...commonActions }
 )
 export default class extends Component {
   constructor(props) {
     super(props);
-    const elements = [];//restaurantSelectors.getList(store.getState());
+    const elements = []; //restaurantSelectors.getList(store.getState());
     this.state = {
       hasMore: true,
       elements
@@ -47,32 +50,31 @@ export default class extends Component {
   loadMoreElement = async page => {
     const { config, filters, requestor, setToast, tags } = this.props;
 
-	  let data = this.standardFilter(filters);
-	  if(config.searchStr) data['keyword'] = config.searchStr;    
-    if(tags) data.tags = tags;
-    requestor("restaurant/searchOutlet", page, data, (err, ret)=>{      
-      if(err){
+    let data = this.standardFilter(filters);
+    if (config.searchStr) data["keyword"] = config.searchStr;
+    if (tags) data.tags = tags;
+    requestor("restaurant/searchOutlet", page, data, (err, ret) => {
+      if (err) {
         setToast(extractMessage(err.message), "danger");
         // show retry button
-      } else if(ret) {        
-        this.updateView(ret);  
+      } else if (ret) {
+        this.updateView(ret);
       }
-      
-    })
+    });
   };
 
-  standardFilter = (filter) => {
+  standardFilter = filter => {
     let result = {};
     const listParam = Object.keys(filter);
-    if(listParam.length) {
-	    for(let key of listParam) {
-		    if(filter[key] && filter[key]['selected']) {
-			    result[key] = filter[key]['selected'];
-		    }
-	    }
+    if (listParam.length) {
+      for (let key of listParam) {
+        if (filter[key] && filter[key]["selected"]) {
+          result[key] = filter[key]["selected"];
+        }
+      }
     }
     return result;
-  }
+  };
 
   updateView = ret => {
     if (ret.data.data && !this.unmounted) {
@@ -89,18 +91,23 @@ export default class extends Component {
     this.setState({ hasMore: true, elements: [] });
   };
 
-  componentWillReceiveProps({config, language, filters}) {
+  componentWillReceiveProps({ config, language, filters }) {
     // console.log(config, this.props.config)
-    if(
-      (this.props.config.searchStr !== config.searchStr) 
-      || (this.props.language !== language) 
-      || (this.props.filters !== filters)
-      ){
-      this.removeSearchResult();
-    }       
+    if (
+      this.props.config.searchStr !== config.searchStr ||
+      this.props.language !== language ||
+      this.props.filters !== filters
+    ) {
+      // when options is ready, mean that we load all filter options from server
+      // no cache
+      if (FilterOptions.ready) {
+        // console.log(this.props.filters, filters)
+        this.removeSearchResult();
+      }
+    }
   }
 
-	componentDidMount(){
+  componentDidMount() {
     this.props.onItemRef && this.props.onItemRef(this);
   }
 
@@ -122,10 +129,9 @@ export default class extends Component {
         />
       ));
 
-    if (!hasMore)
-      return <EmptyResult/>;
+    if (!hasMore) return <EmptyResult />;
 
-    return <div/>
+    return <div />;
   }
 
   render() {

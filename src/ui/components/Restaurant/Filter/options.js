@@ -31,6 +31,7 @@ Tags
  */
 // can have event here
 export default {
+  ready: false,
 	filters: {
 		city: {
 			placement: 'bottom',
