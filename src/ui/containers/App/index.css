@@ -158,6 +158,10 @@ a:hover {
   border-bottom: 1px solid $gray-color-200;
 }
 
+.border-top {
+  border-top: 1px solid $gray-color-200;
+}
+
 .html-content{
   img {
     max-width: 100%;

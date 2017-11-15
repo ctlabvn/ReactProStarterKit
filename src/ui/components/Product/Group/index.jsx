@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { translate } from "react-i18next";
+// import { translate } from "react-i18next";
 // import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames";
@@ -16,7 +16,7 @@ import ProductOptions from "~/ui/components/Product/Options";
 
 import "./index.css";
 
-@translate("translations")
+// @translate("translations")
 export default class ProductGroup extends Component {
   constructor(props) {
     super(props);

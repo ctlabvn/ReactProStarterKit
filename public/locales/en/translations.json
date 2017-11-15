@@ -62,7 +62,8 @@
     "PAID": "paid",
     "HOLD_ON": "hold-on",
     "REFUND": "refund",
-    "PASSWORD_RESET": "Reset password"
+    "PASSWORD_RESET": "Reset password",
+    "OPTION_IS_MANDATORY": "This option is mandatory, please fill it up"
   },
   "format": {
     "currency": "{{symbol}}{{price, 0,0.00}}"

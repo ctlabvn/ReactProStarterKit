@@ -27,7 +27,10 @@ export const order = (state = initialState, { type, payload }) => {
       // force update order info belong to restaurant later, or better use other field
       return {...state, items:[], info: {...state.info, outlet_uuid: null, request_time: 0}}
     case "order/addItem":
-      index = findIndex(state, payload);
+      index = (payload.item_options && payload.item_options.length)
+        ? -1 
+        : findIndex(state, payload);
+      // we will auto update quantity if this item has no item_options
       return index !== -1
         ? updateItem(state, index, {
             ...state.items[index],
