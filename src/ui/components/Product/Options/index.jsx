@@ -157,7 +157,7 @@ export default class ProductOptions extends Component {
 						? `data[${parent.id}][${child.id}]`
 						: `data[${parent.id}]`;
 					return (
-								<FormGroup className={classNames(inline?"col-md-3": "col-12")} key={index} check>
+								<FormGroup className={classNames(inline?"col-md-3 float-left": "col-12")} key={index} check>
             <Label className="font-weight-bold text-uppercase color-black-300" check>
               <Input name={inputName}
 									checked={parentFormState ? !!parentFormState[child.option_uuid] : false}
@@ -170,7 +170,7 @@ export default class ProductOptions extends Component {
 									type={inputType}
 									/>{' '}
               {child.name}
-              
+              <br/>
 								{child.price > 0 && (
 									<small className="badge badge-danger">
 										{t("format.currency", {
