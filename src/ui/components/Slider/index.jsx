@@ -19,13 +19,11 @@ export default class extends Component {
 
   static propTypes = {
     num: PropTypes.number,
-    numMobile: PropTypes.number,
     move: PropTypes.number
   };
 
   static defaultProps = {
     num: 4,
-    numMobile: 1,
     move: 1
   };
 
@@ -42,9 +40,18 @@ export default class extends Component {
   };
 
   render() {
-    const { num, move, numMobile, children, className, ...props } = this.props;
+    const { num, move, children, className, ...props } = this.props;
     const { index } = this.state;    
-    const width = Math.round(1 / (isMobile ? numMobile : num) * 100);
+
+    if(isMobile){
+      return (
+        <div className={classNames("slider m-0 p-0", className)} {...props}>
+          {children}
+        </div>
+      )
+    }
+
+    const width = Math.round((1 / num) * 100);
 
     const childrenWithProps = React.Children.map(children, child => (
       <div
@@ -77,7 +84,7 @@ export default class extends Component {
             {childrenWithProps}
           </div>
         </div>
-        {index < children.length - (isMobile ? numMobile : num) && (
+        {index < children.length - num && (
           <ButtonRound
             onClick={this.moveRight}
             icon="angle-right"
