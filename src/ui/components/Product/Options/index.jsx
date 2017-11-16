@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
-import {FormGroup, Label, Input} from "reactstrap";
+import { FormGroup, Label, Input } from "reactstrap";
 
 import api from "~/store/api";
 import * as orderActions from "~/store/actions/order";
@@ -19,7 +19,7 @@ export default class ProductOptions extends Component {
 		this.state = {
 			form: {},
 			disableAddToCart: false,
-			options: props.item.item_options,
+			options: props.item.item_options
 		};
 	}
 
@@ -28,13 +28,13 @@ export default class ProductOptions extends Component {
 		onAddOrderItem: PropTypes.func.isRequired,
 		inline: PropTypes.bool,
 		autoClear: PropTypes.bool,
-		checkAll: PropTypes.bool,
+		checkAll: PropTypes.bool
 	};
 
 	static defaultProps = {
-	  inline: true,
-	  autoClear: true,
-	  checkAll: true,
+		inline: true,
+		autoClear: true,
+		checkAll: true
 	};
 
 	handleSubmit = () => {
@@ -46,7 +46,7 @@ export default class ProductOptions extends Component {
 		const validateResult = this.validateMandatory();
 		if (validateResult) {
 			// save into order
-			this.props.onAddOrderItem(this.props.item, this.getOptions());			
+			this.props.onAddOrderItem(this.props.item, this.getOptions());
 			// clear checked
 			this.props.autoClear && this.resetFormTree();
 		} else {
@@ -56,32 +56,34 @@ export default class ProductOptions extends Component {
 		}
 	};
 
-	getOptions(){
-		return Object.values(this.state.form).map(set=>Object.values(set).filter(value=>value))
+	getOptions() {
+		return Object.values(this.state.form)
+			.map(set => Object.values(set).filter(value => value))
 			.reduce((a, b) => a.concat(b), []);
 	}
 
-	getTotalPrice(){
-		return this.getOptions().reduce((a, b)=>a+b.price,0);	
+	getTotalPrice() {
+		return this.getOptions().reduce((a, b) => a + b.price, 0);
 	}
 
 	validateMandatory(showError = true) {
-		const { form, options} = this.state;		
+		const { form, options } = this.state;
 		const { checkAll, t } = this.props;
 		let check = true;
 		for (let parent of options) {
 			if (parent.optionSet && parent.mandatory) {
 				// check state and show alert message
-				if (this.checkObjectFalse(form[parent.opt_set_uuid])) {										
+				if (this.checkObjectFalse(form[parent.opt_set_uuid])) {
 					check = false;
 					if (showError) {
-						document.querySelector("#error-" + parent.opt_set_uuid).innerText =
-							t("LABEL.OPTION_IS_MANDATORY");
+						document.querySelector(
+							"#error-" + parent.opt_set_uuid
+						).innerText = t("LABEL.OPTION_IS_MANDATORY");
 						// just show one
-						if(!checkAll){
+						if (!checkAll) {
 							break;
 						}
-					}					
+					}
 				}
 			}
 		}
@@ -97,7 +99,7 @@ export default class ProductOptions extends Component {
 		return true;
 	}
 
-	resetFormTree(){
+	resetFormTree() {
 		const { options } = this.state;
 		let formTree = {};
 
@@ -108,22 +110,24 @@ export default class ProductOptions extends Component {
 					formTree[parent.opt_set_uuid][child.option_uuid] = false;
 				}
 			}
-		}		
+		}
 		this.setState({ form: formTree });
 	}
 
 	async componentDidMount() {
-		const {item} = this.props;
-		const needReload = item.item_options.some(itemOption => !itemOption.optionSet);
-		if(needReload){
+		const { item } = this.props;
+		const needReload = item.item_options.some(
+			itemOption => !itemOption.optionSet
+		);
+		if (needReload) {
 			// no need to show waiting, just update more
 			const ret = await api.item.getDetail(item.item_uuid);
-			this.setState({options: ret.data.item_options});
+			this.setState({ options: ret.data.item_options });
 		}
 		this.resetFormTree();
 	}
 
-	handleChange = (parentUuid, child, multiChoice) => {		
+	handleChange = (parentUuid, child, multiChoice) => {
 		const { disableAddToCart, form } = this.state;
 		if (disableAddToCart) {
 			this.setState({
@@ -139,28 +143,52 @@ export default class ProductOptions extends Component {
 		form[parentUuid][child.option_uuid] = form[parentUuid][child.option_uuid]
 			? false
 			: child;
-		this.setState({
-			form: form
-		}, ()=>{
-			this.props.onChangeOption && this.props.onChangeOption(this.getTotalPrice(), this);
-		});
+		this.setState(
+			{
+				form: form
+			},
+			() => {
+				this.props.onChangeOption &&
+					this.props.onChangeOption(this.getTotalPrice(), this);
+			}
+		);
 	};
 
 	renderOption(symbol, parent, t) {
-		const {inline} = this.props;
+		const { inline } = this.props;
 		const inputType = parent.multiple_choice ? "checkbox" : "radio";
 		const parentFormState = this.state.form[parent.opt_set_uuid];
 		return (
-			<div className={classNames(inline ? "col-md-flex flex-md-wrap col-md-10 mt-md-0 mt-2 no-gutters": "col-12 mt-4")}>
+			<div
+				className={classNames(
+					inline
+						? "col-md-flex flex-md-wrap col-md-10 mt-md-0 mt-2 no-gutters"
+						: "col-12 mt-4"
+				)}
+			>
 				{parent.optionSet.map((child, index) => {
 					const inputName = parent.multiple_choice
 						? `data[${parent.id}][${child.id}]`
 						: `data[${parent.id}]`;
 					return (
-								<FormGroup className={classNames(inline?"col-md-3 float-left": "col-12")} key={index} check>
-            <Label className="font-weight-bold text-uppercase color-black-300" check>
-              <Input name={inputName}
-									checked={parentFormState ? !!parentFormState[child.option_uuid] : false}
+						<FormGroup
+							className={classNames(
+								inline ? "col-md-3 float-left" : "col-12 px-0"
+							)}
+							key={index}
+							check
+						>
+							<Label
+								className="font-weight-bold text-uppercase color-black-300"
+								check
+							>
+								<Input
+									name={inputName}
+									checked={
+										parentFormState
+											? !!parentFormState[child.option_uuid]
+											: false
+									}
 									onChange={() =>
 										this.handleChange(
 											parent.opt_set_uuid,
@@ -168,9 +196,9 @@ export default class ProductOptions extends Component {
 											parent.multiple_choice
 										)}
 									type={inputType}
-									/>{' '}
-              {child.name}
-              <br/>
+								/>{" "}
+								{child.name}
+								<br />
 								{child.price > 0 && (
 									<small className="badge badge-danger">
 										{t("format.currency", {
@@ -179,25 +207,42 @@ export default class ProductOptions extends Component {
 										})}
 									</small>
 								)}
-            </Label>
-          </FormGroup>
-          );
-				})}				
+							</Label>
+						</FormGroup>
+					);
+				})}
 			</div>
 		);
 	}
 
 	// this component is not element component so should not pass all props
 	render() {
-		const { t, item, canAddOrder, inline, shiftToMenu, className } = this.props;		
-		const { disableAddToCart, options } = this.state;		
+		const { t, item, canAddOrder, inline, shiftToMenu, className } = this.props;
+		const { disableAddToCart, options } = this.state;
 		return (
-			<div className={classNames(className, {"shift-to-menu":  shiftToMenu && canAddOrder})}>
+			<div
+				className={classNames(className, {
+					"shift-to-menu": shiftToMenu && canAddOrder
+				})}
+			>
 				{options.map((parent, index) => (
-					<div className={classNames("my-3 row no-gutters", {"border-bottom":index < options.length -1})} key={parent.opt_set_uuid}>
-						<div className={classNames(inline?"col-md-2": "col-12")}>
-							<strong className={classNames("group-label text-uppercase border-bottom", parent.mandatory ? "border-red color-red" : "border-gray-300 color-gray-300")}>
-								{parent.name}{parent.mandatory ? '*' : ''}
+					<div
+						className={classNames("my-3 row no-gutters", {
+							"border-bottom": index < options.length - 1
+						})}
+						key={parent.opt_set_uuid}
+					>
+						<div className={classNames(inline ? "col-md-2" : "col-12")}>
+							<strong
+								className={classNames(
+									"group-label text-uppercase border-bottom",
+									parent.mandatory
+										? "border-red color-red"
+										: "border-gray-300 color-gray-300"
+								)}
+							>
+								{parent.name}
+								{parent.mandatory ? "*" : ""}
 							</strong>
 						</div>
 						{!!parent.optionSet &&
@@ -210,25 +255,29 @@ export default class ProductOptions extends Component {
 						</div>
 					</div>
 				))}
-				{!inline && 
+				{!inline && (
 					<div className="float-right mb-3">
 						<strong>Total</strong>
 						<span className="ml-2 color-red">
 							{t("format.currency", {
-											price: this.getTotalPrice(),
-											symbol: item.currency.symbol
-										})}
-							</span>
+								price: this.getTotalPrice(),
+								symbol: item.currency.symbol
+							})}
+						</span>
 					</div>
-				}
-				<div className="form-group text-right">					
-						{canAddOrder && <button
-							className={classNames("btn btn-danger btn-sm", {"btn-block":!inline})} 
+				)}
+				<div className="form-group text-right">
+					{canAddOrder && (
+						<button
+							className={classNames("btn btn-danger btn-sm", {
+								"btn-block": !inline
+							})}
 							disabled={disableAddToCart}
 							onClick={() => this.handleSubmit()}
 						>
 							{t("BUTTON.ADD_TO_CART")}
-						</button>}					
+						</button>
+					)}
 				</div>
 			</div>
 		);

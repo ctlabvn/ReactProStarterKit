@@ -54,7 +54,7 @@ export default class ProductItem extends Component {
           className={classNames("d-flex flex-row align-items-center", className)}
         >
 			    {image && <Image
-            style={{ width: imageSize, height: imageSize }}
+            style={{ width: imageSize, height: imageSize, alignSelf: 'center'}}
             src={image}
             alt="..."            
           />}
