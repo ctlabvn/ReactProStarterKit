@@ -55,7 +55,7 @@ class ReadMore extends Component {
 				>
 					{children}
 				</Truncate>
-				{!truncated && expanded && (
+				{!truncated && expanded && less && (
 					<span> <a role="button" tabIndex="0" onClick={this.toggleLines}>{less}</a></span>
 				)}
 			</div>
@@ -66,12 +66,13 @@ class ReadMore extends Component {
 ReadMore.defaultProps = {
 	lines: 3,
 	more: 'Read more',
-	less: 'Show less'
+	less: '',
 };
 
 ReadMore.propTypes = {
 	children: PropTypes.node.isRequired,
-	text: PropTypes.node,
+	more: PropTypes.string,
+	less: PropTypes.string,
 	lines: PropTypes.number
 };
 

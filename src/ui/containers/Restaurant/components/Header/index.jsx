@@ -9,7 +9,7 @@ import MenuItem from "~/ui/components/Menu/Item";
 import RestaurantOrderSetting from "~/ui/components/Restaurant/OrderSetting";
 import RestaurantInfo from "~/ui/components/Restaurant/Info";
 import RestaurantTag from "~/ui/components/Restaurant/Tag";
-import Readmore from "~/ui/components/Restaurant/Readmore";
+import Readmore from "~/ui/components/Readmore";
 import { parseJsonToObject } from "~/store/utils/json";
 
 import "./index.css";
@@ -47,7 +47,9 @@ export default class extends Component {
               <RestaurantOrderSetting outlet={outlet} />
             </div>
 
-            <Readmore line="500" more={t('LABEL.SHOW_MORE')} less={t('LABEL.SHOW_LESS')}>
+            <Readmore line="500" more={t('LABEL.SHOW_MORE')} 
+              // less={t('LABEL.SHOW_LESS')}
+            >
               <p className="w-100 mt-3 html-content" dangerouslySetInnerHTML={{__html:outlet.description}}/>
             </Readmore>
 

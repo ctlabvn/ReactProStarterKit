@@ -11,7 +11,7 @@ import Menu from "~/ui/components/Menu";
 import MenuItem from "~/ui/components/Menu/Item";
 import RestaurantOrderSetting from "~/ui/components/Restaurant/OrderSetting";
 import RestaurantInfo from "~/ui/components/Restaurant/Info";
-import Readmore from "~/ui/components/Restaurant/Readmore";
+import Readmore from "~/ui/components/Readmore";
 import ProductOptions from "~/ui/components/Product/Options";
 import * as orderActions from "~/store/actions/order";
 // import * as restaurantValidation from "~/store/utils/validation/restaurant";
@@ -102,7 +102,7 @@ export default class extends Component {
 						<Readmore
 							line="500"
 							more={t("LABEL.SHOW_MORE")}
-							less={t("LABEL.SHOW_LESS")}
+							// less={t("LABEL.SHOW_LESS")}
 						>
 							<p
 								className="w-100 mt-3 html-content"
