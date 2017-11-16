@@ -47,7 +47,7 @@ export default class extends Component {
     if (!config.languages) return defaultLangName;
     const selectedItem = config.languages.find(item=>item.iso_code === defaultLang);
     return (
-      <Dropdown title={selectedItem ? selectedItem.name : defaultLangName} className="dropup text-uppercase">
+      <Dropdown title={selectedItem ? selectedItem.name : defaultLangName} className={classNames(isMobile ? "dropinline" : "dropup" ,"text-uppercase")}>
         {config.languages.map(item => (
           <a key={item.id} className={classNames({"text-info": item.iso_code === defaultLang})} onClick={() => i18n.changeLanguage(item.iso_code)}>
             {item.name}
