@@ -48,6 +48,7 @@
     "NO_SEARCH_DATA": "No data",
     "RESULT_EMPTY": "No data",
     "CART_EMPTY": "Your shopping cart is empty.",
+    "LOGIN_ERROR": "Tên đăng nhập hoặc mật khấu không đúng",
     "MIN_ORDER": "Min order: ",
     "MAX_ORDER": "Max order: ",
     "DELIVERY_FEE": "Delivery fee: ",

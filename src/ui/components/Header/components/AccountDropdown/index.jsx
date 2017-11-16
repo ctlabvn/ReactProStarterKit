@@ -10,8 +10,11 @@ import {
 
 import * as commonActions from "~/store/actions/common";
 import * as orderActions from "~/store/actions/order";
+import * as authSelectors from "~/store/selectors/auth";
 
-@connect(null, {...commonActions, ...orderActions})
+@connect(state=>({
+  token: authSelectors.getToken(state)
+}), {...commonActions, ...orderActions})
 export default class extends React.Component {
   constructor(props) {
     super(props);
@@ -27,11 +30,11 @@ export default class extends React.Component {
   };
 
   logout = () => {
-    const {requestor, updateOrderHistory} = this.props;
+    const {requestor, updateOrderHistory, token} = this.props;
     // empty order
     updateOrderHistory(null)
     // trigger logout
-    requestor("app/logout");
+    requestor("app/logout", token);
   };
 
   render() {

@@ -44,8 +44,10 @@ export default {
   /**
   * Logs the current user out
   */
-  logout() {
-    return apiPost("/auth/logout");
+  logout(token) {
+    return apiPost("/customer/logout", {
+      token,
+    });
   },
 
   resetPassword(email){

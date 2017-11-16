@@ -57,7 +57,7 @@ const requestLogin = createRequestSaga({
     // () => forwardTo('/customer/profile'), // action creator may return nothing to match
   ],
   failure: [ 
-    () => setToast('Couldn\'t login', 'danger') 
+    // () => setToast('Couldn\'t login', 'danger') 
   ],
 })
 

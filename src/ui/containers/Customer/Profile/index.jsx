@@ -84,7 +84,7 @@ export default class extends Component {
       <div className="personal-info pl-md-5 my-md-0 my-4">
         <h3>Personal info</h3>
 
-        <Field label="Username" name="name" component={InputField} />
+        <Field label="Fullname" name="name" component={InputField} />
 
         <Field label="Phone" name="phone" component={InputField} />
 

@@ -21,11 +21,16 @@ import { Field, reduxForm } from "redux-form";
 import { InputField } from "~/ui/components/ReduxForm";
 
 import * as commonActions from "~/store/actions/common";
+import * as orderSelectors from "~/store/selectors/order";
 
 import { validate } from "./utils";
 
 @translate("translations")
-@connect(null, commonActions)
+@connect(state=>({
+  initialValues:{
+    address: orderSelectors.getInfo(state).order_address
+  }
+}), commonActions)
 @reduxForm({
   form: "Signup",
   validate,

@@ -64,6 +64,7 @@
     "HOLD_ON": "hold-on",
     "REFUND": "refund",
     "PASSWORD_RESET": "Reset password",
+    "LOGIN_ERROR": "Email or password is incorrect",
     "OPTION_IS_MANDATORY": "This option is mandatory, please fill it up",
     "DELIVERY_FREE": "Delivery free",
     "TAX": "Tax",

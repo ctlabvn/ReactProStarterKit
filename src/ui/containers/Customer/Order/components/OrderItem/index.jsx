@@ -129,11 +129,11 @@ export default class extends Component {
           {order.items.map(item => (
             <div className="d-flex flex-column mb-4 col-md-3" key={item.id}>
               <Link className="color-black-300" to={`/item/${item.id}`}>
-                <Image width="100%" alt="..." src={item.image.url_thumb} />
+                {item.image.url_thumb.length && <Image width="100%" alt="" src={item.image.url_thumb} />}
 
                 <div className="color-black-300 mt-2">
                   <span className="w-100 float-left">
-                    ({item.qty}x) {item.name}
+                    ({item.qty||1}x) {item.name}
                   </span>
                   {item.options &&
                     item.options.breakdown.map((item, index) => (
@@ -141,7 +141,7 @@ export default class extends Component {
                         key={index}
                         className="w-100 float-left color-gray-300"
                       >
-                        + ({item.qty}x) {item.name}
+                        + ({item.qty||1}x) {item.name}
                       </span>
                     ))}
                   <span className="color-red">

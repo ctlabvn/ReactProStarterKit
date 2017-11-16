@@ -2,7 +2,7 @@ export const validate = (values) => {
   const errors = {}
   // first time it is empty
   if(!values) return errors
-  // if (!values.email) errors.username = 'Enter email'
+  if (!values.name) errors.name = 'Enter fullname'
   if (!values.phone) errors.phone = 'Enter phone';
   const addressErrors = [];
   values.address.forEach((item, index)=>{

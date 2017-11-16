@@ -14,6 +14,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Alert,
   // InputGroup,
   // Input,
   // InputGroupAddon
@@ -22,7 +23,7 @@ import {
 import * as commonActions from "~/store/actions/common";
 
 import { InputField } from "~/ui/components/ReduxForm";
-import { validateLogin } from "~/ui/utils";
+import { validateLogin, extractMessage } from "~/ui/utils";
 
 @translate("translations")
 @connect(null, commonActions)
@@ -31,7 +32,8 @@ export default class extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false
+      modal: false,
+      errorMessage: null,
     };
   }
 
@@ -41,8 +43,13 @@ export default class extends Component {
 
   login = ({ email, password }) => {
     this.props.requestor("app/login", email, password, (err, ret) => {
-      this.toggle();
-      this.props.reset();
+      if(err){
+        const errorMessage = extractMessage(err.message);
+        this.setState({errorMessage});
+      } else {
+        this.toggle();
+        this.props.reset();
+      }
     });
   };
 
@@ -84,7 +91,10 @@ export default class extends Component {
           >
             {t('BUTTON.LOGIN')}
           </Button>
-
+          {this.state.errorMessage && <Alert color="danger">
+            {this.state.errorMessage}
+          </Alert>
+        }
         </ModalBody>
         <ModalFooter>
           <div className="w-100 text-center">          
