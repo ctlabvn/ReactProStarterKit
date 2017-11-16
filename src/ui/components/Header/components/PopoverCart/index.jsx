@@ -120,7 +120,7 @@ export default class extends Component {
               </div>
               <Link
                 onClick={this.toggle}
-                className="btn mt-2 bg-red btn-sm btn-block text-uppercase border-0"
+                className="btn mt-2 bg-red color-white btn-sm btn-block text-uppercase border-0"
                 to="/cart"
               >
                 Process to checkout

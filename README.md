@@ -2161,4 +2161,5 @@ To resolve this:
 
 ## Something Missing?
 
+You can deploy with nginx or apache using config files in /config/server folder
 If you have ideas for more “How To” recipes that should be on this page, [let us know](https://github.com/facebookincubator/create-react-app/issues) or [contribute some!](https://github.com/facebookincubator/create-react-app/edit/master/packages/react-scripts/template/README.md)

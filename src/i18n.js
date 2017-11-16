@@ -5,8 +5,8 @@ import { reactI18nextModule } from "react-i18next";
 
 import moment from "moment";
 import numeral from "numeral";
-
-import {v4} from 'uuid';
+//can set no cache from server but this time for easy
+// import {v4} from 'uuid';
 // import { VERSION } from "./store/constants/api";
 
 i18n
@@ -20,11 +20,11 @@ i18n
     ns: ["translations"],
     defaultNS: "translations",
 
-    backend: {
-      queryStringParams: {
-        v: v4(),
-      }
-    },
+    // backend: {
+    //   queryStringParams: {
+    //     v: v4(),
+    //   }
+    // },
 
     debug: true,
 

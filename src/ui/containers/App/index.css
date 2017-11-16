@@ -38,7 +38,7 @@ a:hover {
 }
 
 .color-white{
-  color: $white-color;
+  color: $white-color!important;
 }
 
 .color-gray-300{
