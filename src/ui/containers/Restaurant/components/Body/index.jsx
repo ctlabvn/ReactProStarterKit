@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
 import { connect } from "react-redux";
-// import classNames from "classnames";
+import classNames from "classnames";
 
 // import { Col } from "reactstrap";
 
