@@ -12,7 +12,7 @@
   .dropinline{
 
     .dropdown-menu{
-      position: relative!import;
+      position: relative!important;
       border: 0;
       border-radius: 0;
       border-left: 1px solid $red-color;
