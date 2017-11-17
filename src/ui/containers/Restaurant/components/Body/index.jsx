@@ -27,7 +27,7 @@ import "./index.css";
 
 import { checkOrderAvailable } from "~/store/utils/validation/restaurant";
 
-import { extractMessage } from "~/ui/utils";
+import { extractMessage, isMobile } from "~/ui/utils";
 
 @translate("translations")
 @connect(
@@ -315,8 +315,8 @@ export default class extends Component {
 
           {this.renderFeatured(features)}
 
-          <div className="mt-3 row w-100">
-            <Menu className="col col-md-2 list-group restaurant-cat">
+          <div className="mt-3 row w-100 no-gutters">
+            <Menu className={classNames("col col-md-2 list-group restaurant-cat", {"border-right-0": isMobile})}>
               {showCategories.map((item, index) => {
                 return (
                   <MenuItem
@@ -334,6 +334,7 @@ export default class extends Component {
               this.showLoading()
             ) : (
               <RestaurantProduct
+                className="pl-md-4"
                 products={products}
                 treeCategoryName={treeCategoryName}
                 onAddOrder={canAddOrder ? this.handleAddOrderItem : null}
