@@ -1,7 +1,8 @@
 /* eslint-disable */
 
 import React, { Component } from "react";
-// import PropTypes from "prop-types";
+// import classNames from "classnames";
+import PropTypes from "prop-types";
 import { translate } from "react-i18next";
 
 import { Col } from "reactstrap";
@@ -11,6 +12,11 @@ import IconLoading from "~/ui/components/Loading/icon";
 
 @translate('translations')
 export default class RestaurantProduct extends Component {
+
+	static propTypes = {
+	  onAddOrder: PropTypes.func,
+	}
+
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -23,10 +29,10 @@ export default class RestaurantProduct extends Component {
 	}
 
 	render() {
-		const { t, products, treeCategoryName, onAddOrder }  = this.props;
+		const { t, products, treeCategoryName, onAddOrder, ...props }  = this.props;
 		const { term } = this.state;
 		return (
-			<Col md="10">
+			<Col md="10" {...props}>
 				{Object.keys(products).length > 0 ? (
 					<div>
 						<div className="row">
