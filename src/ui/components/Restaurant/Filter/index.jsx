@@ -63,7 +63,9 @@ export default class extends Component {
 			});
 
 			// save to redux
-			this.props.updateFilters(options.filters);			
+			this.props.updateFilters(options.filters);	
+			// mark ready
+			options.ready = true;		
 		}
 	}
 
@@ -77,8 +79,7 @@ export default class extends Component {
 			}
 		};
 		this.props.updateFilters(options.filters);		
-		this.props.onUpdateFilter && this.props.onUpdateFilter(options.filters);
-		options.ready = true;
+		this.props.onUpdateFilter && this.props.onUpdateFilter(options.filters);		
 	}
 
 	componentDidMount() {
