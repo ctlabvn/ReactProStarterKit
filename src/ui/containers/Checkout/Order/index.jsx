@@ -5,7 +5,7 @@ import classNames from "classnames";
 // } from "reactstrap";
 import { translate } from "react-i18next";
 
-import { calculateOrderPrice, getItemPrice } from "~/ui/utils";
+import { calculateOrderPrice, getItemPrice } from "~/utils";
 
 @translate("translations")
 export default class extends Component {

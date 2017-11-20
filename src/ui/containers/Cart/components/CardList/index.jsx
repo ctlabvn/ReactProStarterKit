@@ -14,11 +14,12 @@ import * as orderSelectors from "~/store/selectors/order";
 import * as orderActions from "~/store/actions/order";
 
 
-import {getItemPrice} from "~/ui/utils";
+import {getItemPrice} from "~/utils";
 
 @translate("translations")
 @connect(
   state => ({
+    orderInfo: orderSelectors.getInfo(state),
     orderItems: orderSelectors.getItems(state)
   }),
   orderActions
@@ -54,7 +55,7 @@ export default class extends Component {
   };
 
   render() {
-    const { orderItems, t } = this.props;
+    const { orderItems, orderInfo, t } = this.props;
     return [
       <Table key="cartList" className="mt-4 text-uppercase table-fixed table-responsive">
         <thead className="color-gray">
@@ -72,6 +73,8 @@ export default class extends Component {
             <CardItem
               key={item.item_uuid}
               uuid={item.item_uuid}
+              outlet_slug={orderInfo.outlet_slug}
+              item_slug={item.slug || item.item_uuid}
               title={item.name}
               image="/images/donut-square.png"
               vat={0}

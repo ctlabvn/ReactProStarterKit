@@ -10,7 +10,7 @@ import {
   // DropdownItem
 } from "reactstrap";
 
-import { isMobile } from "~/ui/utils";
+import { isMobile } from "~/utils";
 
 import "./index.css";
 

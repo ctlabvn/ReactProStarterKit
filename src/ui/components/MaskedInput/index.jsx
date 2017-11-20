@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import InputMask from "inputmask-core";
 
-import { isUndo, isRedo, getSelection, setSelection } from "~/ui/utils";
+import { isUndo, isRedo, getSelection, setSelection } from "~/utils";
 
 export default class extends React.Component {
   static propTypes = {

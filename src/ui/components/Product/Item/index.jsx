@@ -15,7 +15,7 @@ import "./index.css";
 @translate("translations")
 export default class ProductItem extends Component {
   static propTypes = {
-    itemUuid: PropTypes.string,
+    item_slug: PropTypes.string,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     price: PropTypes.number,
     description: PropTypes.string,
@@ -33,6 +33,7 @@ export default class ProductItem extends Component {
 
   render() {
     const {
+      outlet_slug,
       title,
       price,
       priceUnit,
@@ -40,7 +41,7 @@ export default class ProductItem extends Component {
       imageSize,
       description,
       className,
-      itemUuid,
+      item_slug,
       quantity,
       onIncrease,
       onDecrease,      
@@ -50,23 +51,25 @@ export default class ProductItem extends Component {
     const totalPrice = price * quantity;
     
 	    return (
-        <div          
+        <div    
+          itemscope itemtype="http://schema.org/Product"      
           className={classNames("d-flex flex-row align-items-center", className)}
         >
 			    {image && <Image
             style={{ width: imageSize, height: imageSize, alignSelf: 'center'}}
+            itemprop="image"
             src={image}
-            alt="..."            
+            alt={title}           
           />}
           <div className="flex-column d-flex ml-3 w-100">
-            <Link to={`/item/${itemUuid}`}>
+            <Link to={`/restaurant/${outlet_slug}/${item_slug}`}>
               <HeadingDouble
                 className="color-black-300"
-                leftTitle={title}
-                rightTitle={t("format.currency", {
+                leftTitle={<span itemprop="name">{title}</span>}
+                rightTitle={<span itemprop="price">{t("format.currency", {
 							    price: totalPrice,
 							    symbol: priceUnit
-						    })}
+						    })}</span>}
               />
             </Link>
             <div className="flex-row d-flex justify-content-between">
@@ -74,7 +77,7 @@ export default class ProductItem extends Component {
                 <Readmore line="500" more={t('LABEL.SHOW_MORE')} 
                 // less={t('LABEL.SHOW_LESS')}
                 >
-                  <p className="w-100 mt-3 html-content">{description}</p>
+                  <p itemprop="description" className="w-100 mt-3 html-content">{description}</p>
                 </Readmore>
               </div>
               <div className="d-flex flex-column justify-content-between">

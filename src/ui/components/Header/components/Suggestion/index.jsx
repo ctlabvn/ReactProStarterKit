@@ -13,7 +13,7 @@ import Image from "~/ui/components/Image";
 import * as authActions from "~/store/actions/auth";
 import * as authSelectors from "~/store/selectors/auth";
 import api from "~/store/api";
-import { isMobile } from "~/ui/utils";
+import { isMobile } from "~/utils";
 
 import "./index.css";
 
@@ -64,7 +64,7 @@ export default class extends Component {
       suggestions.items.forEach(item =>
         children.push(
           <DropdownItem key={item.id}>
-            <Link to={`/item/${item.item_uuid}`}>{item.name}</Link>
+            <Link to={`/restaurant/${item.outlet_uuid}/item/${item.slug || item.item_uuid}`}>{item.name}</Link>
           </DropdownItem>
         )
       );
@@ -73,7 +73,7 @@ export default class extends Component {
       suggestions.outlets.forEach(item =>
         children.push(
           <DropdownItem key={item.id}>
-            <Link to={`/restaurant/${item.outlet_uuid}`}>
+            <Link to={`/restaurant/${item.slug || item.outlet_uuid}`}>
               <Image src={item.logo} width="50" className="mr-2" />
               {item.name}
             </Link>

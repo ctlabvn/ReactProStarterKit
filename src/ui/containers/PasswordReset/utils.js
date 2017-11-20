@@ -1,4 +1,4 @@
-import { isValidEmail } from "~/ui/utils";
+import { isValidEmail } from "~/utils";
 
 
 export const validate = (values) => {

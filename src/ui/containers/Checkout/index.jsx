@@ -3,6 +3,7 @@
 import React, { Component } from "react";
 import { translate } from "react-i18next";
 // import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 
 import moment from "moment";
@@ -29,7 +30,7 @@ import Signup from "~/ui/components/Signup";
 import Login from "~/ui/components/Login";
 import Order from "./Order";
 
-import { extractMessage, ORDER_TYPE } from "~/ui/utils";
+import { extractMessage, ORDER_TYPE } from "~/utils";
 
 import "./index.css";
 
@@ -169,6 +170,10 @@ export default class extends Component {
 
     return (
       <div className="container">
+        <Helmet>            
+            <title>{t("LABEL.CHECKOUT")}</title>
+            <meta name="description" content={t("LABEL.CHECKOUT")} />
+        </Helmet>
         <Row>
           <div className="col-md-8">
             {isLogged ? this.renderHasAccount() : this.renderHasNoAccount()}
@@ -176,7 +181,7 @@ export default class extends Component {
           <div className="col-md-4">
             <Order orderItems={orderItems} orderInfo={orderInfo} className="mt-md-0 mt-4"/>
             {isLogged && <div className="d-flex w-100 text-center my-4 justify-content-end">
-              <Button onClick={this.createOrder} color="primary">{this.props.t("BUTTON.CONFIRM_PAY")}</Button>
+              <Button onClick={this.createOrder} color="danger">{this.props.t("BUTTON.CONFIRM_PAY")}</Button>
             </div>}
           </div>
         </Row>

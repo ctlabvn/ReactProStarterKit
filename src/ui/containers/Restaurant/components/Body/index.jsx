@@ -14,12 +14,10 @@ import Slider from "~/ui/components/Slider";
 // import ButtonRound from "~/ui/components/Button/Round";
 import RestaurantProduct from "~/ui/components/Restaurant/Product";
 import EmptyResult from "~/ui/components/EmptyResult";
-import ModalConfirm from "~/ui/components/ModalConfirm";
+import AddItemValidator from "~/ui/components/AddItemValidator";
 // import Image from "~/ui/components/Image";
 
 import * as commonActions from "~/store/actions/common";
-import * as orderActions from "~/store/actions/order";
-import * as orderSelectors from "~/store/selectors/order";
 // import * as restaurantValidation from "~/store/utils/validation/restaurant";
 
 // import api from "~/store/api";
@@ -27,16 +25,10 @@ import "./index.css";
 
 import { checkOrderAvailable } from "~/store/utils/validation/restaurant";
 
-import { extractMessage, isMobile } from "~/ui/utils";
+import { extractMessage, isMobile } from "~/utils";
 
 @translate("translations")
-@connect(
-  state => ({
-    orderItems: orderSelectors.getItems(state),
-    orderInfo: orderSelectors.getInfo(state)
-  }),
-  { ...commonActions, ...orderActions }
-)
+@connect(null, commonActions)
 export default class extends Component {
   constructor(props) {
     super(props);
@@ -49,7 +41,6 @@ export default class extends Component {
       treeCategoryName: {}
     };
 
-    this.processingItem = null;
   }
 
   handleCategory = parentCategory => {
@@ -93,65 +84,8 @@ export default class extends Component {
     </div>
   );
 
-  handleCancelModal=()=>{
-    this.modal.close();
-  };
-
-  handleConfirmModal=()=>{
-    this.props.clearItems();
-    this.doAddOrderItem();
-    this.modal.close();
-  };
-
-  doAddOrderItem = () => {
-    // each time add order, we should update business info for sure
-    const {outlet, updateOrder, addOrderItem} = this.props
-    updateOrder({
-      ...outlet.online_order_setting,
-      restaurant_address: outlet.address,
-      restaurant_lat: outlet.lat,
-      restaurant_long: outlet.long
-    });
-    // then add current proccessing order
-    addOrderItem(this.processingItem);
-  };
-
   handleAddOrderItem = (item, item_options = []) => {
-    const {
-      orderInfo,
-      orderItems,
-      outlet,
-      clearItems,
-    } = this.props;
-
-    const { default_price, item_uuid, currency, name, description } = item;
-    this.processingItem = {
-      item_uuid,
-      item_options,
-      price: default_price,
-      quantity: 1,
-      name,
-      description,
-      currency_symbol: currency.symbol
-    };
-
-    if (orderInfo.outlet_uuid !== outlet.outlet_uuid) {
-      // first time or reset
-      if (orderItems.length) {
-        if (!orderInfo.outlet_uuid) {
-          clearItems();
-        } else {
-          // wait for modal actions
-          this.modal.open();
-          return;
-        }
-      } else {
-        // just clear because it is empty
-        clearItems();
-      }
-    }
-    // add now
-    this.doAddOrderItem();
+    this.addItemValidator.handleAddOrderItem(item, item_options);
   };
 
   getCategories(outlet_uuid, page) {
@@ -228,13 +162,12 @@ export default class extends Component {
   }
 
   renderFeatured(features) {
-    if (!features.length) return null;
-
+    if (!features.length) return null;    
     return (
       <div className="mb-4">
         <Slider className="mt-2" num={5} move={1}>
           {features.map((item, index) => (
-            <Link to={`/item/${item.item_uuid}`} key={index}>
+            <Link to={`/restaurant/${this.props.outlet_slug}/${item.slug || item.item_uuid}`} key={index}>
               <ProductItemPhoto
                 className="color-gray font-medium text-uppercase font-weight-bold"
                 priceUnit={item.currency.symbol}
@@ -260,7 +193,7 @@ export default class extends Component {
   }
 
   render() {
-    const { t, outlet } = this.props;
+    const { t, outlet, outlet_slug } = this.props;
     const {
       products,
       features,
@@ -334,6 +267,7 @@ export default class extends Component {
               this.showLoading()
             ) : (
               <RestaurantProduct
+                outlet_slug={outlet_slug}
                 className="pl-md-4"
                 products={products}
                 treeCategoryName={treeCategoryName}
@@ -342,12 +276,9 @@ export default class extends Component {
             )}
           </div>
 
-          <ModalConfirm onItemRef={ref=>this.modal = ref} 
-            onCancel={this.handleCancelModal}
-            onOK={this.handleConfirmModal} 
-          >
-            {t('LABEL.CONFIRM_REMOVE_ORDER')}
-          </ModalConfirm>
+          <AddItemValidator outlet={outlet} onItemRef={ref=>this.addItemValidator=ref}/>
+
+         
 
         </div>
       );

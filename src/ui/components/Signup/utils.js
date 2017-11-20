@@ -1,4 +1,4 @@
-import { validateLogin } from "~/ui/utils";
+import { validateLogin } from "~/utils";
 
 export const validate = (values) => {
   const errors = validateLogin(values);

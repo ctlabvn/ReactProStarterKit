@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
-import { connect } from "react-redux";
+// import { connect } from "react-redux";
 
 import {
 	Button,
@@ -13,7 +13,10 @@ import RestaurantOrderSetting from "~/ui/components/Restaurant/OrderSetting";
 import RestaurantInfo from "~/ui/components/Restaurant/Info";
 import Readmore from "~/ui/components/Readmore";
 import ProductOptions from "~/ui/components/Product/Options";
-import * as orderActions from "~/store/actions/order";
+import AddItemValidator from "~/ui/components/AddItemValidator";
+
+
+// store
 // import * as restaurantValidation from "~/store/utils/validation/restaurant";
 
 import "./index.css";
@@ -21,7 +24,6 @@ import options from "./options";
 import { checkOrderAvailable } from "~/store/utils/validation/restaurant";
 
 @translate("translations")
-@connect(null, orderActions)
 export default class extends Component {
 	constructor(props) {
 		super(props);
@@ -36,16 +38,7 @@ export default class extends Component {
 	};
 
 	addOrderItem(item, item_options = []) {
-		const { default_price, item_uuid, currency, name, description } = item;
-		this.props.addOrderItem({
-			item_uuid,
-			item_options,
-			price: default_price,
-			quantity: 1,
-			name,
-			description,
-			currency_symbol: currency.symbol
-		});
+		this.addItemValidator.handleAddOrderItem(item, item_options);		
 	}
 
 	render() {
@@ -144,6 +137,9 @@ export default class extends Component {
 						</Menu>
 					</div>
 				</div>
+
+				<AddItemValidator outlet={outlet} onItemRef={ref=>this.addItemValidator=ref}/>
+
 			</div>
 		);
 	}

@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import classNames from "classnames";
+import {Helmet} from "react-helmet";
+
+
 // elements
 import Header from "./components/Header";
 // import Footer from "./components/Footer";
@@ -9,7 +12,7 @@ import Detail from "./components/Detail";
 import Spinner from "~/ui/components/Spinner";
 import EmptyResult from "~/ui/components/EmptyResult";
 
-import { extractMessage } from "~/ui/utils";
+import { extractMessage } from "~/utils";
 
 // store
 // import api from "~/store/api";
@@ -34,11 +37,12 @@ export default class extends Component {
   }
 
   getTabContent(tabID, outlet){    
+    const { outlet_slug } = this.props.match.params;
     switch(tabID){
       case "restaurant-body":
-        return <Body outlet={outlet} />;
+        return <Body outlet_slug={outlet_slug} outlet={outlet} />;
       default:
-        return <Detail outlet={outlet} />
+        return <Detail outlet_slug={outlet_slug} outlet={outlet} />
     }
   }
 
@@ -55,14 +59,14 @@ export default class extends Component {
   };
 
   componentWillMount() {
-    const { uuid } = this.props.match.params;
-    this.loadOutlet(uuid);
+    const { outlet_slug } = this.props.match.params;
+    this.loadOutlet(outlet_slug);
   }
 
-  loadOutlet(uuid) {    
+  loadOutlet(outlet_slug) {    
     const {tabID} = this.state;
     const {requestor, setToast} = this.props;
-    requestor("restaurant/getOutlet", uuid, (err, ret)=>{
+    requestor("restaurant/getOutlet", outlet_slug, (err, ret)=>{
       if(err){
         const message = extractMessage(err.message);
         setToast(message, "danger");
@@ -76,8 +80,9 @@ export default class extends Component {
   }
 
   componentWillReceiveProps({ language, match }) {    
-    if ((this.props.language !== language) || (this.props.match.params.uuid !== match.params.uuid)) {
-      this.loadOutlet(match.params.uuid);
+    if ((this.props.language !== language) 
+      || (this.props.match.params.outlet_slug !== match.params.outlet_slug)) {
+      this.loadOutlet(match.params.outlet_slug);
     }
   }
 
@@ -94,6 +99,13 @@ export default class extends Component {
     
     return (
       <div className="restaurant">
+
+        <Helmet>            
+            <title>{outlet.name}</title>
+            <meta name="description" content={outlet.description} />
+            <meta itemprop="priceCurrency" content={outlet.currency.code} />
+        </Helmet>
+
         <div className="container">
           <Header outlet={outlet} active={tabID} onSelectItem={this.handleSelectTab} />
 

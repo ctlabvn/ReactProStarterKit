@@ -4,7 +4,7 @@ import classNames from "classnames";
 
 import ButtonRound from "~/ui/components/Button/Round";
 
-import { isMobile } from "~/ui/utils";
+import { isMobile } from "~/utils";
 
 import "./index.css";
 

@@ -23,7 +23,7 @@ import {
 import * as commonActions from "~/store/actions/common";
 
 import { InputField } from "~/ui/components/ReduxForm";
-import { validateLogin, extractMessage } from "~/ui/utils";
+import { validateLogin, extractMessage } from "~/utils";
 
 @translate("translations")
 @connect(null, commonActions)
@@ -54,8 +54,13 @@ export default class extends Component {
   };
 
   toggle = () => {
+    const {modal} = this.state;
+    if(!modal){
+      this.props.reset();
+    }
     this.setState({
-      modal: !this.state.modal
+      modal: !modal,
+      errorMessage: null,
     });
   };
 
@@ -85,13 +90,13 @@ export default class extends Component {
           />
 
           <Button
-            color="primary"
+            color="danger"
             disabled={submitting}
             onClick={handleSubmit(this.login)}
           >
             {t('BUTTON.LOGIN')}
           </Button>
-          {this.state.errorMessage && <Alert color="danger">
+          {this.state.errorMessage && <Alert color="danger" className="mt-4">
             {this.state.errorMessage}
           </Alert>
         }

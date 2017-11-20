@@ -20,10 +20,11 @@ import Drawer from "~/ui/components/Drawer";
 import ModalConfirm from "~/ui/components/ModalConfirm";
 
 // selectors && actions
+import { history } from "~/store";
 import * as orderActions from "~/store/actions/order";
 import * as authSelectors from "~/store/selectors/auth";
 import * as orderSelectors from "~/store/selectors/order";
-import { isMobile } from "~/ui/utils";
+import { isMobile } from "~/utils";
 
 import "./index.css";
 
@@ -32,6 +33,7 @@ import "./index.css";
   state => ({
     isHome: state.routing.location.pathname === "/",
     isLogged: authSelectors.isLogged(state),
+    orderInfo: orderSelectors.getInfo(state),
     orderItems: orderSelectors.getItems(state)
   }),
   orderActions
@@ -81,7 +83,7 @@ export default class extends Component {
   };
 
   render() {
-    const { t, isHome, isLogged, orderItems } = this.props;
+    const { t, isHome, isLogged, orderItems, orderInfo } = this.props;
     const { drawerOpen } = this.state;
     const totalQuantity = orderItems.reduce((a, item) => a + item.quantity, 0);
     return (
@@ -108,27 +110,31 @@ export default class extends Component {
           </div>
 
           <div className="d-flex align-items-center flex-row">
+         
             <Button
               id="popoverCartBtn"              
               className="btn-round bg-red border-0"
-              onClick={()=>this.popoverCart.toggle()}
+              onClick={()=> isMobile ? history.push('/cart') : this.popoverCart.toggle()}
             >
               <i
                 className="fa fa-shopping-cart color-white"
                 aria-hidden="true"
                 id="cart-icon"
               />
-              <span className="badge bg-red">{totalQuantity}</span>
+              <span className="badge bg-red">{totalQuantity}</span>              
             </Button>
 
-            <PopoverCart               
-              placement="bottom-start"        
-              target="popoverCartBtn"
-              orderItems={orderItems}
-              onIncreaseOrder={this.increaseOrder}
-              onDecreaseOrder={this.decreaseOrder}
-              onItemRef={ref=>this.popoverCart=ref}
-            />
+            {!isMobile &&
+              <PopoverCart               
+                placement="bottom-start"        
+                target="popoverCartBtn"
+                orderInfo={orderInfo}
+                orderItems={orderItems}
+                onIncreaseOrder={this.increaseOrder}
+                onDecreaseOrder={this.decreaseOrder}
+                onItemRef={ref=>this.popoverCart=ref}
+              />
+            }
 
             {!isLogged ? (
               <Button

@@ -29,7 +29,7 @@ export default class RestaurantProduct extends Component {
 	}
 
 	render() {
-		const { t, products, treeCategoryName, onAddOrder, ...props }  = this.props;
+		const { t, products, treeCategoryName, onAddOrder, outlet_slug, ...props }  = this.props;
 		const { term } = this.state;
 		return (
 			<Col md="10" {...props}>
@@ -49,6 +49,7 @@ export default class RestaurantProduct extends Component {
 						</div>
 						{Object.keys(products).map((item, index) => (
 								<ProductGroup
+									outlet_slug={outlet_slug}
 									className="row"
 									name={treeCategoryName[item]}
 									key={index}

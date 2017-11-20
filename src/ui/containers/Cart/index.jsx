@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { translate } from "react-i18next";
 import classNames from "classnames";
 
+import { Helmet } from "react-helmet";
+
 // redux form
 import {
   Field,
@@ -39,11 +41,10 @@ import * as orderActions from "~/store/actions/order";
 import { GOOGLE_API_KEY } from "~/store/constants/api";
 import { fetchJson } from "~/store/api/common";
 import { history } from "~/store";
-import { getCurrentLocation } from "~/ui/utils";
 import { validate } from "./utils";
 import { parseJsonToObject } from "~/store/utils/json";
 
-import { ORDER_TYPE, calculateOrderPrice } from "~/ui/utils";
+import { ORDER_TYPE, calculateOrderPrice, getCurrentLocation } from "~/utils";
 
 import "./index.css";
 
@@ -217,6 +218,11 @@ export default class extends Component {
 
     return (
       <div className="col-md-6 pr-md-4">
+
+        <Helmet>            
+            <title>{t("LABEL.YOUR_CART")}</title>
+            <meta name="description" content={t("LABEL.YOUR_CART")} />
+        </Helmet>
         
         {this.renderAddressLabel(t("LABEL.BUSINESS_ADDRESS"), orderInfo.restaurant_address)}
 
@@ -481,7 +487,7 @@ export default class extends Component {
             </div>
           </div>
 
-          <div className="my-4 row justify-content-end">
+          <div className="my-4 row no-gutters justify-content-end">
             <Button
               className="bg-red col-md-3 btn-lg btn-block text-uppercase border-0"
               onClick={handleSubmit(this.saveOrderInfo)}

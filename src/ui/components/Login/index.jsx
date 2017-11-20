@@ -21,7 +21,7 @@ import { InputField } from "~/ui/components/ReduxForm";
 
 import * as commonActions from "~/store/actions/common";
 
-import { validateLogin } from "~/ui/utils";
+import { validateLogin } from "~/utils";
 
 
 @translate("translations")
@@ -57,7 +57,7 @@ export default class extends Component {
           />
         </Row>
 
-        <Button disabled={submitting} onClick={handleSubmit(this.login)} color="info">{t("BUTTON.LOGIN")}</Button>
+        <Button disabled={submitting} onClick={handleSubmit(this.login)} color="danger">{t("BUTTON.LOGIN")}</Button>
       </Form>
     );
   }

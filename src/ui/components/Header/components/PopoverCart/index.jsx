@@ -17,7 +17,7 @@ import {
 // components
 import ButtonRound from "~/ui/components/Button/Round";
 
-import { getItemPrice } from "~/ui/utils";
+import { getItemPrice } from "~/utils";
 
 import "./index.css";
 
@@ -45,13 +45,13 @@ export default class extends Component {
   };  
 
   renderProductItem(item) {
-    const { onIncreaseOrder, onDecreaseOrder, t } = this.props;
+    const { onIncreaseOrder, onDecreaseOrder, orderInfo, t } = this.props;
     return (
       <div key={item.item_uuid} className="border-bottom py-2">
         <div className="d-flex flex-row justify-content-start">
           <Link
             className="flex-column d-flex p-0 align-items-start"
-            to={`/item/${item.item_uuid}`}
+            to={`/restaurant/${orderInfo.outlet_slug}/${item.slug || item.item_uuid}`}
           >
             <strong className="text-truncate color-black-300">
               {item.name}
@@ -67,7 +67,7 @@ export default class extends Component {
           )}
           <span>{item.quantity}</span>
           <ButtonRound
-            className="p-0 ml-1"
+            className="p-0 mx-1"
             icon="plus"
             onClick={() => onIncreaseOrder(item)}
           />
@@ -104,7 +104,7 @@ export default class extends Component {
   }
 
   render() {
-    const { t, orderItems, onItemRef, onIncreaseOrder, onDecreaseOrder, ...props } = this.props;
+    const { t, orderItems, orderInfo, onItemRef, onIncreaseOrder, onDecreaseOrder, ...props } = this.props;
     return (
       <Popover        
         isOpen={this.state.cartOpen}            

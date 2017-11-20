@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Helmet } from "react-helmet";
 
 // elements
 import Header from "./components/Header";
@@ -7,7 +8,7 @@ import Body from "./components/Body";
 import IconLoading from "~/ui/components/Loading/icon";
 import EmptyResult from "~/ui/components/EmptyResult";
 
-import { extractMessage } from "~/ui/utils";
+import { extractMessage } from "~/utils";
 
 // store
 import api from "~/store/api";
@@ -32,10 +33,10 @@ export default class extends Component {
   }
 
   async loadData() {
-    const { uuid } = this.props.match.params;
+    const { outlet_slug, item_slug } = this.props.match.params;    
     try {
-      const item = await api.item.getDetail(uuid);
-      const outlet = await api.restaurant.getOutlet(item.data.outlet_uuid);
+      const item = await api.item.getDetail(item_slug, outlet_slug);
+      const outlet = await api.restaurant.getOutlet(item.data.outlet_uuid);      
       // check ret.error then show ret.message
       this.setState({ outlet: outlet.data, item: item.data });
     } catch (e) {
@@ -61,6 +62,10 @@ export default class extends Component {
       <div className="screen-item">
         {outlet ?
         <div className="container">
+          <Helmet>            
+              <title>{item.name}</title>
+              <meta name="description" content={item.description} />
+          </Helmet>
           <Header outlet={outlet} item={item} />
           <Body outlet={outlet} item={item} />
         </div>

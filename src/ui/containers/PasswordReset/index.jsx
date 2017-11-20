@@ -25,7 +25,7 @@ import {history} from "~/store";
 import * as authSelectors from "~/store/selectors/auth";
 import * as commonActions from "~/store/actions/common";
 
-import {extractMessage} from "~/ui/utils";
+import {extractMessage} from "~/utils";
 import {validate} from "./utils";
 
 @translate("translations")

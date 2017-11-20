@@ -1,5 +1,6 @@
 /* eslint-disable */
 import { apiGet, apiPost } from "./common";
+import { isUUID } from "~/utils";
 
 export const DEFAULT_PAGINATION = 20;
 const restaurant = {
@@ -12,8 +13,10 @@ const restaurant = {
     return apiGet("/restaurant/filter", data);
   },
 
-  getOutlet(outlet_uuid) {
-    return apiGet(`/restaurant/outlets/${outlet_uuid}`);
+  getOutlet(slug_or_uuid) {
+    return isUUID(slug_or_uuid)
+      ? apiGet(`/restaurant/outlets/${slug_or_uuid}`)
+      : apiGet("/restaurant/outlet-by-slug", {slug: slug_or_uuid});
   },
 
   getCategories(outlet_uuid, page = 1) {

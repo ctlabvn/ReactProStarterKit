@@ -12,7 +12,7 @@ import {
 import ButtonRound from "~/ui/components/Button/Round";
 import Image from "~/ui/components/Image";
 
-import { ORDER_STATUS, ORDER_TYPE } from "~/ui/utils";
+import { ORDER_STATUS, ORDER_TYPE, slugify } from "~/utils";
 
 @translate("translations")
 export default class extends Component {
@@ -128,7 +128,7 @@ export default class extends Component {
 
           {order.items.map(item => (
             <div className="d-flex flex-column mb-4 col-md-3" key={item.id}>
-              <Link className="color-black-300" to={`/item/${item.id}`}>
+              <Link className="color-black-300" to={`/restaurant/${slugify(order.outlet.name)}/${item.id}`}>
                 {item.image.url_thumb.length && <Image width="100%" alt="" src={item.image.url_thumb} />}
 
                 <div className="color-black-300 mt-2">

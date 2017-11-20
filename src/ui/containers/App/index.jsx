@@ -5,7 +5,7 @@ import Header from '~/ui/components/Header'
 import Footer from '~/ui/components/Footer'
 import Indicator from '~/ui/components/Indicator'
 
-import { isMobile } from "~/ui/utils";
+import { isMobile } from "~/utils";
 
 import "./index.css";
 

@@ -98,7 +98,7 @@ export default class extends Component {
         <Button
           disabled={submitting}
           onClick={handleSubmit(this.updateCustomer)}
-          color="primary"
+          color="danger"
         >
           {t("BUTTON.UPDATE")}
         </Button>

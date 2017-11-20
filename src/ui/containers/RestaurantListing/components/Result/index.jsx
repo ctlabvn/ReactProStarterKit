@@ -26,7 +26,7 @@ import * as authSelectors from "~/store/selectors/auth";
 
 // import { store } from "~/store";
 
-import { extractMessage } from "~/ui/utils";
+import { extractMessage } from "~/utils";
 
 @translate("translations")
 @connect(

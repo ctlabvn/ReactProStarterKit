@@ -31,9 +31,9 @@ const Root = ({ store, history }) => (
           <Route exact path="/search" component={Search} />
           <Route exact path="/cart" component={Cart} />
           <Route exact path="/checkout" component={Checkout} />
-          <Route exact path="/restaurant/:uuid" component={Restaurant} />
-          <Route exact path="/item/:uuid" component={Item} />
-          <Route exact path="/restaurant" component={RestaurantListing} />          
+          <Route exact path="/restaurant" component={RestaurantListing} />
+          <Route exact path="/restaurant/:outlet_slug" component={Restaurant} />
+          <Route exact path="/restaurant/:outlet_slug/:item_slug" component={Item} />                    
           <Route path="/customer" component={Customer} />          
           <Route exact path="/password-reset" component={PasswordReset} />
           <Route component={NotFound} />

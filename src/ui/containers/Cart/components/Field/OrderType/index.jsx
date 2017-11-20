@@ -1,5 +1,5 @@
 import React from "react";
-// import { ORDER_TYPE } from "~/ui/utils";
+// import { ORDER_TYPE } from "~/utils";
 
 // reactstrap
 import { 

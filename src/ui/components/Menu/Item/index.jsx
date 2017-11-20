@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import classNames from "classnames";
 
-import { getSiblings } from "~/ui/utils";
+import { getSiblings } from "~/utils";
 import "./index.css";
 
 export default class MenuItem extends Component {

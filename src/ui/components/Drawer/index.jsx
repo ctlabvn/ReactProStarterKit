@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import classNames from "classnames";
 import Footer from "~/ui/components/Footer";
 import Filter from "~/ui/components/Restaurant/Filter";
-// import { isMobile } from "~/ui/utils";
+// import { isMobile } from "~/utils";
 
 import "./index.css";
 // when connect to redux should not pass all props to div
