@@ -52,12 +52,12 @@ export default class ProductItem extends Component {
     
 	    return (
         <div    
-          itemscope itemtype="http://schema.org/Product"      
+          itemScope itemType="http://schema.org/Product"      
           className={classNames("d-flex flex-row align-items-center", className)}
         >
 			    {image && <Image
             style={{ width: imageSize, height: imageSize, alignSelf: 'center'}}
-            itemprop="image"
+            itemProp="image"
             src={image}
             alt={title}           
           />}
@@ -65,8 +65,8 @@ export default class ProductItem extends Component {
             <Link to={`/restaurant/${outlet_slug}/${item_slug}`}>
               <HeadingDouble
                 className="color-black-300"
-                leftTitle={<span itemprop="name">{title}</span>}
-                rightTitle={<span itemprop="price">{t("format.currency", {
+                leftTitle={<span itemProp="name">{title}</span>}
+                rightTitle={<span itemProp="price">{t("format.currency", {
 							    price: totalPrice,
 							    symbol: priceUnit
 						    })}</span>}
@@ -77,7 +77,7 @@ export default class ProductItem extends Component {
                 <Readmore line="500" more={t('LABEL.SHOW_MORE')} 
                 // less={t('LABEL.SHOW_LESS')}
                 >
-                  <p itemprop="description" className="w-100 mt-3 html-content">{description}</p>
+                  <p itemProp="description" className="w-100 mt-3 html-content">{description}</p>
                 </Readmore>
               </div>
               <div className="d-flex flex-column justify-content-between">

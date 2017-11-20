@@ -100,8 +100,7 @@ export default class extends Component {
     ) {
       // when options is ready, mean that we load all filter options from server
       // no cache
-      if (FilterOptions.ready) {
-        // console.log(this.props.filters, filters)
+      if (FilterOptions.ready) {        
         this.removeSearchResult();
       }
     }
