@@ -22,13 +22,15 @@ export default class ProductItem extends Component {
     priceUnit: PropTypes.string,
     image: PropTypes.string,
     quantity: PropTypes.number,
+    hideImage: PropTypes.bool,
     imageSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),    
   };
 
   static defaultProps = {
     priceUnit: "$",
     imageSize: 50,
-    quantity: 1,    
+    quantity: 1,   
+    hideImage: false, 
   };
 
   render() {
@@ -44,7 +46,8 @@ export default class ProductItem extends Component {
       item_slug,
       quantity,
       onIncrease,
-      onDecrease,      
+      onDecrease, 
+      hideImage,     
       t
     } = this.props;
 
@@ -55,12 +58,16 @@ export default class ProductItem extends Component {
           itemScope itemType="http://schema.org/Product"      
           className={classNames("d-flex flex-row align-items-center", className)}
         >
-			    {image && <Image
+			    {
+            image ?
+            <Image
             style={{ width: imageSize, height: imageSize, alignSelf: 'center'}}
             itemProp="image"
             src={image}
             alt={title}           
-          />}
+          />
+          : (!hideImage && <div style={{ width: imageSize, height: imageSize, alignSelf: 'center'}} />)
+        }
           <div className="flex-column d-flex ml-3 w-100">
             <Link to={`/restaurant/${outlet_slug}/${item_slug}`}>
               <HeadingDouble
