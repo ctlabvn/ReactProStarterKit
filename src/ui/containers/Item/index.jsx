@@ -11,13 +11,13 @@ import EmptyResult from "~/ui/components/EmptyResult";
 import { extractMessage } from "~/utils";
 
 // store
-import api from "~/store/api";
+import * as authSelectors from "~/store/selectors/auth";
 import * as commonActions from "~/store/actions/common";
 import "./index.css";
 
 @connect(
   state => ({
-    // language: authSelectors.getCustomer(state).language,
+    language: authSelectors.getCustomer(state).language
   }),
   commonActions
 )
@@ -32,27 +32,32 @@ export default class extends Component {
   }
 
   componentWillMount() {
-    this.loadData();
-  }
-
-  async loadData() {
     const { outlet_slug, item_slug } = this.props.match.params;
-    try {
-      const item = await api.item.getDetail(item_slug, outlet_slug);
-      const outlet = await api.restaurant.getOutlet(item.data.outlet_uuid);
-      // check ret.error then show ret.message
-      this.setState({ outlet: outlet.data, item: item.data });
-    } catch (e) {
-      const message = extractMessage(e.message);
-      this.setState({ item: {} });
-      this.props.setToast(message, "danger");
+    this.loadData(outlet_slug, item_slug);
+  }
+
+  componentWillReceiveProps({ language, match }) {
+    if (
+      this.props.language !== language ||
+      this.props.match.params.item_slug !== match.params.item_slug
+    ) {
+      this.loadData(match.params.outlet_slug, match.params.item_slug);
     }
   }
 
-  componentWillReceiveProps({ language }) {
-    if (this.props.language !== language) {
-      this.loadData();
-    }
+  loadData(outlet_slug, item_slug) {
+    const { requestor, setToast } = this.props;
+    requestor("restaurant/getItem", item_slug, outlet_slug, (err, { data }) => {
+      if (err) {
+        const message = extractMessage(err.message);
+        setToast(message, "danger");
+        this.setState({ outlet: null, item: {} });
+      } else {
+        requestor("restaurant/getOutlet", data.outlet_uuid, (err1, ret) => {
+          this.setState({ outlet: err1 ? null : ret.data, item: data });
+        });
+      }
+    });
   }
 
   render() {

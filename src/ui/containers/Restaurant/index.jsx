@@ -104,7 +104,9 @@ export default class extends Component {
         <Helmet>
           <title>{outlet.name}</title>
           <meta name="description" content={outlet.description} />
-          <meta itemprop="priceCurrency" content={outlet.currency.code} />
+          {outlet.currency && (
+            <meta itemprop="priceCurrency" content={outlet.currency.code} />
+          )}
         </Helmet>
 
         <div className="container">

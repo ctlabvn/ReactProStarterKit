@@ -6,7 +6,7 @@ import {
   // Input,
   Dropdown,
   DropdownToggle,
-  DropdownMenu,
+  DropdownMenu
   // DropdownItem
 } from "reactstrap";
 
@@ -61,7 +61,9 @@ export default class extends Component {
     const { dropdownOpen } = this.state;
     return (
       <Dropdown isOpen={dropdownOpen} toggle={this.toggle} {...props}>
-        <DropdownToggle className={classNames("bg-transparent w-100",buttonClass)} >
+        <DropdownToggle
+          className={classNames("bg-transparent w-100", buttonClass)}
+        >
           {prepend}
           <input
             type="text"
@@ -72,9 +74,19 @@ export default class extends Component {
             ref={ref => (this.input = ref)}
           />
         </DropdownToggle>
-        {!!children.length && <DropdownMenu style={isMobile ? {
-              width: 280
-            } : {maxWidth: 600}}>{children}</DropdownMenu>}
+        {!!children.length && (
+          <DropdownMenu
+            style={
+              isMobile
+                ? {
+                    width: window.screen.width - 10
+                  }
+                : { width: 600 }
+            }
+          >
+            {children}
+          </DropdownMenu>
+        )}
       </Dropdown>
     );
   }

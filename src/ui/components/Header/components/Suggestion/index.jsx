@@ -35,13 +35,13 @@ export default class extends Component {
     this.timeout = null;
   }
 
-  componentWillMount(){
-    const {searchStr} = this.props.config;
+  componentWillMount() {
+    const { searchStr } = this.props.config;
     this.getSuggestion(searchStr);
   }
 
-  async getSuggestion(term){
-    if(term){
+  async getSuggestion(term) {
+    if (term) {
       const ret = await api.restaurant.getSuggestion(term);
       this.setState({ suggestions: ret.data });
     }
@@ -52,7 +52,7 @@ export default class extends Component {
     // action
     this.timeout = setTimeout(() => {
       this.props.updateConfig("searchStr", term);
-      this.getSuggestion(term)
+      this.getSuggestion(term);
     }, 1000);
   };
 
@@ -61,33 +61,57 @@ export default class extends Component {
     const { suggestions } = this.state;
     const children = [];
     if (suggestions.items) {
-      suggestions.items.forEach(item =>
-        children.push(
-          <DropdownItem key={item.id}>
-            <Link to={`/restaurant/${item.outlet_uuid}/item/${item.slug || item.item_uuid}`}>{item.name}</Link>
-          </DropdownItem>
-        )
+      children.push(
+        <DropdownItem
+          key="items"
+          className="d-md-flex border-bottom row no-gutters"
+        >
+          <strong className="col-md-4">Items</strong>
+          <div className="border border-top-0 border-right-0 border-bottom-0 pl-4">
+            {suggestions.items.map(item => (
+              <Link
+                key={item.id}
+                to={`/restaurant/${item.outlet_slug ||
+                  item.outlet_uuid}/${item.outlet_slug && item.slug
+                  ? item.slug
+                  : item.item_uuid}`}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+        </DropdownItem>
       );
     }
     if (suggestions.outlets) {
-      suggestions.outlets.forEach(item =>
-        children.push(
-          <DropdownItem key={item.id}>
-            <Link to={`/restaurant/${item.slug || item.outlet_uuid}`}>
-              <Image src={item.logo} width="50" className="mr-2" />
-              {item.name}
-            </Link>
-          </DropdownItem>
-        )
+      children.push(
+        <DropdownItem key="outlets" className="d-md-flex row no-gutters">
+          <strong className="col-md-4">Restaurants</strong>
+          <div className="border border-top-0 border-right-0 border-bottom-0 pl-4">
+            {suggestions.outlets.map(item => (
+              <Link
+                className="w-100"
+                key={item.id}
+                to={`/restaurant/${item.slug || item.outlet_uuid}`}
+              >
+                {item.name}
+                <br />
+                <Image src={item.logo} height="20" className="mr-2" />
+              </Link>
+            ))}
+          </div>
+        </DropdownItem>
       );
     }
     return (
       <Autocomplete
-        prepend={<i className="fa fa-search color-black-300 mr-2 icon-search" />}
+        prepend={
+          <i className="fa fa-search color-black-300 mr-2 icon-search" />
+        }
         value={config.searchStr}
         className="header-suggestion"
         buttonClass="border-0 mt-2"
-        inputClass={classNames({"font-medium": isMobile}, "color-gray pl-2")}
+        inputClass={classNames({ "font-medium": isMobile }, "color-gray pl-2")}
         placeholder={t("PLACEHOLDER.TYPE_YOUR_SEARCH")}
         onSearch={this.handleSearch}
       >
