@@ -15,9 +15,12 @@ import api from "~/store/api";
 import * as commonActions from "~/store/actions/common";
 import "./index.css";
 
-@connect(state => ({
-  // language: authSelectors.getCustomer(state).language,
-}), commonActions)
+@connect(
+  state => ({
+    // language: authSelectors.getCustomer(state).language,
+  }),
+  commonActions
+)
 export default class extends Component {
   constructor(props) {
     super(props);
@@ -33,10 +36,10 @@ export default class extends Component {
   }
 
   async loadData() {
-    const { outlet_slug, item_slug } = this.props.match.params;    
+    const { outlet_slug, item_slug } = this.props.match.params;
     try {
       const item = await api.item.getDetail(item_slug, outlet_slug);
-      const outlet = await api.restaurant.getOutlet(item.data.outlet_uuid);      
+      const outlet = await api.restaurant.getOutlet(item.data.outlet_uuid);
       // check ret.error then show ret.message
       this.setState({ outlet: outlet.data, item: item.data });
     } catch (e) {
@@ -59,17 +62,19 @@ export default class extends Component {
     }
 
     return (
-      <div className="screen-item">
-        {outlet ?
-        <div className="container">
-          <Helmet>            
+      <div className="map-background">
+        {outlet ? (
+          <div className="container">
+            <Helmet>
               <title>{item.name}</title>
               <meta name="description" content={item.description} />
-          </Helmet>
-          <Header outlet={outlet} item={item} />
-          <Body outlet={outlet} item={item} />
-        </div>
-        : <EmptyResult/> }
+            </Helmet>
+            <Header outlet={outlet} item={item} />
+            <Body outlet={outlet} item={item} />
+          </div>
+        ) : (
+          <EmptyResult />
+        )}
       </div>
     );
   }

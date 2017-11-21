@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import classNames from "classnames";
-import {Helmet} from "react-helmet";
-
+import { Helmet } from "react-helmet";
 
 // elements
 import Header from "./components/Header";
@@ -21,40 +20,43 @@ import * as commonActions from "~/store/actions/common";
 
 import "./index.css";
 
-@connect(state => ({
-  language: authSelectors.getCustomer(state).language,
-}), commonActions)
+@connect(
+  state => ({
+    language: authSelectors.getCustomer(state).language
+  }),
+  commonActions
+)
 export default class extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       outlet: null,
-      tabID: "restaurant-body",
+      tabID: "restaurant-body"
     };
 
-    this.tabContent = {}
+    this.tabContent = {};
   }
 
-  getTabContent(tabID, outlet){    
+  getTabContent(tabID, outlet) {
     const { outlet_slug } = this.props.match.params;
-    switch(tabID){
+    switch (tabID) {
       case "restaurant-body":
         return <Body outlet_slug={outlet_slug} outlet={outlet} />;
       default:
-        return <Detail outlet_slug={outlet_slug} outlet={outlet} />
+        return <Detail outlet_slug={outlet_slug} outlet={outlet} />;
     }
   }
 
-  initTabContent(tabID, outlet, forceUpdate = false){    
-    if(!this.tabContent[tabID]){
+  initTabContent(tabID, outlet, forceUpdate = false) {
+    if (!this.tabContent[tabID]) {
       this.tabContent[tabID] = this.getTabContent(tabID, outlet);
       forceUpdate && this.forceUpdate();
     }
   }
 
-  handleSelectTab = (tabID) => {
-    this.setState({tabID});
+  handleSelectTab = tabID => {
+    this.setState({ tabID });
     this.initTabContent(tabID, this.state.outlet, true);
   };
 
@@ -63,25 +65,26 @@ export default class extends Component {
     this.loadOutlet(outlet_slug);
   }
 
-  loadOutlet(outlet_slug) {    
-    const {tabID} = this.state;
-    const {requestor, setToast} = this.props;
-    requestor("restaurant/getOutlet", outlet_slug, (err, ret)=>{
-      if(err){
+  loadOutlet(outlet_slug) {
+    const { tabID } = this.state;
+    const { requestor, setToast } = this.props;
+    requestor("restaurant/getOutlet", outlet_slug, (err, ret) => {
+      if (err) {
         const message = extractMessage(err.message);
         setToast(message, "danger");
         this.setState({ outlet: {} });
-      } else if(ret) {        
+      } else if (ret) {
         this.initTabContent(tabID, ret.data);
         this.setState({ outlet: ret.data });
       }
     });
-
   }
 
-  componentWillReceiveProps({ language, match }) {    
-    if ((this.props.language !== language) 
-      || (this.props.match.params.outlet_slug !== match.params.outlet_slug)) {
+  componentWillReceiveProps({ language, match }) {
+    if (
+      this.props.language !== language ||
+      this.props.match.params.outlet_slug !== match.params.outlet_slug
+    ) {
       this.loadOutlet(match.params.outlet_slug);
     }
   }
@@ -92,28 +95,35 @@ export default class extends Component {
       return <Spinner />;
     }
 
-    if(!outlet.name){
-      return <EmptyResult/>;
+    if (!outlet.name) {
+      return <EmptyResult />;
     }
 
-    
     return (
-      <div className="restaurant">
-
-        <Helmet>            
-            <title>{outlet.name}</title>
-            <meta name="description" content={outlet.description} />
-            <meta itemprop="priceCurrency" content={outlet.currency.code} />
+      <div className="map-background">
+        <Helmet>
+          <title>{outlet.name}</title>
+          <meta name="description" content={outlet.description} />
+          <meta itemprop="priceCurrency" content={outlet.currency.code} />
         </Helmet>
 
         <div className="container">
-          <Header outlet={outlet} active={tabID} onSelectItem={this.handleSelectTab} />
+          <Header
+            outlet={outlet}
+            active={tabID}
+            onSelectItem={this.handleSelectTab}
+          />
 
-          {Object.keys(this.tabContent).map(key=>
-            <div key={key} className={classNames("row block box-shadow bg-white mb-4 mt-5", {"hidden": key !== tabID})}>
+          {Object.keys(this.tabContent).map(key => (
+            <div
+              key={key}
+              className={classNames("row block box-shadow bg-white mb-4 mt-5", {
+                hidden: key !== tabID
+              })}
+            >
               {this.tabContent[key]}
             </div>
-          )}
+          ))}
 
           {/*<Footer outlet={outlet} />*/}
         </div>

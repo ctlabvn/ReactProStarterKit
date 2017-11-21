@@ -1,12 +1,12 @@
 @import "../../vars.css";
 
-body{
-  font-family: Montserrat,Roboto,sans-serif;
-  background-color: #fafafa;  
+body {
+  font-family: Montserrat, Roboto, sans-serif;
+  background-color: #fafafa;
 }
 
-button a{
-  color: inherit!important;
+button a {
+  color: inherit !important;
 }
 
 a:hover {
@@ -24,81 +24,86 @@ a:hover {
 }
 
 *:focus {
-    outline: none;
+  outline: none;
 }
 
-.hidden,.popover-content{
+.hidden,
+.popover-content {
   display: none;
 }
-.popover-body .popover-content{
+.popover-body .popover-content {
   display: block;
 }
-.color-gray{
+.color-gray {
   color: $gray-color;
 }
 
-.color-white{
-  color: $white-color!important;
+.color-white {
+  color: $white-color !important;
 }
 
-.color-gray-300{
+.color-gray-300 {
   color: $gray-color-300;
 }
 
-.color-gray-400{
+.color-gray-400 {
   color: $gray-color-400;
 }
 
-.color-gray::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+.color-gray::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
   color: $gray-color;
 }
-.color-gray::-moz-placeholder { /* Firefox 19+ */
+.color-gray::-moz-placeholder {
+  /* Firefox 19+ */
   color: $gray-color;
 }
-.color-gray:-ms-input-placeholder { /* IE 10+ */
+.color-gray:-ms-input-placeholder {
+  /* IE 10+ */
   color: $gray-color;
 }
-.color-gray:-moz-placeholder { /* Firefox 18- */
+.color-gray:-moz-placeholder {
+  /* Firefox 18- */
   color: $gray-color;
 }
 
-.color-green{
+.color-green {
   color: $green-color;
 }
 
-.color-yellow{
+.color-yellow {
   color: $yellow-color;
 }
 
-.color-orange{
+.color-orange {
   color: $orange-color;
 }
 
-.color-red{
+.color-red {
   color: $red-color;
 }
 
-.color-black{
+.color-black {
   color: $black-color;
 }
 
-.color-black-300{
+.color-black-300 {
   color: $black-color-300;
 }
 
-.color-black-400{
+.color-black-400 {
   color: $black-color-400;
 }
 
-.font-medium{
+.font-medium {
   font-size: 14px;
 }
 
-.font-large{
+.font-large {
   font-size: 16px;
 }
 
-.font-largest{
+.font-largest {
   font-size: 18px;
 }
 
@@ -109,7 +114,7 @@ a:hover {
   border: 0;
 }
 
-.bg-transparent{
+.bg-transparent {
   background-color: transparent;
 }
 
@@ -134,23 +139,23 @@ a:hover {
   background-color: $red-color;
 }
 
-.border-red{
-  border-color: $red-color!important;
+.border-red {
+  border-color: $red-color !important;
 }
 
-.border-gray{
-  border-color: $gray-color!important;
+.border-gray {
+  border-color: $gray-color !important;
 }
 
-.color-gray-300{
+.color-gray-300 {
   color: $gray-color-300;
 }
 
-.border-white-300{
+.border-white-300 {
   border-color: $white-color-300;
 }
 
-.border-gray-300{
+.border-gray-300 {
   border-color: $gray-color-300;
 }
 
@@ -162,13 +167,13 @@ a:hover {
   border-top: 1px solid $gray-color-200;
 }
 
-.html-content{
+.html-content {
   img {
     max-width: 100%;
   }
 }
 
-.d-flex{
+.d-flex {
   img.responsive {
     align-self: center;
     max-width: 100%;
@@ -205,48 +210,48 @@ a:hover {
   font-weight: 400;
 }
 
-.block{
-    border-radius: 0px !important;
-    padding: 30px !important;    
+.block {
+  border-radius: 0px !important;
+  padding: 30px !important;
 }
 
 .box-shadow {
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
 }
 
-.xsmall{
+.xsmall {
   font-size: 50%;
 }
 
-.btn-shadow{
+.btn-shadow {
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);
 }
 
-.main-page{
+.main-page {
   padding-top: 90px;
   background-color: #f7f7f7;
 }
 
-.vertical-center{
+.vertical-center {
   position: absolute;
   transform: translateY(-50%);
   top: 50%;
 }
 
-.horizontal-center{
+.horizontal-center {
   position: absolute;
   transform: translateX(-50%);
   left: 50%;
 }
 
-.position-center{
+.position-center {
   position: absolute;
   transform: translate(-50%, -50%);
   left: 50%;
   top: 50%;
 }
 
-.table-fixed{
+.table-fixed {
   table-layout: fixed;
 }
 
@@ -255,28 +260,32 @@ a:hover {
     padding: 0 15px;
   }
 
-  .main-page{
+  .main-page {
     background-color: $white-color;
   }
 
-  .block{    
-    padding: 10px !important;    
+  .block {
+    padding: 10px !important;
   }
 
   .table-responsive {
-    thead{
+    thead {
       display: none;
     }
-    .row{
+    .row {
       margin: 0;
       padding: 15px;
     }
-    .column, td, th{
+    .column,
+    td,
+    th {
       text-align: right;
       float: left;
-      width: 100%;      
+      width: 100%;
     }
-    .column:before, td:before, th:before{
+    .column:before,
+    td:before,
+    th:before {
       content: attr(data-title);
       float: left;
       font-weight: bold;
@@ -284,3 +293,10 @@ a:hover {
   }
 }
 
+.map-background {
+  background-image: url(/images/background.png);
+  background-size: contain;
+  background-repeat: repeat;
+  margin-top: -30px;
+  padding-top: 20px;
+}

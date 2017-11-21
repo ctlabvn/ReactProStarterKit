@@ -23,14 +23,14 @@ export default class ProductItem extends Component {
     image: PropTypes.string,
     quantity: PropTypes.number,
     hideImage: PropTypes.bool,
-    imageSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),    
+    imageSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   };
 
   static defaultProps = {
     priceUnit: "$",
     imageSize: 50,
-    quantity: 1,   
-    hideImage: false, 
+    quantity: 1,
+    hideImage: false
   };
 
   render() {
@@ -46,54 +46,72 @@ export default class ProductItem extends Component {
       item_slug,
       quantity,
       onIncrease,
-      onDecrease, 
-      hideImage,     
+      onDecrease,
+      hideImage,
       t
     } = this.props;
 
     const totalPrice = price * quantity;
-    
-	    return (
-        <div    
-          itemScope itemType="http://schema.org/Product"      
-          className={classNames("d-flex flex-row align-items-center", className)}
-        >
-			    {
-            image ?
-            <Image
-            style={{ width: imageSize, height: imageSize, alignSelf: 'center'}}
+
+    return (
+      <div
+        itemScope
+        itemType="http://schema.org/Product"
+        className={classNames("d-flex flex-row align-items-center", className)}
+      >
+        {image ? (
+          <Image
+            style={{ width: imageSize, height: imageSize, alignSelf: "center" }}
             itemProp="image"
             src={image}
-            alt={title}           
+            alt={title}
           />
-          : (!hideImage && <div style={{ width: imageSize, height: imageSize, alignSelf: 'center'}} />)
-        }
-          <div className="flex-column d-flex ml-3 w-100">
-            <Link to={`/restaurant/${outlet_slug}/${item_slug}`}>
-              <HeadingDouble
-                className="color-black-300"
-                leftTitle={<span itemProp="name">{title}</span>}
-                rightTitle={<span itemProp="price">{t("format.currency", {
-							    price: totalPrice,
-							    symbol: priceUnit
-						    })}</span>}
-              />
-            </Link>
-            <div className="flex-row d-flex justify-content-between">
-              <div className="pr-4">
-                <Readmore line="500" more={t('LABEL.SHOW_MORE')} 
+        ) : (
+          !hideImage && (
+            <div
+              style={{
+                width: imageSize,
+                height: imageSize,
+                alignSelf: "center"
+              }}
+            />
+          )
+        )}
+        <div className="flex-column d-flex ml-3 w-100">
+          <Link to={`/restaurant/${outlet_slug}/${item_slug}`}>
+            <HeadingDouble
+              className="color-black-300"
+              leftTitle={<span itemProp="name">{title}</span>}
+              rightTitle={
+                <span itemProp="price">
+                  {t("format.currency", {
+                    price: totalPrice,
+                    symbol: priceUnit
+                  })}
+                </span>
+              }
+            />
+          </Link>
+          <div className="flex-row d-flex justify-content-between">
+            <div className="pr-4">
+              <Readmore
+                line="500"
+                more={t("LABEL.SHOW_MORE")}
                 // less={t('LABEL.SHOW_LESS')}
-                >
-                  <p itemProp="description" className="w-100 mt-3 html-content">{description}</p>
-                </Readmore>
-              </div>
-              <div className="d-flex flex-column justify-content-between">
-						    {onIncrease && <ButtonRound icon="plus" onClick={onIncrease} />}
-						    {quantity > 0 && onDecrease && <ButtonRound icon="minus" onClick={onDecrease} />}
-              </div>
+              >
+                <p itemProp="description" className="w-100 mt-3 html-content">
+                  {description}
+                </p>
+              </Readmore>
+            </div>
+            <div className="d-flex flex-column justify-content-between">
+              {onIncrease && <ButtonRound icon="plus" onClick={onIncrease} />}
+              {quantity > 0 &&
+                onDecrease && <ButtonRound icon="minus" onClick={onDecrease} />}
             </div>
           </div>
         </div>
-	    );
+      </div>
+    );
   }
 }
