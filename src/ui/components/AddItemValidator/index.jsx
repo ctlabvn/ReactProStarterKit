@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { translate } from "react-i18next";
 import { connect } from "react-redux";
 
-
 import ModalConfirm from "~/ui/components/ModalConfirm";
 
 import * as commonActions from "~/store/actions/common";
@@ -26,11 +25,11 @@ export default class extends Component {
     this.processingItem = null;
   }
 
-  handleCancelModal=()=>{
+  handleCancelModal = () => {
     this.modal.close();
   };
 
-  handleConfirmModal=()=>{
+  handleConfirmModal = () => {
     this.props.clearItems();
     this.doAddOrderItem();
     this.modal.close();
@@ -38,9 +37,10 @@ export default class extends Component {
 
   doAddOrderItem = () => {
     // each time add order, we should update business info for sure
-    const {outlet, updateOrder, addOrderItem} = this.props
+    const { outlet, updateOrder, addOrderItem } = this.props;
     updateOrder({
       ...outlet.online_order_setting,
+      restaurant_name: outlet.name,
       restaurant_address: outlet.address,
       restaurant_lat: outlet.lat,
       restaurant_long: outlet.long,
@@ -51,14 +51,16 @@ export default class extends Component {
   };
 
   handleAddOrderItem = (item, item_options = []) => {
-    const {
-      orderInfo,
-      orderItems,
-      outlet,
-      clearItems,
-    } = this.props;
+    const { orderInfo, orderItems, outlet, clearItems } = this.props;
 
-    const { default_price, item_uuid, currency, name, description, slug } = item;
+    const {
+      default_price,
+      item_uuid,
+      currency,
+      name,
+      description,
+      slug
+    } = item;
     this.processingItem = {
       item_uuid,
       item_options,
@@ -89,22 +91,21 @@ export default class extends Component {
     this.doAddOrderItem();
   };
 
-  componentDidMount(){
+  componentDidMount() {
     this.props.onItemRef && this.props.onItemRef(this);
   }
 
   render() {
     const { t } = this.props;
 
-      return (       
-
-          <ModalConfirm onItemRef={ref=>this.modal = ref} 
-            onCancel={this.handleCancelModal}
-            onOK={this.handleConfirmModal} 
-          >
-            {t('LABEL.CONFIRM_REMOVE_ORDER')}
-          </ModalConfirm>
-      );    
-    
+    return (
+      <ModalConfirm
+        onItemRef={ref => (this.modal = ref)}
+        onCancel={this.handleCancelModal}
+        onOK={this.handleConfirmModal}
+      >
+        {t("LABEL.CONFIRM_REMOVE_ORDER")}
+      </ModalConfirm>
+    );
   }
 }

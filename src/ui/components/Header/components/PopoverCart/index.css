@@ -1,36 +1,46 @@
-.popover-cart{
-  max-width: 500px;  
+@import "../../../../vars.css";
 
-  .text-truncate{
+.popover-cart {
+  max-width: 500px;
+
+  .text-truncate {
     width: 300px;
     padding-right: 10px;
   }
 
-  .popover-body{
+  .popover-body {
     max-height: 100%;
   }
 
-  .popover-cart-content {    
+  .popover-cart-content {
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: 400px;    
+    max-height: 400px;
   }
 
-  .btn-round{
+  .popover-header:before {
+    border-bottom: none !important;
+  }
+
+  .btn-round {
     width: 20px;
     height: 20px;
     font-size: 10px;
   }
 }
 
-@media (max-width: 768px){
+.popover-cart.arrow-red {
+  .arrow:after {
+    border-bottom-color: $red-color;
+  }
+}
 
-  .popover-cart{    
+@media (max-width: 768px) {
+  .popover-cart {
     max-width: calc(100vw - 10px);
-    .text-truncate{
+    .text-truncate {
       width: 160px;
       white-space: normal;
     }
   }
-
 }
