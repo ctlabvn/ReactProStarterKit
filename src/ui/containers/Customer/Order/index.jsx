@@ -6,9 +6,10 @@ import { Row, Col, Label, Button } from "reactstrap";
 import { connect } from "react-redux";
 
 // redux form
-import { Field, 
-  // FieldArray, 
-  reduxForm 
+import {
+  Field,
+  // FieldArray,
+  reduxForm
 } from "redux-form";
 
 // comonents
@@ -66,10 +67,10 @@ export default class extends Component {
     requestor("order/getOrderHistory", token, options);
   };
 
-  componentDidMount(){
-    const {orderHistory} = this.props
+  componentDidMount() {
+    const { orderHistory } = this.props;
     // always update
-    if(!orderHistory || !orderHistory.length){
+    if (!orderHistory || !orderHistory.length) {
       this.searchOrder({});
     }
   }
@@ -125,28 +126,16 @@ export default class extends Component {
           </Col>
         </Row>
         <Row>
+          <div className="w-100 customer-order mt-4 d-none d-md-flex">
+            <strong className="col-3">Type | Status</strong>
 
-          
-        <div className="w-100 customer-order mt-4 d-none d-md-flex">
-          <strong className="col-1">
-            Status
-          </strong>
+            <strong className="col-4">Restaurant name</strong>
 
-          <strong className="col-2">
-            Type
-          </strong>
+            <strong className="col-2">Date time</strong>
 
-          <strong className="col-4">
-            Restaurant name
-          </strong>          
+            <strong className="col">Amout</strong>
+          </div>
 
-          <strong className="col-2">Date time</strong>
-          
-          <strong className="col">Amout</strong>  
-
-        </div>  
-
-          
           {orderHistory && orderHistory.length ? (
             orderHistory.map(order => (
               <OrderItem

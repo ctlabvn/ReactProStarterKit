@@ -88,12 +88,10 @@ export default class extends Component {
               icon={this.state.collapse ? "chevron-down" : "chevron-up"}
             />
           </span>
-          <span className="col-md-1 column" data-title="Status">
-            {ORDER_STATUS.getString(order.order.status)}
-          </span>
-
-          <span className="col-md-2 column" data-title="Type">
+          <span className="col-md-3 column" data-title="Status/Type">
             {ORDER_TYPE.getString(order.order.order_type)}
+            {" | "}
+            {ORDER_STATUS.getString(order.order.status)}
           </span>
 
           <Link
