@@ -3,7 +3,7 @@ import { REHYDRATE } from "redux-persist/constants";
 export const initialState = {
   items: [],
   history: [],
-  info: {},
+  info: {}
 };
 
 const updateItem = (state, index, payload) => {
@@ -25,11 +25,20 @@ export const order = (state = initialState, { type, payload }) => {
   switch (type) {
     case "order/clearItems":
       // force update order info belong to restaurant later, or better use other field
-      return {...state, items:[], info: {...state.info, outlet_uuid: null, request_time: 0}}
+      // so we only remain order_address mean current address of user
+      // what to be considered to remain?
+      return {
+        ...state,
+        items: [],
+        info: {
+          order_address: state.info.order_address
+        }
+      };
     case "order/addItem":
-      index = (payload.item_options && payload.item_options.length)
-        ? -1 
-        : findIndex(state, payload);
+      index =
+        payload.item_options && payload.item_options.length
+          ? -1
+          : findIndex(state, payload);
       // we will auto update quantity if this item has no item_options
       return index !== -1
         ? updateItem(state, index, {

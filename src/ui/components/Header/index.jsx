@@ -6,7 +6,7 @@ import { translate } from "react-i18next";
 
 // reactstrap
 import {
-  Button,
+  Button
   // DropdownItem
 } from "reactstrap";
 
@@ -20,7 +20,7 @@ import Drawer from "~/ui/components/Drawer";
 import ModalConfirm from "~/ui/components/ModalConfirm";
 
 // selectors && actions
-import { history } from "~/store";
+// import { history } from "~/store";
 import * as orderActions from "~/store/actions/order";
 import * as authSelectors from "~/store/selectors/auth";
 import * as orderSelectors from "~/store/selectors/order";
@@ -43,25 +43,27 @@ export default class extends Component {
     super(props);
 
     this.state = {
-      drawerOpen: false,
+      drawerOpen: false
     };
 
     this.selectedItem = null;
   }
 
-  toggleDrawer = ()=>{
-    const {drawerOpen} = this.state;
-    document.querySelector('body').style.overflow = drawerOpen ? 'auto' : 'hidden';
+  toggleDrawer = () => {
+    const { drawerOpen } = this.state;
+    document.querySelector("body").style.overflow = drawerOpen
+      ? "auto"
+      : "hidden";
     this.setState({
       drawerOpen: !drawerOpen
     });
   };
 
-  increaseOrder=(item)=> {
+  increaseOrder = item => {
     this.props.updateOrderItem({ ...item, quantity: item.quantity + 1 });
   };
 
-  decreaseOrder=(item)=> {
+  decreaseOrder = item => {
     this.selectedItem = item;
     if (item.quantity === 1) {
       // if (window.confirm("Do you want to remove this item?")) {
@@ -73,11 +75,11 @@ export default class extends Component {
     }
   };
 
-  handleCancelModal=()=>{
+  handleCancelModal = () => {
     this.modal.close();
   };
 
-  handleConfirmModal=()=>{
+  handleConfirmModal = () => {
     this.props.removeOrderItem(this.selectedItem);
     this.modal.close();
   };
@@ -88,78 +90,86 @@ export default class extends Component {
     const totalQuantity = orderItems.reduce((a, item) => a + item.quantity, 0);
     return (
       <div>
-      <nav
-        className={classNames("navbar fixed-top header", {
-          invisible: isHome
-        })}
-      >
-        <div className="p-0 d-flex justify-content-between w-100">
-          <div className="d-flex">
-
-            {isMobile 
-              ? <span className="navbar-brand" onClick={this.toggleDrawer}>
-                  <img src="/images/logo.png" alt=""/>
-                  <i className={classNames("color-red ml-2 fa", drawerOpen ? "fa-angle-up" : "fa-angle-down")} />
-                </span>
-              : <Link className="navbar-brand" to="/">
-              <img src="/images/logo.png" alt="" />
-            </Link>
-            }                      
-
-            <Suggestion />
-          </div>
-
-          <div className="d-flex align-items-center flex-row">
-         
-            <Button
-              id="popoverCartBtn"              
-              className="btn-round bg-red border-0"
-              onClick={()=> isMobile ? history.push('/cart') : this.popoverCart.toggle()}
-            >
-              <i
-                className="fa fa-shopping-cart color-white"
-                aria-hidden="true"
-                id="cart-icon"
-              />
-              <span className="badge bg-red">{totalQuantity}</span>              
-            </Button>
-
-            {!isMobile &&
-              <PopoverCart               
-                placement="bottom-start"        
-                target="popoverCartBtn"
-                orderInfo={orderInfo}
-                orderItems={orderItems}
-                onIncreaseOrder={this.increaseOrder}
-                onDecreaseOrder={this.decreaseOrder}
-                onItemRef={ref=>this.popoverCart=ref}
-              />
-            }
-
-            {!isLogged ? (
-              <Button
-                onClick={() => this.loginModal.toggle()}
-                className="btn-outline-danger btn-sm text-capitalize ml-4"
-              >
-                {t("LINK.FOOTER.LOGIN")}
-              </Button>
-            ) : (
-              <AccountDropdown />
-            )}
-          </div>
-
-          <LoginModal onItemRef={ref => (this.loginModal = ref)} />
-        </div>        
-      </nav>
-      {isMobile && <Drawer className={classNames({"hidden": !drawerOpen})}/>}
-
-      <ModalConfirm key="modal" onItemRef={ref=>this.modal = ref} 
-          onCancel={this.handleCancelModal}
-          onOK={this.handleConfirmModal} 
+        <nav
+          className={classNames("navbar fixed-top header", {
+            invisible: isHome
+          })}
         >
-          {t('LABEL.CONFIRM_REMOVE_CART_ITEM')}
-        </ModalConfirm>
+          <div className="p-0 d-flex justify-content-between w-100">
+            <div className="d-flex">
+              {isMobile ? (
+                <span className="navbar-brand" onClick={this.toggleDrawer}>
+                  <img src="/images/logo.png" alt="" />
+                  <i
+                    className={classNames(
+                      "color-red ml-2 fa",
+                      drawerOpen ? "fa-angle-up" : "fa-angle-down"
+                    )}
+                  />
+                </span>
+              ) : (
+                <Link className="navbar-brand" to="/">
+                  <img src="/images/logo.png" alt="" />
+                </Link>
+              )}
 
+              <Suggestion />
+            </div>
+
+            <div className="d-flex align-items-center flex-row">
+              <Button
+                id="popoverCartBtn"
+                className="btn-round bg-red border-0"
+                onClick={() =>
+                  // isMobile ? history.push('/cart') :
+                  this.popoverCart.toggle()}
+              >
+                <i
+                  className="fa fa-shopping-cart color-white"
+                  aria-hidden="true"
+                  id="cart-icon"
+                />
+                <span className="badge bg-red">{totalQuantity}</span>
+              </Button>
+
+              {
+                // !isMobile &&
+                <PopoverCart
+                  placement="bottom-start"
+                  target="popoverCartBtn"
+                  orderInfo={orderInfo}
+                  orderItems={orderItems}
+                  onIncreaseOrder={this.increaseOrder}
+                  onDecreaseOrder={this.decreaseOrder}
+                  onItemRef={ref => (this.popoverCart = ref)}
+                />
+              }
+
+              {!isLogged ? (
+                <Button
+                  onClick={() => this.loginModal.toggle()}
+                  className="btn-outline-danger btn-sm text-capitalize ml-4"
+                >
+                  {t("LINK.FOOTER.LOGIN")}
+                </Button>
+              ) : (
+                <AccountDropdown />
+              )}
+            </div>
+
+            <LoginModal onItemRef={ref => (this.loginModal = ref)} />
+          </div>
+        </nav>
+        {isMobile && <Drawer className={classNames({ hidden: !drawerOpen })} />}
+
+        <ModalConfirm
+          key="modal"
+          onItemRef={ref => (this.modal = ref)}
+          onCancel={this.handleCancelModal}
+          onOK={this.handleConfirmModal}
+        >
+          {t("LABEL.CONFIRM_REMOVE_CART_ITEM")}
+        </ModalConfirm>
       </div>
     );
   }

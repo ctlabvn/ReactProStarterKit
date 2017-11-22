@@ -17,6 +17,8 @@ import {
 // components
 import ButtonRound from "~/ui/components/Button/Round";
 
+import { VERSION } from "~/store/constants/api";
+
 import { getItemPrice, calculateOrderPrice, ORDER_TYPE } from "~/utils";
 
 import "./index.css";
@@ -154,7 +156,7 @@ export default class extends Component {
         </PopoverHeader>
         <PopoverBody className="p-2">
           <div className="d-flex flex-column align-items-start border-bottom pb-2">
-            <span>Time</span>
+            {VERSION > 1 && <span>Time</span>}
             <Link
               className="font-weight-bold color-black"
               to={`/restaurant/${orderInfo.outlet_slug ||
