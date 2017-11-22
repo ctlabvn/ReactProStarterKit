@@ -54,8 +54,7 @@ export default class extends Component {
                     className="mt-2 color-black-300 w-100 float-left"
                     key={item_option.option_uuid}
                   >
-                    (+1){" "}
-                    <span>{item_option.name}</span>
+                    (+1) <span>{item_option.name}</span>
                   </small>
                 ))}
             </div>

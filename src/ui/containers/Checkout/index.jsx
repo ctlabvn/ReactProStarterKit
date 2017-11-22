@@ -8,9 +8,11 @@ import { connect } from "react-redux";
 
 import moment from "moment";
 
-import { 
-  Row, Col, Button,
-  // Input, 
+import {
+  Row,
+  Col,
+  Button
+  // Input,
 } from "reactstrap";
 
 // components
@@ -42,37 +44,48 @@ import "./index.css";
     customer: authSelectors.getCustomer(state),
     orderItems: orderSelectors.getItems(state),
     orderInfo: orderSelectors.getInfo(state),
-    token: authSelectors.getToken(state),
+    token: authSelectors.getToken(state)
   }),
   { ...commonActions, ...orderActions }
 )
 export default class extends Component {
-
-  createOrder = async ()=>{
-    const {customer, orderItems, orderInfo, 
-      // address, 
+  createOrder = async () => {
+    const {
+      customer,
+      orderItems,
+      orderInfo,
+      // address,
       updateOrderHistory,
-      requestor, clearItems, setToast} = this.props;    
+      requestor,
+      clearItems,
+      setToast
+    } = this.props;
     // const addressItem = address.find(item=>item.cus_address_uuid === orderInfo.cus_address_uuid);
     const now = moment();
-    const minutesOfNow = 0;//(now.hour() * 60 + now.minute());
-    let minutesOfPreparation = orderInfo.request_time + orderInfo.preparation_time;
-    if(orderInfo.order_type === ORDER_TYPE.DELIVERY){
+    const minutesOfNow = 0; //(now.hour() * 60 + now.minute());
+    let minutesOfPreparation =
+      orderInfo.request_time + orderInfo.preparation_time;
+    if (orderInfo.order_type === ORDER_TYPE.DELIVERY) {
       minutesOfPreparation += +orderInfo.travel_time;
     }
     const request_time = 60 * (minutesOfPreparation - minutesOfNow);
 
-    const detailAddress = this.detailAddress ? this.detailAddress.value.trim() : '';
+    const detailAddress = this.detailAddress
+      ? this.detailAddress.value.trim()
+      : "";
 
-    const customer_address = orderInfo.order_type === ORDER_TYPE.DELIVERY 
-      ? orderInfo.order_address + (detailAddress ? "\n" + detailAddress : "")
-      : "take_away is optional";//addressItem.address;
+    const customer_address =
+      orderInfo.order_type === ORDER_TYPE.DELIVERY
+        ? orderInfo.order_address + (detailAddress ? "\n" + detailAddress : "")
+        : "take_away is optional"; //addressItem.address;
 
     const data = {
       items: orderItems.map(item => ({
         item_uuid: item.item_uuid,
         item_quantity: item.quantity,
-        item_options: item.item_options.map(item_option=>item_option.option_uuid),
+        item_options: item.item_options.map(
+          item_option => item_option.option_uuid
+        )
       })),
       customer: {
         customer_uuid: customer.customer_uuid,
@@ -81,23 +94,23 @@ export default class extends Component {
         customer_email: customer.email,
         customer_address,
         customer_lat: orderInfo.order_lat,
-        customer_long: orderInfo.order_long,
+        customer_long: orderInfo.order_long
       },
-      // The request time for delivery in minutes. 
+      // The request time for delivery in minutes.
       request_time,
       order_type: orderInfo.order_type || ORDER_TYPE.DELIVERY,
-      order_note: orderInfo.order_note,
-    }
+      order_note: orderInfo.order_note
+    };
     // console.log(data);
-    requestor("order/requestCreateOrder", data, (err, ret)=>{
-      if(!err){
+    requestor("order/requestCreateOrder", data, (err, ret) => {
+      if (!err) {
         // if success create order then clear all items
         clearItems();
         // force reload
         updateOrderHistory([]);
         history.push("/customer/order");
       } else {
-          setToast(extractMessage(err.message), "danger");        
+        setToast(extractMessage(err.message), "danger");
       }
     });
   };
@@ -106,23 +119,27 @@ export default class extends Component {
     // get data if not have, or can validate follow expiry
   }
 
-  updateOrderAddress({cus_address_uuid}){
-    this.props.updateOrder({cus_address_uuid});
+  updateOrderAddress({ cus_address_uuid }) {
+    this.props.updateOrder({ cus_address_uuid });
   }
 
-  renderDeliveryAddress(){
+  renderDeliveryAddress() {
     const { orderInfo, t } = this.props;
     return (
       <div className="w-100">
         <h4 className="text-center">{t("LABEL.DELIVERY_ADDRESS")}</h4>
         <strong>{orderInfo.order_address}</strong>
-        <input placeholder="Detail address:" className="form-control" ref={ref=>this.detailAddress=ref}/>
+        <input
+          placeholder="Detail address:"
+          className="form-control"
+          ref={ref => (this.detailAddress = ref)}
+        />
       </div>
-    )
+    );
   }
 
-  renderTakeawayAddress(){
-    return null
+  renderTakeawayAddress() {
+    return null;
     // const { address, orderInfo, t } = this.props;
     // return (
     // <div className="w-100">
@@ -143,8 +160,10 @@ export default class extends Component {
 
   renderHasAccount() {
     const { orderInfo, t } = this.props;
-    
-    return orderInfo.order_type === ORDER_TYPE.DELIVERY ? this.renderDeliveryAddress() : this.renderTakeawayAddress();        
+
+    return orderInfo.order_type === ORDER_TYPE.DELIVERY
+      ? this.renderDeliveryAddress()
+      : this.renderTakeawayAddress();
   }
 
   renderHasNoAccount() {
@@ -153,36 +172,53 @@ export default class extends Component {
         <h4 className="text-center">{this.props.t("LABEL.CREATE_ACCOUNT")}</h4>
         <Signup />
         <div className="position-relative w-100 mt-5">
-          <hr/>
-          <Button color="secondary" className="bg-white btn-or position-center" outline>Or</Button>
+          <hr />
+          <Button
+            color="secondary"
+            className="bg-white btn-or position-center"
+            outline
+          >
+            Or
+          </Button>
         </div>
-        <h4 className="text-center mt-5">{this.props.t("LABEL.HAVE_ACCOUNT")}</h4>
+        <h4 className="text-center mt-5">
+          {this.props.t("LABEL.HAVE_ACCOUNT")}
+        </h4>
         <Login />
       </div>
     );
   }
 
   render() {
-    const { isLogged, orderItems, orderInfo } = this.props;
-    if(!orderItems.length){
-      return <EmptyResult/>;
+    const { isLogged, orderItems, orderInfo, t } = this.props;
+    if (!orderItems.length) {
+      return <EmptyResult />;
     }
 
     return (
       <div className="container">
-        <Helmet>            
-            <title>{t("LABEL.CHECKOUT")}</title>
-            <meta name="description" content={t("LABEL.CHECKOUT")} />
+        <Helmet>
+          <title>{t("LABEL.CHECKOUT")}</title>
+          <meta name="description" content={t("LABEL.CHECKOUT")} />
         </Helmet>
         <Row>
           <div className="col-md-8">
             {isLogged ? this.renderHasAccount() : this.renderHasNoAccount()}
           </div>
           <div className="col-md-4">
-            <Order orderItems={orderItems} orderInfo={orderInfo} className="mt-md-0 mt-4"/>
-            {isLogged && <div className="d-flex w-100 text-center my-4 justify-content-end">
-              <Button onClick={this.createOrder} color="danger">{this.props.t("BUTTON.CONFIRM_PAY")}</Button>
-            </div>}
+            <Order
+              orderItems={orderItems}
+              orderInfo={orderInfo}
+              className="mt-md-0 mt-4"
+            />
+            <p className="px-2">{orderInfo.order_note}</p>
+            {isLogged && (
+              <div className="border-top pt-2 d-flex w-100 text-center my-2 justify-content-end">
+                <Button onClick={this.createOrder} color="danger">
+                  {this.props.t("BUTTON.CONFIRM_PAY")}
+                </Button>
+              </div>
+            )}
           </div>
         </Row>
       </div>
