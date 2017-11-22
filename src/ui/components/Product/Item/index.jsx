@@ -45,7 +45,6 @@ export default class ProductItem extends Component {
       quantity,
       onIncrease,
       onDecrease,
-      hideImage,
       t
     } = this.props;
 
@@ -64,7 +63,7 @@ export default class ProductItem extends Component {
           }}
         >
           <Image
-            style={{ maxWidth: "100%", maxWidth: "100%", alignSelf: "center" }}
+            style={{ maxWidth: "100%", maxHeight: "100%", alignSelf: "center" }}
             itemProp="image"
             src={image}
             alt={title}
