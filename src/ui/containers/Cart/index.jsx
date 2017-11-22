@@ -48,7 +48,6 @@ import { ORDER_TYPE, calculateOrderPrice, getCurrentLocation } from "~/utils";
 
 import "./index.css";
 
-
 @translate("translations")
 @connect(
   state => ({
@@ -70,7 +69,7 @@ export default class extends Component {
     this.state = {
       directions: null,
       predictions: [],
-      overlay: null,
+      overlay: null
     };
 
     // this.props.updateOrder({
@@ -99,7 +98,7 @@ export default class extends Component {
     const { orderInfo, orderItems } = this.props;
     const { directions } = this.state;
     let travel_time = 0;
-    if(orderInfo.order_type === ORDER_TYPE.DELIVERY && directions){
+    if (orderInfo.order_type === ORDER_TYPE.DELIVERY && directions) {
       const { duration, distance } = directions.routes[0].legs[0];
       travel_time = duration.value / 60;
       if (
@@ -111,7 +110,6 @@ export default class extends Component {
         });
       }
     }
-    
 
     // if(!orderInfo.request_time){
     //   throw new SubmissionError({
@@ -119,7 +117,7 @@ export default class extends Component {
     //   })
     // }
 
-    const orderPrices =  calculateOrderPrice(orderItems, orderInfo);
+    const orderPrices = calculateOrderPrice(orderItems, orderInfo);
 
     if (
       orderInfo.min_delivery_cost &&
@@ -184,30 +182,31 @@ export default class extends Component {
       );
     } else {
       this.setState({
-        overlay: 'Can not determine the routes'
-      })
+        overlay: "Can not determine the routes"
+      });
     }
   }
 
-  getOrderTypeValue(input){
-    return this.orderTypes.length === 1 ? this.orderTypes[0].id : (input.value || ORDER_TYPE.DELIVERY);
+  getOrderTypeValue(input) {
+    return this.orderTypes.length === 1
+      ? this.orderTypes[0].id
+      : input.value || ORDER_TYPE.DELIVERY;
   }
 
-  renderAddressLabel(label, address){
+  renderAddressLabel(label, address) {
     return (
-        <h6 className="color-gray text-uppercase mb-4 w-100">
-          {label}:
-          <span className="color-gray-400 ml-2">
-            {address}
-          </span>
-        </h6>
-    )
+      <h6 className="color-gray text-uppercase mb-4 w-100">
+        {label}:
+        <span className="color-gray-400 ml-2">{address}</span>
+      </h6>
+    );
   }
 
   renderAddress = ({ order_type, order_address, directions, predictions }) => {
-    const { t, 
-      orderInfo, 
-      // error 
+    const {
+      t,
+      orderInfo
+      // error
     } = this.props;
     const position = {
       lat: +orderInfo.restaurant_lat,
@@ -217,25 +216,25 @@ export default class extends Component {
     const orderTypeValue = this.getOrderTypeValue(order_type.input);
 
     return (
-      <div className="col-md-6 pr-md-4">
-
-        <Helmet>            
-            <title>{t("LABEL.YOUR_CART")}</title>
-            <meta name="description" content={t("LABEL.YOUR_CART")} />
-        </Helmet>
-        
-        {this.renderAddressLabel(t("LABEL.BUSINESS_ADDRESS"), orderInfo.restaurant_address)}
+      <div>
+        {this.renderAddressLabel(
+          t("LABEL.BUSINESS_ADDRESS"),
+          orderInfo.restaurant_address
+        )}
 
         {orderTypeValue === ORDER_TYPE.DELIVERY && (
           <div>
-            {this.renderAddressLabel(t("LABEL.ADDRESS"), orderInfo.order_address)}
+            {this.renderAddressLabel(
+              t("LABEL.ADDRESS"),
+              orderInfo.order_address
+            )}
 
             <div className="mb-2 d-flex justify-content-between">
               <Autocomplete
                 className="w-100"
                 placeholder="Type your address here"
                 value={order_address.input.value}
-                onSearch={this.searchGoogleMap}                          
+                onSearch={this.searchGoogleMap}
               >
                 {predictions.map(({ description }, index) => (
                   <DropdownItem
@@ -267,11 +266,12 @@ export default class extends Component {
             >
               {directions ? (
                 <DirectionsRenderer directions={directions} />
+              ) : position.lat && position.lng ? (
+                <Marker position={position} />
               ) : (
-                (position.lat && position.lng) 
-                  ? <Marker position={position} />
-                  : <span className="w-100 text-center text-danger vertical-center">Can not address the location of business</span>
-                  
+                <span className="w-100 text-center text-danger vertical-center">
+                  Can not address the location of business
+                </span>
               )}
             </GoogleMapKey>
 
@@ -295,7 +295,6 @@ export default class extends Component {
 
   renderTimePicker = ({ request_time, order_type }) => {
     const { orderInfo, t } = this.props;
-    
 
     const orderTypeValue = this.getOrderTypeValue(order_type.input);
 
@@ -305,16 +304,19 @@ export default class extends Component {
         : orderInfo.hours_delivery
     );
 
-
     return (
-      <div className="d-md-flex col-md-6 pl-0 pr-0 justify-content-between">
-        <OrderTypeField checkedValue={orderTypeValue} orderTypes={this.orderTypes} {...order_type} />
+      <div className="d-md-flex justify-content-between">
+        <OrderTypeField
+          checkedValue={orderTypeValue}
+          orderTypes={this.orderTypes}
+          {...order_type}
+        />
         <RequestTimeField
-          label={
-            t(orderTypeValue === ORDER_TYPE.DELIVERY
+          label={t(
+            orderTypeValue === ORDER_TYPE.DELIVERY
               ? "LABEL.DELIVERY"
-              : "LABEL.TAKEAWAY")
-          }
+              : "LABEL.TAKEAWAY"
+          )}
           hoursRange={hoursRange}
           {...request_time}
         />
@@ -386,7 +388,7 @@ export default class extends Component {
       // submitting,
       orderInfo,
       clearItems,
-      error,
+      error
       // initialValues: { order_type }
     } = this.props;
 
@@ -404,12 +406,17 @@ export default class extends Component {
     //consumer_discounts
 
     const { directions, predictions } = this.state;
-    const orderPrices =  calculateOrderPrice(orderItems, orderInfo);
+    const orderPrices = calculateOrderPrice(orderItems, orderInfo);
     const currency_symbol = orderItems[0].currency_symbol;
 
     return (
       <div className="container">
-        <div className="block bg-white box-shadow">
+        <Helmet>
+          <title>{t("LABEL.YOUR_CART")}</title>
+          <meta name="description" content={t("LABEL.YOUR_CART")} />
+        </Helmet>
+
+        <div className="block bg-white box-shadow p-0">
           <nav className="breadcrumb text-uppercase color-gray-400 bg-transparent pl-0">
             <Link to="/" className="breadcrumb-item color-gray-400" href="#">
               &lt; {t("LINK.BACK")}
@@ -421,20 +428,22 @@ export default class extends Component {
             <ButtonRound className="ml-4" onClick={clearItems} icon="times" />
           </h2>
 
-          <Fields
-            names={["order_type", "request_time"]}
-            component={this.renderTimePicker}
-          />
-
           <CardList />
 
           <div className="row border p-2 no-gutters">
-            <Fields
-              names={["order_type", "order_address"]}
-              directions={directions}
-              predictions={predictions}
-              component={this.renderAddress}
-            />
+            <div className="col-md-6 pr-md-4">
+              <Fields
+                names={["order_type", "request_time"]}
+                component={this.renderTimePicker}
+              />
+              <Fields
+                names={["order_type", "order_address"]}
+                directions={directions}
+                predictions={predictions}
+                component={this.renderAddress}
+              />
+            </div>
+
             <div className="col">
               <h6 className="color-gray text-uppercase mb-4">
                 {t("LABEL.ADD_NOTE")}
@@ -452,26 +461,29 @@ export default class extends Component {
                 "color-gray",
                 currency_symbol
               )}
-              {!!orderPrices.discount && this.renderCurrency(
-                t("LABEL.DISCOUNT"),
-                orderPrices.discount,
-                "color-gray",
-                currency_symbol
-              )}
-              {!!orderPrices.fee && this.renderCurrency(
-                t("LABEL.DELIVERY_FREE"),
-                orderPrices.fee,
-                "color-gray",
-                currency_symbol
-              )}
-              {!!orderPrices.tax && this.renderCurrency(
-                t("LABEL.TAX"),
-                orderPrices.tax,
-                "color-gray",
-                currency_symbol
-              )}
+              {!!orderPrices.discount &&
+                this.renderCurrency(
+                  t("LABEL.DISCOUNT"),
+                  orderPrices.discount,
+                  "color-gray",
+                  currency_symbol
+                )}
+              {!!orderPrices.fee &&
+                this.renderCurrency(
+                  t("LABEL.DELIVERY_FREE"),
+                  orderPrices.fee,
+                  "color-gray",
+                  currency_symbol
+                )}
+              {!!orderPrices.tax &&
+                this.renderCurrency(
+                  t("LABEL.TAX"),
+                  orderPrices.tax,
+                  "color-gray",
+                  currency_symbol
+                )}
               {this.renderCurrency(
-               t("LABEL.TOTAL_PRICE"),
+                t("LABEL.TOTAL_PRICE"),
                 orderPrices.total,
                 "color-black",
                 currency_symbol

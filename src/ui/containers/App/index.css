@@ -268,6 +268,10 @@ a:hover {
     padding: 10px !important;
   }
 
+  .block.p-0 {
+    padding: 0 !important;
+  }
+
   .table-responsive {
     thead {
       display: none;
