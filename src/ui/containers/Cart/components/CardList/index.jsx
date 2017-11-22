@@ -13,8 +13,7 @@ import ModalConfirm from "~/ui/components/ModalConfirm";
 import * as orderSelectors from "~/store/selectors/order";
 import * as orderActions from "~/store/actions/order";
 
-
-import {getItemPrice} from "~/utils";
+import { getItemPrice } from "~/utils";
 
 @translate("translations")
 @connect(
@@ -25,10 +24,9 @@ import {getItemPrice} from "~/utils";
   orderActions
 )
 export default class extends Component {
-
   constructor(props) {
     super(props);
-  
+
     this.selectedItem = null;
   }
 
@@ -40,16 +38,16 @@ export default class extends Component {
     this.props.updateOrderItem({ ...item, quantity: item.quantity - 1 });
   }
 
-  removeOrder(item) {    
+  removeOrder(item) {
     this.selectedItem = item;
     this.modal.open();
   }
 
-  handleCancelModal=()=>{
+  handleCancelModal = () => {
     this.modal.close();
   };
 
-  handleConfirmModal=()=>{
+  handleConfirmModal = () => {
     this.props.removeOrderItem(this.selectedItem);
     this.modal.close();
   };
@@ -57,13 +55,16 @@ export default class extends Component {
   render() {
     const { orderItems, orderInfo, t } = this.props;
     return [
-      <Table key="cartList" className="mt-4 text-uppercase table-fixed table-responsive">
+      <Table
+        key="cartList"
+        className="mt-4 text-uppercase table-fixed table-responsive"
+      >
         <thead className="color-gray">
           <tr>
             <th className="pl-0 card-title">{t("TABLE.ITEM")}</th>
             <th>{t("TABLE.UNIT_PRICE")}</th>
             <th className="text-center">{t("TABLE.QUANTITY")}</th>
-            <th>Vat</th>
+            <th>{t("LABEL.VAT")}</th>
             <th>{t("TABLE.TOTAL")}</th>
             <th className="text-center">{t("TABLE.DELETE")}</th>
           </tr>
@@ -89,12 +90,14 @@ export default class extends Component {
           ))}
         </tbody>
       </Table>,
-        <ModalConfirm key="modal" onItemRef={ref=>this.modal = ref} 
-          onCancel={this.handleCancelModal}
-          onOK={this.handleConfirmModal} 
-        >
-          {t('LABEL.CONFIRM_REMOVE_CART_ITEM')}
-        </ModalConfirm>
-      ];
+      <ModalConfirm
+        key="modal"
+        onItemRef={ref => (this.modal = ref)}
+        onCancel={this.handleCancelModal}
+        onOK={this.handleConfirmModal}
+      >
+        {t("LABEL.CONFIRM_REMOVE_CART_ITEM")}
+      </ModalConfirm>
+    ];
   }
 }

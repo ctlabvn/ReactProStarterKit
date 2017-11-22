@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { translate } from "react-i18next";
-
+import Helmet from "react-helmet";
 import { connect } from "react-redux";
 
 import { NavLink, Route } from "react-router-dom";
@@ -31,6 +31,7 @@ import { VERSION } from "~/store/constants/api";
 }))
 export default class extends Component {
   renderProfileMenu() {
+    const { t } = this.props;
     return (
       <ListGroup>
         <ListGroupItem>
@@ -40,7 +41,7 @@ export default class extends Component {
             to="/customer/profile"
           >
             <i className="fa fa-user mr-2" />
-            Profile
+            {t("LABEL.PROFILE")}
           </NavLink>
         </ListGroupItem>
         {VERSION > 1 && (
@@ -51,7 +52,7 @@ export default class extends Component {
               to="/customer/payment"
             >
               <i className="fa fa-credit-card mr-2" />
-              Payment
+              {t("LABEL.PAYMENT")}
             </NavLink>
           </ListGroupItem>
         )}
@@ -62,7 +63,7 @@ export default class extends Component {
             to="/customer/order"
           >
             <i className="fa fa-history mr-2" />
-            Orders
+            {t("LABEL.ORDERS")}
           </NavLink>
         </ListGroupItem>
       </ListGroup>
@@ -70,7 +71,7 @@ export default class extends Component {
   }
 
   render() {
-    const { match, isLogged } = this.props;
+    const { match, isLogged, t } = this.props;
     if (!isLogged) {
       // can go to login page or something
       return (
@@ -79,7 +80,12 @@ export default class extends Component {
     }
     return (
       <div className="container">
-        <h2>Edit Profile</h2>
+        <Helmet>
+          <title>{t("LABEL.EDIT_PROFILE")}</title>
+          <meta name="description" content={t("LABEL.EDIT_PROFILE")} />
+        </Helmet>
+
+        <h2>{t("LABEL.EDIT_PROFILE")}</h2>
         <hr />
         <div className="row">
           <div className="col-md-3">

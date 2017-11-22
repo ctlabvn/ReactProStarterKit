@@ -95,7 +95,7 @@ export default class extends Component {
   };
 
   saveOrderInfo = data => {
-    const { orderInfo, orderItems } = this.props;
+    const { orderInfo, orderItems, t } = this.props;
     const { directions } = this.state;
     let travel_time = 0;
     if (!data.order_type) {
@@ -109,7 +109,7 @@ export default class extends Component {
         1000 * +orderInfo.delivery_distance < distance.value
       ) {
         throw new SubmissionError({
-          _error: "Distance is too far!"
+          _error: t("LABEL.DISTANCE_TOO_FAR")
         });
       }
     }
@@ -127,7 +127,7 @@ export default class extends Component {
       orderPrices.total < orderInfo.min_delivery_cost
     ) {
       throw new SubmissionError({
-        _error: "Price is too low!"
+        _error: t("LABEL.PRICE_TOO_LOW")
       });
     }
     if (
@@ -135,7 +135,7 @@ export default class extends Component {
       orderPrices.total > orderInfo.max_delivery_cost
     ) {
       throw new SubmissionError({
-        _error: "Price is too high!"
+        _error: t("LABEL.PRICE_TOO_HIGH")
       });
     }
 
@@ -161,7 +161,7 @@ export default class extends Component {
   }
 
   async loadDirectionFromGmap(lat, long) {
-    const { orderInfo } = this.props;
+    const { orderInfo, t } = this.props;
     const originLat = +orderInfo.restaurant_lat;
     const originLong = +orderInfo.restaurant_long;
     if (lat && long && originLat && originLong) {
@@ -185,7 +185,7 @@ export default class extends Component {
       );
     } else {
       this.setState({
-        overlay: "Can not determine the routes"
+        overlay: t("LABEL.NOT_DETERMINE_ROUTE")
       });
     }
   }
@@ -235,7 +235,7 @@ export default class extends Component {
             <div className="mb-2 d-flex justify-content-between">
               <Autocomplete
                 className="w-100"
-                placeholder="Type your address here"
+                placeholder={t("PLACEHOLDER.TYPE_YOUR_ADDRESS")}
                 value={order_address.input.value}
                 onSearch={this.searchGoogleMap}
               >
@@ -258,7 +258,7 @@ export default class extends Component {
                   className="fa fa-refresh fa-spin mr-2 hidden"
                   ref={ref => (this.loadingIcon = ref)}
                 />
-                Map
+                {t("LABEL.MAP")}
               </Button>
             </div>
 
@@ -493,7 +493,7 @@ export default class extends Component {
               )}
               {
                 // <Field
-                //   placeholder="Enter promo code"
+                //   placeholder={t("PLACEHOLDER.TYPE_YOUR_PROMO_CODE")}
                 //   className="custom-input text-uppercase"
                 //   name="order_promotion_code"
                 //   component={InputField}

@@ -50,21 +50,18 @@ a:hover {
   color: $gray-color-400;
 }
 
-.color-gray::-webkit-input-placeholder {
+.color-gray-500 {
+  color: $gray-color-500;
+}
+
+.color-gray::placeholder {
   /* Chrome/Opera/Safari */
   color: $gray-color;
 }
-.color-gray::-moz-placeholder {
-  /* Firefox 19+ */
-  color: $gray-color;
-}
-.color-gray:-ms-input-placeholder {
-  /* IE 10+ */
-  color: $gray-color;
-}
-.color-gray:-moz-placeholder {
-  /* Firefox 18- */
-  color: $gray-color;
+
+.color-gray-500::placeholder {
+  /* Chrome/Opera/Safari */
+  color: $gray-color-500;
 }
 
 .color-green {
@@ -132,6 +129,10 @@ a:hover {
 
 .bg-gray {
   background-color: $gray-color;
+}
+
+.bg-gray-200 {
+  background-color: $gray-color-200;
 }
 
 .bg-red {

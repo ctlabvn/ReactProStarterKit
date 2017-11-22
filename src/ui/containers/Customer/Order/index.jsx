@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Helmet from "react-helmet";
 // import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
 import { Row, Col, Label, Button } from "reactstrap";
@@ -76,7 +77,7 @@ export default class extends Component {
   }
 
   render() {
-    const { submitting, handleSubmit, orderHistory } = this.props;
+    const { submitting, handleSubmit, orderHistory, t } = this.props;
     // orderHistory.forEach(c=>{
     //   c.items.forEach((c1, index)=>{
     //     c1.options = {
@@ -102,6 +103,11 @@ export default class extends Component {
     // })
     return (
       <div className="container">
+        <Helmet>
+          <title>{t("LABEL.ORDERS")}</title>
+          <meta name="description" content={t("LABEL.ORDERS")} />
+        </Helmet>
+
         <Row className="my-2">
           <Field
             label="From date"
@@ -121,19 +127,23 @@ export default class extends Component {
               disabled={submitting}
               onClick={handleSubmit(this.searchOrder)}
             >
-              Search
+              {t("LABEL.SEARCH")}
             </Button>
           </Col>
         </Row>
         <Row>
           <div className="w-100 customer-order mt-4 d-none d-md-flex">
-            <strong className="col-3">Type | Status</strong>
+            <strong className="col-3">
+              {t("LABEL.TYPE")}
+              {" | "}
+              {t("LABEL.STATUS")}
+            </strong>
 
-            <strong className="col-4">Restaurant name</strong>
+            <strong className="col-4">{t("LABEL.RESTAURANT_NAME")}</strong>
 
-            <strong className="col-2">Date time</strong>
+            <strong className="col-2">{t("LABEL.DATE")}</strong>
 
-            <strong className="col">Amout</strong>
+            <strong className="col">{t("LABEL.AMOUNT")}</strong>
           </div>
 
           {orderHistory && orderHistory.length ? (

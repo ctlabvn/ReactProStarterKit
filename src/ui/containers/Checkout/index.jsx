@@ -130,7 +130,7 @@ export default class extends Component {
         <h4 className="text-center">{t("LABEL.DELIVERY_ADDRESS")}</h4>
         <strong>{orderInfo.order_address}</strong>
         <input
-          placeholder="Detail address:"
+          placeholder={t("PLACEHOLDER.DETAIL_ADDRESS")}
           className="form-control"
           ref={ref => (this.detailAddress = ref)}
         />
@@ -167,9 +167,10 @@ export default class extends Component {
   }
 
   renderHasNoAccount() {
+    const { t } = this.props;
     return (
       <div>
-        <h4 className="text-center">{this.props.t("LABEL.CREATE_ACCOUNT")}</h4>
+        <h4 className="text-center">{t("LABEL.CREATE_ACCOUNT")}</h4>
         <Signup />
         <div className="position-relative w-100 mt-5">
           <hr />
@@ -178,12 +179,10 @@ export default class extends Component {
             className="bg-white btn-or position-center"
             outline
           >
-            Or
+            {t("LABEL.OR")}
           </Button>
         </div>
-        <h4 className="text-center mt-5">
-          {this.props.t("LABEL.HAVE_ACCOUNT")}
-        </h4>
+        <h4 className="text-center mt-5">{t("LABEL.HAVE_ACCOUNT")}</h4>
         <Login />
       </div>
     );

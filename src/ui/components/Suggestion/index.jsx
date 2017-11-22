@@ -15,8 +15,6 @@ import * as authSelectors from "~/store/selectors/auth";
 import api from "~/store/api";
 import { isMobile } from "~/utils";
 
-import "./index.css";
-
 @translate("translations")
 @connect(
   state => ({
@@ -57,7 +55,7 @@ export default class extends Component {
   };
 
   render() {
-    const { config, t } = this.props;
+    const { config, t, ...props } = this.props;
     const { suggestions } = this.state;
     const children = [];
     if (suggestions.items) {
@@ -105,15 +103,12 @@ export default class extends Component {
     }
     return (
       <Autocomplete
-        prepend={
-          <i className="fa fa-search color-black-300 mr-2 icon-search" />
-        }
         value={config.searchStr}
-        className="header-suggestion"
         buttonClass="border-0 mt-2"
         inputClass={classNames({ "font-medium": isMobile }, "color-gray pl-2")}
         placeholder={t("PLACEHOLDER.TYPE_YOUR_SEARCH")}
         onSearch={this.handleSearch}
+        {...props}
       >
         {children}
       </Autocomplete>

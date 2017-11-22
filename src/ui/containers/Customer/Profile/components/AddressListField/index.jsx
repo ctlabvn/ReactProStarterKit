@@ -23,13 +23,13 @@ export default class AdressListField extends Component {
           <Row key={index} className="mb-4 p-2">
             <Field
               className="col mb-0"
-              placeholder={t("Name")}
+              placeholder={t("PLACEHOLDER.NAME")}
               name={`${member}.name`}
               component={InputField}
             />
             <Field
               className="col mb-0"
-              placeholder="Address"
+              placeholder={t("PLACEHOLDER.ADDRESS")}
               name={`${member}.address`}
               component={InputField}
             />
@@ -42,7 +42,7 @@ export default class AdressListField extends Component {
         ))}
         <ButtonRound
           className="btn-success"
-          onClick={e =>fields.push({})}          
+          onClick={e => fields.push({})}
           icon="plus"
         />
       </div>

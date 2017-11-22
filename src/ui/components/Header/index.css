@@ -4,28 +4,40 @@
   border-bottom: 1px solid #e7e7e7;
 }
 
-.navbar{
+.header-suggestion {
+  .icon-search {
+    position: absolute;
+    top: 17px;
+    left: 0;
+  }
+  .dropdown-item {
+    a {
+      float: left;
+    }
+  }
+}
+
+.navbar {
   padding-right: 40px;
   padding-left: 40px;
   .navbar-brand {
     z-index: 1;
-    >img{
+    > img {
       width: 48px;
     }
   }
 }
 
-@media (max-width: 768px){
-  .navbar{
+@media (max-width: 768px) {
+  .navbar {
     padding-right: 10px;
     padding-left: 10px;
 
-    .navbar-brand  {
+    .navbar-brand {
       margin-right: 10px;
       > img {
         width: 40px;
       }
     }
-  }  
-
+  }
 }

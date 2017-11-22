@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { translate } from "react-i18next";
+import Helmet from "react-helmet";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -8,7 +9,7 @@ import { Field, FieldArray, reduxForm } from "redux-form";
 
 // reactstrap
 import {
-  Button,
+  Button
   // Form,
   // FormGroup
   // Row,
@@ -82,7 +83,12 @@ export default class extends Component {
     const { handleSubmit, submitting, t } = this.props;
     return (
       <div className="personal-info pl-md-5 my-md-0 my-4">
-        <h3>Personal info</h3>
+        <Helmet>
+          <title>{t("LABEL.PERSONAL_INFO")}</title>
+          <meta name="description" content={t("LABEL.PERSONAL_INFO")} />
+        </Helmet>
+
+        <h3>{t("LABEL.PERSONAL_INFO")}</h3>
 
         <Field label="Fullname" name="name" component={InputField} />
 
@@ -90,7 +96,7 @@ export default class extends Component {
 
         <hr />
 
-        <h3>My addresses</h3>
+        <h3>{t("LABEL.MY_ADDRESS")}</h3>
         <FieldArray name="address" component={AddressListField} />
 
         <hr />

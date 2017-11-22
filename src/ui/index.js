@@ -1,13 +1,17 @@
 import React from "react";
 import { ConnectedRouter } from "react-router-redux";
-import { Route, Switch, Redirect } from "react-router-dom";
+import {
+  Route,
+  Switch
+  // Redirect
+} from "react-router-dom";
 import { Provider } from "react-redux";
 import PropTypes from "prop-types";
 
 import App from "./containers/App";
 
 import NotFound from "./containers/NotFound";
-// import Home from "./containers/Home";
+import Home from "./containers/Home";
 import Search from "./containers/Search";
 import Restaurant from "./containers/Restaurant";
 import Item from "./containers/Item";
@@ -24,20 +28,26 @@ const Root = ({ store, history }) => (
     <ConnectedRouter history={history}>
       <App>
         <Switch>
-          <Route exact path="/" 
-            render={()=><Redirect to="/restaurant" />}
-            // component={Home} 
+          <Route
+            exact
+            path="/"
+            // render={()=><Redirect to="/restaurant" />}
+            component={Home}
           />
           <Route exact path="/search" component={Search} />
           <Route exact path="/cart" component={Cart} />
           <Route exact path="/checkout" component={Checkout} />
           <Route exact path="/restaurant" component={RestaurantListing} />
           <Route exact path="/restaurant/:outlet_slug" component={Restaurant} />
-          <Route exact path="/restaurant/:outlet_slug/:item_slug" component={Item} />                    
-          <Route path="/customer" component={Customer} />          
+          <Route
+            exact
+            path="/restaurant/:outlet_slug/:item_slug"
+            component={Item}
+          />
+          <Route path="/customer" component={Customer} />
           <Route exact path="/password-reset" component={PasswordReset} />
           <Route component={NotFound} />
-        </Switch>        
+        </Switch>
       </App>
     </ConnectedRouter>
   </Provider>

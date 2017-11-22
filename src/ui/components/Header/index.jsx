@@ -14,7 +14,7 @@ import {
 import AccountDropdown from "./components/AccountDropdown";
 // import ButtonRound from "~/ui/components/Button/Round";
 import LoginModal from "~/ui/components/LoginModal";
-import Suggestion from "./components/Suggestion";
+import Suggestion from "~/ui/components/Suggestion";
 import PopoverCart from "./components/PopoverCart";
 import Drawer from "~/ui/components/Drawer";
 import ModalConfirm from "~/ui/components/ModalConfirm";
@@ -92,7 +92,7 @@ export default class extends Component {
       <div>
         <nav
           className={classNames("navbar fixed-top header", {
-            invisible: isHome
+            // invisible: isHome
           })}
         >
           <div className="p-0 d-flex justify-content-between w-100">
@@ -113,7 +113,14 @@ export default class extends Component {
                 </Link>
               )}
 
-              <Suggestion />
+              {!isHome && (
+                <Suggestion
+                  prepend={
+                    <i className="fa fa-search color-black-300 mr-2 icon-search" />
+                  }
+                  className="header-suggestion"
+                />
+              )}
             </div>
 
             <div className="d-flex align-items-center flex-row">
