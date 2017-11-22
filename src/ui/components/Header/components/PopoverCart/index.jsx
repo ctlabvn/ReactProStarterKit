@@ -150,28 +150,31 @@ export default class extends Component {
         {...props}
       >
         <PopoverHeader className="bg-red color-white text-center">
-          {orderInfo.order_type === ORDER_TYPE.DELIVERY
-            ? t("LABEL.DELIVERY")
-            : t("LABEL.TAKEAWAY")}
+          {currency_symbol
+            ? orderInfo.order_type === ORDER_TYPE.DELIVERY
+              ? t("LABEL.DELIVERY")
+              : t("LABEL.TAKEAWAY")
+            : " "}
         </PopoverHeader>
         <PopoverBody className="p-2">
-          <div className="d-flex flex-column align-items-start border-bottom pb-2">
-            {VERSION > 1 && <span>Time</span>}
-            <Link
-              className="font-weight-bold color-black"
-              to={`/restaurant/${orderInfo.outlet_slug ||
-                orderInfo.outlet_uuid}`}
-            >
-              {orderInfo.restaurant_name || "Restaurant name"}
-            </Link>
-            <span>
-              {orderInfo.order_type === ORDER_TYPE.DELIVERY
-                ? orderInfo.order_address
-                : orderInfo.restaurant_address}
-            </span>
-          </div>
-          {orderItems.length ? (
+          {currency_symbol ? (
             <div>
+              <div className="d-flex flex-column align-items-start border-bottom pb-2">
+                {VERSION > 1 && <span>Time</span>}
+                <Link
+                  className="font-weight-bold color-black"
+                  to={`/restaurant/${orderInfo.outlet_slug ||
+                    orderInfo.outlet_uuid}`}
+                >
+                  {orderInfo.restaurant_name || "Restaurant name"}
+                </Link>
+                <span>
+                  {orderInfo.order_type === ORDER_TYPE.DELIVERY
+                    ? orderInfo.order_address
+                    : orderInfo.restaurant_address}
+                </span>
+              </div>
+
               <div className="popover-cart-content">
                 {orderItems.map(item => this.renderProductItem(item))}
               </div>

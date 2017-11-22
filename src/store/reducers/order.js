@@ -31,7 +31,7 @@ export const order = (state = initialState, { type, payload }) => {
         ...state,
         items: [],
         info: {
-          order_address: state.info.order_address
+          // order_address: state.info.order_address
         }
       };
     case "order/addItem":
