@@ -55,7 +55,14 @@ export default class extends Component {
   };
 
   render() {
-    const { config, t, ...props } = this.props;
+    const {
+      config,
+      t,
+      className,
+      buttonClass,
+      inputClass,
+      prepend
+    } = this.props;
     const { suggestions } = this.state;
     const children = [];
     if (suggestions.items) {
@@ -108,7 +115,7 @@ export default class extends Component {
         inputClass={classNames({ "font-medium": isMobile }, "color-gray pl-2")}
         placeholder={t("PLACEHOLDER.TYPE_YOUR_SEARCH")}
         onSearch={this.handleSearch}
-        {...props}
+        {...{ className, buttonClass, inputClass, prepend }}
       >
         {children}
       </Autocomplete>

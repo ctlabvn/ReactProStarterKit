@@ -1,29 +1,43 @@
 import "isomorphic-fetch";
 
 // default api_base for all request
-import { API_BASE, API_SECRET_KEY } from "~/store/constants/api";
-
+import {
+  API_BASE,
+  API_BASE_STAGE,
+  API_SECRET_KEY
+} from "~/store/constants/api";
+import { store } from "~/store";
+import { getConfig } from "~/store/selectors/auth";
 import i18n from "~/i18n";
 
-export const rejectErrors = async (res) => {
+export const rejectErrors = async res => {
   const { status } = res;
   if (status >= 200 && status < 300) {
     return res;
   }
-    
-  const ret = await res.json();  
+
+  const ret = await res.json();
   // we can get message from Promise but no need, just use statusText instead of
   // server return errors, may be object message or plain text message
   return Promise.reject({ message: ret.message || res.statusText, status });
 };
 
 // try invoke callback for refresh token here
-export const fetchJson = (url, options = {}, base = API_BASE) => {
+export const fetchJson = (url, options = {}, base) => {
   // in the same server, API_BASE is emtpy
   // check convenient way of passing base directly
   // without Accept and Content-Type it will not call options
+
+  // check store before call api_base
+
+  const defaultBaseUrl =
+    getConfig(store.getState()).mode === "staging" ? API_BASE_STAGE : API_BASE;
+
   return (
-    fetch(/^(?:https?)?:\/\//.test(url) ? url : base + url, options)
+    fetch(
+      /^(?:https?)?:\/\//.test(url) ? url : (base || defaultBaseUrl) + url,
+      options
+    )
       .then(rejectErrors)
       // default return empty json when no content
       .then(res => res.text())
@@ -51,9 +65,12 @@ export const fetchJsonWithToken = (token, url, options = {}, ...args) => {
   );
 };
 
-const sanitizeLanguage = lang => lang.replace(/^en[-_].*$/,'en');
+const sanitizeLanguage = lang => lang.replace(/^en[-_].*$/, "en");
 
-const getExtendData = data => ({ ...data, lang: sanitizeLanguage(i18n.language) });
+const getExtendData = data => ({
+  ...data,
+  lang: sanitizeLanguage(i18n.language)
+});
 
 // default is get method, we can override header with method:PUT for sample
 export const apiCall = (url, options, token = null) =>

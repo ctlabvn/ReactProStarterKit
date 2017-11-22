@@ -49,7 +49,7 @@ export default class extends Component {
 
         <div className="input-group rounded input-group-lg col-md-5 m-5 px-0">
           <Suggestion
-            buttonClass="p-0 border-0 "
+            buttonClass="p-0 border-0"
             inputClass="color-gray-500"
             placeholder={t("PLACEHOLDER.TYPE_YOUR_PRODUCT")}
             className="form-control border-0"
@@ -67,7 +67,7 @@ export default class extends Component {
             </label>
           )}
         </div>
-        <Menu className="col-md-5">
+        <Menu className="col-md-5 mb-4 pb-4">
           {tags.map(item => (
             <MenuItem
               className="color-black-300 pl-0"

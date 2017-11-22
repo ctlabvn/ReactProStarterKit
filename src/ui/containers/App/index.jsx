@@ -4,6 +4,7 @@ import Toast from "~/ui/components/Toast";
 import Header from "~/ui/components/Header";
 import Footer from "~/ui/components/Footer";
 import Indicator from "~/ui/components/Indicator";
+import DevelopmentPanel from "~/ui/components/DevelopmentPanel";
 
 import { isMobile } from "~/utils";
 
@@ -39,6 +40,7 @@ export default class App extends Component {
         </div>
         {!isMobile && <Footer />}
         <Toast />
+        <DevelopmentPanel />
       </div>
     );
   }
