@@ -4,9 +4,11 @@ import classNames from "classnames";
 
 import { connect } from "react-redux";
 import * as authSelectors from "~/store/selectors/auth";
+import * as commonActions from "~/store/actions/common";
 import * as authActions from "~/store/actions/auth";
 
 import { Form, FormGroup, Label, Input, Collapse } from "reactstrap";
+import { history } from "~/store";
 
 import options from "./options";
 import "./index.css";
@@ -15,7 +17,7 @@ import "./index.css";
   state => ({
     config: authSelectors.getConfig(state)
   }),
-  authActions
+  { ...commonActions, ...authActions }
 )
 export default class extends Component {
   constructor(props) {
@@ -30,7 +32,11 @@ export default class extends Component {
   };
 
   setMode = e => {
-    this.props.updateConfig("mode", e.target.value);
+    console.log(this);
+    const { updateConfig, reset } = this.props;
+    reset();
+    updateConfig("mode", e.target.value);
+    history.push("/");
   };
 
   render() {

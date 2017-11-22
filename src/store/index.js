@@ -1,12 +1,12 @@
 // Redux
 import { applyMiddleware, compose, createStore } from "redux";
-
+import reduxReset from "redux-reset";
 import createSagaMiddleware from "redux-saga";
 import SagaManager from "./sagas/saga-manager";
 import createHistory from "history/createBrowserHistory";
-import { 
-  persistStore, 
-  // createTransform 
+import {
+  persistStore
+  // createTransform
 } from "redux-persist";
 import { routerMiddleware } from "react-router-redux";
 import rootReducer from "./reducers";
@@ -36,6 +36,7 @@ export const store = createStore(
     // if you use getStoredState then no need to use auto hydrate to get state back
     // autoRehydrate(),
     applyMiddleware(...middleware),
+    reduxReset(),
     window.devToolsExtension ? window.devToolsExtension() : x => x
   )
 );
@@ -84,7 +85,7 @@ const configureStore = (callback, failure) => {
     store,
     {
       whitelist: ["auth", "order"],
-      keyPrefix: "nn:",
+      keyPrefix: "nn:"
       // transforms: [authTransform]
     },
     () => {
