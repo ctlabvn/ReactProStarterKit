@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import Helmet from "react-helmet";
 import { translate } from "react-i18next";
 import { Link } from "react-router-dom";
-// import { connect } from "react-redux";
+import { connect } from "react-redux";
 
 // store
 // import * as commonActions from "~/store/actions/common";
-// import * as restaurantActions from "~/store/actions/restaurant";
+import * as authActions from "~/store/actions/auth";
 // import * as restaurantSelectors from "~/store/selectors/restaurant";
-// import * as authSelectors from "~/store/selectors/auth";
+import * as authSelectors from "~/store/selectors/auth";
 
 // components
 import Menu from "~/ui/components/Menu";
@@ -21,7 +21,12 @@ import api from "~/store/api";
 import "./index.css";
 
 @translate("translations")
-// @connect(state => ({}), { ...commonActions })
+@connect(
+  state => ({
+    filters: authSelectors.getFilters(state)
+  }),
+  authActions
+)
 export default class extends Component {
   constructor(props) {
     super(props);
@@ -34,6 +39,18 @@ export default class extends Component {
   async componentWillMount() {
     const ret = await api.setting.getSettingTags();
     this.setState({ tags: ret.data });
+  }
+
+  updateFilterTags(selected) {
+    const { filters, updateFilters } = this.props;
+    const optionsFilters = {
+      ...filters,
+      tags: {
+        ...filters.tags,
+        selected
+      }
+    };
+    updateFilters(optionsFilters);
   }
 
   render() {
@@ -75,7 +92,8 @@ export default class extends Component {
               <MenuItem
                 className="color-black-300 pl-0"
                 key={item.tag_uuid}
-                link={`/restaurant?tags=${item.tag_uuid}`}
+                onClick={() => this.updateFilterTags(item.tag_uuid)}
+                link={`/restaurant`}
                 title={item.name}
               />
             ))}

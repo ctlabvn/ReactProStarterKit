@@ -31,56 +31,5 @@ Tags
  */
 // can have event here
 export default {
-  ready: false,
-	filters: {
-		city: {
-			placement: 'bottom',
-			text: 'BUTTON.FILTER.LOCATION',
-			name: 'filter[location]',
-			body: {'' : 'All'},
-			selected: '',
-      multiple: true,
-		},
-		// distance: {
-		// 	placement: 'bottom',
-		// 	text: 'BUTTON.FILTER.DISTANCE',
-		// 	name: 'filter[distance]',
-		// 	body: {'' : 'All'},
-		// 	selected: '',
-  //     multiple: true,
-		// },
-		ordering_method: {
-			placement: 'bottom',
-			text: 'BUTTON.FILTER.ORDERING_METHODS',
-			name: 'filter[order_method]',
-			body: {'' : 'All'},
-			selected: '',
-      multiple: false,
-		},
-		delivery_fee: {
-			placement: 'bottom',
-			text: 'BUTTON.FILTER.FEES',
-			name: 'filter[fee]',
-			body: {'' : 'All'},
-			selected: '',
-      multiple: false,
-		},
-		minimum_order: {
-			placement: 'bottom',
-			text: 'BUTTON.FILTER.MINIMUM_ORDER',
-			name: 'filter[min_order]',
-			body: {'' : 'All'},
-			selected: '',
-      multiple: false,
-		},
-		tags: {
-			placement: 'bottom',
-			text: 'BUTTON.FILTER.TAGS',
-			name: 'filter[tag]',
-			body: {'' : 'All'},
-			selected: '',
-      multiple: true,
-		}
-	}
+  ready: false
 };
-

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import classNames from "classnames";
+import classNames from "classnames";
 import { DropdownItem } from "reactstrap";
 import { connect } from "react-redux";
 import { translate } from "react-i18next";
@@ -55,53 +55,69 @@ export default class extends Component {
     }, 1000);
   };
 
+  getItemGallery(item) {
+    const gallery = JSON.parse(item.gallery);
+    return gallery ? gallery[0] : "";
+  }
+
+  renderSuggestionResult(key, label, extractLinkFn, extractImageFn, className) {
+    const list = this.state.suggestions[key];
+    if (list && list.length) {
+      return (
+        <DropdownItem
+          key={key}
+          className={classNames("d-md-flex row no-gutters", className)}
+        >
+          <strong className="col-md-4">{label}</strong>
+          <div className="col-md-8 border border-top-0 border-right-0 border-bottom-0 pl-md-4 mt-2">
+            {list.map(item => (
+              <Link
+                className="d-flex mb-2 w-100 justify-content-start align-items-center"
+                key={item.id}
+                to={extractLinkFn(item)}
+              >
+                <Image
+                  showContainer
+                  style={{ width: 30, height: 30 }}
+                  src={extractImageFn(item)}
+                  className="mr-2"
+                />
+                {item.name}
+              </Link>
+            ))}
+          </div>
+        </DropdownItem>
+      );
+    }
+
+    return null;
+  }
+
   render() {
     const { config, t, updateConfig, ...props } = this.props;
-    const { suggestions } = this.state;
     const children = [];
-    if (suggestions.items) {
-      children.push(
-        <DropdownItem
-          key="items"
-          className="d-md-flex border-bottom row no-gutters"
-        >
-          <strong className="col-md-4">Items</strong>
-          <div className="border border-top-0 border-right-0 border-bottom-0 pl-4">
-            {suggestions.items.map(item => (
-              <Link
-                key={item.id}
-                to={`/restaurant/${item.outlet_slug ||
-                  item.outlet_uuid}/${item.outlet_slug && item.slug
-                  ? item.slug
-                  : item.item_uuid}`}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
-        </DropdownItem>
-      );
-    }
-    if (suggestions.outlets) {
-      children.push(
-        <DropdownItem key="outlets" className="d-md-flex row no-gutters">
-          <strong className="col-md-4">Restaurants</strong>
-          <div className="border border-top-0 border-right-0 border-bottom-0 pl-4">
-            {suggestions.outlets.map(item => (
-              <Link
-                className="w-100"
-                key={item.id}
-                to={`/restaurant/${item.slug || item.outlet_uuid}`}
-              >
-                {item.name}
-                <br />
-                <Image src={item.logo} height="20" className="mr-2" />
-              </Link>
-            ))}
-          </div>
-        </DropdownItem>
-      );
-    }
+    const itemsResult = this.renderSuggestionResult(
+      "items",
+      t("LABEL.ITEM"),
+      item =>
+        `/restaurant/${item.outlet_slug ||
+          item.outlet_uuid}/${item.outlet_slug && item.slug
+          ? item.slug
+          : item.item_uuid}`,
+      this.getItemGallery,
+      "border-bottom"
+    );
+    const restaurantsResult = this.renderSuggestionResult(
+      "outlets",
+      t("LABEL.RESTAURANT"),
+      item => `/restaurant/${item.slug || item.outlet_uuid}`,
+      item => item.logo,
+      "mt-2"
+    );
+
+    itemsResult && children.push(itemsResult);
+    restaurantsResult && children.push(restaurantsResult);
+
     return (
       <Autocomplete
         placeholder={t("PLACEHOLDER.TYPE_YOUR_SEARCH")}

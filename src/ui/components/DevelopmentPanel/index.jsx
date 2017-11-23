@@ -32,7 +32,6 @@ export default class extends Component {
   };
 
   setMode = e => {
-    console.log(this);
     const { updateConfig, reset } = this.props;
     reset();
     updateConfig("mode", e.target.value);
