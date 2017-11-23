@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import Menu from "~/ui/components/Menu";
 import MenuItem from "~/ui/components/Menu/Item";
 import Suggestion from "~/ui/components/Suggestion";
+import Spinner from "~/ui/components/Spinner";
 
 import api from "~/store/api";
 
@@ -26,7 +27,7 @@ export default class extends Component {
     super(props);
 
     this.state = {
-      tags: []
+      tags: null
     };
   }
 
@@ -51,7 +52,6 @@ export default class extends Component {
           <Suggestion
             buttonClass="p-0 border-0"
             inputClass="color-gray-500"
-            placeholder={t("PLACEHOLDER.TYPE_YOUR_PRODUCT")}
             className="form-control border-0"
           />
           <span className="input-group-btn" style={{ zIndex: 0 }}>
@@ -61,22 +61,26 @@ export default class extends Component {
           </span>
         </div>
         <div className="col-md-5">
-          {!!tags.length && (
+          {tags ? (
             <label className="pull-left text-uppercase color-gray">
               {t("LABEL.SUGGESSTION")}:
             </label>
+          ) : (
+            <Spinner />
           )}
         </div>
-        <Menu className="col-md-5 mb-4 pb-4">
-          {tags.map(item => (
-            <MenuItem
-              className="color-black-300 pl-0"
-              key={item.tag_uuid}
-              link={`/restaurant?tags=${item.tag_uuid}`}
-              title={item.name}
-            />
-          ))}
-        </Menu>
+        {tags && (
+          <Menu className="col-md-5 mb-4 pb-4">
+            {tags.map(item => (
+              <MenuItem
+                className="color-black-300 pl-0"
+                key={item.tag_uuid}
+                link={`/restaurant?tags=${item.tag_uuid}`}
+                title={item.name}
+              />
+            ))}
+          </Menu>
+        )}
       </div>
     );
   }

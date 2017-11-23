@@ -115,6 +115,11 @@ export default class extends Component {
 
               {!isHome && (
                 <Suggestion
+                  buttonClass="border-0 mt-2"
+                  inputClass={classNames(
+                    { "font-medium": isMobile },
+                    "color-gray pl-2"
+                  )}
                   prepend={
                     <i className="fa fa-search color-black-300 mr-2 icon-search" />
                   }

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import classNames from "classnames";
+// import classNames from "classnames";
 import { DropdownItem } from "reactstrap";
 import { connect } from "react-redux";
 import { translate } from "react-i18next";
@@ -10,17 +10,18 @@ import Autocomplete from "~/ui/components/Autocomplete";
 import Image from "~/ui/components/Image";
 
 // store
-import * as authActions from "~/store/actions/auth";
+// we use only updateConfig because we want to bypass all remaining props
+import { updateConfig } from "~/store/actions/auth";
 import * as authSelectors from "~/store/selectors/auth";
 import api from "~/store/api";
-import { isMobile } from "~/utils";
+// import { isMobile } from "~/utils";
 
 @translate("translations")
 @connect(
   state => ({
     config: authSelectors.getConfig(state)
   }),
-  authActions
+  { updateConfig }
 )
 export default class extends Component {
   constructor(props) {
@@ -55,14 +56,7 @@ export default class extends Component {
   };
 
   render() {
-    const {
-      config,
-      t,
-      className,
-      buttonClass,
-      inputClass,
-      prepend
-    } = this.props;
+    const { config, t, updateConfig, ...props } = this.props;
     const { suggestions } = this.state;
     const children = [];
     if (suggestions.items) {
@@ -110,12 +104,10 @@ export default class extends Component {
     }
     return (
       <Autocomplete
-        value={config.searchStr}
-        buttonClass="border-0 mt-2"
-        inputClass={classNames({ "font-medium": isMobile }, "color-gray pl-2")}
         placeholder={t("PLACEHOLDER.TYPE_YOUR_SEARCH")}
+        value={config.searchStr}
         onSearch={this.handleSearch}
-        {...{ className, buttonClass, inputClass, prepend }}
+        {...props}
       >
         {children}
       </Autocomplete>
