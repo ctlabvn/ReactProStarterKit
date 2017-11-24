@@ -23,6 +23,10 @@ a:hover {
   max-width: 1320px;
 }
 
+.container {
+  margin-bottom: 20px;
+}
+
 *:focus {
   outline: none;
 }
@@ -305,4 +309,8 @@ a:hover {
   margin-top: -30px;
   padding-top: 20px;
   padding-bottom: 20px;
+
+  .container {
+    margin-bottom: 0;
+  }
 }
