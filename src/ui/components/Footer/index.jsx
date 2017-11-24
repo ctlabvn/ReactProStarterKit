@@ -28,7 +28,6 @@ import { isMobile } from "~/utils";
   authActions
 )
 export default class extends Component {
-  
   async componentWillMount() {
     const { config, updateConfig } = this.props;
     if (!config.languages) {
@@ -40,16 +39,30 @@ export default class extends Component {
   renderLanguage() {
     const { t, config, i18n } = this.props;
     let defaultLang = i18n.language;
-    if(defaultLang === 'en-US'){
-      defaultLang = 'en';
+    if (defaultLang === "en-US") {
+      defaultLang = "en";
     }
     const defaultLangName = t(`languages.${defaultLang}`);
     if (!config.languages) return defaultLangName;
-    const selectedItem = config.languages.find(item=>item.iso_code === defaultLang);
+    const selectedItem = config.languages.find(
+      item => item.iso_code === defaultLang
+    );
     return (
-      <Dropdown title={selectedItem ? selectedItem.name : defaultLangName} className={classNames(isMobile ? "dropinline" : "dropup" ,"text-uppercase")}>
+      <Dropdown
+        title={selectedItem ? selectedItem.name : defaultLangName}
+        className={classNames(
+          isMobile ? "dropinline" : "dropup",
+          "text-uppercase dropdown-language"
+        )}
+      >
         {config.languages.map(item => (
-          <a key={item.id} className={classNames({"text-info": item.iso_code === defaultLang})} onClick={() => i18n.changeLanguage(item.iso_code)}>
+          <a
+            key={item.id}
+            className={classNames({
+              "text-info": item.iso_code === defaultLang
+            })}
+            onClick={() => i18n.changeLanguage(item.iso_code)}
+          >
             {item.name}
           </a>
         ))}
@@ -61,9 +74,12 @@ export default class extends Component {
     const { t, isHome } = this.props;
     return (
       <footer
-        className={classNames("footer text-center menu-bottom bg-white float-left w-100", {
-          "fixed-bottom": isHome && !isMobile
-        })}
+        className={classNames(
+          "footer text-center menu-bottom bg-white float-left w-100",
+          {
+            "fixed-bottom": isHome && !isMobile
+          }
+        )}
       >
         <Menu className="text-uppercase">
           <MenuItem title={this.renderLanguage()} />
