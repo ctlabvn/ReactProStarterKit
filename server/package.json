@@ -6,10 +6,7 @@
   "author": "tu@agiletech.vn",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "compression": "^1.7.1",
     "express": "^4.16.2",
-    "global": "^4.3.2",
     "pug": "^2.0.0-rc.4"
   }
 }
