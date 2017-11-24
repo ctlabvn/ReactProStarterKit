@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import Readmore from "~/ui/components/Readmore";
-
+import StructuredDataOffer from "~/ui/components/StructuredData/Offer";
 import { translate } from "react-i18next";
 
 import HeadingDouble from "~/ui/components/Heading/Double";
@@ -19,14 +19,13 @@ export default class ProductItem extends Component {
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     price: PropTypes.number,
     description: PropTypes.string,
-    priceUnit: PropTypes.string,
+    currency: PropTypes.object,
     image: PropTypes.string,
     quantity: PropTypes.number,
     imageSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   };
 
   static defaultProps = {
-    priceUnit: "$",
     imageSize: 80,
     quantity: 1
   };
@@ -36,13 +35,13 @@ export default class ProductItem extends Component {
       outlet_slug,
       title,
       price,
-      priceUnit,
       image,
       imageSize,
       description,
       className,
       item_slug,
       quantity,
+      currency,
       onIncrease,
       onDecrease,
       t
@@ -76,12 +75,7 @@ export default class ProductItem extends Component {
               className="color-black-300"
               leftTitle={<span itemProp="name">{title}</span>}
               rightTitle={
-                <span itemProp="price">
-                  {t("format.currency", {
-                    price: totalPrice,
-                    symbol: priceUnit
-                  })}
-                </span>
+                <StructuredDataOffer price={totalPrice} currency={currency} />
               }
             />
           </Link>
