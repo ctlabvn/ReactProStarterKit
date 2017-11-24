@@ -1,5 +1,5 @@
-export const API_BASE = "https://donut-dot-hottab-in.appspot.com";
-export const API_BASE_STAGE = "https://donut-dot-hottab-pw.appspot.com";
+export const API_BASE = "http://donut-dot-hottab-in.appspot.com";
+export const API_BASE_STAGE = "http://donut-dot-hottab-pw.appspot.com";
 export const API_TIMEOUT = 30000;
 // will hide something if version is 1
 export const VERSION = 1;
