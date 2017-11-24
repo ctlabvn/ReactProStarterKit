@@ -65,7 +65,7 @@ export default class ProductItem extends Component {
             style={{ maxWidth: "100%", maxHeight: "100%", alignSelf: "center" }}
             itemProp="image"
             src={image}
-            alt={title}
+            alt=""
           />
         </div>
 
