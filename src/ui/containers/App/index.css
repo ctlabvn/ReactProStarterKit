@@ -300,6 +300,10 @@ a:hover {
       font-weight: bold;
     }
   }
+
+  .table-responsive.table-fixed {
+    display: table !important;
+  }
 }
 
 .map-background {
