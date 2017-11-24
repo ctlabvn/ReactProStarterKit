@@ -85,7 +85,7 @@ export default class extends Component {
           <meta name="description" content={t("LABEL.EDIT_PROFILE")} />
         </Helmet>
 
-        <h2>{t("LABEL.EDIT_PROFILE")}</h2>
+        <h3>{t("LABEL.EDIT_PROFILE")}</h3>
         <hr />
         <div className="row">
           <div className="col-md-3">

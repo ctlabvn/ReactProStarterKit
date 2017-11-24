@@ -120,7 +120,7 @@ export default class extends Component {
             component={this.renderMaskedInputField}
           />
 
-          <Col className="d-flex col flex-column justify-content-end align-items-end mt-2 mt-md-0">
+          <Col className="d-flex flex-column justify-content-end align-items-md-end mt-2 mt-md-0 col-md-2">
             <Button
               size="sm"
               color="danger"
