@@ -54,7 +54,7 @@ export default class extends Component {
           >
             <div className="d-flex align-items-center">
               <Image src={image} />
-              <span className="ml-2">{title}</span>
+              <span className="ml-2 text-left">{title}</span>
             </div>
             {options &&
               options.map(item_option => (
