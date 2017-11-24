@@ -66,7 +66,7 @@ export default class extends Component {
             <th className="text-center">{t("TABLE.QUANTITY")}</th>
             <th>{t("LABEL.VAT")}</th>
             <th>{t("TABLE.TOTAL")}</th>
-            <th className="text-center">{t("TABLE.DELETE")}</th>
+            <th className="text-right">{t("TABLE.DELETE")}</th>
           </tr>
         </thead>
         <tbody>

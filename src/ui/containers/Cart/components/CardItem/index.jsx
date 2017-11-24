@@ -48,24 +48,30 @@ export default class extends Component {
     return (
       <tr {...props} ref={ref => (this.element = ref)}>
         <th className="card-title pl-md-0" scope="row">
-          <Link to={`/restaurant/${outlet_slug}/${item_slug}`} className="color-black-300">
+          <Link
+            to={`/restaurant/${outlet_slug}/${item_slug}`}
+            className="color-black-300"
+          >
             <div className="d-flex align-items-center">
               <Image src={image} />
               <span className="ml-2">{title}</span>
-            </div>            
+            </div>
             {options &&
               options.map(item_option => (
-                <small className="mt-2 color-black-300 float-left" key={item_option.option_uuid}>
+                <small
+                  className="mt-2 color-black-300 float-left"
+                  key={item_option.option_uuid}
+                >
                   (+1){" "}
                   <span className="text-uppercase">{item_option.name}</span>
-                 { 
-                  // <span className="ml-2 color-red">
-                  //   {t("format.currency", {
-                  //     price: item_option.price,
-                  //     symbol: priceUnit
-                  //   })}
-                  // </span>
-                }
+                  {
+                    // <span className="ml-2 color-red">
+                    //   {t("format.currency", {
+                    //     price: item_option.price,
+                    //     symbol: priceUnit
+                    //   })}
+                    // </span>
+                  }
                 </small>
               ))}
           </Link>
@@ -95,8 +101,13 @@ export default class extends Component {
             symbol: priceUnit
           })}
         </td>
-        <td data-title={t("TABLE.DELETE")} className="text-center">
-          <ButtonRound className="float-right btn-danger" icon="times" aria-hidden="true" onClick={onRemove} />
+        <td data-title={t("TABLE.DELETE")}>
+          <ButtonRound
+            className="float-right btn-danger"
+            icon="times"
+            aria-hidden="true"
+            onClick={onRemove}
+          />
         </td>
       </tr>
     );
