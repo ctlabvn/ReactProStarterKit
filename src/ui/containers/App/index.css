@@ -260,6 +260,10 @@ a:hover {
   table-layout: fixed;
 }
 
+.table-responsive.table-fixed {
+  display: table !important;
+}
+
 @media (max-width: 768px) {
   .container-fluid {
     padding: 0 15px;
@@ -299,10 +303,6 @@ a:hover {
       float: left;
       font-weight: bold;
     }
-  }
-
-  .table-responsive.table-fixed {
-    display: table !important;
   }
 }
 
