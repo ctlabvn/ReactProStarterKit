@@ -5,7 +5,7 @@ const express = require("express"),
 // console.log(publicPath);
 // set port and engine
 app.set("port", process.env.PORT || 80);
-app.set("views", "./views");
+app.set("views", path.join(__dirname, "./views"));
 app.set("view engine", "pug");
 
 app.get("*", function(req, res) {
