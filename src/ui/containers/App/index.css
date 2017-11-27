@@ -342,3 +342,15 @@ a:hover {
 .breadcrumb {
   font-size: 0.875rem;
 }
+
+.breadcrumb-item.active {
+  color: $grey-color;
+}
+
+.font-weight-bold {
+  font-weight: 600 !important;
+}
+
+strong {
+  font-weight: 600 !important;
+}

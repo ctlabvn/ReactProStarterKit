@@ -14,3 +14,8 @@
 .restaurant-body-content .col-md-6 {
   padding-right: 0;
 }
+
+.restaurant-cat .menu-item {
+  padding: 0;
+  padding-bottom: 0.75rem;
+}

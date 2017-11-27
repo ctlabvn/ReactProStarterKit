@@ -262,7 +262,7 @@ export default class extends Component {
               {showCategories.map((item, index) => {
                 return (
                   <MenuItem
-                    className="text-uppercase font-weight-bold"
+                    className="text-uppercase font-weight-bold pl-0"
                     onClick={() => this.handleCategory(item.category_uuid)}
                     key={item.category_uuid}
                     title={item.name}

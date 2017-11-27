@@ -27,13 +27,13 @@ export default class extends Component {
         <div className="restaurant-header-main flex-md-nowrap block d-md-flex flex-row justify-content-between w-100">
           <div className="pr-md-5 w-100">
             <nav className="breadcrumb text-uppercase color-gray-400 bg-transparent pl-0 p-0">
-              <Link className="breadcrumb-item color-gray-400" to={`/`}>
+              <Link className="breadcrumb-item color-gray-400 font-weight-bold" to={`/`}>
                 {t('LINK.HOME')}
               </Link>
-              <Link className="breadcrumb-item color-gray-400" to={`/restaurant`}>
+              <Link className="breadcrumb-item color-gray-400 font-weight-bold" to={`/restaurant`}>
                 {t('LINK.RESTAURANT')}
               </Link>
-              <span className="breadcrumb-item active color-gray">
+              <span className="breadcrumb-item active font-weight-bold">
                 {outlet.name}
               </span>
             </nav>
