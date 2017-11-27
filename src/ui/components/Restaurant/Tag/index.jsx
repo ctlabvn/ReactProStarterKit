@@ -35,11 +35,11 @@ export default class extends Component {
 		const { tags } = this.state;
 		if(tags) {
 			return (
-				<div id="restaurant-tags" className="mt-3">
+				<div id="restaurant-tags" className="mt-5">
 					{tags.map((item, index) => (
-						<Link to={`/restaurant?tags=${item.tag_uuid}`} key={index}>
-							<Badge key={index} color="secondary mr-2 text-default">{item.name}</Badge>
-						</Link>
+            <Link to={`/restaurant?tags=${item.tag_uuid}`} key={index}>
+              <Badge key={index} color="secondary text-default px-2 pt-1">{item.name}</Badge>
+            </Link>
 					))}
 				</div>
 			);

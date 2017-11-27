@@ -318,3 +318,7 @@ a:hover {
     margin-bottom: 0;
   }
 }
+
+.breadcrumb {
+  font-size: 0.75rem;
+}

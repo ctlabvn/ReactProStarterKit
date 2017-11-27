@@ -6,5 +6,7 @@
 #restaurant-tags {
   .badge {
     background-color: #d0d0d0!important;
+    margin-right: 0.75rem;
+    font-size: 0.75rem;
   }
 }

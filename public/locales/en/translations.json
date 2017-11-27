@@ -46,8 +46,8 @@
       "Play to our game and try to win one of these suggested products",
     "DELIVERY": "Delivery",
     "TAKEAWAY": "Takeaway",
-    "SHOW_MORE": "Read more",
-    "SHOW_LESS": "Show less",
+    "SHOW_MORE": "read more...",
+    "SHOW_LESS": "show less",
     "RESTAURANT_CLOSED": "Closed",
     "NO_SEARCH_DATA": "No data",
     "RESULT_EMPTY": "No data",
@@ -70,7 +70,8 @@
     "DELIVERY_FREE": "Delivery free",
     "TAX": "Tax",
     "CONFIRM_REMOVE_ORDER": "Do you want to clear the current order",
-    "CONFIRM_REMOVE_CART_ITEM": "Do you want remove this item from your cart"
+    "CONFIRM_REMOVE_CART_ITEM": "Do you want remove this item from your cart",
+    "NO_INFO": "No infomation"
   },
   "format": {
     "currency": "{{symbol}}{{price, 0,0.00}}"

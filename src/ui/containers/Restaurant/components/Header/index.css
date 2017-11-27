@@ -1,25 +1,53 @@
+@import "../../../../vars.css";
+
 .breadcrumb-item + .breadcrumb-item::before {
-  font:normal normal normal 14px/1 FontAwesome;
+  font: normal normal normal 14px/1 FontAwesome;
   color: #ccc;
-  content: "\f105";    
+  content: "\f105";
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
-.left-side-block{
+.left-side-block {
   margin-left: -30px;
   margin-bottom: -30px;
   padding-left: 40px;
-  padding-top:10px;  
+  padding-top: 10px;
 }
 
-.photo-group-large{
+.photo-group-large {
   min-width: 250px;
   max-height: 250px;
 }
 
-
-@media (max-width: 768px){
-  .block{
+@media (max-width: 768px) {
+  .block {
     box-shadow: none;
   }
 }
 
+.restaurant-address {
+  font-size: 0.75rem;
+}
+
+.img-logo {
+  max-width: 24px !important;
+}
+
+.restaurant-header-menu {
+  font-size: 0.75rem;
+}
+
+.restaurant-header-main {
+  padding-bottom: 0!important;
+
+  .read-more {
+    font-size: 0.75rem;
+    color: $gray-color-400;
+  }
+}
+
+
+.restaurant-location-icon {
+  font-size: 1.25rem;
+}

@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import Truncate from "react-truncate";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import Truncate from 'react-truncate';
 
 class ReadMore extends Component {
 	constructor(...args) {
@@ -32,37 +32,32 @@ class ReadMore extends Component {
 	}
 
 	render() {
-		const { children, more, less, lines, ...props } = this.props;
+		const {
+			children,
+			more,
+			less,
+			lines
+		} = this.props;
 
-		const { expanded, truncated } = this.state;
+		const {
+			expanded,
+			truncated
+		} = this.state;
 
 		return (
-			<div>
+			<div className="read-more">
 				<Truncate
-					{...props}
 					lines={!expanded && lines}
-					ellipsis={
-						<p>
-							...{" "}
-							<a role="button" tabIndex="0" onClick={this.toggleLines}>
-								{more}
-							</a>
-						</p>
-					}
+					ellipsis={(
+						<p className="d-flex flex-row-reverse"><a role="button" tabIndex="0" onClick={this.toggleLines}>{more}</a></p>
+					)}
 					onTruncate={this.handleTruncate}
 				>
 					{children}
 				</Truncate>
-				{!truncated &&
-					expanded &&
-					less && (
-						<span>
-							{" "}
-							<a role="button" tabIndex="0" onClick={this.toggleLines}>
-								{less}
-							</a>
-						</span>
-					)}
+				{!truncated && expanded && less && (
+					<span className="d-flex flex-row-reverse"> <a role="button" tabIndex="0" onClick={this.toggleLines}>{less}</a></span>
+				)}
 			</div>
 		);
 	}
@@ -70,8 +65,8 @@ class ReadMore extends Component {
 
 ReadMore.defaultProps = {
 	lines: 3,
-	more: "Read more",
-	less: ""
+	more: 'Read more',
+	less: '',
 };
 
 ReadMore.propTypes = {
