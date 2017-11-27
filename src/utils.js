@@ -1,7 +1,9 @@
 /* eslint-disable */
 import i18n from "~/i18n";
 
-export const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(window.navigator.userAgent);
+export const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+  window.navigator.userAgent
+);
 
 const KEYCODE_Z = 90;
 const KEYCODE_Y = 89;
@@ -13,12 +15,12 @@ export const ORDER_TYPE = {
   QUICK_SERVICE: 4,
   PRE_ORDER: 5,
 
-  getString(status){
-    switch(status){
-      case this.DELIVERY: 
-        return i18n.t('LABEL.DELIVERY');
+  getString(status) {
+    switch (status) {
+      case this.DELIVERY:
+        return i18n.t("LABEL.DELIVERY");
       default:
-        return i18n.t('LABEL.TAKEAWAY');
+        return i18n.t("LABEL.TAKEAWAY");
     }
   }
 };
@@ -33,24 +35,24 @@ export const ORDER_STATUS = {
   HOLD_ON: 5,
   REFUND: 7,
 
-  getString(status){    
-    switch(status){
-      case this.NEW: 
-        return i18n.t('LABEL.NEW');
-      case this.CANCELED: 
-        return i18n.t('LABEL.CANCELED');
-      case this.CONFIRMED: 
-        return i18n.t('LABEL.CONFIRMED');
-      case this.ON_THE_WAY: 
-        return i18n.t('LABEL.ON_THE_WAY');
-      case this.DELIVERED: 
-        return i18n.t('LABEL.DELIVERED');
-      case this.PAID: 
-        return i18n.t('LABEL.PAID');
-      case this.HOLD_ON: 
-        return i18n.t('LABEL.HOLD_ON');
-      default: 
-        return i18n.t('LABEL.REFUND');      
+  getString(status) {
+    switch (status) {
+      case this.NEW:
+        return i18n.t("LABEL.NEW");
+      case this.CANCELED:
+        return i18n.t("LABEL.CANCELED");
+      case this.CONFIRMED:
+        return i18n.t("LABEL.CONFIRMED");
+      case this.ON_THE_WAY:
+        return i18n.t("LABEL.ON_THE_WAY");
+      case this.DELIVERED:
+        return i18n.t("LABEL.DELIVERED");
+      case this.PAID:
+        return i18n.t("LABEL.PAID");
+      case this.HOLD_ON:
+        return i18n.t("LABEL.HOLD_ON");
+      default:
+        return i18n.t("LABEL.REFUND");
     }
   }
 };
@@ -123,9 +125,15 @@ export const setSelection = (el, selection) => {
   }
 };
 
-export const defaultCoords = (callback)=>{
-  fetch('http://www.geoplugin.net/json.gp').then(text=>text.json())
-    .then(json => callback({latitude:json.geoplugin_latitude, longitude: json.geoplugin_longitude}));
+export const defaultCoords = callback => {
+  fetch("http://www.geoplugin.net/json.gp")
+    .then(text => text.json())
+    .then(json =>
+      callback({
+        latitude: json.geoplugin_latitude,
+        longitude: json.geoplugin_longitude
+      })
+    );
 };
 
 export const getCurrentLocation = () => {
@@ -141,94 +149,109 @@ export const getCurrentLocation = () => {
         function(ret) {
           // reject(ret)
           console.log(ret);
-          defaultCoords(defaultCoords=>resolve(defaultCoords));
+          defaultCoords(defaultCoords => resolve(defaultCoords));
         }
       );
     } else {
       alert("Sorry, your browser does not support geolocation services.");
-      defaultCoords(defaultCoords=>resolve(defaultCoords));
+      defaultCoords(defaultCoords => resolve(defaultCoords));
     }
   });
 };
 
-export const isValidEmail = (values) => {
-  const errors = {}
-  if(!values) 
-    return errors;
-  if (!values.email){
-    errors.email = 'Enter email'
+export const isValidEmail = values => {
+  const errors = {};
+  if (!values) return errors;
+  if (!values.email) {
+    errors.email = "Enter email";
   } else {
     const email = values.email.trim();
     // no-useless-escape
-    const test = email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) !== null
-    if(!test)  
-      errors.email = "Email is not valid";
-  } 
+    const test =
+      email.match(
+        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      ) !== null;
+    if (!test) errors.email = "Email is not valid";
+  }
   return errors;
-}
-
-export const isValidPhoneNumber = (phone) => {
-  return phone.match(/^\d{10,11}$/) !== null
-}
-
-export const validateLogin = (values) => {
-  const errors = isValidEmail(values);
-    
-  if (!values.password) errors.password = 'Enter password'
-
-  return errors
 };
 
-export const extractMessage = (message) => {
-  let messageValue = message.general || message;  
-  if(typeof message === "object") for(let key in message){
-    if(key !== 'general'){
-      messageValue = message[key];
-      break;
+export const isValidPhoneNumber = phone => {
+  return phone.match(/^\d{10,11}$/) !== null;
+};
+
+export const validateLogin = values => {
+  const errors = isValidEmail(values);
+
+  if (!values.password) errors.password = "Enter password";
+
+  return errors;
+};
+
+export const extractMessage = message => {
+  let messageValue = message.general || message;
+  if (typeof message === "object")
+    for (let key in message) {
+      if (key !== "general") {
+        messageValue = message[key];
+        break;
+      }
     }
-  }
   return messageValue;
-}
+};
 
 // item_options in item is different from item_options in product
-export const getItemPrice = (item) => {  
-  return item.price + (item.item_options ? item.item_options.reduce((a,b)=>a+b.price, 0):0);  
+export const getItemPrice = item => {
+  return (
+    item.price +
+    (item.item_options ? item.item_options.reduce((a, b) => a + b.price, 0) : 0)
+  );
 };
 
-export const calculateOrderPrice = (items, {consumer_discounts, consumer_taxes, delivery_fee}) => {
-  const itemsSum = items.map(item=> getItemPrice(item) * item.quantity).reduce((a, b)=> a+b, 0)
+export const calculateOrderPrice = (
+  items,
+  { consumer_discounts, consumer_taxes, delivery_fee, do_delivery }
+) => {
+  const itemsSum = items
+    .map(item => getItemPrice(item) * item.quantity)
+    .reduce((a, b) => a + b, 0);
   const discountPercent = 0;
   // later
   //consumer_discounts ? consumer_discounts.reduce((a,b)=>a+b,0) : 0;
-  const taxPercent = 0; 
+  const taxPercent = 0;
   // later
-  //consumer_taxes ? consumer_taxes.reduce((a,b)=>a+b,0) : 0;  
+  //consumer_taxes ? consumer_taxes.reduce((a,b)=>a+b,0) : 0;
   const discount = itemsSum * discountPercent;
   const subtotal = itemsSum - discount;
   const tax = subtotal * taxPercent;
+  const fee = do_delivery ? delivery_fee : 0;
 
-  const total = subtotal + tax + delivery_fee;
+  const total = subtotal + tax + fee;
 
-  return {total, subtotal, tax, discount, fee: delivery_fee};
-}
+  return { total, subtotal, tax, discount, fee };
+};
 
-export const parseQuery = (location) => {
-    const query = location.search.substring(1);
-    const vars = query.split('&');
-    const ret = {};
-    for (let i = 0; i < vars.length; i++) {
-        const [key, value] = vars[i].split('=');
-        ret[key] = decodeURIComponent(value);
-    }
-    return ret;    
-}
+export const parseQuery = location => {
+  const query = location.search.substring(1);
+  const vars = query.split("&");
+  const ret = {};
+  for (let i = 0; i < vars.length; i++) {
+    const [key, value] = vars[i].split("=");
+    ret[key] = decodeURIComponent(value);
+  }
+  return ret;
+};
 
-export const slugify = (text) => {
- return text.replace(/[^-a-zA-Z0-9\s+]+/ig, '').replace(/\s+/gi, "-").toLowerCase();
-}
+export const slugify = text => {
+  return text
+    .replace(/[^-a-zA-Z0-9\s+]+/gi, "")
+    .replace(/\s+/gi, "-")
+    .toLowerCase();
+};
 
-export const isUUID = (str) => {
-  if(!str)
-    return false;
-  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(str);
-}
+export const isUUID = str => {
+  if (!str) return false;
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+    str
+  );
+};

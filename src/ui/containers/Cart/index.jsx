@@ -473,7 +473,7 @@ export default class extends Component {
                 )}
               {!!orderPrices.fee &&
                 this.renderCurrency(
-                  t("LABEL.DELIVERY_FREE"),
+                  t("LABEL.DELIVERY_FEE"),
                   orderPrices.fee,
                   "color-gray",
                   currency_symbol
