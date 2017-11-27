@@ -8,7 +8,7 @@ import * as commonActions from "~/store/actions/common";
 import * as orderActions from "~/store/actions/order";
 import * as orderSelectors from "~/store/selectors/order";
 
-import { slugify } from "~/utils";
+import { slugify, ORDER_TYPE } from "~/utils";
 
 @translate("translations")
 @connect(
@@ -40,6 +40,9 @@ export default class extends Component {
     const { outlet, updateOrder, addOrderItem } = this.props;
     updateOrder({
       ...outlet.online_order_setting,
+      order_type: outlet.online_order_setting.do_delivery
+        ? ORDER_TYPE.DELIVERY
+        : ORDER_TYPE.TAKE_AWAY,
       restaurant_name: outlet.name,
       restaurant_address: outlet.address,
       restaurant_lat: outlet.lat,
