@@ -70,9 +70,9 @@ export default class extends Component {
           </tr>
         </thead>
         <tbody>
-          {orderItems.map(item => (
+          {orderItems.map((item, index) => (
             <CardItem
-              key={item.item_uuid}
+              key={index}
               uuid={item.item_uuid}
               outlet_slug={orderInfo.outlet_slug}
               item_slug={item.slug || item.item_uuid}

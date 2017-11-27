@@ -164,19 +164,23 @@ export default class extends Component {
                   className="color-black-300"
                   to={`/restaurant/${slugify(order.outlet.name)}/${item.id}`}
                 >
-                  <Image width="100%" alt="" src={item.image.url_thumb} />
+                  <Image
+                    width="100%"
+                    alt=""
+                    src={item.image.url_thumb.toString()}
+                  />
 
                   <div className="color-black-300 mt-2">
                     <span className="w-100 float-left">
                       ({item.qty || 1}x) {item.name}
                     </span>
                     {item.options &&
-                      item.options.breakdown.map((item, index) => (
+                      item.options.breakdown.map((option, index) => (
                         <span
                           key={index}
                           className="w-100 float-left color-gray-300"
                         >
-                          + ({item.qty || 1}x) {item.name}
+                          + ({option.qty || 1}x) {option.name}
                         </span>
                       ))}
                     <span className="color-red">

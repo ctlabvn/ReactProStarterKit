@@ -1,4 +1,5 @@
 import { REHYDRATE } from "redux-persist/constants";
+import shallowEqual from "fbjs/lib/shallowEqual";
 
 export const initialState = {
   items: [],
@@ -17,8 +18,25 @@ const updateItem = (state, index, payload) => {
   };
 };
 
+const extractOptionValue = option => ({
+  uuid: option.option_uuid,
+  qty: option.qty || 1
+});
+
 const findIndex = (state, payload) =>
   state.items.findIndex(item => item.item_uuid === payload.item_uuid);
+
+const findIndexWithOptions = (state, payload) => {
+  // find items with the same options
+  return state.items.findIndex(
+    item =>
+      item.item_uuid === payload.item_uuid &&
+      shallowEqual(
+        item.item_options.map(extractOptionValue),
+        payload.item_options.map(extractOptionValue)
+      )
+  );
+};
 
 export const order = (state = initialState, { type, payload }) => {
   let index = -1;
@@ -37,7 +55,7 @@ export const order = (state = initialState, { type, payload }) => {
     case "order/addItem":
       index =
         payload.item_options && payload.item_options.length
-          ? -1
+          ? findIndexWithOptions(state, payload)
           : findIndex(state, payload);
       // we will auto update quantity if this item has no item_options
       return index !== -1

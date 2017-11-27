@@ -48,10 +48,10 @@ export default class extends Component {
     });
   };
 
-  renderProductItem(item) {
+  renderProductItem(item, key) {
     const { onIncreaseOrder, onDecreaseOrder, orderInfo, t } = this.props;
     return (
-      <div key={item.item_uuid} className="border-bottom py-2">
+      <div key={key} className="border-bottom py-2">
         <div className="d-flex flex-row justify-content-start">
           <Link
             className="flex-column d-flex p-0 align-items-start"
@@ -176,7 +176,9 @@ export default class extends Component {
               </div>
 
               <div className="popover-cart-content">
-                {orderItems.map(item => this.renderProductItem(item))}
+                {orderItems.map((item, index) =>
+                  this.renderProductItem(item, index)
+                )}
               </div>
 
               <div className="mt-2">
