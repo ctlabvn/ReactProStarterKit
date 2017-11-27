@@ -1,6 +1,7 @@
 {
   "title": "Hottab",
-  "description": "HotTab POS is a reliable POS for your restaurant, cafe, bar or store that runs offline and operates in multiple languages on your android phone or tablet.",
+  "description":
+    "HotTab POS is a reliable POS for your restaurant, cafe, bar or store that runs offline and operates in multiple languages on your android phone or tablet.",
   "languages": {
     "en": "English",
     "vi": "Tiếng Việt",
@@ -67,7 +68,6 @@
     "PASSWORD_RESET": "Reset password",
     "LOGIN_ERROR": "Email or password is incorrect",
     "OPTION_IS_MANDATORY": "This option is mandatory, please fill it up",
-    "DELIVERY_FREE": "Delivery free",
     "TAX": "Tax",
     "CONFIRM_REMOVE_ORDER": "Do you want to clear the current order",
     "CONFIRM_REMOVE_CART_ITEM": "Do you want remove this item from your cart",
