@@ -33,19 +33,19 @@ export default class extends Component {
               <Link className="breadcrumb-item color-gray-400" to={`/restaurant`}>
                 {t('LINK.RESTAURANT')}
               </Link>
-              <span className="breadcrumb-item active color-gray-400">
+              <span className="breadcrumb-item active color-gray">
                 {outlet.name}
               </span>
             </nav>
 
             <h5>
-              <span className="font-weight-bold text-uppercase color-black-400">
+              <span className="restaurant-name font-weight-bold text-uppercase color-grey-dark">
                 {outlet.logo && <Image className="rounded mr-2 img-logo" src={outlet.logo} alt=""/>}
                 {outlet.name}
               </span>
             </h5>
 
-            <h6 className="color-red restaurant-address">{outlet.address ? outlet.address : t('LABEL.NO_INFO')}<i className="ml-2 color-green fa fa-map-marker restaurant-location-icon" aria-hidden="true"/></h6>
+            <h6 className="color-red restaurant-address"><span className="mr-2">{outlet.address ? outlet.address : t('LABEL.NO_INFO')}</span> <span>-</span> <span><i className="ml-2 fa fa-map-marker restaurant-location-icon" aria-hidden="true"/></span></h6>
 
             <div className="flex-row d-flex justify-content-between mb-2">
               <RestaurantInfo outlet={outlet}/>
@@ -63,9 +63,9 @@ export default class extends Component {
 
             <div className="mt-5 border border-white-300 bg-white w-100 border-right-0 border-left-0 border-bottom-0">
               <Menu className="menu-decorator text-uppercase restaurant-header-menu">
-                {options.menuItems.map((item) =>
+                {options.menuItems.map((item, i) =>
                   <MenuItem active={active === item.id} onClick={()=>onSelectItem && onSelectItem(item.id)}
-                            title={<strong className="color-black">{t(item.name)}</strong>} key={item.id}/>
+                            title={<strong className="color-grey">{`${t(item.name)} ${i === 0 ? ` (${outlet.total_items})` : ""}`}</strong>} key={item.id}/>
                 )}
               </Menu>
             </div>

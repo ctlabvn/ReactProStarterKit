@@ -1,0 +1,11 @@
+@import "../../../../../../vars.css";
+
+.restaurant-body-breadcrumb {
+  font-size: 0.75rem;
+}
+
+.restaurant-body-breadcrumb span:hover {
+  text-decoration: none;
+  color: $red-color;
+}
+

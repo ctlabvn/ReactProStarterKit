@@ -27,7 +27,7 @@
 }
 
 .restaurant-address {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
 }
 
 .img-logo {
@@ -50,4 +50,8 @@
 
 .restaurant-location-icon {
   font-size: 1.25rem;
+}
+
+.restaurant-name {
+  font-size: 1.5625rem;
 }

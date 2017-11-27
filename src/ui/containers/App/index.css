@@ -96,6 +96,26 @@ a:hover {
   color: $black-color-400;
 }
 
+.color-grey-dark {
+  color: $grey-dark-color;
+}
+
+.color-grey {
+  color: $grey-color;
+}
+
+.color-grey-light {
+  color: $grey-light-color;
+}
+
+.color-grey-white {
+  color: $grey-white-color;
+}
+
+.color-blue-light {
+  color: $blue-light-color;
+}
+
 .font-medium {
   font-size: 14px;
 }
@@ -320,5 +340,5 @@ a:hover {
 }
 
 .breadcrumb {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
 }

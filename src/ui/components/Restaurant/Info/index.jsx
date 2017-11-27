@@ -84,8 +84,8 @@ export default class RestaurantInfo extends Component {
           }
 			  </span>
         {metadata.map((item, i) => ([
-          displayName || i !== 0 ? <span key="seperate" className="restaurant-info mr-2">|</span> : null,
-          <span key="content" className="restaurant-info mr-2" {...props}>
+          displayName || i !== 0 ? <span key="seperate" className="color-grey restaurant-info mr-2">|</span> : null,
+          <span key="content" className="color-grey restaurant-info mr-2" {...props}>
           {item}
           </span>
         ]))}

@@ -49,14 +49,14 @@ class ReadMore extends Component {
 				<Truncate
 					lines={!expanded && lines}
 					ellipsis={(
-						<p className="d-flex flex-row-reverse"><a role="button" tabIndex="0" onClick={this.toggleLines}>{more}</a></p>
+						<p className="d-flex flex-row-reverse"><a className="color-blue-light" role="button" tabIndex="0" onClick={this.toggleLines}>{more}</a></p>
 					)}
 					onTruncate={this.handleTruncate}
 				>
 					{children}
 				</Truncate>
 				{!truncated && expanded && less && (
-					<span className="d-flex flex-row-reverse"> <a role="button" tabIndex="0" onClick={this.toggleLines}>{less}</a></span>
+					<span className="d-flex flex-row-reverse"> <a className="color-blue-light" role="button" tabIndex="0" onClick={this.toggleLines}>{less}</a></span>
 				)}
 			</div>
 		);
