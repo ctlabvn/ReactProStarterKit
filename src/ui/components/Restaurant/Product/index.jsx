@@ -42,21 +42,6 @@ export default class RestaurantProduct extends Component {
 			<Col md="10" {...props}>
 				{Object.keys(products).length > 0 ? (
 					<div>
-						<div className="row">
-							<div className="col" />
-							<div className="form-group col-md-6 pull-right">
-								<div className="input-group">
-									<input
-										className="form-control"
-										ref="searchProductInput"
-										onKeyUp={this.handleKeyUp}
-									/>
-									<span className="input-group-addon" id="basic-addon2">
-										<i className="fa fa-search" />
-									</span>
-								</div>
-							</div>
-						</div>
 						{Object.keys(products).map((item, index) => (
 							<ProductGroup
 								outlet_slug={outlet_slug}

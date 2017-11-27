@@ -17,6 +17,8 @@ import EmptyResult from "~/ui/components/EmptyResult";
 import AddItemValidator from "~/ui/components/AddItemValidator";
 // import Image from "~/ui/components/Image";
 
+import Breadcrumb from "./components/Breadcrumb";
+
 import * as commonActions from "~/store/actions/common";
 // import * as restaurantValidation from "~/store/utils/validation/restaurant";
 
@@ -53,7 +55,7 @@ export default class extends Component {
     const products = {};
     const childCategories = treeCategory[parentCategory];
 
-    this.setState({ isLoadingItem: true, products });
+    this.setState({isLoadingItem: true, products});
 
     requestor(
       "restaurant/getProductByCategories",
@@ -72,7 +74,7 @@ export default class extends Component {
             })
           );
 
-          this.setState({ isLoadingItem: false, products });
+          this.setState({isLoadingItem: false, products});
         }
       }
     );
@@ -80,7 +82,7 @@ export default class extends Component {
 
   showLoading = () => (
     <div className="col text-center py-2">
-      <i className="fa fa-refresh fa-spin fa-3x fa-fw" />
+      <i className="fa fa-refresh fa-spin fa-3x fa-fw"/>
     </div>
   );
 
@@ -139,12 +141,12 @@ export default class extends Component {
     // }
 
     const ret = await this.getAllCategories(outlet.outlet_uuid);
-    if(ret){
+    if (ret) {
       categories = ret.data;
     }
-    // console.log(categories)
+    console.log(categories)
     // bind data
-    this.setState({ categories });
+    this.setState({categories});
   };
 
   loadProductFeatured() {
@@ -155,14 +157,14 @@ export default class extends Component {
       outlet.outlet_uuid,
       (err, ret) => {
         if (!err) {
-          this.setState({ features: ret.data.data });
+          this.setState({features: ret.data.data});
         }
       }
     );
   }
 
   renderFeatured(features) {
-    if (!features.length) return null;    
+    if (!features.length) return null;
     return (
       <div className="mb-4">
         <Slider className="mt-2" num={5} move={1}>
@@ -192,6 +194,10 @@ export default class extends Component {
     this.loadProductFeatured();
   }
 
+  onSelectBreadcrumb(category_uuid) {
+    console.log("--------------- ", category_uuid);
+  }
+
   render() {
     const { t, outlet, outlet_slug } = this.props;
     const {
@@ -201,7 +207,7 @@ export default class extends Component {
       treeCategory,
       treeCategoryName,
       categories
-    } = this.state;
+      } = this.state;
     let categoryHasChildProduct = [];
 
     const showCategories = [];
@@ -225,7 +231,7 @@ export default class extends Component {
         } else {
           // console.log(item.total_items, categoryHasChildProduct, item.category_uuid);
           if (
-            categoryHasChildProduct.indexOf(item.category_uuid) > -1 
+            categoryHasChildProduct.indexOf(item.category_uuid) > -1
             || item.total_items !== 0
           ) {
             showCategories.push(item);
@@ -238,14 +244,15 @@ export default class extends Component {
 
       return (
         <div className="w-100">
-          <h5 className="mb-2">
-            <strong className="text-uppercase color-black">All products</strong>
-            <span className="color-gray font-weight-normal">
-              {" "}
-              ({outlet.total_items})
-            </span>
-          </h5>
-
+          {/*
+           <h5 className="mb-2">
+           <strong className="text-uppercase color-black">All products</strong>
+           <span className="color-gray font-weight-normal">
+           {" "}
+           ({outlet.total_items})
+           </span>
+           </h5>
+           */}
           {this.renderFeatured(features)}
 
           <div className="mt-3 row w-100 no-gutters">
@@ -266,30 +273,49 @@ export default class extends Component {
             {isLoadingItem ? (
               this.showLoading()
             ) : (
-              <RestaurantProduct
-                outlet_slug={outlet_slug}
-                className="pl-md-4"
-                products={products}
-                treeCategoryName={treeCategoryName}
-                onAddOrder={canAddOrder ? this.handleAddOrderItem : null}
-              />
+              <div className="col">
+                <div className="form-group col-md-6 pull-right">
+                  <div className="input-group">
+                    <input
+                      className="form-control"
+                      ref="searchProductInput"
+                      onKeyUp={this.handleKeyUp}
+                    />
+                      <span className="input-group-addon" id="basic-addon2">
+                        <i className="fa fa-search"/>
+                      </span>
+                  </div>
+                </div>
+                <Breadcrumb
+                  categories={showCategories}
+                  onSelected={this.onSelectBreadcrumb}
+                />
+
+
+                <RestaurantProduct
+                  outlet_slug={outlet_slug}
+                  className="pl-md-4"
+                  products={products}
+                  treeCategoryName={treeCategoryName}
+                  onAddOrder={canAddOrder ? this.handleAddOrderItem : null}
+                />
+              </div>
             )}
           </div>
 
           <AddItemValidator outlet={outlet} onItemRef={ref=>this.addItemValidator=ref}/>
 
-         
 
         </div>
       );
     }
 
     return (
-      
-        <div className="d-block text-center w-100 py-5">
-          <EmptyResult label={t("LABEL.NO_SEARCH_DATA")} />
-        </div>
-      
+
+      <div className="d-block text-center w-100 py-5">
+        <EmptyResult label={t("LABEL.NO_SEARCH_DATA")}/>
+      </div>
+
     );
   }
 }

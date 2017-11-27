@@ -63,9 +63,9 @@ export default class extends Component {
 
             <div className="mt-5 border border-white-300 bg-white w-100 border-right-0 border-left-0 border-bottom-0">
               <Menu className="menu-decorator text-uppercase restaurant-header-menu">
-                {options.menuItems.map((item) =>
+                {options.menuItems.map((item, i) =>
                   <MenuItem active={active === item.id} onClick={()=>onSelectItem && onSelectItem(item.id)}
-                            title={<strong className="color-grey">{t(item.name)}</strong>} key={item.id}/>
+                            title={<strong className="color-grey">{`${t(item.name)} ${i === 0 ? ` (${outlet.total_items})` : ""}`}</strong>} key={item.id}/>
                 )}
               </Menu>
             </div>
