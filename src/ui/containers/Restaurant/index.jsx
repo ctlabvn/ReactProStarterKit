@@ -42,9 +42,13 @@ export default class extends Component {
     const { outlet_slug } = this.props.match.params;
     switch (tabID) {
       case "restaurant-body":
-        return <Body outlet_slug={outlet_slug} outlet={outlet} />;
+        return (
+          <Body outlet_slug={outlet.slug || outlet_slug} outlet={outlet} />
+        );
       default:
-        return <Detail outlet_slug={outlet_slug} outlet={outlet} />;
+        return (
+          <Detail outlet_slug={outlet.slug || outlet_slug} outlet={outlet} />
+        );
     }
   }
 
