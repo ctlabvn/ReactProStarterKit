@@ -71,7 +71,7 @@ export default class extends Component {
             </div>
           </div>
 
-          {gallery ? <PhotoGroup images={gallery} className="photo-group-large mt-md-0 mt-4"/> : ''}
+          {gallery ? <PhotoGroup images={gallery} className="photo-group-large mt-md-0 mt-4 mb-4"/> : ''}
         </div>
       </div>
     );

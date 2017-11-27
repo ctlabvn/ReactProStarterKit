@@ -2,4 +2,15 @@
 
 .restaurant-cat{
   border-right: 4px solid $red-color;
+  font-size: 0.75rem;
+}
+
+.restaurant-body-input {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-top: 0 !important;
+}
+
+.restaurant-body-content .col-md-6 {
+  padding-right: 0;
 }

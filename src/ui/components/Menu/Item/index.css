@@ -2,8 +2,8 @@
 
 .menu-item{
   cursor: pointer;
-  color: $gray-color-300;
-  padding: 10px 20px;
+  color: $grey-color;
+  padding-bottom: 0.75rem;
 
   a{
     color: inherit;
@@ -15,11 +15,11 @@
 }
 
 .menu-item.selected{
-  color: $black-color;
+  color: $red-color;
 }
 
 .list-group {
   .menu-item:first-child {
-    padding-left: 20px;
+    /*padding-left: 20px;*/
   }
 }

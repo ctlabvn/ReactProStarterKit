@@ -216,8 +216,8 @@ a:hover {
 .btn-round {
   position: relative;
   border-radius: 50%;
-  height: 35px;
-  width: 35px;
+  height: 30px;
+  width: 30px;
   justify-content: center;
   display: flex;
 }

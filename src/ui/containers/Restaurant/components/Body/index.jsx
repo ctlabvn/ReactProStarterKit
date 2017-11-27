@@ -242,6 +242,8 @@ export default class extends Component {
         }
       });
 
+      console.log("---------------- ", products);
+
       return (
         <div className="w-100">
           {/*
@@ -255,7 +257,7 @@ export default class extends Component {
            */}
           {this.renderFeatured(features)}
 
-          <div className="mt-3 row w-100 no-gutters">
+          <div className="row w-100 no-gutters">
             <Menu className={classNames("col col-md-2 list-group restaurant-cat", {"border-right-0": isMobile})}>
               {showCategories.map((item, index) => {
                 return (
@@ -270,11 +272,9 @@ export default class extends Component {
               })}
             </Menu>
 
-            {isLoadingItem ? (
-              this.showLoading()
-            ) : (
-              <div className="col">
-                <div className="form-group col-md-6 pull-right">
+            <div className="col p-0 restaurant-body-content">
+              <div className="block restaurant-body-input">
+                <div className="form-group col-md-6 pull-right mt-0">
                   <div className="input-group">
                     <input
                       className="form-control"
@@ -290,22 +290,23 @@ export default class extends Component {
                   categories={showCategories}
                   onSelected={this.onSelectBreadcrumb}
                 />
+              </div>
 
-
+              {isLoadingItem ? (
+                this.showLoading()
+              ) : (
                 <RestaurantProduct
                   outlet_slug={outlet_slug}
-                  className="pl-md-4"
+                  className="p-0"
                   products={products}
                   treeCategoryName={treeCategoryName}
                   onAddOrder={canAddOrder ? this.handleAddOrderItem : null}
                 />
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
           <AddItemValidator outlet={outlet} onItemRef={ref=>this.addItemValidator=ref}/>
-
-
         </div>
       );
     }
