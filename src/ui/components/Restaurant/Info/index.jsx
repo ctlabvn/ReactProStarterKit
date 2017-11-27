@@ -45,7 +45,7 @@ export default class RestaurantInfo extends Component {
         const todayString = getTodayString();
         const hoursOpendata = workingTime[todayString.toString().toUpperCase()];
         if (hoursOpendata && hoursOpendata.open){
-          metadata.push(`${hoursOpendata.from} - ${hoursOpendata.to}`);
+          metadata.push(`${hoursOpendata.from.time} - ${hoursOpendata.to.time}`);
         } else {
           metadata.push(t('LABEL.RESTAURANT_CLOSED'));
         }
