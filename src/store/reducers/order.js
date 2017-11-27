@@ -1,5 +1,5 @@
 import { REHYDRATE } from "redux-persist/constants";
-import shallowEqual from "fbjs/lib/shallowEqual";
+import areEqual from "fbjs/lib/areEqual";
 
 export const initialState = {
   items: [],
@@ -26,12 +26,15 @@ const extractOptionValue = option => ({
 const findIndex = (state, payload) =>
   state.items.findIndex(item => item.item_uuid === payload.item_uuid);
 
+const findIndexById = (state, { id }) =>
+  state.items.findIndex(item => item.id === id);
+
 const findIndexWithOptions = (state, payload) => {
   // find items with the same options
   return state.items.findIndex(
     item =>
       item.item_uuid === payload.item_uuid &&
-      shallowEqual(
+      areEqual(
         item.item_options.map(extractOptionValue),
         payload.item_options.map(extractOptionValue)
       )
@@ -64,9 +67,12 @@ export const order = (state = initialState, { type, payload }) => {
             ...payload,
             quantity: payload.quantity + state.items[index].quantity
           })
-        : { ...state, items: [...state.items, payload] };
+        : {
+            ...state,
+            items: [...state.items, { ...payload, id: state.items.length }]
+          };
     case "order/removeItem":
-      index = findIndex(state, payload);
+      index = findIndexById(state, payload);
       return index === -1
         ? state
         : {
@@ -77,7 +83,7 @@ export const order = (state = initialState, { type, payload }) => {
             ]
           };
     case "order/updateItem":
-      index = findIndex(state, payload);
+      index = findIndexById(state, payload);
       return index === -1 ? state : updateItem(state, index, payload);
     case "order/update":
       return { ...state, info: { ...state.info, ...payload } };
