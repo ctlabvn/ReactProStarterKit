@@ -49,7 +49,7 @@ export default class RestaurantItemPhoto extends Component {
                 {address && <div>{address}</div>}
                 <RestaurantOrderSetting outlet={restaurant} />
               </div>
-              <RestaurantTag className="my-2" outlet={restaurant} />
+              <RestaurantTag className="my-1" outlet={restaurant} />
             </div>
           </div>
         </div>
