@@ -38,7 +38,7 @@ export default class RestaurantItemPhoto extends Component {
             </Link>
           </div>
           <div className="media-body w-100">
-            <div className="d-flex flex-column justify-content-between">
+            <div className="d-flex flex-column justify-content-between mh-110">
               <div>
                 <Link
                   to={`/restaurant/${restaurant.slug || uuid}`}
@@ -47,9 +47,9 @@ export default class RestaurantItemPhoto extends Component {
                   <h5>{name}</h5>
                 </Link>
                 <hr className="my-2" />
+                {address && <div>{address}</div>}
+                <RestaurantOrderSetting outlet={restaurant} />
               </div>
-              {address && <div>{address}</div>}
-              <RestaurantOrderSetting outlet={restaurant} />
               <RestaurantTag className="mt-2" outlet={restaurant} />
             </div>
           </div>
