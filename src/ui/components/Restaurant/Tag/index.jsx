@@ -22,7 +22,6 @@ import "./index.css";
 )
 export default class extends Component {
 	static propTypes = {
-		tags: PropTypes.Array,
 		color: PropTypes.string
 	};
 

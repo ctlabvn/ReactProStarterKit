@@ -111,6 +111,7 @@ export default class extends Component {
         history.push("/customer/order");
       } else {
         setToast(extractMessage(err.message), "danger");
+        // console.log(setToast, extractMessage(err.message));
       }
     });
   };

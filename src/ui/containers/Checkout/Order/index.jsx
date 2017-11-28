@@ -40,11 +40,8 @@ export default class extends Component {
     return (
       <div {...props}>
         <h4>{t("LABEL.YOUR_ORDER")}</h4>
-        {orderItemsWithTotalPrice.map(item => (
-          <div
-            className="d-flex justify-content-start w-100"
-            key={item.item_uuid}
-          >
+        {orderItemsWithTotalPrice.map((item, index) => (
+          <div className="d-flex justify-content-start w-100" key={index}>
             <div className="p-2">{item.quantity}x</div>
             <div className="p-2">
               {item.name}

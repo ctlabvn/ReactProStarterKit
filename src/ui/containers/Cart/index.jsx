@@ -190,6 +190,13 @@ export default class extends Component {
     }
   }
 
+  componentDidMount() {
+    const { orderInfo } = this.props;
+    if (!orderInfo.order_lat && !orderInfo.order_lat) {
+      this.loadAddressFromGmap();
+    }
+  }
+
   getOrderTypeValue(input) {
     return this.orderTypes.length === 1
       ? this.orderTypes[0].id

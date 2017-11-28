@@ -194,6 +194,9 @@ export const extractMessage = message => {
     for (let key in message) {
       if (key !== "general") {
         messageValue = message[key];
+        if (Array.isArray(messageValue)) {
+          messageValue = messageValue[0].message;
+        }
         break;
       }
     }
