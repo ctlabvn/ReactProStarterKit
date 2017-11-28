@@ -33,6 +33,7 @@ export default class RestaurantItemPhoto extends Component {
                 fallbackSrc="//placehold.it/120"
                 src={logo}
                 alt=""
+                width={120}
               />
             </Link>
           </div>
