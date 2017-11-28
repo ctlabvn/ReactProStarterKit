@@ -16,16 +16,16 @@ export default class RestaurantProduct extends Component {
 		onAddOrder: PropTypes.func
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			term: ""
-		};
-	}
-
-	handleKeyUp = ({ target, keyCode }) => {
-		this.setState({ term: target.value.trim() });
-	};
+	//constructor(props) {
+	//	super(props);
+	//	this.state = {
+	//		term: ""
+	//	};
+	//}
+  //
+	//handleKeyUp = ({ target, keyCode }) => {
+	//	this.setState({ term: target.value.trim() });
+	//};
 
 	render() {
 		const {
@@ -35,9 +35,9 @@ export default class RestaurantProduct extends Component {
 			treeCategoryName,
 			onAddOrder,
 			outlet_slug,
+      term,
 			...props
 		} = this.props;
-		const { term } = this.state;
 		return (
 			<Col {...props}>
 				{Object.keys(products).length > 0 ? (

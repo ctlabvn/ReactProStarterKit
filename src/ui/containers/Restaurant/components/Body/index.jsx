@@ -35,6 +35,7 @@ export default class extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      term: "",
       products: {},
       features: [],
       categories: [],
@@ -198,6 +199,10 @@ export default class extends Component {
     console.log("--------------- ", category_uuid);
   }
 
+  handleSearchKeyUp = ({ target, keyCode }) => {
+    this.setState({ term: target.value.trim() });
+  };
+
   render() {
     const { t, outlet, outlet_slug } = this.props;
     const {
@@ -242,8 +247,6 @@ export default class extends Component {
         }
       });
 
-      console.log("---------------- ", products);
-
       return (
         <div className="w-100">
           {/*
@@ -273,23 +276,26 @@ export default class extends Component {
             </Menu>
 
             <div className="col p-0 restaurant-body-content">
-              <div className="block restaurant-body-input">
-                <div className="form-group col-md-6 pull-right mt-0">
-                  <div className="input-group">
-                    <input
-                      className="form-control"
-                      ref="searchProductInput"
-                      onKeyUp={this.handleKeyUp}
-                    />
-                      <span className="input-group-addon" id="basic-addon2">
-                        <i className="fa fa-search"/>
-                      </span>
-                  </div>
-                </div>
+              <div className="row mx-0 restaurant-body-input">
                 <Breadcrumb
                   categories={showCategories}
                   onSelected={this.onSelectBreadcrumb}
                 />
+
+                <div className="mt-2 mt-md-0 d-md-flex flex-row-reverse form-group col-md-6 pull-right mt-0">
+                  <div className="input-group restaurant-body-search">
+                    <input
+                      className="form-control"
+                      ref="searchProductInput"
+                      placeholder={t("PLACEHOLDER.TYPE_YOUR_SEARCH")}
+                      onKeyUp={this.handleSearchKeyUp}
+                    />
+                      <span className="input-group-addon px-4" id="basic-addon2">
+                        <i className="fa fa-search color-red"/>
+                      </span>
+                  </div>
+                </div>
+
               </div>
 
               {isLoadingItem ? (
@@ -301,6 +307,7 @@ export default class extends Component {
                   products={products}
                   treeCategoryName={treeCategoryName}
                   onAddOrder={canAddOrder ? this.handleAddOrderItem : null}
+                  term={this.state.term}
                 />
               )}
             </div>
