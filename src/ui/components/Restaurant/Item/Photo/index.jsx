@@ -11,39 +11,50 @@ import Image from "~/ui/components/Image";
 
 import "./index.css";
 
-@translate('translations')
+@translate("translations")
 export default class RestaurantItemPhoto extends Component {
   static propTypes = {
-	  restaurant: PropTypes.object,
+    restaurant: PropTypes.object,
     uuid: PropTypes.string,
     name: PropTypes.string,
     address: PropTypes.string,
     logo: PropTypes.string
-  }
+  };
 
   render() {
     const { t, name, address, logo, restaurant, uuid, ...props } = this.props;
     return (
       <div className="col-sm-6 col-12 my-3" {...props}>
         <div className="media rounded ">
-            <div className="w-150">
-              <Link to={`/restaurant/${restaurant.slug || uuid}`}>
-                <Image className="media-image d-flex mr-3 rounded" fallbackSrc="//placehold.it/120" width={120} src={logo} alt="" />
-              </Link>
-            </div>
-            <div className="media-body w-100">
-              <div className="d-flex flex-column justify-content-between">
-                <div>
-                  <Link to={`/restaurant/${restaurant.slug || uuid}`} className="color-black-300"><h5>{name}</h5></Link>
-                  <hr className="my-2" />
-                </div>
-                {address && <div>{address}</div>}
-                <RestaurantOrderSetting outlet={restaurant} />
-                <RestaurantTag outlet={restaurant} />
+          <div className="w-150">
+            <Link to={`/restaurant/${restaurant.slug || uuid}`}>
+              <Image
+                className="media-image d-flex mr-3 rounded"
+                fallbackSrc="//placehold.it/120"
+                width={120}
+                src={logo}
+                alt=""
+              />
+            </Link>
+          </div>
+          <div className="media-body w-100">
+            <div className="d-flex flex-column justify-content-between">
+              <div>
+                <Link
+                  to={`/restaurant/${restaurant.slug || uuid}`}
+                  className="color-black-300"
+                >
+                  <h5>{name}</h5>
+                </Link>
+                <hr className="my-2" />
               </div>
+              {address && <div>{address}</div>}
+              <RestaurantOrderSetting outlet={restaurant} />
+              <RestaurantTag className="mt-5" outlet={restaurant} />
             </div>
+          </div>
         </div>
       </div>
-    )
+    );
   }
 }

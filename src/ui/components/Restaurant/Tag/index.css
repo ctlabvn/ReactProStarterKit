@@ -1,11 +1,10 @@
 .text-default {
-    font-size: 100%;
-    font-weight: normal;
+  font-size: 100%;
+  font-weight: normal;
 }
 
-#restaurant-tags {
+.restaurant-tags {
   .badge {
-    background-color: #d0d0d0!important;
     margin-right: 0.75rem;
     font-size: 0.75rem;
   }

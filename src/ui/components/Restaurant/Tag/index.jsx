@@ -1,52 +1,94 @@
 import React, { Component } from "react";
-// import PropTypes from "prop-types";
+import classNames from "classnames";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { translate } from "react-i18next";
 
-import { Badge } from 'reactstrap';
+import { Badge } from "reactstrap";
 
+import * as authSelectors from "~/store/selectors/auth";
+import * as authActions from "~/store/actions/auth";
 import * as commonActions from "~/store/actions/common";
 
-import './index.css';
+import "./index.css";
 
-@translate('translations')
-@connect(null, commonActions)
+@translate("translations")
+@connect(
+	state => ({
+		filters: authSelectors.getFilters(state)
+	}),
+	{ ...commonActions, ...authActions }
+)
 export default class extends Component {
+	static propTypes = {
+		tags: PropTypes.Array,
+		color: PropTypes.string
+	};
+
+	static defaultProps = {
+		color: "secondary"
+	};
+
 	constructor(props) {
-		super(props)
+		super(props);
 		this.state = {
-			tags: props.outlet.tags,
-		}
+			tags: props.tags || props.outlet.tags
+		};
+	}
+
+	updateFilterTags(selected) {
+		const { filters, updateFilters } = this.props;
+		const optionsFilters = {
+			...filters,
+			tags: {
+				...filters.tags,
+				selected
+			}
+		};
+		updateFilters(optionsFilters);
 	}
 
 	componentDidMount() {
-		const {requestor, outlet} = this.props;
-		if(!this.state.tags){
-			requestor("restaurant/getRestaurantTag", outlet.outlet_uuid, (err, ret)=>{
-				if(ret.data){
-					this.setState({tags: ret.data})
+		const { requestor, outlet } = this.props;
+		if (!this.state.tags) {
+			requestor(
+				"restaurant/getRestaurantTag",
+				outlet.outlet_uuid,
+				(err, ret) => {
+					if (ret.data) {
+						this.setState({ tags: ret.data });
+					}
 				}
-			})
+			);
 		}
 	}
 
 	render() {
 		const { tags } = this.state;
-		if(tags) {
+		const { className, color = "" } = this.props;
+		if (tags) {
 			return (
-				<div id="restaurant-tags" className="mt-5">
+				<div className={classNames("restaurant-tags", className)}>
 					{tags.map((item, index) => (
-            <Link to={`/restaurant?tags=${item.tag_uuid}`} key={index}>
-              <Badge key={index} color="secondary text-default px-2 pt-1">{item.name}</Badge>
-            </Link>
+						<Link
+							onClick={() => this.updateFilterTags(item.tag_uuid)}
+							to="/restaurant"
+							key={index}
+						>
+							<Badge
+								key={index}
+								color={color}
+								className="text-default px-2 pt-1"
+							>
+								{item.name}
+							</Badge>
+						</Link>
 					))}
 				</div>
 			);
 		}
 
-		return (
-			<div className="clearfix"></div>
-		);
+		return <div className="clearfix" />;
 	}
 }

@@ -2,31 +2,32 @@ import React, { Component } from "react";
 import Helmet from "react-helmet";
 import { translate } from "react-i18next";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+// import { connect } from "react-redux";
 
 // store
 // import * as commonActions from "~/store/actions/common";
-import * as authActions from "~/store/actions/auth";
+// import * as authActions from "~/store/actions/auth";
 // import * as restaurantSelectors from "~/store/selectors/restaurant";
-import * as authSelectors from "~/store/selectors/auth";
+// import * as authSelectors from "~/store/selectors/auth";
 
 // components
-import Menu from "~/ui/components/Menu";
-import MenuItem from "~/ui/components/Menu/Item";
+// import Menu from "~/ui/components/Menu";
+// import MenuItem from "~/ui/components/Menu/Item";
 import Suggestion from "~/ui/components/Suggestion";
 import Spinner from "~/ui/components/Spinner";
+import RestaurantTag from "~/ui/components/Restaurant/Tag";
 
 import api from "~/store/api";
 
 import "./index.css";
 
 @translate("translations")
-@connect(
-  state => ({
-    filters: authSelectors.getFilters(state)
-  }),
-  authActions
-)
+// @connect(
+//   state => ({
+//     filters: authSelectors.getFilters(state)
+//   }),
+//   authActions
+// )
 export default class extends Component {
   constructor(props) {
     super(props);
@@ -41,17 +42,17 @@ export default class extends Component {
     this.setState({ tags: ret.data });
   }
 
-  updateFilterTags(selected) {
-    const { filters, updateFilters } = this.props;
-    const optionsFilters = {
-      ...filters,
-      tags: {
-        ...filters.tags,
-        selected
-      }
-    };
-    updateFilters(optionsFilters);
-  }
+  // updateFilterTags(selected) {
+  //   const { filters, updateFilters } = this.props;
+  //   const optionsFilters = {
+  //     ...filters,
+  //     tags: {
+  //       ...filters.tags,
+  //       selected
+  //     }
+  //   };
+  //   updateFilters(optionsFilters);
+  // }
 
   render() {
     const { t } = this.props;
@@ -87,17 +88,11 @@ export default class extends Component {
           )}
         </div>
         {tags && (
-          <Menu className="col-md-5 mb-4 pb-4">
-            {tags.map(item => (
-              <MenuItem
-                className="color-black-300 pl-0"
-                key={item.tag_uuid}
-                onClick={() => this.updateFilterTags(item.tag_uuid)}
-                link={`/restaurant`}
-                title={item.name}
-              />
-            ))}
-          </Menu>
+          <RestaurantTag
+            color="danger"
+            className="col-md-5 mb-4 pb-4"
+            tags={tags}
+          />
         )}
       </div>
     );
