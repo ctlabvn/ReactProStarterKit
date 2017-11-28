@@ -31,14 +31,13 @@ export default class RestaurantItemPhoto extends Component {
               <Image
                 className="media-image d-flex mr-3 rounded"
                 fallbackSrc="//placehold.it/120"
-                width={120}
                 src={logo}
                 alt=""
               />
             </Link>
           </div>
           <div className="media-body w-100">
-            <div className="d-flex flex-column justify-content-between mh-110">
+            <div className="d-flex flex-column justify-content-between mh-120">
               <div>
                 <Link
                   to={`/restaurant/${restaurant.slug || uuid}`}
@@ -50,7 +49,7 @@ export default class RestaurantItemPhoto extends Component {
                 {address && <div>{address}</div>}
                 <RestaurantOrderSetting outlet={restaurant} />
               </div>
-              <RestaurantTag className="mt-2" outlet={restaurant} />
+              <RestaurantTag className="my-2" outlet={restaurant} />
             </div>
           </div>
         </div>
