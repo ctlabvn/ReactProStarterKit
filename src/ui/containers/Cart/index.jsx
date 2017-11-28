@@ -114,11 +114,11 @@ export default class extends Component {
       }
     }
 
-    // if(!orderInfo.request_time){
-    //   throw new SubmissionError({
-    //     _error: 'Can not delivery due to time!',
-    //   })
-    // }
+    if (!orderInfo.request_time) {
+      throw new SubmissionError({
+        _error: "Can not delivery due to time!"
+      });
+    }
 
     const orderPrices = calculateOrderPrice(orderItems, orderInfo);
 

@@ -16,6 +16,11 @@ export default class extends Component {
       roundedMinute: this.getRoundedMinute()
     };
 
+    // set default value using onChange
+    if (!props.input.value) {
+      props.input.onChange(this.state.roundedMinute);
+    }
+
     // 1 minute interval
     this.intervalID = setInterval(() => {
       this.setState({
@@ -30,7 +35,7 @@ export default class extends Component {
   }
 
   getMinuteFromStr(value) {
-    if (!value) return null;    
+    if (!value) return null;
     const now = moment(value.time || value, "hh:mm a");
     return now.hour() * 60 + now.minute();
   }
@@ -78,7 +83,7 @@ export default class extends Component {
           <Dropdown
             right={true}
             className="scrollable float-right request-time"
-            title={this.getTimeFormat(now, input.value || roundedMinute)}
+            title={this.getTimeFormat(now, input.value)}
           >
             {children}
           </Dropdown>
