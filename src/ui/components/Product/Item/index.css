@@ -1,0 +1,14 @@
+@import "../../../vars.css";
+
+.restaurant-item-header {
+  font-size: 0.75rem;
+}
+
+.restaurant-item-content {
+  font-size: 0.6875rem;
+  color: $gray-color-400;
+}
+
+.restaurant-item-button .btn-shadow{
+  box-shadow: 3px 5px 20px rgba(0, 0, 0, 0.3);
+}

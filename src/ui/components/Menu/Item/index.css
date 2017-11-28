@@ -2,7 +2,7 @@
 
 .menu-item{
   cursor: pointer;
-  color: $gray-color-300;
+  color: $grey-color;
   padding: 10px 20px;
 
   a{
@@ -15,7 +15,7 @@
 }
 
 .menu-item.selected{
-  color: $black-color;
+  color: $red-color;
 }
 
 .list-group {

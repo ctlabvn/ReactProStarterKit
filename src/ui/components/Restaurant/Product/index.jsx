@@ -39,13 +39,13 @@ export default class RestaurantProduct extends Component {
 		} = this.props;
 		const { term } = this.state;
 		return (
-			<Col md="10" {...props}>
+			<Col {...props}>
 				{Object.keys(products).length > 0 ? (
 					<div>
 						{Object.keys(products).map((item, index) => (
 							<ProductGroup
 								outlet_slug={outlet_slug}
-								className="row"
+								className="row w-100 m-0"
 								name={treeCategoryName[item]}
 								key={index}
 								term={term}

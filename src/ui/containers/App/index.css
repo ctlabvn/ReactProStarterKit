@@ -216,8 +216,8 @@ a:hover {
 .btn-round {
   position: relative;
   border-radius: 50%;
-  height: 35px;
-  width: 35px;
+  height: 30px;
+  width: 30px;
   justify-content: center;
   display: flex;
 }
@@ -341,4 +341,16 @@ a:hover {
 
 .breadcrumb {
   font-size: 0.875rem;
+}
+
+.breadcrumb-item.active {
+  color: $grey-color;
+}
+
+.font-weight-bold {
+  font-weight: 600 !important;
+}
+
+strong {
+  font-weight: 600 !important;
 }
