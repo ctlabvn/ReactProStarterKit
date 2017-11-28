@@ -84,7 +84,7 @@ export default class extends Component {
               <p dangerouslySetInnerHTML={{ __html: outlet.description }} />
             </Readmore>
 
-            <RestaurantTag className="mt-5" outlet={outlet} />
+            <RestaurantTag className="mt-2" outlet={outlet} />
 
             <div className="mt-5 border border-white-300 bg-white w-100 border-right-0 border-left-0 border-bottom-0">
               <Menu className="menu-decorator text-uppercase restaurant-header-menu">
