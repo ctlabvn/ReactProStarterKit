@@ -114,7 +114,7 @@ export default class extends Component {
       }
     }
 
-    if (!orderInfo.request_time) {
+    if (!data.request_time) {
       throw new SubmissionError({
         _error: "Can not delivery due to time!"
       });
