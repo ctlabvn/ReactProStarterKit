@@ -6,7 +6,6 @@ import PhotoGroup from "~/ui/components/PhotoGroup";
 // import Rating from "~/ui/components/Rating";
 import Menu from "~/ui/components/Menu";
 import MenuItem from "~/ui/components/Menu/Item";
-//import RestaurantOrderSetting from "~/ui/components/Restaurant/OrderSetting";
 import RestaurantInfo from "~/ui/components/Restaurant/Info";
 import RestaurantTag from "~/ui/components/Restaurant/Tag";
 import Readmore from "~/ui/components/Readmore";
