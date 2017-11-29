@@ -18,11 +18,13 @@ export default class extends Component {
     image: PropTypes.string,
     price: PropTypes.number,
     priceUnit: PropTypes.string,
-    vat: PropTypes.number
+    vat: PropTypes.number,
+    minQty: PropTypes.number
   };
 
   static defaultProps = {
     vat: 0,
+    minQty: 1,
     priceUnit: "$"
   };
 
@@ -37,6 +39,7 @@ export default class extends Component {
       onDecrease,
       onRemove,
       quantity,
+      minQty,
       options,
       t,
       uuid,
@@ -84,8 +87,11 @@ export default class extends Component {
         </td>
         <td data-title={t("TABLE.QUANTITY")}>
           <div className="d-flex flex-row align-items-center justify-content-center float-md-none float-right">
-            {quantity > 0 && <ButtonRound icon="minus" onClick={onDecrease} />}
-            {quantity > 0 && <span className="ml-2 mr-2">{quantity}</span>}
+            <ButtonRound
+              icon="minus"
+              onClick={quantity > minQty ? onDecrease : null}
+            />
+            <span className="ml-2 mr-2">{quantity}</span>
             <ButtonRound icon="plus" onClick={onIncrease} />
           </div>
         </td>
