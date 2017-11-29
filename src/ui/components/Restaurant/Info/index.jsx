@@ -66,7 +66,7 @@ export default class RestaurantInfo extends Component {
         {displayName && (
           <Link
             className="color-black-300 mr-2 restaurant-info"
-            to={`/restaurant/${outlet.outlet_uuid}`}
+            to={`/${outlet.outlet_uuid}`}
           >
             {outlet.name}
           </Link>

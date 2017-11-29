@@ -38,14 +38,10 @@ const Root = ({ store, history }) => (
           <Route exact path="/cart" component={Cart} />
           <Route exact path="/checkout" component={Checkout} />
           <Route exact path="/restaurant" component={RestaurantListing} />
-          <Route exact path="/restaurant/:outlet_slug" component={Restaurant} />
-          <Route
-            exact
-            path="/restaurant/:outlet_slug/:item_slug"
-            component={Item}
-          />
           <Route path="/customer" component={Customer} />
           <Route exact path="/password-reset" component={PasswordReset} />
+          <Route exact path="/:outlet_slug" component={Restaurant} />
+          <Route exact path="/:outlet_slug/:item_slug" component={Item} />
           <Route component={NotFound} />
         </Switch>
       </App>

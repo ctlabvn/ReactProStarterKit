@@ -79,7 +79,7 @@ export default class extends Component {
           <span className="d-flex d-sm-none justify-content-between align-items-center row">
             <Link
               className="font-weight-bold color-black-300 "
-              to={`/restaurant/${order.outlet.uuid}`}
+              to={`/${order.outlet.uuid}`}
             >
               {order.outlet.name}
             </Link>
@@ -96,7 +96,7 @@ export default class extends Component {
 
           <Link
             className="d-md-block d-none font-weight-bold col-md-4 color-black-300 column"
-            to={`/restaurant/${order.outlet.uuid}`}
+            to={`/${order.outlet.uuid}`}
           >
             {order.outlet.name}
           </Link>
@@ -162,7 +162,7 @@ export default class extends Component {
               <div className="d-flex flex-column mb-4 col-md-3" key={item.id}>
                 <Link
                   className="color-black-300"
-                  to={`/restaurant/${slugify(order.outlet.name)}/${item.id}`}
+                  to={`/${slugify(order.outlet.name)}/${item.id}`}
                 >
                   <Image
                     width="100%"

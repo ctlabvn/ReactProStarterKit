@@ -76,7 +76,7 @@ export default class ProductItem extends Component {
         </div>
 
         <div className="flex-column d-flex ml-3 w-100">
-          <Link to={`/restaurant/${outlet_slug}/${item_slug}`}>
+          <Link to={`/${outlet_slug}/${item_slug}`}>
             <HeadingDouble
               className="color-grey restaurant-item-header"
               leftTitle={<span itemProp="name">{title}</span>}

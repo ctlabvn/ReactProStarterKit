@@ -51,10 +51,7 @@ export default class extends Component {
     return (
       <tr {...props} ref={ref => (this.element = ref)}>
         <th className="card-title pl-md-0" scope="row">
-          <Link
-            to={`/restaurant/${outlet_slug}/${item_slug}`}
-            className="color-black-300"
-          >
+          <Link to={`/${outlet_slug}/${item_slug}`} className="color-black-300">
             <div className="d-flex align-items-center">
               <Image src={image} />
               <span className="ml-2 text-left">{title}</span>

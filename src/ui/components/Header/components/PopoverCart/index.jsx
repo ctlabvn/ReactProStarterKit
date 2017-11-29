@@ -55,8 +55,7 @@ export default class extends Component {
         <div className="d-flex flex-row justify-content-start">
           <Link
             className="flex-column d-flex p-0 align-items-start"
-            to={`/restaurant/${orderInfo.outlet_slug}/${item.slug ||
-              item.item_uuid}`}
+            to={`/${orderInfo.outlet_slug}/${item.slug || item.item_uuid}`}
           >
             <strong className="text-truncate color-black-300">
               {item.name}
@@ -163,8 +162,7 @@ export default class extends Component {
                 {VERSION > 1 && <span>Time</span>}
                 <Link
                   className="font-weight-bold color-black"
-                  to={`/restaurant/${orderInfo.outlet_slug ||
-                    orderInfo.outlet_uuid}`}
+                  to={`/${orderInfo.outlet_slug || orderInfo.outlet_uuid}`}
                 >
                   {orderInfo.restaurant_name || "Restaurant name"}
                 </Link>

@@ -101,8 +101,7 @@ export default class extends Component {
       t("LABEL.ITEM"),
       item => {
         const outlet_slug = item.outlet ? item.outlet.slug : item.outlet_slug;
-        return `/restaurant/${outlet_slug || item.outlet_uuid}/${outlet_slug &&
-        item.slug
+        return `/${outlet_slug || item.outlet_uuid}/${outlet_slug && item.slug
           ? item.slug
           : item.item_uuid}`;
       },
@@ -112,7 +111,7 @@ export default class extends Component {
     const restaurantsResult = this.renderSuggestionResult(
       "outlets",
       t("LABEL.RESTAURANT"),
-      item => `/restaurant/${item.slug || item.outlet_uuid}`,
+      item => `/${item.slug || item.outlet_uuid}`,
       item => item.logo,
       "mt-2"
     );

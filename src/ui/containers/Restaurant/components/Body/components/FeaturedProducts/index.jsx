@@ -47,7 +47,7 @@ export default class extends Component {
         <Slider className="mt-2" num={5} move={1}>
           {features.map((item, index) => (
             <Link
-              to={`/restaurant/${outlet_slug}/${item.slug || item.item_uuid}`}
+              to={`/${outlet_slug}/${item.slug || item.item_uuid}`}
               key={index}
             >
               <ProductItemPhoto
