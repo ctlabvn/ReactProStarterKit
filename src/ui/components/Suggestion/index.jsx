@@ -99,18 +99,19 @@ export default class extends Component {
     const itemsResult = this.renderSuggestionResult(
       "items",
       t("LABEL.ITEM"),
-      item =>
-        `/restaurant/${item.outlet_slug ||
-          item.outlet_uuid}/${item.outlet_slug && item.slug
+      item => {
+        const outlet_slug = item.outlet ? item.outlet.slug : item.outlet_slug;
+        return `/${outlet_slug || item.outlet_uuid}/${outlet_slug && item.slug
           ? item.slug
-          : item.item_uuid}`,
+          : item.item_uuid}`;
+      },
       this.getItemGallery,
       "border-bottom"
     );
     const restaurantsResult = this.renderSuggestionResult(
       "outlets",
       t("LABEL.RESTAURANT"),
-      item => `/restaurant/${item.slug || item.outlet_uuid}`,
+      item => `/${item.slug || item.outlet_uuid}`,
       item => item.logo,
       "mt-2"
     );

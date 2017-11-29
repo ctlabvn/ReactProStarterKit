@@ -27,7 +27,7 @@ export default class RestaurantItemPhoto extends Component {
       <div className="col-sm-6 col-12 my-3" {...props}>
         <div className="media rounded ">
           <div className="w-150">
-            <Link to={`/restaurant/${restaurant.slug || uuid}`}>
+            <Link to={`/${restaurant.slug || uuid}`}>
               <Image
                 className="media-image d-flex mr-3 rounded"
                 fallbackSrc="//placehold.it/120"
@@ -41,7 +41,7 @@ export default class RestaurantItemPhoto extends Component {
             <div className="d-flex flex-column justify-content-between mh-120">
               <div>
                 <Link
-                  to={`/restaurant/${restaurant.slug || uuid}`}
+                  to={`/${restaurant.slug || uuid}`}
                   className="color-black-300"
                 >
                   <h5>{name}</h5>

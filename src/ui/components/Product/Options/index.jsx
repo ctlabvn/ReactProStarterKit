@@ -33,7 +33,7 @@ export default class ProductOptions extends Component {
 
 	static defaultProps = {
 		inline: true,
-		autoClear: true,
+		autoClear: false,
 		checkAll: true
 	};
 

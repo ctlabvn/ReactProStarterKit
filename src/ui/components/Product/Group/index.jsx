@@ -106,10 +106,12 @@ export default class ProductGroup extends Component {
 
     return (
       <div {...props}>
-
-        <strong className="text-uppercase mb-3 color-black-300 col-md-12">
-          {name}
-        </strong>
+        {displayProducts &&
+          !!displayProducts.length && (
+            <strong className="text-uppercase mb-3 color-black-300 col-md-12">
+              {name}
+            </strong>
+          )}
 
         {displayProducts &&
           displayProducts.map((item, index) => (

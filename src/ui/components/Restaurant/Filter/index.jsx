@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { translate } from "react-i18next";
 import PopoverFilterItem from "~/ui/components/PopoverFilterItem";
-import { parseJsonToObject } from "~/store/utils/json";
 
 // component
 // import Dropdown from "~/ui/components/Dropdown";
@@ -15,6 +14,7 @@ import * as authActions from "~/store/actions/auth";
 import * as authSelectors from "~/store/selectors/auth";
 import api from "~/store/api";
 
+import { parseJsonToObject } from "~/utils";
 // import { isMobile } from "~/utils";
 
 @translate("translations")

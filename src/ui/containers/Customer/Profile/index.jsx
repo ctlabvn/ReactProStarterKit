@@ -48,7 +48,13 @@ import { validate } from "./utils";
 })
 export default class extends Component {
   updateCustomer = ({ customer_uuid, name, phone, address }) => {
-    const { token, requestor } = this.props;
+    const { token, requestor, initialValues } = this.props;
+    const deletedAddress = initialValues.address.filter(item =>
+      address.every(
+        oldItem => oldItem.cus_address_uuid !== item.cus_address_uuid
+      )
+    );
+
     requestor(
       "customer/requestUpdateCustomer",
       token,
@@ -57,8 +63,7 @@ export default class extends Component {
       phone
     );
     // update address
-    address.forEach(item => {
-      const { cus_address_uuid, name, address } = item;
+    address.forEach(({ cus_address_uuid, name, address }) => {
       if (cus_address_uuid) {
         requestor(
           "customer/requestUpdateAddress",
@@ -76,6 +81,10 @@ export default class extends Component {
           address
         );
       }
+    });
+    // delete old ones
+    deletedAddress.forEach(({ cus_address_uuid }) => {
+      requestor("customer/requestDeleteAddress", token, cus_address_uuid);
     });
   };
 

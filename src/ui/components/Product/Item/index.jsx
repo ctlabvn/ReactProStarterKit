@@ -9,7 +9,7 @@ import { translate } from "react-i18next";
 import HeadingDouble from "~/ui/components/Heading/Double";
 import ButtonRound from "~/ui/components/Button/Round";
 import Image from "~/ui/components/Image";
-import Truncate from 'react-truncate';
+import Truncate from "react-truncate";
 
 import "./index.css";
 
@@ -44,7 +44,7 @@ export default class ProductItem extends Component {
       quantity,
       currency,
       onIncrease,
-      onDecrease,
+      onDecrease
       //t
     } = this.props;
 
@@ -73,7 +73,7 @@ export default class ProductItem extends Component {
         </div>
 
         <div className="flex-column d-flex ml-3 w-100">
-          <Link to={`/restaurant/${outlet_slug}/${item_slug}`}>
+          <Link to={`/${outlet_slug}/${item_slug}`}>
             <HeadingDouble
               className="color-grey restaurant-item-header"
               leftTitle={<span itemProp="name">{title}</span>}
@@ -98,7 +98,6 @@ export default class ProductItem extends Component {
               <Truncate lines={3} trimWhitespace={true}>
                 {description}
               </Truncate>
-
             </div>
             <div className="pt-3 d-flex flex-column justify-content-between restaurant-item-button">
               {onIncrease && <ButtonRound icon="plus" onClick={onIncrease} />}

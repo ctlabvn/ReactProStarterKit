@@ -1,4 +1,5 @@
 /* eslint-disable */
+import moment from "moment";
 import i18n from "~/i18n";
 
 export const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -80,6 +81,14 @@ export const isRedo = e => {
   );
 };
 
+export const chunk = (array, size) => {
+  const ret = [];
+  for (var i = 0; i < array.length; i += size) {
+    ret.push(array.slice(i, size + i));
+  }
+  return ret;
+};
+
 export const getSelection = el => {
   let start, end, rangeEl, clone;
 
@@ -153,7 +162,7 @@ export const getCurrentLocation = () => {
         }
       );
     } else {
-      alert("Sorry, your browser does not support geolocation services.");
+      console.log("Sorry, your browser does not support geolocation services.");
       defaultCoords(defaultCoords => resolve(defaultCoords));
     }
   });
@@ -163,7 +172,7 @@ export const isValidEmail = values => {
   const errors = {};
   if (!values) return errors;
   if (!values.email) {
-    errors.email = "Enter email";
+    errors.email = i18n.t("LABEL.ENTER_EMAIL");
   } else {
     const email = values.email.trim();
     // no-useless-escape
@@ -171,7 +180,7 @@ export const isValidEmail = values => {
       email.match(
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       ) !== null;
-    if (!test) errors.email = "Email is not valid";
+    if (!test) errors.email = i18n.t("LABEL.INVALID_EMAIL");
   }
   return errors;
 };
@@ -183,7 +192,7 @@ export const isValidPhoneNumber = phone => {
 export const validateLogin = values => {
   const errors = isValidEmail(values);
 
-  if (!values.password) errors.password = "Enter password";
+  if (!values.password) errors.password = i18n.t("LABEL.ENTER_PASSWORD");
 
   return errors;
 };
@@ -257,4 +266,86 @@ export const isUUID = str => {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
     str
   );
+};
+
+export const getTodayString = () => {
+  return moment().format("dddd");
+};
+
+export const parseJsonToObject = (str, defaultValueIfFalse = {}) => {
+  if (!str) {
+    return defaultValueIfFalse;
+  }
+
+  // we will have maximum 2 parse turns
+  try {
+    const result = JSON.parse(str);
+    return typeof result === "object" ? result : JSON.parse(result);
+  } catch (e) {
+    return defaultValueIfFalse;
+  }
+};
+
+export const formatCurrency = (price, symbol = "₫") => {
+  return i18n.t("format.currency", {
+    price: price,
+    symbol: symbol
+  });
+};
+
+export const checkOrderAvailable = outlet => {
+  if (!outlet.online_order_setting) return false;
+  const {
+    do_takeaway,
+    do_delivery,
+    hours_open,
+    published
+  } = outlet.online_order_setting;
+  if (!published || !hours_open) return false;
+
+  if (!do_delivery && !do_takeaway) {
+    return false;
+  }
+  return true;
+};
+
+export const getOrderSetting = outlet => {
+  const metadata = [];
+  const { online_order_setting: setting, currency = {} } = outlet;
+
+  if (setting) {
+    if (setting.do_delivery) {
+      metadata.push(i18n.t("LABEL.DELIVERY"));
+    }
+    if (setting.do_takeaway) {
+      metadata.push(i18n.t("LABEL.TAKEAWAY"));
+    }
+
+    // display this for delivery only
+    if (setting.do_delivery) {
+      if (setting.min_delivery_cost) {
+        metadata.push(
+          i18n.t("LABEL.MIN_ORDER") +
+            " " +
+            formatCurrency(setting.min_delivery_cost, currency.symbol)
+        );
+      }
+      if (setting.max_delivery_cost) {
+        metadata.push(
+          i18n.t("LABEL.MAX_ORDER") +
+            " " +
+            formatCurrency(setting.max_delivery_cost, currency.symbol)
+        );
+      }
+      if (setting.delivery_fee) {
+        metadata.push(
+          i18n.t("LABEL.DELIVERY_FEE") +
+            " " +
+            formatCurrency(setting.delivery_fee, currency.symbol)
+        );
+      }
+    }
+  }
+
+  return metadata;
 };

@@ -1,7 +1,6 @@
 /* eslint-disable */
 import { apiPost, apiGet } from "~/store/api/common";
 
-
 export default {
   /**
   * Logs a user in, returning a promise with `true` when done
@@ -20,7 +19,7 @@ export default {
   login(email, password) {
     return apiPost("/customer/login", {
       email,
-      password,
+      password
     });
   },
 
@@ -28,13 +27,13 @@ export default {
   signup(email, password, extra) {
     return apiPost("/customer/signup", {
       email,
-      password,      
+      password,
       ...extra
     });
   },
 
-  refreshAccessToken(refreshToken) {
-    return apiPost(`/auth/token`, { refreshToken });
+  refreshAccessToken(refresh_token) {
+    return apiPost(`/auth/customer-refresh-token`, { refresh_token });
   },
 
   updateAccount(token, data) {
@@ -46,40 +45,58 @@ export default {
   */
   logout(token) {
     return apiPost("/customer/logout", {
-      token,
+      token
     });
   },
 
-  resetPassword(email){
-    return apiPost('/customer/reset-password', {
-      email,      
+  resetPassword(email) {
+    return apiPost("/customer/reset-password", {
+      email
     });
   },
 
   updateCustomer(token, customer_uuid, name, phone) {
-    return apiPost('/customer', {
-      token,
-      customer_uuid,
-      name,
-      phone,
-    }, 'PUT');
+    return apiPost(
+      "/customer",
+      {
+        token,
+        customer_uuid,
+        name,
+        phone
+      },
+      "PUT"
+    );
   },
 
   addAddress(token, customer_uuid, name, address) {
-    return apiPost('/customer/address', {
+    return apiPost("/customer/address", {
       token,
       customer_uuid,
       name,
-      address,
+      address
     });
   },
 
-  updateAddress(token, cus_address_uuid, name, address){
-    return apiPost('/customer/address', {
-      token,
-      cus_address_uuid,
-      name,
-      address,
-    }, 'PUT');
+  updateAddress(token, cus_address_uuid, name, address) {
+    return apiPost(
+      "/customer/address",
+      {
+        token,
+        cus_address_uuid,
+        name,
+        address
+      },
+      "PUT"
+    );
   },
+
+  deleteAddress(token, cus_address_uuid) {
+    return apiPost(
+      `/customer/address/${cus_address_uuid}`,
+      {
+        token
+      },
+      "DELETE"
+    );
+  }
 };

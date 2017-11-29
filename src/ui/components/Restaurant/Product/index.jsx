@@ -3,39 +3,32 @@
 import React, { Component } from "react";
 // import classNames from "classnames";
 import PropTypes from "prop-types";
-import { translate } from "react-i18next";
+// import { translate } from "react-i18next";
 
 import { Col } from "reactstrap";
 import ProductGroup from "~/ui/components/Product/Group";
 import EmptyResult from "~/ui/components/EmptyResult";
 import IconLoading from "~/ui/components/Loading/icon";
 
-@translate("translations")
+// @translate("translations")
 export default class RestaurantProduct extends Component {
 	static propTypes = {
 		onAddOrder: PropTypes.func
 	};
 
-	//constructor(props) {
-	//	super(props);
-	//	this.state = {
-	//		term: ""
-	//	};
-	//}
-  //
-	//handleKeyUp = ({ target, keyCode }) => {
-	//	this.setState({ term: target.value.trim() });
-	//};
+	constructor(props) {
+		super(props);
+	}
 
 	render() {
 		const {
-			t,
-			i18n,
+			// t,
+			// i18n,
 			products,
 			treeCategoryName,
 			onAddOrder,
 			outlet_slug,
-      term,
+			term,
 			...props
 		} = this.props;
 		return (
