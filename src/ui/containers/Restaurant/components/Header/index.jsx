@@ -16,6 +16,7 @@ import { parseJsonToObject } from "~/store/utils/json";
 import "./index.css";
 import options from "./options";
 
+
 @translate("translations")
 export default class extends Component {
   render() {
@@ -26,21 +27,21 @@ export default class extends Component {
     return (
       <div className="row bg-white box-shadow">
         <div className="restaurant-header-main flex-md-nowrap block d-md-flex flex-row justify-content-between w-100">
-          <div className="pr-md-5 w-100">
+          <div className="pr-md-5 w-100 d-flex flex-column justify-content-between">
             <nav className="breadcrumb text-uppercase color-gray-400 bg-transparent pl-0 p-0">
               <Link
-                className="breadcrumb-item color-gray-400 font-weight-bold"
+                className="breadcrumb-item color-cg-074"
                 to={`/`}
               >
                 {t("LINK.HOME")}
               </Link>
               <Link
-                className="breadcrumb-item color-gray-400 font-weight-bold"
+                className="breadcrumb-item color-cg-074"
                 to={`/restaurant`}
               >
                 {t("LINK.RESTAURANT")}
               </Link>
-              <span className="breadcrumb-item active font-weight-bold">
+              <span className="breadcrumb-item active">
                 {outlet.name}
               </span>
             </nav>
@@ -86,7 +87,7 @@ export default class extends Component {
 
             <RestaurantTag className="mt-4" outlet={outlet} />
 
-            <div className="mt-5 border border-white-300 bg-white w-100 border-right-0 border-left-0 border-bottom-0">
+            <div className="mt-4 border border-white-300 bg-white w-100 border-right-0 border-left-0 border-bottom-0">
               <Menu className="menu-decorator text-uppercase restaurant-header-menu">
                 {options.menuItems.map((item, i) => (
                   <MenuItem

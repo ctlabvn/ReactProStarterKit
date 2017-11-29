@@ -1,6 +1,8 @@
+@import "../../../../vars.css";
+
 .breadcrumb-item + .breadcrumb-item::before {
   font:normal normal normal 14px/1 FontAwesome;
-  color: #ccc;
+  color: $grey-light-color;
   content: "\f105";    
 }
 
@@ -11,10 +13,7 @@
   padding-top:10px;  
 }
 
-.photo-group-large{
-  min-width: 250px;
-  max-height: 250px;
-}
+
 
 .btn-shift-to-menu{
   margin-top: 15px;

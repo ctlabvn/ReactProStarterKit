@@ -5,7 +5,7 @@ import './index.css'
 
 const Breadcrumb = ({categories, onSelected}) => {
   return (
-    <div className="restaurant-body-breadcrumb col-md-6">
+    <div className="restaurant-body-breadcrumb">
       <span className="mx-2 color-red font-weight-bold">{`>`}</span>
       <span className="ml-2 color-red font-weight-bold">SUBCAT1</span>
       <span className="ml-2 color-grey-light font-weight-bold">-</span>

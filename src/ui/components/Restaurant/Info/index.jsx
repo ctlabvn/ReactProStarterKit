@@ -33,9 +33,9 @@ export default class RestaurantInfo extends Component {
     const { t, outlet, displayName, ...props } = this.props;
     const metadata = [];
     if (outlet) {
-      if (outlet.address) {
-        metadata.push(outlet.address);
-      }
+      //if (outlet.address) {
+      //  metadata.push(outlet.address);
+      //}
       if (outlet.phone) {
         metadata.push(outlet.phone);
       }

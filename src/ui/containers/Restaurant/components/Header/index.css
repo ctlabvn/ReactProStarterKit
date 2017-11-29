@@ -2,7 +2,7 @@
 
 .breadcrumb-item + .breadcrumb-item::before {
   font: normal normal normal 14px/1 FontAwesome;
-  color: #ccc;
+  color: $grey-light-color;
   content: "\f105";
   padding-left: 1rem;
   padding-right: 1rem;
@@ -36,6 +36,7 @@
 
 .restaurant-header-menu {
   font-size: 0.75rem;
+  padding-top: 0.75rem;
 }
 
 .restaurant-header-main {
@@ -61,3 +62,17 @@
     background-color: $grey-light-color;
   }
 }
+
+@media (min-width: 768px) {
+  .restaurant-header-main .photo-group-large {
+    min-width: 20vw;
+    max-height: 20vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .restaurant-header-main .photo-group-large {
+    max-height: 100%;
+  }
+}
+

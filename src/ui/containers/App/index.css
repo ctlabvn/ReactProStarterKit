@@ -3,6 +3,7 @@
 body {
   font-family: Montserrat, Roboto, sans-serif;
   background-color: #fafafa;
+  font-weight: 500;
 }
 
 button a {
@@ -100,7 +101,15 @@ a:hover {
   color: $grey-dark-color;
 }
 
+.color-cg-020 {
+  color: $grey-dark-color;
+}
+
 .color-grey {
+  color: $grey-color;
+}
+
+.color-cg-040 {
   color: $grey-color;
 }
 
@@ -108,11 +117,63 @@ a:hover {
   color: $grey-light-color;
 }
 
+.color-cg-074 {
+  color: $grey-light-color;
+}
+
 .color-grey-white {
   color: $grey-white-color;
 }
 
+.color-cg-078 {
+  color: $grey-white-color;
+}
+
 .color-blue-light {
+  color: $blue-light-color;
+}
+
+.color-c-130 {
+  color: $blue-light-color;
+}
+
+.color-grey-white-2 {
+  color: $grey-white-2-color;
+}
+
+.color-cg-086 {
+  color: $grey-white-2-color;
+}
+
+.color-grey-white-ultra {
+  color: $grey-white-ultra-color;
+}
+
+.color-cg-092 {
+  color: $grey-white-ultra-color;
+}
+
+.color-white-grey {
+  color: $white-grey-color;
+}
+
+.color-cg-097 {
+  color: $white-grey-color;
+}
+
+.color-c-100 {
+  color: $red-color;
+}
+
+.color-c-110 {
+  color: $green-color;
+}
+
+.color-c-120 {
+  color: $yellow-color;
+}
+
+.color-c-130 {
   color: $blue-light-color;
 }
 
@@ -237,7 +298,7 @@ a:hover {
 
 .block {
   border-radius: 0px !important;
-  padding: 30px !important;
+  padding: 24px !important;
 }
 
 .box-shadow {
@@ -353,4 +414,13 @@ a:hover {
 
 strong {
   font-weight: 600 !important;
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 100%;
+    padding-right: 10.5rem;
+    padding-left: 10.5rem;
+    margin-top: 3rem;
+  }
 }

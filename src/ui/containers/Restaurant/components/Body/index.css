@@ -5,6 +5,15 @@
   font-size: 0.75rem;
 }
 
+@media (min-width: 768px) {
+  .restaurant-cat{
+    -ms-flex: 0 0 10%;
+    flex: 0 0 10%;
+    max-width: 10%;
+  }
+}
+
+
 .restaurant-body-search input::-webkit-input-placeholder {
   font-size: 0.625rem;
   font-weight: 500 !important;
@@ -28,6 +37,20 @@
   font-weight: 500 !important;
   color: $grey-light-color;
 }
+.restaurant-body-search {
+  height: 2.25rem;
+}
+
+@media (min-width: 768px){
+  .restaurant-body-search {
+    -ms-flex: 0 0 63%;
+    flex: 0 0 63%;
+    max-width: 63%;
+    position: relative;
+    top: -3rem;
+  }
+}
+
 
 .restaurant-body-content .col-md-6 {
   padding-right: 0;

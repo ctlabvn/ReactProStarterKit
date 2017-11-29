@@ -2,6 +2,7 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import SquareImage from "~/ui/components/SquareImage";
 
 import classNames from "classnames";
 
@@ -13,22 +14,22 @@ export default class PhotoGroup extends Component {
   };
 
   renderOne(image) {
-    return <img src={image} alt="" width="100%" height="100%" />;
+    return <SquareImage src={image} alt="" width="100%" height="100%" />;
   }
 
   renderTwo(images) {
     return [
-      <img src={images[0]} key={0} alt="" height="50%" />,
-      <img src={images[1]} key={1} alt="" height="50%" />
+      <SquareImage src={images[0]} key={0} alt="" height="50%" />,
+      <SquareImage src={images[1]} key={1} alt="" height="50%" />
     ];
   }
 
   renderThree(images) {
     return [
-      <img src={images[0]} key={0} alt="" className="h-50 align-self-stretch" />,
+      <SquareImage src={images[0]} key={0} alt="" className="h-50 align-self-stretch" />,
       <div className="d-flex flex-row h-50" key={1}>
-        <img src={images[1]} alt="" className="w-50 align-self-stretch" />
-        <img src={images[2]} alt="" className="w-50 align-self-stretch" />
+        <SquareImage src={images[1]} alt="" className="w-50 align-self-stretch" />
+        <SquareImage src={images[2]} alt="" className="w-50 align-self-stretch" />
       </div>
     ];
   }
@@ -36,12 +37,12 @@ export default class PhotoGroup extends Component {
   renderFour(images) {
     return [
       <div className="d-flex flex-row h-50" key={0}>
-        <img src={images[0]} alt="" className="w-50 align-self-stretch" />
-        <img src={images[1]} alt="" className="w-50 align-self-stretch" />
+        <SquareImage src={images[0]} alt="" className="w-50 align-self-stretch" />
+        <SquareImage src={images[1]} alt="" className="w-50 align-self-stretch" />
       </div>,      
       <div className="d-flex flex-row h-50" key={1}>
-        <img src={images[2]} alt="" className="w-50 align-self-stretch" />
-        <img src={images[3]} alt="" className="w-50 align-self-stretch" />
+        <SquareImage src={images[2]} alt="" className="w-50 align-self-stretch" />
+        <SquareImage src={images[3]} alt="" className="w-50 align-self-stretch" />
       </div>
     ];
   }

@@ -12,3 +12,24 @@
 .restaurant-item-button .btn-shadow{
   box-shadow: 3px 5px 20px rgba(0, 0, 0, 0.3);
 }
+
+@media (min-width: 768px) {
+  .restaurant-item-button button {
+    min-width: 2.5vw;
+    min-height: 2.5vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .restaurant-item-button button {
+    max-height: 100%;
+  }
+}
+
+.restaurant-product-item-image {
+  /*border: 2px solid $grey-white-color;*/
+  border-radius:50%;
+  width: 100px;
+  -webkit-box-shadow: 3px 5px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 3px 5px 20px rgba(0, 0, 0, 0.1);
+}

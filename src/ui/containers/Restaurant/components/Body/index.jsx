@@ -277,10 +277,15 @@ export default class extends Component {
 
             <div className="col p-0 restaurant-body-content">
               <div className="row mx-0 restaurant-body-input">
-                <Breadcrumb
-                  categories={showCategories}
-                  onSelected={this.onSelectBreadcrumb}
-                />
+
+                <div className="col-md-6">
+                  {/*
+                   <Breadcrumb
+                   categories={showCategories}
+                   onSelected={this.onSelectBreadcrumb}
+                   />
+                   */}
+                </div>
 
                 <div className="mt-2 mt-md-0 d-md-flex flex-row-reverse form-group col-md-6 pull-right mt-0">
                   <div className="input-group restaurant-body-search">

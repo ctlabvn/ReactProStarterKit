@@ -58,12 +58,14 @@ export default class ProductItem extends Component {
       >
         <div
           style={{
-            width: imageSize,
-            height: imageSize
+            minWidth: "4.5rem",
+            width: "15%",
+            height: "auto"
           }}
         >
           <Image
-            style={{ maxWidth: "4.5rem", maxHeight: "4.5rem", alignSelf: "center",  borderRadius: "50%"}}
+            className="restaurant-product-item-image"
+            style={{ width: "100%", height: "auto", alignSelf: "center",  borderRadius: "50%"}}
             itemProp="image"
             src={image}
             alt=""
