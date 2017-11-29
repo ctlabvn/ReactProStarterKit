@@ -328,8 +328,8 @@ a:hover {
 
 .map-background {
   background-image: url(/images/background.png);
-  background-size: contain;
-  background-repeat: repeat;
+  background-size: 100% auto;
+  background-repeat: repeat-y;
   margin-top: -30px;
   padding-top: 20px;
   padding-bottom: 20px;

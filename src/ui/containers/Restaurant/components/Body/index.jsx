@@ -42,8 +42,6 @@ export default class extends Component {
       categories: [],
       isLoadingItem: false
     };
-    this.treeCategoryName = {};
-    this.treeCategory = {};
   }
 
   handleCategory = parentCategory => {
@@ -91,6 +89,20 @@ export default class extends Component {
     this.addItemValidator.handleAddOrderItem(item, item_options);
   };
 
+  loadCategories = async outlet_uuid => {
+    this.treeCategoryName = {};
+    this.treeCategory = {};
+    let categories = [];
+
+    const ret = await this.getAllCategories(outlet_uuid);
+    if (ret) {
+      categories = ret.data;
+    }
+    console.log(categories);
+    // bind data
+    this.setState({ categories });
+  };
+
   getAllCategories(outlet_uuid) {
     const { requestor, setToast } = this.props;
     return new Promise((resolve, reject) => {
@@ -105,21 +117,15 @@ export default class extends Component {
     });
   }
 
-  loadCategories = async () => {
-    let categories = [];
-    const { outlet } = this.props;
-
-    const ret = await this.getAllCategories(outlet.outlet_uuid);
-    if (ret) {
-      categories = ret.data;
-    }
-    console.log(categories);
-    // bind data
-    this.setState({ categories });
-  };
-
   componentDidMount() {
-    this.loadCategories();
+    const { outlet } = this.props;
+    this.loadCategories(outlet.outlet_uuid);
+  }
+
+  componentWillReceiveProps({ outlet }) {
+    if (this.props.outlet !== outlet) {
+      this.loadCategories(outlet.outlet_uuid);
+    }
   }
 
   onSelectBreadcrumb(category_uuid) {

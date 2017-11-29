@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import classNames from "classnames";
+// import classNames from "classnames";
 import { Helmet } from "react-helmet";
+
+import { TabContent, TabPane } from "reactstrap";
 
 // elements
 import Header from "./components/Header";
@@ -34,34 +36,10 @@ export default class extends Component {
       outlet: null,
       tabID: "restaurant-body"
     };
-
-    this.tabContent = {};
-  }
-
-  getTabContent(tabID, outlet) {
-    const { outlet_slug } = this.props.match.params;
-    switch (tabID) {
-      case "restaurant-body":
-        return (
-          <Body outlet_slug={outlet.slug || outlet_slug} outlet={outlet} />
-        );
-      default:
-        return (
-          <Detail outlet_slug={outlet.slug || outlet_slug} outlet={outlet} />
-        );
-    }
-  }
-
-  initTabContent(tabID, outlet, forceUpdate = false) {
-    if (!this.tabContent[tabID]) {
-      this.tabContent[tabID] = this.getTabContent(tabID, outlet);
-      forceUpdate && this.forceUpdate();
-    }
   }
 
   handleSelectTab = tabID => {
     this.setState({ tabID });
-    this.initTabContent(tabID, this.state.outlet, true);
   };
 
   componentWillMount() {
@@ -70,7 +48,6 @@ export default class extends Component {
   }
 
   loadOutlet(outlet_slug) {
-    const { tabID } = this.state;
     const { requestor, setToast } = this.props;
     requestor("restaurant/getOutlet", outlet_slug, (err, ret) => {
       if (err) {
@@ -78,7 +55,6 @@ export default class extends Component {
         setToast(message, "danger");
         this.setState({ outlet: {} });
       } else if (ret) {
-        this.initTabContent(tabID, ret.data);
         this.setState({ outlet: ret.data });
       }
     });
@@ -103,6 +79,8 @@ export default class extends Component {
       return <EmptyResult />;
     }
 
+    const outlet_slug = outlet.slug || this.props.match.params.outlet_slug;
+
     return (
       <div className="map-background">
         <Helmet>
@@ -120,16 +98,20 @@ export default class extends Component {
             onSelectItem={this.handleSelectTab}
           />
 
-          {Object.keys(this.tabContent).map(key => (
-            <div
-              key={key}
-              className={classNames("row block box-shadow bg-white mb-4 mt-5", {
-                hidden: key !== tabID
-              })}
+          <TabContent activeTab={tabID}>
+            <TabPane
+              className="row block box-shadow bg-white mb-4 mt-5"
+              tabId="restaurant-body"
             >
-              {this.tabContent[key]}
-            </div>
-          ))}
+              <Body outlet_slug={outlet_slug} outlet={outlet} />
+            </TabPane>
+            <TabPane
+              className="row block box-shadow bg-white mb-4 mt-5"
+              tabId="restaurant-detail"
+            >
+              <Detail outlet_slug={outlet_slug} outlet={outlet} />
+            </TabPane>
+          </TabContent>
 
           {/*<Footer outlet={outlet} />*/}
         </div>
