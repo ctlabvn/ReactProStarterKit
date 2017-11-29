@@ -55,7 +55,7 @@ export default class extends Component {
 						</Link>
 						<Link
 							className="breadcrumb-item color-gray-400"
-							to={`/restaurant/${item.outlet_uuid}`}
+							to={`/restaurant/${outlet.slug || item.outlet_uuid}`}
 						>
 							{outlet.name}
 						</Link>
