@@ -29,12 +29,12 @@ export default class RestaurantInfo extends Component {
   };
 
   render() {
-    const { t, outlet, displayName, ...props } = this.props;
-    const metadata = [];
+    const { t, i18n, outlet, displayName, ...props } = this.props;
+    let metadata = [];
     if (outlet) {
-      if (outlet.address) {
-        metadata.push(outlet.address);
-      }
+      // if (outlet.address) {
+      //   metadata.push(outlet.address);
+      // }
       if (outlet.phone) {
         metadata.push(outlet.phone);
       }
@@ -58,32 +58,27 @@ export default class RestaurantInfo extends Component {
       }
 
       // get order setting string
-      metadata.concat(getOrderSetting(outlet));
+      metadata = metadata.concat(getOrderSetting(outlet));
     }
 
     return (
-      <div>
-        <span className="restaurant-info" {...props}>
-          {displayName && (
-            <Link
-              className="color-black-300 mr-2"
-              to={`/restaurant/${outlet.outlet_uuid}`}
-            >
-              {outlet.name}
-            </Link>
-          )}
-        </span>
+      <div {...props}>
+        {displayName && (
+          <Link
+            className="color-black-300 mr-2 restaurant-info"
+            to={`/restaurant/${outlet.outlet_uuid}`}
+          >
+            {outlet.name}
+          </Link>
+        )}
+
         {metadata.map((item, i) => [
           displayName || i !== 0 ? (
             <span key="seperate" className="color-grey restaurant-info mr-2">
               |
             </span>
           ) : null,
-          <span
-            key="content"
-            className="color-grey restaurant-info mr-2"
-            {...props}
-          >
+          <span key="content" className="color-grey restaurant-info mr-2">
             {item}
           </span>
         ])}
