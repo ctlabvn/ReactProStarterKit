@@ -10,7 +10,7 @@ import RestaurantInfo from "~/ui/components/Restaurant/Info";
 import RestaurantTag from "~/ui/components/Restaurant/Tag";
 import Readmore from "~/ui/components/Readmore";
 import Image from "~/ui/components/Image";
-import { parseJsonToObject } from "~/store/utils/json";
+import { parseJsonToObject } from "~/utils";
 
 import "./index.css";
 import options from "./options";

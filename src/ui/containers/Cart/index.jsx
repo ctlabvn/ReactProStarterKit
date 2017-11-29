@@ -41,10 +41,15 @@ import * as orderActions from "~/store/actions/order";
 import { GOOGLE_API_KEY } from "~/store/constants/api";
 import { fetchJson } from "~/store/api/common";
 import { history } from "~/store";
-import { validate } from "./utils";
-import { parseJsonToObject } from "~/store/utils/json";
 
-import { ORDER_TYPE, calculateOrderPrice, getCurrentLocation } from "~/utils";
+import {
+  ORDER_TYPE,
+  parseJsonToObject,
+  calculateOrderPrice,
+  getCurrentLocation
+} from "~/utils";
+
+import { validate } from "./utils";
 
 import "./index.css";
 

@@ -27,9 +27,7 @@ import * as commonActions from "~/store/actions/common";
 // import api from "~/store/api";
 import "./index.css";
 
-import { checkOrderAvailable } from "~/store/utils/validation/restaurant";
-
-import { extractMessage, isMobile } from "~/utils";
+import { extractMessage, isMobile, checkOrderAvailable } from "~/utils";
 
 @translate("translations")
 @connect(null, commonActions)

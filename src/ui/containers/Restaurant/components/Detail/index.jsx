@@ -6,19 +6,11 @@ import { translate } from "react-i18next";
 // import api from "~/store/api";
 import { Marker } from "react-google-maps";
 import GoogleMapKey from "~/ui/components/GoogleMapKey";
-import { parseJsonToObject } from "~/store/utils/json";
+import { formatCurrency, parseJsonToObject } from "~/utils";
 import "./index.css";
 
 @translate("translations")
 export default class extends Component {
-	formatCurrency = (price, symbol = "₫") => {
-		const { t } = this.props;
-		return t("format.currency", {
-			price: price,
-			symbol: symbol
-		});
-	};
-
 	initGmap = ref => {
 		this.googleMap = ref;
 		this.Maps = window.google.maps;
@@ -66,7 +58,7 @@ export default class extends Component {
 			outlet.online_order_setting && outlet.online_order_setting.hours_delivery
 				? parseJsonToObject(outlet.online_order_setting.hours_delivery)
 				: false;
-
+		const symbol = outlet.currency ? outlet.currency.symbol : undefined;
 		return (
 			<div className="w-100">
 				{outlet.online_order_setting &&
@@ -76,7 +68,10 @@ export default class extends Component {
 								<span className="font-weight-bold">{t("LABEL.FEES")}</span>
 							</h3>
 							<p>
-								{this.formatCurrency(outlet.online_order_setting.delivery_fee)}
+								{formatCurrency(
+									outlet.online_order_setting.delivery_fee,
+									symbol
+								)}
 							</p>
 						</div>
 					)}
@@ -91,14 +86,16 @@ export default class extends Component {
 						<ul>
 							<li>
 								<i className="fa fa-arrow-down" />{" "}
-								{this.formatCurrency(
-									outlet.online_order_setting.min_delivery_cost
+								{formatCurrency(
+									outlet.online_order_setting.min_delivery_cost,
+									symbol
 								)}
 							</li>
 							<li>
 								<i className="fa fa-arrow-up" />{" "}
-								{this.formatCurrency(
-									outlet.online_order_setting.max_delivery_cost
+								{formatCurrency(
+									outlet.online_order_setting.max_delivery_cost,
+									symbol
 								)}
 							</li>
 						</ul>

@@ -17,7 +17,7 @@ import AddItemValidator from "~/ui/components/AddItemValidator";
 
 import "./index.css";
 import options from "./options";
-import { checkOrderAvailable } from "~/store/utils/validation/restaurant";
+import { checkOrderAvailable } from "~/utils";
 
 @translate("translations")
 export default class extends Component {

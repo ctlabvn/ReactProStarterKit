@@ -10,17 +10,15 @@ import Rating from "~/ui/components/Rating";
 import HeadingDouble from "~/ui/components/Heading/Double";
 import Slider from "~/ui/components/Slider";
 
-import { chunk } from "~/store/utils/array";
+import { chunk } from "~/utils";
 
 import options from "./options";
 import "./index.css";
 
-@translate('translations')
-export default class extends Component {  
-
+@translate("translations")
+export default class extends Component {
   render() {
-    
-    const {t} = this.props;
+    const { t } = this.props;
     const commentsChunk = chunk(options.comments, 3);
 
     return (
@@ -37,7 +35,7 @@ export default class extends Component {
 
         <div className="col-md-6 pr-0">
           <h3 className="font-largest color-black text-uppercase font-weight-bold">
-            {t('latest')}
+            {t("latest")}
           </h3>
 
           <Slider num={2} className="slider-comment">
