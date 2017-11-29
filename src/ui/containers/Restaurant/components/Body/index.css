@@ -5,10 +5,28 @@
   font-size: 0.75rem;
 }
 
-.restaurant-body-input {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  padding-top: 0 !important;
+.restaurant-body-search input::-webkit-input-placeholder {
+  font-size: 0.625rem;
+  font-weight: 500 !important;
+  color: $grey-light-color;
+}
+
+.restaurant-body-search input::-moz-placeholder {
+  font-size: 0.625rem;
+  font-weight: 500 !important;
+  color: $grey-light-color;
+}
+
+.restaurant-body-search input:-ms-input-placeholder {
+  font-size: 0.625rem;
+  font-weight: 500 !important;
+  color: $grey-light-color;
+}
+
+.restaurant-body-search input:-moz-placeholder {
+  font-size: 0.625rem;
+  font-weight: 500 !important;
+  color: $grey-light-color;
 }
 
 .restaurant-body-content .col-md-6 {
@@ -18,4 +36,8 @@
 .restaurant-cat .menu-item {
   padding: 0;
   padding-bottom: 0.75rem;
+}
+
+.restaurant-body-search {
+  width: 312px;
 }

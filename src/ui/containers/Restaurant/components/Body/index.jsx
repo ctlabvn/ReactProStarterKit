@@ -80,7 +80,7 @@ export default class extends Component {
     );
   };
 
-  handleKeyUp = ({ target, keyCode }) => {
+  handleSearchKeyUp = ({ target, keyCode }) => {
     const term = target.value.trim();
     if (term !== this.state.term) {
       this.setState({ term });
@@ -163,8 +163,6 @@ export default class extends Component {
         }
       });
 
-      console.log("---------------- ", products);
-
       return (
         <div className="w-100">
           {/*
@@ -198,22 +196,24 @@ export default class extends Component {
             </Menu>
 
             <div className="col p-0 restaurant-body-content">
-              <div className="block restaurant-body-input">
-                <div className="form-group col-md-6 pull-right mt-0">
-                  <div className="input-group">
-                    <input
-                      className="form-control"
-                      onKeyUp={this.handleKeyUp}
-                    />
-                    <span className="input-group-addon">
-                      <i className="fa fa-search" />
-                    </span>
-                  </div>
-                </div>
+              <div className="row mx-0 restaurant-body-input">
                 <Breadcrumb
                   categories={showCategories}
                   onSelected={this.onSelectBreadcrumb}
                 />
+
+                <div className="mt-2 mt-md-0 d-md-flex flex-row-reverse form-group col-md-6 pull-right mt-0">
+                  <div className="input-group restaurant-body-search">
+                    <input
+                      className="form-control"
+                      placeholder={t("PLACEHOLDER.TYPE_YOUR_SEARCH")}
+                      onKeyUp={this.handleSearchKeyUp}
+                    />
+                    <span className="input-group-addon px-4">
+                      <i className="fa fa-search color-red" />
+                    </span>
+                  </div>
+                </div>
               </div>
 
               {isLoadingItem ? (

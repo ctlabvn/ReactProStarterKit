@@ -55,3 +55,9 @@
 .restaurant-name {
   font-size: 1.5625rem;
 }
+
+.restaurant-tags {
+  .badge-secondary {
+    background-color: $grey-light-color;
+  }
+}
