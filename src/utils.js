@@ -153,7 +153,7 @@ export const getCurrentLocation = () => {
         }
       );
     } else {
-      alert("Sorry, your browser does not support geolocation services.");
+      console.log("Sorry, your browser does not support geolocation services.");
       defaultCoords(defaultCoords => resolve(defaultCoords));
     }
   });
@@ -163,7 +163,7 @@ export const isValidEmail = values => {
   const errors = {};
   if (!values) return errors;
   if (!values.email) {
-    errors.email = "Enter email";
+    errors.email = i18n.t("LABEL.ENTER_EMAIL");
   } else {
     const email = values.email.trim();
     // no-useless-escape
@@ -171,7 +171,7 @@ export const isValidEmail = values => {
       email.match(
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       ) !== null;
-    if (!test) errors.email = "Email is not valid";
+    if (!test) errors.email = i18n.t("LABEL.INVALID_EMAIL");
   }
   return errors;
 };
@@ -183,7 +183,7 @@ export const isValidPhoneNumber = phone => {
 export const validateLogin = values => {
   const errors = isValidEmail(values);
 
-  if (!values.password) errors.password = "Enter password";
+  if (!values.password) errors.password = i18n.t("LABEL.ENTER_PASSWORD");
 
   return errors;
 };
