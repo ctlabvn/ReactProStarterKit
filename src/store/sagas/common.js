@@ -1,101 +1,121 @@
-import { call, put, take, race, takeEvery, takeLatest } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
+import {
+  call,
+  put,
+  take,
+  race,
+  takeEvery,
+  takeLatest
+} from "redux-saga/effects";
+import { delay } from "redux-saga";
 
-import { 
+import {
   markRequestPending,
   markRequestSuccess,
   markRequestCancelled,
   markRequestFailed,
   invokeCallback,
   setToast,
-  forwardTo,
-} from '~/store/actions/common'
+  forwardTo
+} from "~/store/actions/common";
 
 import {
   saveRefreshToken,
-  setAuthState,     
-  removeLoggedUser,  
-} from '~/store/actions/auth'
+  setAuthState,
+  removeLoggedUser
+} from "~/store/actions/auth";
 
-import api from '~/store/api'
-import {  
-  API_TIMEOUT
-} from '~/store/constants/api'
+import api from "~/store/api";
+import { API_TIMEOUT } from "~/store/constants/api";
+import { store } from "~/store";
+
+import i18n from "~/i18n";
 
 function UnauthorizedException(message) {
-   this.status = 401
-   this.message = message
-   this.toString = function() {
-      return this.value + this.message
-   }
+  this.status = 401;
+  this.message = message;
+  this.toString = function() {
+    return this.value + this.message;
+  };
 }
-
 
 // create saga here
 // convenient way: [] instead of polymorph, such as item is not array then [item]
 // because later changes to code will be so easy, just add new row
-export const createRequestSaga = ({request, key, start, stop, success, failure, cancelled, timeout=API_TIMEOUT, cancel}) => {
-  
+export const createRequestSaga = ({
+  request,
+  key,
+  start,
+  stop,
+  success,
+  failure,
+  cancelled,
+  timeout = API_TIMEOUT,
+  cancel
+}) => {
   // when we dispatch a function, redux-thunk will give it a dispatch
   // while redux-saga will give it an action instead, good for testing
   // we may not needs this if we use redux-saga, of course we can use both
-  return function* (action) {    
+  return function*(action) {
     // default is empty
-    let args = action.args || []
+    let args = action.args || [];
     // check to see if we have success callback that pass as a param, so that it will be callback from where it was born
-    // with this way we can make something like cleaning the messages    
-    let callback = typeof args[args.length-1] === 'function' ? args[args.length-1] : null
-    if(callback){
-      args = args.slice(0, -1)
+    // with this way we can make something like cleaning the messages
+    let callback =
+      typeof args[args.length - 1] === "function"
+        ? args[args.length - 1]
+        : null;
+    if (callback) {
+      args = args.slice(0, -1);
     }
     // error first callback
-    let ret = null
-    let err = null
+    let ret = null;
+    let err = null;
 
     // store into redux, default key is action type for unique name
-    const requestKey = (typeof key === 'function') ? key(...args) : (key || action.type)
+    const requestKey =
+      typeof key === "function" ? key(...args) : key || action.type;
     // for key, we render unique key using action.args
     // but for actionCreator when callback, we should pass the whole action
-    // so on event such as success, we can use action.type or action.args to 
-    // do next, example: addBook => success : (data, {args:[token]}) => loadBooks(token) 
-    if(start) for(let actionCreator of start){      
-      yield put(actionCreator())
-    }    
+    // so on event such as success, we can use action.type or action.args to
+    // do next, example: addBook => success : (data, {args:[token]}) => loadBooks(token)
+    if (start)
+      for (let actionCreator of start) {
+        yield put(actionCreator());
+      }
     // mark pending
-    yield put(markRequestPending(requestKey))        
+    yield put(markRequestPending(requestKey));
     try {
-
       // this is surely Error exception, assume as a request failed
-      if(!request){
-        throw new Error("Api method not found!!!")
+      if (!request) {
+        throw new Error(i18n.t("LABEL.API_NOT_FOUND"));
       }
 
       // we do not wait forever for whatever request !!!
-      // timeout is 0 mean default timeout, so default is 0 in case user input 0 
+      // timeout is 0 mean default timeout, so default is 0 in case user input 0
       let raceOptions = {
         data: call(request, ...args),
         isTimeout: call(delay, timeout)
+      };
+
+      if (cancel) {
+        raceOptions.cancelRet = take(cancel);
       }
 
-      if(cancel) {
-        raceOptions.cancelRet = take(cancel)
-      }
+      const { data, isTimeout, cancelRet } = yield race(raceOptions);
 
-      const{data, isTimeout, cancelRet} = yield race(raceOptions)
-      
-      if(isTimeout){
-        throw new Error(`Api method is timeout after ${timeout} ms!!!`)
-      } else if(cancelRet){
+      if (isTimeout) {
+        throw new Error(i18n.t("LABEL.API_TIMEOUT", { timeout }));
+      } else if (cancelRet) {
         // callback on success
-        if(cancelled) for(let actionCreator of cancelled){          
-          yield put(actionCreator(cancelRet, action))
-        }
+        if (cancelled)
+          for (let actionCreator of cancelled) {
+            yield put(actionCreator(cancelRet, action));
+          }
         // mark cancelled request
-        yield put(markRequestCancelled(cancelRet, requestKey))
+        yield put(markRequestCancelled(cancelRet, requestKey));
       } else {
-
-        if(data.error){          
-          switch(data.error){
+        if (data.error) {
+          switch (data.error) {
             case "token_expired":
               // throw unthorized response, need translate ?
               throw new UnauthorizedException(data.error);
@@ -105,63 +125,68 @@ export const createRequestSaga = ({request, key, start, stop, success, failure, 
         }
 
         // callback on success
-        if(success) for(let actionCreator of success){          
-          yield put(actionCreator(data, action))
-        }                
+        if (success)
+          for (let actionCreator of success) {
+            yield put(actionCreator(data, action));
+          }
         // finally mark the request success
-        yield put(markRequestSuccess(requestKey))
+        yield put(markRequestSuccess(requestKey));
 
         // assign data, for cancel both ret and err is null
-        ret = data
-
-      }            
-      
+        ret = data;
+      }
     } catch (reason) {
       // unauthorized
-      if(reason.status === 401){
+      if (reason.status === 401) {
         // try refresh token
-        const token = action.args[0]
+        const refreshToken = store.getState().auth.refresh_token;
         // catch exception is safer than just read response status
-        if(token && token.refreshToken){
+        if (refreshToken) {
           // tell user to wait, no need to catch for more errors this step!!!
-          yield put(setToast('Refreshing token... You should reload page for sure!'))
+          yield put(setToast(i18n.t("LABEL.REFRESH_TOKEN")));
           // try refresh token, then reload page ?
-          const { token: newToken } = yield call(api.auth.refreshAccessToken, token.refreshToken)          
-          // it can return more such as user info, expired date ?            
-          // call action creator to update        
-          yield put(saveRefreshToken(newToken))
+          const { data: newToken } = yield call(
+            api.auth.refreshAccessToken,
+            refreshToken
+          );
+          // it can return more such as user info, expired date ?
+          // call action creator to update
+          yield put(saveRefreshToken(newToken));
         } else {
           // call logout user because we do not have refresh token
-          yield put(setToast('Token expired, please login again!'))
-          yield put(removeLoggedUser())
-          yield put(setAuthState(false))       
-          yield put(forwardTo('/'))          
+          yield put(setToast(i18n.t("LABEL.TOKEN_EXPIRED")));
+          yield put(removeLoggedUser());
+          yield put(setAuthState(false));
+          yield put(forwardTo("/"));
         }
       }
-      // anyway, we should treat this as error to log      
-      if(failure) for(let actionCreator of failure){          
-        yield put(actionCreator(reason, action))
-      }        
-      yield put(markRequestFailed(reason, requestKey))
+      // anyway, we should treat this as error to log
+      if (failure)
+        for (let actionCreator of failure) {
+          yield put(actionCreator(reason, action));
+        }
+      yield put(markRequestFailed(reason, requestKey));
 
       // mark error
-      err = reason      
-      
+      err = reason;
     } finally {
-      if(stop) for(let actionCreator of stop){          
-        yield put(actionCreator(ret, action))
-      } 
+      if (stop)
+        for (let actionCreator of stop) {
+          yield put(actionCreator(ret, action));
+        }
       // check if the last param is action, should call it as actionCreator
-      // from where it is called, we can access action[type and args], 
+      // from where it is called, we can access action[type and args],
       // so we will use it with first error callback style
-      if(callback) {
-        yield put(invokeCallback(callback, err, ret))        
-      } 
+      if (callback) {
+        yield put(invokeCallback(callback, err, ret));
+      }
     }
-  }
-}
+  };
+};
 
-export const takeRequest = (signal, request, multiple=false)=>{
-  const requestSaga = createRequestSaga({request});
-  return multiple ? takeEvery(signal, requestSaga) : takeLatest(signal, requestSaga);
-}
+export const takeRequest = (signal, request, multiple = false) => {
+  const requestSaga = createRequestSaga({ request });
+  return multiple
+    ? takeEvery(signal, requestSaga)
+    : takeLatest(signal, requestSaga);
+};

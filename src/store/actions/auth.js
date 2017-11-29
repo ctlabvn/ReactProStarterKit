@@ -4,54 +4,57 @@
  * Sets the authentication state of the application
  * @param  {boolean} newAuthState True means a user is logged in, false means no user is logged in
  */
-export const setAuthState = (newAuthState) => ({
-  type: 'app/setAuthState',
-  payload: newAuthState, 
-})
+export const setAuthState = newAuthState => ({
+  type: "app/setAuthState",
+  payload: newAuthState
+});
 
-
-export const saveLoggedUser = (data) => ({
-  type: 'app/saveLoggedUser',
-  payload: data,
-})
+export const saveLoggedUser = data => ({
+  type: "app/saveLoggedUser",
+  payload: data
+});
 
 // data: {accessToken...}
-export const saveRefreshToken = (data) => ({
-  type: 'app/saveRefreshToken',
-  payload: data,
-})
+export const saveRefreshToken = data => ({
+  type: "app/saveRefreshToken",
+  payload: data
+});
 
 /**
  * Tells the app we want to log out a user
  */
 export const removeLoggedUser = () => ({
-  type: 'app/removeLoggedUser',  
-})
-
-
-export const updateConfig = (key, value) => ({
-	type: 'app/updateConfig',
-	payload: {key, value}
+  type: "app/removeLoggedUser"
 });
 
-export const updateFilters = (data) => ({
-	type: 'app/updateFilters',
-	payload: data
+export const updateConfig = (key, value) => ({
+  type: "app/updateConfig",
+  payload: { key, value }
+});
+
+export const updateFilters = data => ({
+  type: "app/updateFilters",
+  payload: data
 });
 
 // update customer
-export const updateCustomer = (data) => ({
-  type: 'customer/updateCustomer',
-  payload: data,
-})
+export const updateCustomer = data => ({
+  type: "customer/updateCustomer",
+  payload: data
+});
 
 // data: {accessToken...}
-export const addAddress = (data) => ({
-  type: 'customer/addAddress',
-  payload: data,
-})
+export const addAddress = data => ({
+  type: "customer/addAddress",
+  payload: data
+});
 
-export const updateAddress = (data) => ({
-  type: 'customer/updateAddress', 
-  payload: data,  
-})
+export const updateAddress = data => ({
+  type: "customer/updateAddress",
+  payload: data
+});
+
+export const deleteAddress = data => ({
+  type: "customer/deleteAddress",
+  payload: data
+});

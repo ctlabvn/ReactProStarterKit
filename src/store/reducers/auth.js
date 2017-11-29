@@ -90,7 +90,7 @@ export const auth = (state = initialState, { type, payload }) => {
       return { ...state, customer: { language: state.customer.language } };
     case "app/saveRefreshToken":
       // payload is access token
-      return { ...state, token: { ...state.token, ...payload } };
+      return { ...state, ...payload };
 
     // update customer
     case "customer/updateCustomer":
