@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
 import { connect } from "react-redux";
 import classNames from "classnames";
@@ -8,16 +8,18 @@ import classNames from "classnames";
 
 import Menu from "~/ui/components/Menu";
 import MenuItem from "~/ui/components/Menu/Item";
-import ProductItemPhoto from "~/ui/components/Product/Item/Photo";
-import Slider from "~/ui/components/Slider";
+// import ProductItemPhoto from "~/ui/components/Product/Item/Photo";
+// import Slider from "~/ui/components/Slider";
 // import ProductGroup from "~/ui/components/Product/Group";
 // import ButtonRound from "~/ui/components/Button/Round";
 import RestaurantProduct from "~/ui/components/Restaurant/Product";
 import EmptyResult from "~/ui/components/EmptyResult";
 import AddItemValidator from "~/ui/components/AddItemValidator";
+import Spinner from "~/ui/components/Spinner";
 // import Image from "~/ui/components/Image";
 
 import Breadcrumb from "./components/Breadcrumb";
+import FeaturedProducts from "./components/FeaturedProducts";
 
 import * as commonActions from "~/store/actions/common";
 // import * as restaurantValidation from "~/store/utils/validation/restaurant";
@@ -35,14 +37,13 @@ export default class extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      term: "",
       products: {},
-      features: [],
       categories: [],
-      isLoadingItem: false,
-      treeCategory: {},
-      treeCategoryName: {}
+      isLoadingItem: false
     };
-
+    this.treeCategoryName = {};
+    this.treeCategory = {};
   }
 
   handleCategory = parentCategory => {
@@ -51,11 +52,10 @@ export default class extends Component {
 
   loadProducts = async parentCategory => {
     const { requestor, setToast } = this.props;
-    const { treeCategory } = this.state;
     const products = {};
-    const childCategories = treeCategory[parentCategory];
+    const childCategories = this.treeCategory[parentCategory];
 
-    this.setState({isLoadingItem: true, products});
+    this.setState({ isLoadingItem: true, products });
 
     requestor(
       "restaurant/getProductByCategories",
@@ -74,35 +74,22 @@ export default class extends Component {
             })
           );
 
-          this.setState({isLoadingItem: false, products});
+          this.setState({ isLoadingItem: false, products });
         }
       }
     );
   };
 
-  showLoading = () => (
-    <div className="col text-center py-2">
-      <i className="fa fa-refresh fa-spin fa-3x fa-fw"/>
-    </div>
-  );
+  handleKeyUp = ({ target, keyCode }) => {
+    const term = target.value.trim();
+    if (term !== this.state.term) {
+      this.setState({ term });
+    }
+  };
 
   handleAddOrderItem = (item, item_options = []) => {
     this.addItemValidator.handleAddOrderItem(item, item_options);
   };
-
-  getCategories(outlet_uuid, page) {
-    const { requestor, setToast } = this.props;
-    return new Promise((resolve, reject) => {
-      requestor("restaurant/getCategories", outlet_uuid, page, (err, ret) => {
-        if (err) {
-          setToast(extractMessage(err.message), "danger");
-          resolve(null);
-        } else {
-          resolve(ret);
-        }
-      });
-    });
-  }
 
   getAllCategories(outlet_uuid) {
     const { requestor, setToast } = this.props;
@@ -121,77 +108,18 @@ export default class extends Component {
   loadCategories = async () => {
     let categories = [];
     const { outlet } = this.props;
-    // let hasMore = true,
-    //   page = 1;
-
-    // while (hasMore) {
-    //   const retOutletCaterogies = await this.getCategories(
-    //     outlet.outlet_uuid,
-    //     page
-    //   );
-    //   hasMore =
-    //     retOutletCaterogies &&
-    //     retOutletCaterogies.data.last_page >
-    //       retOutletCaterogies.data.current_page;
-    //   // update gradually
-    //   if (retOutletCaterogies && retOutletCaterogies.data) {
-    //     categories = categories.concat(retOutletCaterogies.data.data);
-    //     page++;
-    //   }
-    // }
 
     const ret = await this.getAllCategories(outlet.outlet_uuid);
     if (ret) {
       categories = ret.data;
     }
-    console.log(categories)
+    console.log(categories);
     // bind data
-    this.setState({categories});
+    this.setState({ categories });
   };
-
-  loadProductFeatured() {
-    const { requestor, outlet } = this.props;
-
-    requestor(
-      "restaurant/getProductFeatured",
-      outlet.outlet_uuid,
-      (err, ret) => {
-        if (!err) {
-          this.setState({features: ret.data.data});
-        }
-      }
-    );
-  }
-
-  renderFeatured(features) {
-    if (!features.length) return null;
-    return (
-      <div className="mb-4">
-        <Slider className="mt-2" num={5} move={1}>
-          {features.map((item, index) => (
-            <Link to={`/restaurant/${this.props.outlet_slug}/${item.slug || item.item_uuid}`} key={index}>
-              <ProductItemPhoto
-                className="color-gray font-medium text-uppercase font-weight-bold"
-                priceUnit={item.currency.symbol}
-                price={item.default_price}
-                title={item.name}
-                image={
-                  item.gallery
-                    ? JSON.parse(item.gallery)[0]
-                    : "/images/donut-square.png"
-                }
-              />
-            </Link>
-          ))}
-        </Slider>
-        <hr />
-      </div>
-    );
-  }
 
   componentDidMount() {
     this.loadCategories();
-    this.loadProductFeatured();
   }
 
   onSelectBreadcrumb(category_uuid) {
@@ -200,14 +128,7 @@ export default class extends Component {
 
   render() {
     const { t, outlet, outlet_slug } = this.props;
-    const {
-      products,
-      features,
-      isLoadingItem,
-      treeCategory,
-      treeCategoryName,
-      categories
-      } = this.state;
+    const { term, products, isLoadingItem, categories } = this.state;
     let categoryHasChildProduct = [];
 
     const showCategories = [];
@@ -215,12 +136,12 @@ export default class extends Component {
 
     if (outlet.total_items) {
       categories.forEach(item => {
-        treeCategoryName[item.category_uuid] = item.name;
+        this.treeCategoryName[item.category_uuid] = item.name;
         if (item.parent_uuid) {
-          if (treeCategory.hasOwnProperty(item.parent_uuid)) {
-            treeCategory[item.parent_uuid].push(item.category_uuid);
+          if (this.treeCategory.hasOwnProperty(item.parent_uuid)) {
+            this.treeCategory[item.parent_uuid].push(item.category_uuid);
           } else {
-            treeCategory[item.parent_uuid] = [
+            this.treeCategory[item.parent_uuid] = [
               item.parent_uuid,
               item.category_uuid
             ];
@@ -231,13 +152,13 @@ export default class extends Component {
         } else {
           // console.log(item.total_items, categoryHasChildProduct, item.category_uuid);
           if (
-            categoryHasChildProduct.indexOf(item.category_uuid) > -1
-            || item.total_items !== 0
+            categoryHasChildProduct.indexOf(item.category_uuid) > -1 ||
+            item.total_items !== 0
           ) {
             showCategories.push(item);
           }
-          if (!treeCategory.hasOwnProperty(item.category_uuid)) {
-            treeCategory[item.category_uuid] = [item.category_uuid];
+          if (!this.treeCategory.hasOwnProperty(item.category_uuid)) {
+            this.treeCategory[item.category_uuid] = [item.category_uuid];
           }
         }
       });
@@ -255,10 +176,14 @@ export default class extends Component {
            </span>
            </h5>
            */}
-          {this.renderFeatured(features)}
+          <FeaturedProducts outlet={outlet} outlet_slug={outlet_slug} />
 
           <div className="row w-100 no-gutters">
-            <Menu className={classNames("col col-md-2 list-group restaurant-cat", {"border-right-0": isMobile})}>
+            <Menu
+              className={classNames("col col-md-2 list-group restaurant-cat", {
+                "border-right-0": isMobile
+              })}
+            >
               {showCategories.map((item, index) => {
                 return (
                   <MenuItem
@@ -278,12 +203,11 @@ export default class extends Component {
                   <div className="input-group">
                     <input
                       className="form-control"
-                      ref="searchProductInput"
                       onKeyUp={this.handleKeyUp}
                     />
-                      <span className="input-group-addon" id="basic-addon2">
-                        <i className="fa fa-search"/>
-                      </span>
+                    <span className="input-group-addon">
+                      <i className="fa fa-search" />
+                    </span>
                   </div>
                 </div>
                 <Breadcrumb
@@ -293,30 +217,32 @@ export default class extends Component {
               </div>
 
               {isLoadingItem ? (
-                this.showLoading()
+                <Spinner />
               ) : (
                 <RestaurantProduct
                   outlet_slug={outlet_slug}
+                  term={term}
                   className="p-0"
                   products={products}
-                  treeCategoryName={treeCategoryName}
+                  treeCategoryName={this.treeCategoryName}
                   onAddOrder={canAddOrder ? this.handleAddOrderItem : null}
                 />
               )}
             </div>
           </div>
 
-          <AddItemValidator outlet={outlet} onItemRef={ref=>this.addItemValidator=ref}/>
+          <AddItemValidator
+            outlet={outlet}
+            onItemRef={ref => (this.addItemValidator = ref)}
+          />
         </div>
       );
     }
 
     return (
-
       <div className="d-block text-center w-100 py-5">
-        <EmptyResult label={t("LABEL.NO_SEARCH_DATA")}/>
+        <EmptyResult label={t("LABEL.NO_SEARCH_DATA")} />
       </div>
-
     );
   }
 }
