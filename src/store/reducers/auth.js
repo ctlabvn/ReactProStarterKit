@@ -99,6 +99,11 @@ export const auth = (state = initialState, { type, payload }) => {
       return { ...state, customer: { ...state.customer, ...data } };
     case "customer/addAddress":
       return { ...state, address: [...state.address, payload] };
+    case "customer/deleteAddress":
+      return {
+        ...state,
+        address: state.address.filter(item => item.cus_address_uuid !== payload)
+      };
     case "customer/updateAddress":
       return {
         ...state,

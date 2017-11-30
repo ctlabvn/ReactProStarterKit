@@ -8,7 +8,7 @@ import {
   setAuthState,
   saveLoggedUser,
   removeLoggedUser,
-  deleteAddress,
+  // deleteAddress,
   updateCustomer,
   addAddress,
   updateAddress
@@ -99,8 +99,7 @@ const requestAddAddress = createRequestSaga({
 });
 
 const requestDeleteAddress = createRequestSaga({
-  request: api.auth.deleteAddress,
-  success: [({ data }) => deleteAddress(data)]
+  request: api.auth.deleteAddress
 });
 
 const requestResetPassword = createRequestSaga({

@@ -48,7 +48,7 @@ import { validate } from "./utils";
 })
 export default class extends Component {
   updateCustomer = ({ customer_uuid, name, phone, address }) => {
-    const { token, requestor, initialValues } = this.props;
+    const { token, requestor, initialValues, deleteAddress } = this.props;
     const deletedAddress = initialValues.address.filter(item =>
       address.every(
         oldItem => oldItem.cus_address_uuid !== item.cus_address_uuid
@@ -84,7 +84,18 @@ export default class extends Component {
     });
     // delete old ones
     deletedAddress.forEach(({ cus_address_uuid }) => {
-      requestor("customer/requestDeleteAddress", token, cus_address_uuid);
+      requestor(
+        "customer/requestDeleteAddress",
+        token,
+        cus_address_uuid,
+        (err, ret) => {
+          // for item has been delete before :D
+          deleteAddress(cus_address_uuid);
+          // if (!err) {
+          //   deleteAddress(cus_address_uuid);
+          // }
+        }
+      );
     });
   };
 
