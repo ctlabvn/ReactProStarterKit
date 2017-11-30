@@ -157,41 +157,42 @@ export default class extends Component {
             {order.outlet.name}
           </strong>
 
-          <div className="border-bottom d-md-flex">
+          <div className="border-bottom w-100">
             {order.items.map(item => (
-              <div className="d-flex flex-column mb-4 col-md-3" key={item.id}>
-                <Link
-                  className="color-black-300"
-                  to={`/${slugify(order.outlet.name)}/${item.id}`}
-                >
+              <Link
+                className="color-black-300 mb-4 d-flex flex-row"
+                to={`/${slugify(order.outlet.name)}/${item.id}`}
+              >
+                <div className="customer-order-item-img">
                   <Image
                     width="100%"
                     alt=""
                     src={item.image.url_thumb.toString()}
                   />
+                </div>
 
-                  <div className="color-black-300 mt-2">
-                    <span className="w-100 float-left">
+
+                <div className="color-black-300 ml-2 w-100">
+                    <div className="w-100">
                       ({item.qty || 1}x) {item.name}
-                    </span>
-                    {item.options &&
-                      item.options.breakdown.map((option, index) => (
-                        <span
-                          key={index}
-                          className="w-100 float-left color-gray-300"
-                        >
+                    </div>
+                  {item.options &&
+                  item.options.breakdown.map((option, index) => (
+                    <div
+                      key={index}
+                      className="color-gray-300"
+                    >
                           + ({option.qty || 1}x) {option.name}
-                        </span>
-                      ))}
-                    <span className="color-red">
+                        </div>
+                  ))}
+                    <div className="color-red">
                       {t("format.currency", {
                         price: item.total,
                         symbol: order.outlet.currency.symbol
                       })}
-                    </span>
-                  </div>
-                </Link>
-              </div>
+                    </div>
+                </div>
+              </Link>
             ))}
           </div>
 

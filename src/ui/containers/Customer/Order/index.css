@@ -1,3 +1,18 @@
 .customer-order{
   
 }
+
+@media (max-width: 768px) {
+  .customer-order-item-img {
+    min-width: 35%;
+    max-width: 35%;
+  }
+}
+
+@media (min-width: 768px) {
+  .customer-order-item-img {
+    min-width: 25%;
+    max-width: 25%;
+  }
+}
+

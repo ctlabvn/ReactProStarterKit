@@ -64,14 +64,14 @@ export default class extends Component {
 
           {item.quantity > 0 && (
             <ButtonRound
-              className="p-0 mr-1"
+              className="p-0 mr-1 pop-over-cart-btn"
               icon="minus"
               onClick={() => onDecreaseOrder(item)}
             />
           )}
           <span>{item.quantity}</span>
           <ButtonRound
-            className="p-0 mx-1"
+            className="p-0 mx-1 pop-over-cart-btn"
             icon="plus"
             onClick={() => onIncreaseOrder(item)}
           />

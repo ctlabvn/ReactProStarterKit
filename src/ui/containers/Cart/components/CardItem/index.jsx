@@ -54,26 +54,29 @@ export default class extends Component {
           <Link to={`/${outlet_slug}/${item_slug}`} className="color-black-300">
             <div className="d-flex align-items-center">
               <Image src={image} />
-              <span className="ml-2 text-left">{title}</span>
+              <div className="ml-2 w-100">
+                <div className="">{title}</div>
+                {options &&
+                options.map(item_option => (
+                  <small
+                    className="color-black-300 text-uppercase"
+                    key={item_option.option_uuid}
+                  >
+                    <span>{`(+1) ${item_option.name}`}</span>
+                    {
+                      // <span className="ml-2 color-red">
+                      //   {t("format.currency", {
+                      //     price: item_option.price,
+                      //     symbol: priceUnit
+                      //   })}
+                      // </span>
+                    }
+                  </small>
+                ))}
+              </div>
+
             </div>
-            {options &&
-              options.map(item_option => (
-                <small
-                  className="mt-2 color-black-300 float-left"
-                  key={item_option.option_uuid}
-                >
-                  (+1){" "}
-                  <span className="text-uppercase">{item_option.name}</span>
-                  {
-                    // <span className="ml-2 color-red">
-                    //   {t("format.currency", {
-                    //     price: item_option.price,
-                    //     symbol: priceUnit
-                    //   })}
-                    // </span>
-                  }
-                </small>
-              ))}
+
           </Link>
         </th>
         <td data-title={t("TABLE.UNIT_PRICE")}>
