@@ -9,6 +9,8 @@ export const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Oper
 const KEYCODE_Z = 90;
 const KEYCODE_Y = 89;
 
+const defaultCoordsValue = { latitude: 21.0595054, longitude: 105.7787773 };
+
 export const ORDER_TYPE = {
   DINE_IN: 1,
   TAKE_AWAY: 2,
@@ -142,11 +144,14 @@ export const defaultCoords = callback => {
         latitude: json.geoplugin_latitude,
         longitude: json.geoplugin_longitude
       })
-    );
+    )
+    .catch(e => {
+      console.log(e);
+      callback(defaultCoordsValue);
+    });
 };
 
 export const getCurrentLocation = () => {
-  // const defaultCoords = { latitude: 21.0595054, longitude: 105.7787773 };
   return new Promise(function(resolve, reject) {
     // if (window.location.hostname === "localhost") return resolve(defaultCoords);
     if (navigator.geolocation) {
