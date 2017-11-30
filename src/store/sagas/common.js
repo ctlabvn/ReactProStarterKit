@@ -14,17 +14,10 @@ import {
   markRequestCancelled,
   markRequestFailed,
   invokeCallback,
-  setToast,
-  forwardTo
+  requestor
 } from "~/store/actions/common";
 
-import {
-  saveRefreshToken,
-  setAuthState,
-  removeLoggedUser
-} from "~/store/actions/auth";
-
-import api from "~/store/api";
+import { REFRESH_TOKEN } from "~/store/constants/actions";
 import { API_TIMEOUT } from "~/store/constants/api";
 import { store } from "~/store";
 
@@ -140,32 +133,7 @@ export const createRequestSaga = ({
       if (reason.status === 401) {
         // try refresh token
         const refreshToken = store.getState().auth.refresh_token;
-        let forceLogout = true;
-        // catch exception is safer than just read response status
-        if (refreshToken) {
-          // tell user to wait, no need to catch for more errors this step!!!
-          yield put(setToast(i18n.t("LABEL.REFRESH_TOKEN")));
-          // try refresh token, then reload page ?
-          const { data: newToken, error } = yield call(
-            api.auth.refreshAccessToken,
-            refreshToken
-          );
-
-          if (!error) {
-            forceLogout = false;
-            // it can return more such as user info, expired date ?
-            // call action creator to update
-            yield put(saveRefreshToken(newToken));
-          }
-        }
-
-        if (forceLogout) {
-          // call logout user because we do not have refresh token
-          yield put(setToast(i18n.t("LABEL.TOKEN_EXPIRED")));
-          yield put(removeLoggedUser());
-          yield put(setAuthState(false));
-          yield put(forwardTo("/"));
-        }
+        yield put(requestor(REFRESH_TOKEN, refreshToken));
       }
       // anyway, we should treat this as error to log
       if (failure)

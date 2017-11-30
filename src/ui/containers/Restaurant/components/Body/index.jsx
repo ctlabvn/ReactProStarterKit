@@ -18,7 +18,7 @@ import AddItemValidator from "~/ui/components/AddItemValidator";
 import Spinner from "~/ui/components/Spinner";
 // import Image from "~/ui/components/Image";
 
-import Breadcrumb from "./components/Breadcrumb";
+// import Breadcrumb from "./components/Breadcrumb";
 import FeaturedProducts from "./components/FeaturedProducts";
 
 import * as commonActions from "~/store/actions/common";
@@ -201,7 +201,6 @@ export default class extends Component {
 
             <div className="col p-0 restaurant-body-content">
               <div className="row mx-0 restaurant-body-input">
-
                 <div className="col-md-6">
                   {/*
                    <Breadcrumb

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -65,7 +67,12 @@ export default class ProductItem extends Component {
         >
           <Image
             className="restaurant-product-item-image"
-            style={{ width: "100%", height: "auto", alignSelf: "center",  borderRadius: "50%"}}
+            style={{
+              width: "100%",
+              height: "auto",
+              alignSelf: "center",
+              borderRadius: "50%"
+            }}
             itemProp="image"
             src={image}
             alt=""

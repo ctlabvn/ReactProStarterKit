@@ -1,8 +1,8 @@
-import React from 'react'
+import React from "react";
 
-const SquareImage = ({src, ...props}) => {
+const SquareImage = ({ src, ...props }) => {
   var style = {
-    color: 'white',
+    color: "white",
     background: "no-repeat center/cover",
     backgroundImage: `url(${src})`,
     width: "100%",
@@ -12,9 +12,9 @@ const SquareImage = ({src, ...props}) => {
 
   return (
     <div {...props}>
-      <img src="" style={style}/>
+      <img alt="" src="" style={style} />
     </div>
-  )
-}
+  );
+};
 
-export default SquareImage
+export default SquareImage;

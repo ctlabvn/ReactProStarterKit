@@ -1,18 +1,23 @@
-import { takeLatest, takeEvery, all } from "redux-saga/effects";
+import { takeLatest, takeEvery, all, put, call } from "redux-saga/effects";
+
+import i18n from "~/i18n";
 
 import api from "~/store/api";
 import { createRequestSaga } from "~/store/sagas/common";
-import { setToast } from "~/store/actions/common";
+import { setToast, forwardTo } from "~/store/actions/common";
 
 import {
   setAuthState,
   saveLoggedUser,
   removeLoggedUser,
   // deleteAddress,
+  saveRefreshToken,
   updateCustomer,
   addAddress,
   updateAddress
 } from "~/store/actions/auth";
+
+import { REFRESH_TOKEN } from "~/store/constants/actions";
 
 // const requestLoginFacebook = createRequestSaga({
 //   request: api.auth.loginFacebook,
@@ -43,6 +48,39 @@ import {
 //     () => setToast('Couldn\'t login', 'danger')
 //   ],
 // })
+
+function* requestRefreshToken(refreshToken) {
+  let forceLogout = true;
+  // catch exception is safer than just read response status
+  if (refreshToken) {
+    try {
+      // tell user to wait, no need to catch for more errors this step!!!
+      yield put(setToast(i18n.t("LABEL.REFRESH_TOKEN")));
+      // try refresh token, then reload page ?
+      const { data: newToken, error } = yield call(
+        api.auth.refreshAccessToken,
+        refreshToken
+      );
+
+      if (!error) {
+        forceLogout = false;
+        // it can return more such as user info, expired date ?
+        // call action creator to update
+        yield put(saveRefreshToken(newToken));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  if (forceLogout) {
+    // call logout user because we do not have refresh token
+    yield put(setToast(i18n.t("LABEL.TOKEN_EXPIRED")));
+    yield put(removeLoggedUser());
+    yield put(setAuthState(false));
+    yield put(forwardTo("/"));
+  }
+}
 
 const requestLogin = createRequestSaga({
   request: api.auth.login,
@@ -116,6 +154,7 @@ const asyncAuthWatchers = [
     yield all([
       // takeLatest('app/loginFacebook', requestLoginFacebook),
       // takeLatest('app/loginGoogle', requestLoginGoogle),
+      takeLatest(REFRESH_TOKEN, requestRefreshToken),
       takeLatest("app/login", requestLogin),
       takeLatest("app/signup", requestSignup),
 
