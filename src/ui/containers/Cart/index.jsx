@@ -150,13 +150,13 @@ export default class extends Component {
 
   async loadAddressFromGmap() {
     // use guard code so do not have to remove } at the end
-    this.loadingIcon.classList.remove("hidden");
+    this.loadingIcon && this.loadingIcon.classList.remove("hidden");
     // const { lat, lng } = this.state;
     const { latitude: lat, longitude: lng } = await getCurrentLocation();
     const { results } = await fetchJson(
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_API_KEY}`
     );
-    this.loadingIcon.classList.add("hidden");
+    this.loadingIcon && this.loadingIcon.classList.add("hidden");
     this.props.updateOrder({
       order_lat: lat,
       order_long: lng,
