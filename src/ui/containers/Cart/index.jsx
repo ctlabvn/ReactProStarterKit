@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { translate } from "react-i18next";
 // import classNames from "classnames";
@@ -212,9 +212,13 @@ export default class extends Component {
 
         <div className="block bg-white box-shadow p-0">
           <nav className="breadcrumb text-uppercase color-gray-400 bg-transparent pl-0">
-            <Link to="/" className="breadcrumb-item color-gray-400" href="#">
+            <a
+              role="button"
+              onClick={history.goBack}
+              className="breadcrumb-item color-gray-400"
+            >
               &lt; {t("LINK.BACK")}
-            </Link>
+            </a>
           </nav>
 
           <h2 className="w-100 text-uppercase font-weight-bold color-black d-flex">
