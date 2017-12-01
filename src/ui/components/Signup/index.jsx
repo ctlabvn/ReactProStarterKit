@@ -26,11 +26,14 @@ import * as orderSelectors from "~/store/selectors/order";
 import { validate } from "./utils";
 
 @translate("translations")
-@connect(state=>({
-  initialValues:{
-    address: orderSelectors.getInfo(state).order_address
-  }
-}), commonActions)
+@connect(
+  state => ({
+    initialValues: {
+      address: orderSelectors.getInfo(state).order_address
+    }
+  }),
+  commonActions
+)
 @reduxForm({
   form: "Signup",
   validate,
@@ -40,25 +43,27 @@ import { validate } from "./utils";
 export default class extends Component {
   signup = ({ name, email, password, address, phone, address_name }) => {
     const { requestor } = this.props;
-    
-    requestor(
-      "app/signup",
-      email,
-      password,
-      // extra fields
-      {
-        name,
-        phone,
-        address_name,
-        address
-      },
-      (err, ret) => {
-        if (!err) {
-          // auto login if success
-          requestor("app/login", email, password);
+    return new Promise(resolve => {
+      requestor(
+        "app/signup",
+        email,
+        password,
+        // extra fields
+        {
+          name,
+          phone,
+          address_name,
+          address
+        },
+        (err, ret) => {
+          if (!err) {
+            // auto login if success
+            requestor("app/login", email, password);
+          }
+          resolve(true);
         }
-      }
-    );
+      );
+    });
   };
 
   render() {
