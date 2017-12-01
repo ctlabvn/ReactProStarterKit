@@ -114,8 +114,11 @@ export default class ProductOptions extends Component {
 		this.setState({ form: formTree });
 	}
 
-	async componentDidMount() {
-		const { item } = this.props;
+	componentDidMount() {
+		this.componentWillReceiveProps(this.props);
+	}
+
+	async componentWillReceiveProps({ item }) {
 		const needReload = item.item_options.some(
 			itemOption => !itemOption.optionSet
 		);
