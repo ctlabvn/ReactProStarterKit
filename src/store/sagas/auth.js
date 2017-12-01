@@ -112,8 +112,8 @@ const requestLogout = createRequestSaga({
   failure: [() => setToast("Couldn't logout", "danger")],
   stop: [
     () => removeLoggedUser(),
-    () => setAuthState(false)
-    // () => forwardTo('/'),
+    () => setAuthState(false),
+    () => forwardTo("/restaurant")
   ]
 });
 
