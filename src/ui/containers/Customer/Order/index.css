@@ -11,8 +11,8 @@
 
 @media (min-width: 768px) {
   .customer-order-item-img {
-    min-width: 25%;
-    max-width: 25%;
+    min-width: 15%;
+    max-width: 15%;
   }
 }
 

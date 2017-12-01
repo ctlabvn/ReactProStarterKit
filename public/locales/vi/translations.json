@@ -53,7 +53,12 @@
     "MAX_ORDER": "Max order: ",
     "DELIVERY_FEE": "Delivery fee: ",
     "MODAL_LOGIN_HEADER": "LOGIN",
-    "NO_INFO": "Chưa có thông tin"
+    "NO_INFO": "Chưa có thông tin",
+    "RESTAURANT_NAME": "Restaurant",
+    "TYPE": "Type",
+    "STATUS": "Status",
+    "DATE": "Date",
+    "AMOUNT": "Amount"
   },
   "format": {
     "currency": "{{symbol}}{{price, 0,0.00}}"

@@ -102,7 +102,7 @@ export default class extends Component {
     //   })
     // })
     return (
-      <div className="container">
+      <div className="">
         <Helmet>
           <title>{t("LABEL.ORDERS")}</title>
           <meta name="description" content={t("LABEL.ORDERS")} />
