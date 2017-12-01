@@ -227,7 +227,7 @@ export const getItemPrice = item => {
 
 export const calculateOrderPrice = (
   items,
-  { consumer_discounts, consumer_taxes, delivery_fee, do_delivery }
+  { consumer_discounts, consumer_taxes, delivery_fee, do_delivery, order_type }
 ) => {
   const itemsSum = items
     .map(item => getItemPrice(item) * item.quantity)
@@ -241,7 +241,11 @@ export const calculateOrderPrice = (
   const discount = itemsSum * discountPercent;
   const subtotal = itemsSum - discount;
   const tax = subtotal * taxPercent;
-  const fee = do_delivery ? delivery_fee : 0;
+  // if we choose delivery or by default has delivery
+  const fee =
+    do_delivery && (!order_type || order_type === ORDER_TYPE.DELIVERY)
+      ? delivery_fee
+      : 0;
 
   const total = subtotal + tax + fee;
 

@@ -167,6 +167,8 @@ export default class extends Component {
         }
       });
 
+      // console.log(showCategories);
+
       return (
         <div className="w-100">
           {/*
