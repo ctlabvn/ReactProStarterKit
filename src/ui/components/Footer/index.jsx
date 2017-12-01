@@ -81,15 +81,15 @@ export default class extends Component {
           }
         )}
       >
-        <Menu className="text-uppercase">
-          <MenuItem title={this.renderLanguage()} />
-          <MenuItem link="/about" title={t("LINK.FOOTER.ABOUT_US")} />
-          <MenuItem link="/about" title={t("LINK.FOOTER.TECHNOLOGY")} />
-          <MenuItem link="/about" title={t("LINK.FOOTER.JOIN_US")} />
+        <Menu className="d-flex justify-content-center align-items-end text-uppercase h-50">
+          <MenuItem className="font-fr-115 color-cg-040 footer-menu-language" title={this.renderLanguage()} />
+          <MenuItem className="font-fr-115 color-cg-040" link="/about" title={t("LINK.FOOTER.ABOUT_US")} />
+          <MenuItem className="font-fr-115 color-cg-040" link="/about" title={t("LINK.FOOTER.TECHNOLOGY")} />
+          <MenuItem className="font-fr-115 color-cg-040" link="/about" title={t("LINK.FOOTER.JOIN_US")} />
         </Menu>
-        <Menu className="bottom">
+        <Menu className="d-flex justify-content-center align-items-start bottom h-50">
           {options.items.map((item, index) => (
-            <MenuItem key={index} link={item.link} title={t(item.title)} />
+            <MenuItem className="font-fr-110 color-cg-074" key={index} link={item.link} title={t(item.title)} />
           ))}
         </Menu>
       </footer>

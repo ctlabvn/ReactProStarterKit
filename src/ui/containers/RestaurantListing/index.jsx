@@ -27,16 +27,23 @@ export default class extends Component {
     } = this.props;
     // const options = parseQuery(location);
     return (
-      <div>
+      <div className="restaurant-listing map-background">
         <Helmet>
           <title>{t("LABEL.RESTAURANT_LIST")}</title>
           <meta name="description" content={t("LABEL.RESTAURANT_LIST")} />
         </Helmet>
         {!isMobile && <Filter onUpdateFilter={this.onUpdateFilter} />}
-        <Result
-          // tags={options.tags}
-          onItemRef={ref => (this.result = ref)}
-        />
+
+        <div className="container">
+          <div className="bg-white box-shadow restaurant-listing-cart">
+            <Result
+              // tags={options.tags}
+              onItemRef={ref => (this.result = ref)}
+            />
+          </div>
+        </div>
+
+
       </div>
     );
   }

@@ -388,6 +388,7 @@ a:hover {
 }
 
 .map-background {
+  /*min-height: 100vh;*/
   background-image: url(/images/background.png);
   background-size: 100% auto;
   background-repeat: repeat-y;
@@ -423,4 +424,34 @@ strong {
     padding-left: 10.5rem;
     margin-top: 3rem;
   }
+}
+
+
+.font-fb-250 {
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.font-fr-170 {
+  font-size: 17px;
+}
+
+.font-fr-140 {
+  font-size: 14px;
+}
+
+.font-fr-130 {
+  font-size: 13px;
+}
+
+.font-fr-120 {
+  font-size: 12px;
+}
+
+.font-fr-115 {
+  font-size: 11px;
+}
+
+.font-fr-110 {
+  font-size: 11px;
 }
