@@ -158,8 +158,9 @@ export default class extends Component {
           </strong>
 
           <div className="border-bottom w-100">
-            {order.items.map(item => (
+            {order.items.map((item, index) => (
               <Link
+                key={index}
                 className="color-black-300 mb-4 d-flex flex-row"
                 to={`/${slugify(order.outlet.name)}/${item.id}`}
               >
@@ -171,26 +172,22 @@ export default class extends Component {
                   />
                 </div>
 
-
                 <div className="color-black-300 ml-2 w-100">
-                    <div className="w-100">
-                      ({item.qty || 1}x) {item.name}
-                    </div>
+                  <div className="w-100">
+                    ({item.qty || 1}x) {item.name}
+                  </div>
                   {item.options &&
-                  item.options.breakdown.map((option, index) => (
-                    <div
-                      key={index}
-                      className="color-gray-300"
-                    >
-                          + ({option.qty || 1}x) {option.name}
-                        </div>
-                  ))}
-                    <div className="color-red">
-                      {t("format.currency", {
-                        price: item.total,
-                        symbol: order.outlet.currency.symbol
-                      })}
-                    </div>
+                    item.options.breakdown.map((option, index) => (
+                      <div key={index} className="color-gray-300">
+                        + ({option.qty || 1}x) {option.name}
+                      </div>
+                    ))}
+                  <div className="color-red">
+                    {t("format.currency", {
+                      price: item.total,
+                      symbol: order.outlet.currency.symbol
+                    })}
+                  </div>
                 </div>
               </Link>
             ))}

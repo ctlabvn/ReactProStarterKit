@@ -122,9 +122,16 @@ export default class ProductOptions extends Component {
 		if (needReload) {
 			// no need to show waiting, just update more
 			const ret = await api.item.getDetail(item.item_uuid);
-			this.setState({ options: ret.data.item_options });
+			this.setState({ options: ret.data.item_options }, () =>
+				this.resetFormTree()
+			);
+		} else {
+			this.resetFormTree();
 		}
-		this.resetFormTree();
+	}
+
+	componentWillReceiveProps({ item }) {
+		this.setState({ options: item.item_options }, () => this.resetFormTree());
 	}
 
 	handleChange = (parentUuid, child, multiChoice) => {

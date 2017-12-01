@@ -65,7 +65,9 @@ export default class extends Component {
     to && (options.to = to + ":00");
     // const ret = await api.order.getOrderHistory(token, options);
     // can store into redux
-    requestor("order/getOrderHistory", token, options);
+    return new Promise(resolve => {
+      requestor("order/getOrderHistory", token, options, () => resolve(true));
+    });
   };
 
   componentDidMount() {

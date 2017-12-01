@@ -61,13 +61,16 @@ export default class extends Component {
   resetPassword = ({ email }) => {
     // console.log(email)
     const { requestor, setToast } = this.props;
-    requestor("customer/resetPassword", email, (err, ret) => {
-      if (err) {
-        setToast(extractMessage(err.message), "danger");
-      } else {
-        setToast("Reset password successfully!", "success");
-        this.setState({ showLogin: true });
-      }
+    return new Promise(resolve => {
+      requestor("customer/resetPassword", email, (err, ret) => {
+        if (err) {
+          setToast(extractMessage(err.message), "danger");
+        } else {
+          setToast("Reset password successfully!", "success");
+          this.setState({ showLogin: true });
+        }
+        resolve(true);
+      });
     });
   };
 

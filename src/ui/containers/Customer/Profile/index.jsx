@@ -55,47 +55,50 @@ export default class extends Component {
       )
     );
 
-    requestor(
-      "customer/requestUpdateCustomer",
-      token,
-      customer_uuid,
-      name,
-      phone
-    );
-    // update address
-    address.forEach(({ cus_address_uuid, name, address }) => {
-      if (cus_address_uuid) {
+    return new Promise(resolve => {
+      requestor(
+        "customer/requestUpdateCustomer",
+        token,
+        customer_uuid,
+        name,
+        phone,
+        () => resolve(true)
+      );
+      // update address
+      address.forEach(({ cus_address_uuid, name, address }) => {
+        if (cus_address_uuid) {
+          requestor(
+            "customer/requestUpdateAddress",
+            token,
+            cus_address_uuid,
+            name,
+            address
+          );
+        } else {
+          requestor(
+            "customer/requestAddAddress",
+            token,
+            customer_uuid,
+            name,
+            address
+          );
+        }
+      });
+      // delete old ones
+      deletedAddress.forEach(({ cus_address_uuid }) => {
         requestor(
-          "customer/requestUpdateAddress",
+          "customer/requestDeleteAddress",
           token,
           cus_address_uuid,
-          name,
-          address
+          (err, ret) => {
+            // for item has been delete before :D
+            deleteAddress(cus_address_uuid);
+            // if (!err) {
+            //   deleteAddress(cus_address_uuid);
+            // }
+          }
         );
-      } else {
-        requestor(
-          "customer/requestAddAddress",
-          token,
-          customer_uuid,
-          name,
-          address
-        );
-      }
-    });
-    // delete old ones
-    deletedAddress.forEach(({ cus_address_uuid }) => {
-      requestor(
-        "customer/requestDeleteAddress",
-        token,
-        cus_address_uuid,
-        (err, ret) => {
-          // for item has been delete before :D
-          deleteAddress(cus_address_uuid);
-          // if (!err) {
-          //   deleteAddress(cus_address_uuid);
-          // }
-        }
-      );
+      });
     });
   };
 

@@ -15,6 +15,10 @@ a:hover {
   color: $red-color;
 }
 
+[role="button"] {
+  cursor: pointer;
+}
+
 .container-fluid {
   padding-right: 60px;
   padding-left: 60px;

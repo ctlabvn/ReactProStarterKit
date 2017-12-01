@@ -40,6 +40,8 @@ export default class extends Component {
     const { outlet, updateOrder, addOrderItem } = this.props;
     updateOrder({
       ...outlet.online_order_setting,
+      currency: outlet.currency || {},
+      logo: outlet.logo,
       order_type: outlet.online_order_setting.do_delivery
         ? ORDER_TYPE.DELIVERY
         : ORDER_TYPE.TAKE_AWAY,

@@ -14,7 +14,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Alert,
+  Alert
   // InputGroup,
   // Input,
   // InputGroupAddon
@@ -33,7 +33,7 @@ export default class extends Component {
     super(props);
     this.state = {
       modal: false,
-      errorMessage: null,
+      errorMessage: null
     };
   }
 
@@ -42,25 +42,29 @@ export default class extends Component {
   }
 
   login = ({ email, password }) => {
-    this.props.requestor("app/login", email, password, (err, ret) => {
-      if(err){
-        const errorMessage = extractMessage(err.message);
-        this.setState({errorMessage});
-      } else {
-        this.toggle();
-        this.props.reset();
-      }
+    // console.log("vai dan", this.props.submitting);
+    return new Promise(resolve => {
+      this.props.requestor("app/login", email, password, (err, ret) => {
+        if (err) {
+          const errorMessage = extractMessage(err.message);
+          this.setState({ errorMessage });
+        } else {
+          this.toggle();
+          this.props.reset();
+        }
+        resolve(true);
+      });
     });
   };
 
   toggle = () => {
-    const {modal} = this.state;
-    if(!modal){
+    const { modal } = this.state;
+    if (!modal) {
       this.props.reset();
     }
     this.setState({
       modal: !modal,
-      errorMessage: null,
+      errorMessage: null
     });
   };
 
@@ -72,10 +76,12 @@ export default class extends Component {
         toggle={this.toggle}
         className={this.props.className}
       >
-        <ModalHeader toggle={this.toggle}>{t('LABEL.MODAL_LOGIN_HEADER')}</ModalHeader>
+        <ModalHeader toggle={this.toggle}>
+          {t("LABEL.MODAL_LOGIN_HEADER")}
+        </ModalHeader>
         <ModalBody>
           <Field
-            placeholder={t('PLACEHOLDER.USERNAME')}
+            placeholder={t("PLACEHOLDER.USERNAME")}
             className="mt-3"
             name="email"
             component={InputField}
@@ -83,7 +89,7 @@ export default class extends Component {
 
           <Field
             className="mt-3"
-            placeholder={t('PLACEHOLDER.PASSWORD')}
+            placeholder={t("PLACEHOLDER.PASSWORD")}
             type="password"
             name="password"
             component={InputField}
@@ -94,16 +100,19 @@ export default class extends Component {
             disabled={submitting}
             onClick={handleSubmit(this.login)}
           >
-            {t('BUTTON.LOGIN')}
+            {t("BUTTON.LOGIN")}
           </Button>
-          {this.state.errorMessage && <Alert color="danger" className="mt-4">
-            {this.state.errorMessage}
-          </Alert>
-        }
+          {this.state.errorMessage && (
+            <Alert color="danger" className="mt-4">
+              {this.state.errorMessage}
+            </Alert>
+          )}
         </ModalBody>
         <ModalFooter>
-          <div className="w-100 text-center">          
-            <Link onClick={this.toggle} to="/password-reset">{t('LABEL.PASSWORD_RESET')}</Link>
+          <div className="w-100 text-center">
+            <Link onClick={this.toggle} to="/password-reset">
+              {t("LABEL.PASSWORD_RESET")}
+            </Link>
           </div>
         </ModalFooter>
       </Modal>
