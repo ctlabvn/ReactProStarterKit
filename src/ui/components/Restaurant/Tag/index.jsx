@@ -78,7 +78,7 @@ export default class extends Component {
 							<Badge
 								key={index}
 								color={color}
-								className="text-default px-2 pt-1"
+								className="text-default px-2 pt-1 text-uppercase font-fr-120"
 							>
 								{item.name}
 							</Badge>

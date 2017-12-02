@@ -4,4 +4,12 @@
 
 .restaurant-listing-cart {
   margin-bottom: 16.3vh;
+
+  .breadcrumb {
+    /*margin-bottom: 1.5rem;*/
+  }
+
+  .row {
+    margin: 0;
+  }
 }

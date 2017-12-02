@@ -407,6 +407,7 @@ a:hover {
 
 .breadcrumb {
   font-size: 0.875rem;
+  padding: 0;
 }
 
 .breadcrumb-item.active {
@@ -432,30 +433,62 @@ strong {
 
 
 .font-fb-250 {
-  font-size: 25px;
-  font-weight: 600;
+  font-size: 25px !important;
+  font-weight: 600 !important;
 }
 
 .font-fr-170 {
-  font-size: 17px;
+  font-size: 17px !important;
 }
 
 .font-fr-140 {
-  font-size: 14px;
+  font-size: 14px !important;
 }
 
 .font-fr-130 {
-  font-size: 13px;
+  font-size: 13px !important;
 }
 
 .font-fr-120 {
-  font-size: 12px;
+  font-size: 12px !important;
 }
 
 .font-fr-115 {
-  font-size: 11px;
+  font-size: 11px !important;
 }
 
 .font-fr-110 {
-  font-size: 11px;
+  font-size: 11px !important;
+}
+
+.dev-color-1 {
+  background-color: #ffd494;
+}
+
+.dev-color-2 {
+  background-color: rgba(22, 255, 0, 0.48);
+}
+
+.dev-color-3 {
+  background-color: rgba(255, 3, 0, 0.5);
+}
+
+.dev-color-4 {
+  background-color: rgba(11, 97, 255, 0.52);
+}
+
+.dev-color-5 {
+  background-color: rgba(255, 0, 240, 0.48);
+}
+
+.dev-color-6 {
+  background-color: rgba(12, 255, 192, 0.5);
+}
+
+.dev-color-7 {
+  background-color: rgba(255, 242, 0, 0.51);
+}
+
+.dev-color-8 {
+  background-color: rgba(163, 161, 163, 0.52);
 }

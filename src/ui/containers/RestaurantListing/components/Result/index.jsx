@@ -144,7 +144,7 @@ export default class extends Component {
     // const { t } = this.props;
     const { elements, hasMore } = this.state;
     return (
-      <div className="container mb-100 pb-5">
+      <div className="pb-4">
         <InfiniteScroller
           className="row d-flex"
           hasMore={hasMore}

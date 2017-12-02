@@ -48,7 +48,7 @@ class ReadMore extends Component {
 			<div className="read-more">
 				<Truncate
 					lines={!expanded && lines}
-					ellipsis={(
+					ellipsis={more && (
 						<p className="d-flex flex-row-reverse"><a className="color-blue-light" role="button" tabIndex="0" onClick={this.toggleLines}>{more}</a></p>
 					)}
 					onTruncate={this.handleTruncate}
@@ -64,9 +64,7 @@ class ReadMore extends Component {
 }
 
 ReadMore.defaultProps = {
-	lines: 3,
-	more: 'Read more',
-	less: '',
+	lines: 3
 };
 
 ReadMore.propTypes = {

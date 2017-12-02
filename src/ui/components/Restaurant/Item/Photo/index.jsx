@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
 // import classNames from "classnames";
+import Readmore from "~/ui/components/Readmore";
 
 import RestaurantOrderSetting from "~/ui/components/Restaurant/OrderSetting";
 import RestaurantTag from "~/ui/components/Restaurant/Tag";
@@ -23,35 +24,58 @@ export default class RestaurantItemPhoto extends Component {
 
   render() {
     const { t, name, address, logo, restaurant, uuid, ...props } = this.props;
+    this.imgId = "imgtest_" + uuid;
     return (
-      <div className="col-sm-6 col-12 my-3" {...props}>
-        <div className="media rounded ">
-          <div className="w-150">
-            <Link to={`/${restaurant.slug || uuid}`}>
-              <Image
-                className="media-image d-flex mr-3 rounded"
-                fallbackSrc="//placehold.it/120"
-                src={logo}
-                alt=""
-                width={120}
-              />
-            </Link>
-          </div>
-          <div className="media-body w-100">
-            <div className="d-flex flex-column justify-content-between mh-120">
-              <div>
-                <Link
-                  to={`/${restaurant.slug || uuid}`}
-                  className="color-black-300"
-                >
-                  <h5>{name}</h5>
-                </Link>
-                <hr className="my-2" />
-                {address && <div>{address}</div>}
-                <RestaurantOrderSetting outlet={restaurant} />
+      <div className="col-sm-6 col-12 block restaurant-list-item" {...props}>
+        <div class="d-flex">
+          <Link to={`/${restaurant.slug || uuid}`} className="restaurant-list-item-img">
+            <Image
+              id={this.imgId}
+              className="media-image"
+              fallbackSrc="//placehold.it/120"
+              src={logo}
+              alt=""
+            />
+          </Link>
+          <div className="w-100 ml-4 d-flex flex-column justify-content-between">
+            <div>
+              <Link
+                to={`/${restaurant.slug || uuid}`}
+                className="font-fr-120 color-cg-040 text-uppercase"
+              >
+                {name}
+              </Link>
+              <div className="color-red restaurant-address font-fr-110">
+                <span className="mr-2">
+                  {restaurant.address ? restaurant.address : t("LABEL.NO_INFO")}
+                </span>{" "}
+                <span>-</span>{" "}
+                <span>
+                  <i
+                    className="ml-2 fa fa-map-marker restaurant-location-icon"
+                    aria-hidden="true"
+                  />
+                </span>
               </div>
-              <RestaurantTag className="my-1" outlet={restaurant} />
+              <RestaurantOrderSetting className="mt-1 font-fr-110 color-cg-074" outlet={restaurant} />
             </div>
+            <RestaurantTag className="" outlet={restaurant} />
+          </div>
+        </div>
+        <div className="d-flex justify-content-end">
+          <div className="restaurant-list-item-img fake-img">
+            <Image
+              id={this.imgId}
+              className="media-image rounded"
+              fallbackSrc="//placehold.it/120"
+              src={logo}
+              alt=""
+            />
+          </div>
+          <div className="w-100 ml-4 font-fr-110 color-cg-074 pt-2">
+            <Readmore>
+              <p dangerouslySetInnerHTML={{ __html: restaurant.description }} />
+            </Readmore>
           </div>
         </div>
       </div>

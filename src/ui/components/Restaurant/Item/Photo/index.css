@@ -1,8 +1,35 @@
+@import "../../../../vars.css";
+
+
+.restaurant-list-item-img {
+  min-width: 6rem;
+  width: 18%;
+}
+
+.restaurant-list-item-img{
+  border-style: solid;
+  border-width: 1px;
+  border-color: $grey-white-color;
+  border-radius: 3px;
+  background-color: $grey-white-ultra-color;
+}
+
 .media-image {
-  max-height: 120px;
-  max-width: 120px;
+  width: 100%;
 }
 
 .mh-120 {
   min-height: 120px;
 }
+
+.fake-img {
+  max-height: 1px;
+  opacity: 0;
+}
+
+.restaurant-list-item {
+  .restaurant-location-icon {
+    font-size: 1rem;
+  }
+}
+
