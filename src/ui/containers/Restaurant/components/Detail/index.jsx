@@ -111,10 +111,12 @@ export default class extends Component {
 						</h3>
 						<ul>
 							{Object.keys(hoursDelivery).map((day, key) => {
-								return hoursDelivery[day].open ? (
+								const currentDayConfig = hoursDelivery[day];
+								return currentDayConfig.open ? (
 									<li key={key}>
-										{day} : {hoursDelivery[day].from.time} -{" "}
-										{hoursDelivery[day].to.time}
+										{day} :{" "}
+										{currentDayConfig.from.time || currentDayConfig.from} -{" "}
+										{currentDayConfig.to.time || currentDayConfig.to}
 									</li>
 								) : (
 									""

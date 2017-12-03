@@ -5,7 +5,7 @@ import { translate } from "react-i18next";
 // import classNames from "classnames";
 import Readmore from "~/ui/components/Readmore";
 
-import RestaurantOrderSetting from "~/ui/components/Restaurant/OrderSetting";
+// import RestaurantOrderSetting from "~/ui/components/Restaurant/OrderSetting";
 import RestaurantTag from "~/ui/components/Restaurant/Tag";
 // import MenuItem from "~/ui/components/Menu/Item";
 import Image from "~/ui/components/Image";
@@ -29,7 +29,10 @@ export default class RestaurantItemPhoto extends Component {
     return (
       <div className="col-sm-6 col-12 block restaurant-list-item" {...props}>
         <div className="d-flex">
-          <Link to={`/${restaurant.slug || uuid}`} className="restaurant-list-item-img">
+          <Link
+            to={`/${restaurant.slug || uuid}`}
+            className="restaurant-list-item-img"
+          >
             <Image
               id={this.imgId}
               className="media-image"
@@ -58,7 +61,10 @@ export default class RestaurantItemPhoto extends Component {
                   />
                 </span>
               </div>
-              <RestaurantInfo className="mt-1 font-fr-110 color-cg-074" outlet={restaurant} />
+              <RestaurantInfo
+                className="mt-1 font-fr-110 color-cg-074"
+                outlet={restaurant}
+              />
             </div>
             <RestaurantTag className="" outlet={restaurant} />
           </div>

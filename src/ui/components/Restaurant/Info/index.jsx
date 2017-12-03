@@ -46,11 +46,13 @@ export default class RestaurantInfo extends Component {
         const workingTime = parseJsonToObject(
           outlet.online_order_setting.hours_open
         );
-        const todayString = getTodayString();
-        const hoursOpendata = workingTime[todayString.toString().toUpperCase()];
+        const todayString = getTodayString().toUpperCase();
+
+        const hoursOpendata = workingTime[todayString];
         if (hoursOpendata && hoursOpendata.open) {
           metadata.push(
-            `${hoursOpendata.from.time} - ${hoursOpendata.to.time}`
+            `${hoursOpendata.from.time || hoursOpendata.from} - ${hoursOpendata
+              .to.time || hoursOpendata.to}`
           );
         } else {
           metadata.push(t("LABEL.RESTAURANT_CLOSED"));
