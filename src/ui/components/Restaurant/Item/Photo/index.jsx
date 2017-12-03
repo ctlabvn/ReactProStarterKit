@@ -9,6 +9,7 @@ import RestaurantOrderSetting from "~/ui/components/Restaurant/OrderSetting";
 import RestaurantTag from "~/ui/components/Restaurant/Tag";
 // import MenuItem from "~/ui/components/Menu/Item";
 import Image from "~/ui/components/Image";
+import RestaurantInfo from "~/ui/components/Restaurant/Info";
 
 import "./index.css";
 
@@ -27,7 +28,7 @@ export default class RestaurantItemPhoto extends Component {
     this.imgId = "imgtest_" + uuid;
     return (
       <div className="col-sm-6 col-12 block restaurant-list-item" {...props}>
-        <div class="d-flex">
+        <div className="d-flex">
           <Link to={`/${restaurant.slug || uuid}`} className="restaurant-list-item-img">
             <Image
               id={this.imgId}
@@ -57,7 +58,7 @@ export default class RestaurantItemPhoto extends Component {
                   />
                 </span>
               </div>
-              <RestaurantOrderSetting className="mt-1 font-fr-110 color-cg-074" outlet={restaurant} />
+              <RestaurantInfo className="mt-1 font-fr-110 color-cg-074" outlet={restaurant} />
             </div>
             <RestaurantTag className="" outlet={restaurant} />
           </div>

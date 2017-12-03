@@ -1,5 +1,11 @@
+@import "../../vars.css";
+
 .restaurant-listing {
   padding-top: 0;
+
+  .container {
+
+  }
 }
 
 .restaurant-listing-cart {
@@ -11,5 +17,61 @@
 
   .row {
     margin: 0;
+  }
+}
+
+@media (min-width: 768px) {
+  .restaurant-listing-filter-fixed {
+    padding-left: 12rem;
+    position: fixed;
+    z-index: 1029;
+  }
+
+  .restaurant-listing .container {
+    margin-top: 1.75rem;
+  }
+
+  .restaurant-listing-filter {
+    margin-top: 0.2rem !important;
+    .menu-item {
+      border-right-color: #a2a2a230 !important;
+      border-right: 1px solid;
+    }
+  }
+
+  .restaurant-listing-filter span:first-child .menu-item {
+    border-left-color: #a2a2a230 !important;
+    border-left: 1px solid;
+  }
+}
+
+@media (max-width: 768px) {
+  .restaurant-listing-filter-fake {
+    display: none;
+  }
+}
+
+.restaurant-listing-filter-fake {
+  pointer-events: none;
+  opacity: 0;
+}
+
+.restaurant-listing-filter-fixed {
+  background-color: $grey-white-ultra-color;
+}
+
+.restaurant-listing-filter {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase!important;
+  color: $grey-color;
+
+  .menu-item {
+    height: 1.75rem;
+    line-height: 1;
+  }
+
+  .menu-item.selected {
+    color: $grey-color;
   }
 }

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import classNames from "classnames";
 
-import { getSiblings } from "~/utils";
+//import { getSiblings } from "~/utils";
 import "./index.css";
 
 export default class MenuItem extends Component {
@@ -24,13 +24,13 @@ export default class MenuItem extends Component {
   }
 
   handleClick(e, onClick) {
-    if (!this.props.link) {
-      const { activeClassName } = this.props;
-
-      this.node.classList.add(activeClassName);
-      const siblings = getSiblings(this.node);
-      siblings.map(sibling => sibling.classList.remove(activeClassName));
-    }
+    //if (!this.props.link) {
+    //  const { activeClassName } = this.props;
+    //
+    //  this.node.classList.add(activeClassName);
+    //  const siblings = getSiblings(this.node);
+    //  siblings.map(sibling => sibling.classList.remove(activeClassName));
+    //}
 
 	  // const idToggle = this.node.getAttribute("data-toggle-id");
 	  // const classToggle = this.node.getAttribute("data-toggle-class");
@@ -57,18 +57,23 @@ export default class MenuItem extends Component {
   }
 
   render() {
-    const { totalItem, title, link, active, onClick, className, activeClassName } = this.props;
+    const { totalItem, title, link, active, onClick, className, activeClassName, icon, id } = this.props;
+
+    const inputClass = classNames("list-inline-item menu-item", {
+      [activeClassName]: active
+    }, className);
+
     return (totalItem !== 0 &&
       <li
         ref={ref => (this.node = ref)}
-        className={classNames("list-inline-item menu-item", {
-          [activeClassName]: active
-        }, className)}
+        className={inputClass}
         // data-toggle-id={idToggle}
         // data-toggle-class={classToggle}
         onClick={e => this.handleClick(e, onClick)}
+        id={id}
       >
         {link ? this.renderLink(link, title) : this.renderItem(title)}
+        {!!icon && <i className={icon}/>}
       </li>
     );
   }

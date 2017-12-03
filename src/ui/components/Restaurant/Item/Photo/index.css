@@ -31,5 +31,10 @@
   .restaurant-location-icon {
     font-size: 1rem;
   }
+
+  .restaurant-info {
+    font-size: 11px !important;
+    color: $grey-light-color;
+  }
 }
 

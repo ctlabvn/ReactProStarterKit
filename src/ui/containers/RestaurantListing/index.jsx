@@ -58,7 +58,9 @@ export default class extends Component {
           <title>{t("LABEL.RESTAURANT_LIST")}</title>
           <meta name="description" content={t("LABEL.RESTAURANT_LIST")}/>
         </Helmet>
-        {!isMobile && <Filter onUpdateFilter={this.onUpdateFilter}/>}
+
+        {!isMobile && <Filter className="menu-decorator restaurant-listing-filter restaurant-listing-filter-fixed my-2 container" onUpdateFilter={this.onUpdateFilter}/>}
+        {!isMobile && <Filter className="menu-decorator restaurant-listing-filter restaurant-listing-filter-fake my-2 container"/>}
 
         <div className="container">
           <div className="bg-white box-shadow restaurant-listing-cart">
