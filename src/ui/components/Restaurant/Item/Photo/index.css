@@ -36,5 +36,10 @@
     font-size: 11px !important;
     color: $grey-light-color;
   }
+
+  .restaurant-list-item-slug {
+    top: -6px;
+    position: relative;
+  }
 }
 

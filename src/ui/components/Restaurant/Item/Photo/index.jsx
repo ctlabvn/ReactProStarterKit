@@ -42,7 +42,7 @@ export default class RestaurantItemPhoto extends Component {
             <div>
               <Link
                 to={`/${restaurant.slug || uuid}`}
-                className="font-fr-120 color-cg-040 text-uppercase"
+                className="font-fr-120 color-cg-040 text-uppercase restaurant-list-item-slug"
               >
                 {name}
               </Link>
