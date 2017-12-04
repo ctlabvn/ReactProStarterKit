@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+// import { connect } from "react-redux";
 import { translate } from "react-i18next";
 // import classNames from "classnames";
 
@@ -32,8 +32,8 @@ import GoogleMapKey from "~/ui/components/GoogleMapKey";
 import Autocomplete from "~/ui/components/Autocomplete";
 // import ButtonRound from "~/ui/components/Button/Round";
 
-import * as orderSelectors from "~/store/selectors/order";
-import * as orderActions from "~/store/actions/order";
+// import * as orderSelectors from "~/store/selectors/order";
+// import * as orderActions from "~/store/actions/order";
 import { GOOGLE_API_KEY } from "~/store/constants/api";
 import { fetchJson } from "~/store/api/common";
 
@@ -47,13 +47,7 @@ import {
 import { getOrderTypeValue } from "../../../utils";
 
 @translate("translations")
-@connect(
-  state => ({
-    orderItems: orderSelectors.getItems(state),
-    orderInfo: orderSelectors.getInfo(state)
-  }),
-  orderActions
-)
+// @connect(null, orderActions)
 export default class extends Component {
   constructor(props) {
     super(props);
@@ -83,11 +77,13 @@ export default class extends Component {
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_API_KEY}`
     );
     this.loadingIcon && this.loadingIcon.classList.add("hidden");
-    this.props.updateOrder({
-      order_lat: lat,
-      order_long: lng,
-      order_address: results[0].formatted_address
-    });
+    this.props.onReceiveAddress &&
+      this.props.onReceiveAddress(lat, lng, results[0].formatted_address);
+    // this.props.updateOrder({
+    //   order_lat: lat,
+    //   order_long: lng,
+    //   order_address: results[0].formatted_address
+    // });
     this.loadDirectionFromGmap(lat, lng);
   }
 
@@ -164,11 +160,15 @@ export default class extends Component {
       if (status === this.Maps.GeocoderStatus.OK) {
         const lat = results[0].geometry.location.lat();
         const lng = results[0].geometry.location.lng();
-        this.props.updateOrder({
-          order_lat: lat,
-          order_long: lng,
-          order_address: description
-        });
+
+        this.props.onReceiveAddress &&
+          this.props.onReceiveAddress(lat, lng, description);
+
+        // this.props.updateOrder({
+        //   order_lat: lat,
+        //   order_long: lng,
+        //   order_address: description
+        // });
         this.loadDirectionFromGmap(lat, lng);
       }
     });

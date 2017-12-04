@@ -136,12 +136,20 @@ export default class extends Component {
     history.push("/checkout");
   };
 
-  componentDidMount() {
-    const { orderInfo } = this.props;
-    if (!orderInfo.order_lat && !orderInfo.order_lat) {
-      this.loadAddressFromGmap();
-    }
-  }
+  // componentDidMount() {
+  //   const { orderInfo } = this.props;
+  //   if (!orderInfo.order_lat && !orderInfo.order_lat) {
+  //     this.loadAddressFromGmap();
+  //   }
+  // }
+
+  handleReceiveAddress = (order_lat, order_long, order_address) => {
+    this.props.updateOrder({
+      order_lat,
+      order_long,
+      order_address
+    });
+  };
 
   renderTimePicker = ({ request_time, order_type }) => {
     const { orderInfo, t } = this.props;
@@ -237,6 +245,9 @@ export default class extends Component {
               <Fields
                 names={["order_type", "order_address"]}
                 orderTypes={this.orderTypes}
+                orderInfo={orderInfo}
+                orderItems={orderItems}
+                onReceiveAddress={this.handleReceiveAddress}
                 onReceiveDirections={directions =>
                   (this.directions = directions)}
                 component={DirectionGmapField}
