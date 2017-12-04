@@ -91,7 +91,7 @@ export default class extends Component {
           )}
         </Helmet>
 
-        <div className="container">
+        <div className="container container-xs">
           <Header
             outlet={outlet}
             active={tabID}

@@ -69,7 +69,7 @@ export default class extends Component {
     return (
       <div className="map-background">
         {outlet ? (
-          <div className="container">
+          <div className="container container-xs">
             <Helmet>
               <title>{item.name}</title>
               <meta name="description" content={item.description} />
