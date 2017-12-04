@@ -167,27 +167,19 @@ export default class ProductOptions extends Component {
 		const parentFormState = this.state.form[parent.opt_set_uuid];
 		// console.log(parentFormState);
 		return (
-			<div
-				className={classNames(
-					inline
-						? "col-md-flex flex-md-wrap col-md-10 mt-md-0 mt-2 no-gutters"
-						: "col-12 mt-4"
-				)}
-			>
+			<div className="d-md-flex flex-md-wrap w-100">
 				{parent.optionSet.map((child, index) => {
 					const inputName = parent.multiple_choice
 						? `data[${parent.id}][${child.id}]`
 						: `data[${parent.id}]`;
 					return (
 						<FormGroup
-							className={classNames(
-								inline ? "col-md-3 float-left" : "col-12 px-0"
-							)}
+							className="col-md-4"
 							key={index}
 							check
 						>
 							<Label
-								className="font-weight-bold text-uppercase color-black-300"
+								className="font-fr-120 color-cg-074"
 								check
 							>
 								<Input
@@ -205,16 +197,10 @@ export default class ProductOptions extends Component {
 										)}
 									type={inputType}
 								/>{" "}
-								{child.name}
-								<br />
-								{child.price > 0 && (
-									<small className="badge badge-danger">
-										{t("format.currency", {
-											price: child.price,
-											symbol: symbol
-										})}
-									</small>
-								)}
+								{`${child.name} - ${t("format.currency", {
+                  price: child.price,
+                  symbol: symbol
+                })}`}
 							</Label>
 						</FormGroup>
 					);
@@ -235,26 +221,27 @@ export default class ProductOptions extends Component {
 			>
 				{options.map((parent, index) => (
 					<div
-						className={classNames("my-3 row no-gutters", {
-							"border-bottom": index < options.length - 1
+						className={classNames("py-2 row no-gutters border-top", {
+							//"border-bottom": index < options.length - 1
 						})}
 						key={parent.opt_set_uuid}
 					>
-						<div className={classNames(inline ? "col-md-2" : "col-12")}>
-							<strong
+						<div className="w-100">
+							<div
 								className={classNames(
-									"group-label text-uppercase border-bottom",
+									"group-label text-uppercase font-fb-140",
 									parent.mandatory
-										? "border-red color-red"
-										: "border-gray-300 color-gray-300"
+										? "color-red"
+										: "color-cg-040"
 								)}
 							>
 								{parent.name}
-								{parent.mandatory ? "*" : ""}
-							</strong>
+								{parent.mandatory ? "* :" : " :"}
+							</div>
+              {!!parent.optionSet &&
+              this.renderOption(item.currency.symbol, parent, t)}
 						</div>
-						{!!parent.optionSet &&
-							this.renderOption(item.currency.symbol, parent, t)}
+
 						<div className="col-12">
 							<span
 								className="text-danger text-error-msg"

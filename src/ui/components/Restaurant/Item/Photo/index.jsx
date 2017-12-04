@@ -5,7 +5,7 @@ import { translate } from "react-i18next";
 // import classNames from "classnames";
 import Readmore from "~/ui/components/Readmore";
 
-// import RestaurantOrderSetting from "~/ui/components/Restaurant/OrderSetting";
+//import RestaurantOrderSetting from "~/ui/components/Restaurant/OrderSetting";
 import RestaurantTag from "~/ui/components/Restaurant/Tag";
 // import MenuItem from "~/ui/components/Menu/Item";
 import Image from "~/ui/components/Image";

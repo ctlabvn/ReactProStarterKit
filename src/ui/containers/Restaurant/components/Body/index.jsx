@@ -38,11 +38,13 @@ export default class extends Component {
       term: "",
       products: {},
       categories: [],
+      selectedCategory: "",
       isLoadingItem: false
     };
   }
 
   handleCategory = parentCategory => {
+    this.setState({selectedCategory: parentCategory})
     this.loadProducts(parentCategory);
   };
 
@@ -69,6 +71,8 @@ export default class extends Component {
               products[product.category_uuid].push(product);
             })
           );
+
+          console.log("products ----------- ",products);
 
           this.setState({ isLoadingItem: false, products });
         }
@@ -191,6 +195,7 @@ export default class extends Component {
               {showCategories.map((item, index) => {
                 return (
                   <MenuItem
+                    active={this.state.selectedCategory === item.category_uuid}
                     className="text-uppercase font-weight-bold pl-0"
                     onClick={() => this.handleCategory(item.category_uuid)}
                     key={item.category_uuid}

@@ -86,7 +86,7 @@ export default class extends Component {
 
             <RestaurantTag className="mt-4" outlet={outlet} />
 
-            <div className="mt-4 border border-white-300 bg-white w-100 border-right-0 border-left-0 border-bottom-0">
+            <div className="mt-4 border-top border-white-300 bg-white w-100">
               <Menu className="menu-decorator text-uppercase restaurant-header-menu">
                 {options.menuItems.map((item, i) => (
                   <MenuItem

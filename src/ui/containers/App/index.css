@@ -257,6 +257,14 @@ a:hover {
   border-top: 1px solid $gray-color-200;
 }
 
+.border {
+  border: 1px solid $grey-white-color !important;
+}
+
+.border-box {
+  border-radius: 3px;
+}
+
 .html-content {
   img {
     max-width: 100%;
@@ -442,6 +450,11 @@ strong {
 
 .font-fr-140 {
   font-size: 14px !important;
+}
+
+.font-fb-140 {
+  font-size: 14px !important;
+  font-weight: 600 !important;
 }
 
 .font-fr-130 {

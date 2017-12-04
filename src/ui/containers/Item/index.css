@@ -1,3 +1,5 @@
+@import "../../vars.css";
+
 .slider {
   position: relative;
   padding-left: 60px;
@@ -11,3 +13,21 @@
     height: 50px;
   }
 }
+
+.item-header-main .read-more {
+    font-size: 0.75rem;
+    color: $gray-color-400;
+}
+
+@media (min-width: 768px) {
+  .item-header-img {
+    width: 17%;
+    min-width: 17%;
+  }
+}
+
+.item-header-img img{
+  width: 100%;
+}
+
+
