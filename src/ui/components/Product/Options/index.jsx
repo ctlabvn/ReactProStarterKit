@@ -131,40 +131,41 @@ export default class ProductOptions extends Component {
 	}
 
 	componentWillReceiveProps({ item }) {
-		this.setState({ options: item.item_options }, () => this.resetFormTree());
+		if (item !== this.props.item) {
+			this.setState({ options: item.item_options }, () => this.resetFormTree());
+		}
 	}
 
 	handleChange = (parentUuid, child, multiChoice) => {
 		const { disableAddToCart, form } = this.state;
+		const newState = { form: { ...form } };
 		if (disableAddToCart) {
-			this.setState({
-				disableAddToCart: this.validateMandatory(false)
-			});
+			newState.disableAddToCart = this.validateMandatory(false);
 		}
 
 		if (!multiChoice) {
-			for (let childUuid of Object.keys(form[parentUuid])) {
-				form[parentUuid][childUuid] = false;
+			for (let childUuid of Object.keys(newState.form[parentUuid])) {
+				newState.form[parentUuid][childUuid] = false;
 			}
 		}
-		form[parentUuid][child.option_uuid] = form[parentUuid][child.option_uuid]
+
+		newState.form[parentUuid][child.option_uuid] = newState.form[parentUuid][
+			child.option_uuid
+		]
 			? false
 			: child;
-		this.setState(
-			{
-				form: form
-			},
-			() => {
-				this.props.onChangeOption &&
-					this.props.onChangeOption(this.getTotalPrice(), this);
-			}
-		);
+
+		this.setState(newState, () => {
+			this.props.onChangeOption &&
+				this.props.onChangeOption(this.getTotalPrice(), this);
+		});
 	};
 
 	renderOption(symbol, parent, t) {
 		const { inline } = this.props;
 		const inputType = parent.multiple_choice ? "checkbox" : "radio";
 		const parentFormState = this.state.form[parent.opt_set_uuid];
+		// console.log(parentFormState);
 		return (
 			<div
 				className={classNames(
