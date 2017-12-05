@@ -153,6 +153,7 @@ export default class extends Component {
 				<div className="px-md-4 w-100">
 					{showProductOptions && (
 						<ProductOptions
+              className="item-header-product-options"
 							autoClear={false}
 							shiftToMenu={true}
 							onChangeOption={this.onChangeOption}
@@ -175,7 +176,7 @@ export default class extends Component {
 							</Button>
 						)}
 
-					<div className="border-top border-white-300 mt-4">
+					<div className="border-white-300 mt-4">
 						<Menu className="menu-decorator text-uppercase restaurant-header-menu">
 							{options.menuItems.map((item, index) => (
 								<MenuItem

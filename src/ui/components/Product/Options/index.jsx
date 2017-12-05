@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 
 import { FormGroup, Label, Input } from "reactstrap";
+import Checkbox from "~/ui/components/Checkbox";
 
 import api from "~/store/api";
 import * as orderActions from "~/store/actions/order";
@@ -182,7 +183,7 @@ export default class ProductOptions extends Component {
 								className="font-fr-120 color-cg-074"
 								check
 							>
-								<Input
+								<Checkbox
 									name={inputName}
 									checked={
 										parentFormState
@@ -196,11 +197,11 @@ export default class ProductOptions extends Component {
 											parent.multiple_choice
 										)}
 									type={inputType}
-								/>{" "}
-								{`${child.name} - ${t("format.currency", {
+                  content={`${child.name} - ${t("format.currency", {
                   price: child.price,
                   symbol: symbol
                 })}`}
+								/>
 							</Label>
 						</FormGroup>
 					);
@@ -221,7 +222,7 @@ export default class ProductOptions extends Component {
 			>
 				{options.map((parent, index) => (
 					<div
-						className={classNames("py-2 row no-gutters border-top", {
+						className={classNames("px-4 py-2 row no-gutters border-top", {
 							//"border-bottom": index < options.length - 1
 						})}
 						key={parent.opt_set_uuid}
@@ -261,16 +262,15 @@ export default class ProductOptions extends Component {
 						</span>
 					</div>
 				)}
-				<div className="form-group text-right">
+				<div className="text-right">
 					{canAddOrder && (
 						<button
-							className={classNames("btn btn-danger btn-sm", {
-								"btn-block": !inline
-							})}
+							className="mr-4 item-header-btn-add-to-cart btn"
 							disabled={disableAddToCart}
 							onClick={() => this.handleSubmit()}
 						>
-							{t("BUTTON.ADD_TO_CART")}
+							<span>+</span>
+              <div>ADD TO CART</div>
 						</button>
 					)}
 				</div>
