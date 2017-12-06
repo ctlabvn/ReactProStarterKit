@@ -129,18 +129,21 @@ export default class extends Component {
 
         <Menu className={className}>
           {placeOnDrawer && <hr />}
-          {Object.keys(filters).map((type, i) => (
-            !!filters[type].body &&
-            <MenuItemPopover
-              active={active === type}
-              key={i}
-              title={t(filters[type].text)}
-              item={filters[type]}
-              id={type}
-              onSelectFilter={selected => this.onSelectFilter(type, selected)}
-              ac
-            />
-          ))}
+          <div className="container">
+            {Object.keys(filters).map((type, i) => (
+              !!filters[type].body &&
+              <MenuItemPopover
+                active={active === type}
+                key={i}
+                title={t(filters[type].text)}
+                item={filters[type]}
+                id={type}
+                onSelectFilter={selected => this.onSelectFilter(type, selected)}
+                ac
+              />
+            ))}
+          </div>
+
         </Menu>
 			)
 		);

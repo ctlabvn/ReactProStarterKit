@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // import { translate } from "react-i18next";
-import ProductItemPhoto from "~/ui/components/Product/Item/Photo";
+//import ProductItemPhoto from "~/ui/components/Product/Item/Photo";
 import Slider from "~/ui/components/Slider";
 import Image from "~/ui/components/Image";
 

@@ -22,7 +22,6 @@
 
 @media (min-width: 768px) {
   .restaurant-listing-filter-fixed {
-    padding-left: 12rem;
     position: fixed;
     z-index: 1029;
   }
@@ -61,6 +60,9 @@
 }
 
 .restaurant-listing-filter {
+  width: 100%;
+  max-width: 100% !important;
+
   font-size: 12px;
   font-weight: 500;
   text-transform: uppercase!important;
@@ -73,5 +75,9 @@
 
   .menu-item.selected {
     color: $grey-color;
+  }
+
+  .container {
+    margin-top: 0;
   }
 }

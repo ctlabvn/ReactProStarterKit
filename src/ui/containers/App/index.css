@@ -25,7 +25,7 @@ a:hover {
 }
 
 .container-xs {
-  max-width: 1320px !important;
+  /*max-width: 1320px !important;*/
 }
 
 .container {
@@ -432,9 +432,10 @@ strong {
 
 @media (min-width: 768px) {
   .container {
-    max-width: 100%;
-    padding-right: 10.5rem;
-    padding-left: 10.5rem;
+    max-width: 1175px !important;
+    /*max-width: 100%;*/
+    padding-right: 0;
+    padding-left: 0;
     margin-top: 3rem;
   }
 }

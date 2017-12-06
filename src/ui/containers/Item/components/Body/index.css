@@ -1,5 +1,5 @@
 @import "../../../../vars.css";
 
 .restaurant-cat{
-  border-right: 4px solid $red-color;
+  border-right: 2px solid $red-color;
 }

@@ -7,7 +7,7 @@ import { Button } from "reactstrap";
 
 import Menu from "~/ui/components/Menu";
 import MenuItem from "~/ui/components/Menu/Item";
-import RestaurantInfo from "~/ui/components/Restaurant/Info";
+//import RestaurantInfo from "~/ui/components/Restaurant/Info";
 import Readmore from "~/ui/components/Readmore";
 import ProductOptions from "~/ui/components/Product/Options";
 import AddItemValidator from "~/ui/components/AddItemValidator";

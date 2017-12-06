@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
-import { FormGroup, Label, Input } from "reactstrap";
+import { FormGroup, Label } from "reactstrap";
 import Checkbox from "~/ui/components/Checkbox";
 
 import api from "~/store/api";
@@ -163,8 +163,8 @@ export default class ProductOptions extends Component {
 	};
 
 	renderOption(symbol, parent, t) {
-		const { inline } = this.props;
-		const inputType = parent.multiple_choice ? "checkbox" : "radio";
+		//const { inline } = this.props;
+		const inputType = parent.multiple_option ? "checkbox" : "radio";
 		const parentFormState = this.state.form[parent.opt_set_uuid];
 		// console.log(parentFormState);
 		return (
@@ -214,6 +214,7 @@ export default class ProductOptions extends Component {
 	render() {
 		const { t, item, canAddOrder, inline, shiftToMenu, className } = this.props;
 		const { disableAddToCart, options } = this.state;
+
 		return (
 			<div
 				className={classNames(className, {
@@ -237,7 +238,7 @@ export default class ProductOptions extends Component {
 								)}
 							>
 								{parent.name}
-								{parent.mandatory ? "* :" : " :"}
+								{parent.mandatory ? " * :" : " :"}
 							</div>
               {!!parent.optionSet &&
               this.renderOption(item.currency.symbol, parent, t)}
