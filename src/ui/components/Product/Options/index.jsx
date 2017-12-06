@@ -194,7 +194,7 @@ export default class ProductOptions extends Component {
 										this.handleChange(
 											parent.opt_set_uuid,
 											child,
-											parent.multiple_choice
+											parent.multiple_option
 										)}
 									type={inputType}
                   content={`${child.name} - ${t("format.currency", {
