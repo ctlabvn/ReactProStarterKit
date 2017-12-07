@@ -8,12 +8,12 @@ const Checkbox = (props) => {
       {props.content}
       <input {...props}/>
       {props.type === "checkbox" && [
-        <i class="fa fa-check-square custom-checkbox-checked" aria-hidden="true"/>,
-        <i class="fa fa-square-o custom-checkbox-none" aria-hidden="true"/>
+        <i key="1" className="fa fa-check-circle custom-checkbox-checked" aria-hidden="true"/>,
+        <i key="2" className="fa fa-circle-o custom-checkbox-none" aria-hidden="true"/>
       ]}
       {props.type === "radio" && [
-        <i class="fa fa-check-circle custom-checkbox-checked" aria-hidden="true"/>,
-        <i class="fa fa-circle-o custom-checkbox-none" aria-hidden="true"/>
+        <i key="1" className="fa fa-check-square custom-checkbox-checked" aria-hidden="true"/>,
+        <i key="2" className="fa fa-square-o custom-checkbox-none" aria-hidden="true"/>
       ]}
     </div>)
 };

@@ -164,6 +164,9 @@ export default class ProductOptions extends Component {
 
 	renderOption(symbol, parent, t) {
 		//const { inline } = this.props;
+
+    console.log("-------------- parent ", parent);
+
 		const inputType = parent.multiple_option ? "checkbox" : "radio";
 		const parentFormState = this.state.form[parent.opt_set_uuid];
 		// console.log(parentFormState);
