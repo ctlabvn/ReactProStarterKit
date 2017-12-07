@@ -69,22 +69,24 @@ export default class RestaurantItemPhoto extends Component {
             <RestaurantTag className="" outlet={restaurant} />
           </div>
         </div>
-        <div className="d-flex justify-content-end">
-          <div className="restaurant-list-item-img fake-img">
-            <Image
-              id={this.imgId}
-              className="media-image rounded"
-              fallbackSrc="//placehold.it/120"
-              src={logo}
-              alt=""
-            />
-          </div>
-          <div className="w-100 ml-4 font-fr-110 color-cg-074 pt-2">
-            <Readmore>
-              <p dangerouslySetInnerHTML={{ __html: restaurant.description }} />
-            </Readmore>
-          </div>
-        </div>
+        {
+          //<div className="d-flex justify-content-end">
+          //  <div className="restaurant-list-item-img fake-img">
+          //    <Image
+          //      id={this.imgId}
+          //      className="media-image rounded"
+          //      fallbackSrc="//placehold.it/120"
+          //      src={logo}
+          //      alt=""
+          //    />
+          //  </div>
+          //  <div className="w-100 ml-4 font-fr-110 color-cg-074 pt-2">
+          //    <Readmore>
+          //      <p dangerouslySetInnerHTML={{ __html: restaurant.description }} />
+          //    </Readmore>
+          //  </div>
+          //</div>
+        }
       </div>
     );
   }

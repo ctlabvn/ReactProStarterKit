@@ -43,7 +43,7 @@
   font-size: 50px;
   border-radius: 50%;
   font-weight: 200;
-  margin-bottom: 2.25rem;
+  margin-bottom: 1rem;
   background-color: $grey-white-ultra-color;
   border: 1px solid #c8c8c8;
 
@@ -53,15 +53,13 @@
 
 .item-header-btn-add-to-cart span {
   position: relative;
-  top: 6px;
+  /*top: 6px;*/
   left: 0.5px;
 }
 
-.item-header-btn-add-to-cart div {
+.item-header-btn-add-to-cart + div {
   position: relative;
   font-size: 17px;
-  top: 30px;
-  left: -20px;
   letter-spacing: -1px;
   color: $red-color;
   font-weight: 400;

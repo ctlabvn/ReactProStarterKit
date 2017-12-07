@@ -268,14 +268,17 @@ export default class ProductOptions extends Component {
 				)}
 				<div className="text-right">
 					{canAddOrder && (
-						<button
-							className="mr-4 item-header-btn-add-to-cart btn"
-							disabled={disableAddToCart}
-							onClick={() => this.handleSubmit()}
-						>
-							<span>+</span>
-              <div>ADD TO CART</div>
-						</button>
+            <div className="pr-2">
+              <button
+                role="button"
+                className="mr-4 item-header-btn-add-to-cart btn"
+                disabled={disableAddToCart}
+                onClick={() => this.handleSubmit()}
+              >
+                <span>+</span>
+              </button>
+              <div className="mr-1">ADD TO CART</div>
+            </div>
 					)}
 				</div>
 			</div>

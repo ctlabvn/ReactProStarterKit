@@ -66,12 +66,12 @@ export default class extends Component {
     const list = this.state.suggestions[key];
     if (list && list.length) {
       return (
-        <DropdownItem
+        <div
           key={key}
-          className={classNames("d-md-flex row no-gutters", className)}
+          className={classNames("pl-2 no-gutters", className)}
         >
-          <strong className="col-md-4">{label}</strong>
-          <div className="col-md-8 border border-top-0 border-right-0 border-bottom-0 pl-md-4 mt-2">
+          <strong>{label}</strong>
+          <div className="pt-2">
             {list.map(item => (
               <Link
                 className="d-flex mb-2 w-100 justify-content-start align-items-center"
@@ -88,7 +88,7 @@ export default class extends Component {
               </Link>
             ))}
           </div>
-        </DropdownItem>
+        </div>
       );
     }
 
@@ -108,7 +108,7 @@ export default class extends Component {
           : item.item_uuid}`;
       },
       this.getItemGallery,
-      "border-bottom"
+      "suggestion-result"
     );
     const restaurantsResult = this.renderSuggestionResult(
       "outlets",

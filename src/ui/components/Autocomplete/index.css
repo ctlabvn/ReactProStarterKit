@@ -1,3 +1,7 @@
 .dropdown-item{
   white-space: normal;
 }
+
+.dropdown-menu {
+  border-radius: 0;
+}

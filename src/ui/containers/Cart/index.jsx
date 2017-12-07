@@ -60,7 +60,7 @@ import "./index.css";
   state => ({
     orderItems: orderSelectors.getItems(state),
     orderInfo: orderSelectors.getInfo(state),
-    initialValues: { ...orderSelectors.getInfo(state) }
+    initialValues: { ...orderSelectors.getInfo(state), order_note: ""}
   }),
   orderActions
 )
@@ -172,15 +172,17 @@ export default class extends Component {
           orderTypes={this.orderTypes}
           {...order_type}
         />
-        <RequestTimeField
-          label={t(
-            orderTypeValue === ORDER_TYPE.DELIVERY
-              ? "LABEL.DELIVERY"
-              : "LABEL.TAKEAWAY"
-          )}
-          hoursRange={hoursRange}
-          {...request_time}
-        />
+        {
+          //<RequestTimeField
+          //  label={t(
+          //  orderTypeValue === ORDER_TYPE.DELIVERY
+          //    ? "LABEL.DELIVERY"
+          //    : "LABEL.TAKEAWAY"
+          //)}
+          //  hoursRange={hoursRange}
+          //  {...request_time}
+          ///>
+        }
       </div>
     );
   };

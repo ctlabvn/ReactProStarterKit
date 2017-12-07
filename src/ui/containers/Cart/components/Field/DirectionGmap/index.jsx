@@ -91,7 +91,7 @@ export default class extends Component {
     const { orderInfo, t } = this.props;
     const originLat = +orderInfo.restaurant_lat;
     const originLong = +orderInfo.restaurant_long;
-    if (lat && long && originLat && originLong) {
+    if (lat && long && originLat && originLong && this.directionsService) {
       this.directionsService.route(
         {
           origin: new this.Maps.LatLng(originLat, originLong),
