@@ -45,7 +45,12 @@ export default class extends Component {
 	}
 
 	componentDidUpdate() {
-		window.dispatchEvent(new Event("resize"));
+
+    try {
+      window.dispatchEvent(new Event("resize"));
+    }catch (err){
+      console.log("err ----------- ", err);
+    }
 	}
 
 	render() {

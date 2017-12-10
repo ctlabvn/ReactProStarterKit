@@ -33,14 +33,12 @@
   .restaurant-listing-filter {
     margin-top: 0.2rem !important;
     .menu-item {
-      border-right-color: #a2a2a230 !important;
-      border-right: 1px solid;
+      border-right: 1px solid $grey-white-color;
     }
   }
 
   .restaurant-listing-filter span:first-child .menu-item {
-    border-left-color: #a2a2a230 !important;
-    border-left: 1px solid;
+    border-left: 1px solid $grey-white-color;
   }
 }
 

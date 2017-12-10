@@ -44,9 +44,12 @@ export default class extends Component {
     }
     const defaultLangName = t(`languages.${defaultLang}`);
     if (!config.languages) return defaultLangName;
-    const selectedItem = config.languages.find(
-      item => item.iso_code === defaultLang
-    );
+
+    let selectedItem = null;
+
+    config.languages.map(item => {
+        if(item.iso_code === defaultLang) selectedItem = item;
+    });
     return (
       <Dropdown
         title={selectedItem ? selectedItem.name : defaultLangName}

@@ -95,7 +95,7 @@ export default class extends Component {
             // invisible: isHome
           })}
         >
-          <div className="p-0 d-flex justify-content-between w-100">
+          <div className="container p-4 my-0 d-flex justify-content-between">
             <div className="d-flex">
               {isMobile ? (
                 <span className="navbar-brand" onClick={this.toggleDrawer}>
@@ -115,15 +115,15 @@ export default class extends Component {
 
               {!isHome && (
                 <Suggestion
-                  buttonClass="border-0 mt-2"
+                  buttonClass="border-0"
                   inputClass={classNames(
                     { "font-medium": isMobile },
-                    "color-gray pl-2"
+                    "color-cg-040 font-fr-170 pl-2"
                   )}
-                  prepend={
-                    <i className="fa fa-search color-black-300 mr-2 icon-search" />
-                  }
-                  className="header-suggestion"
+                  //prepend={
+                  //  <i className="fa fa-search color-black-300 mr-2 icon-search" />
+                  //}
+                  className="d-flex align-items-center header-suggestion"
                 />
               )}
             </div>
@@ -160,7 +160,7 @@ export default class extends Component {
               {!isLogged ? (
                 <Button
                   onClick={() => this.loginModal.toggle()}
-                  className="btn-outline-danger btn-sm text-capitalize ml-4"
+                  className="header-btn-login btn-outline-danger btn-sm text-capitalize ml-4"
                 >
                   {t("LINK.FOOTER.LOGIN")}
                 </Button>

@@ -2,6 +2,10 @@
   /*box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);*/
   background-color: #ffffff;
   /*border-bottom: 1px solid #e7e7e7;*/
+
+  .container {
+    height: 96px;
+  }
 }
 
 .header-suggestion {
@@ -18,8 +22,7 @@
 }
 
 .navbar {
-  padding-right: 40px;
-  padding-left: 40px;
+  padding: 0;
   .navbar-brand {
     z-index: 1;
     > img {
@@ -40,4 +43,33 @@
       }
     }
   }
+}
+
+#popoverCartBtn {
+  position: relative;
+  height: 41px;
+  width: 41px;
+  font-size: 20px;
+}
+
+#popoverCartBtn i {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+#popoverCartBtn .badge {
+  width: 15px;
+  height: 15px;
+  border: none;
+  font-size: 10px;
+  line-height: 1.2 !important;
+  bottom: -2px;
+  right: -15px;
+}
+
+.header-btn-login {
+  width: 86px;
+  height: 24px;
+  line-height: 1;
 }
