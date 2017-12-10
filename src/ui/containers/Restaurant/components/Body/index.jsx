@@ -72,8 +72,6 @@ export default class extends Component {
             })
           );
 
-          console.log("products ----------- ",products);
-
           this.setState({ isLoadingItem: false, products });
         }
       }
@@ -141,6 +139,8 @@ export default class extends Component {
 
     const showCategories = [];
     const canAddOrder = checkOrderAvailable(outlet);
+
+    console.log("outlet ----------------- ", outlet, canAddOrder);
 
     if (outlet.total_items) {
       categories.forEach(item => {

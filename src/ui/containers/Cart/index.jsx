@@ -2,9 +2,12 @@ import React, { Component } from "react";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { translate } from "react-i18next";
-// import classNames from "classnames";
+import classNames from "classnames";
 
 import { Helmet } from "react-helmet";
+import {
+  isMobile
+} from "~/utils";
 
 // redux form
 import {
@@ -37,6 +40,7 @@ import DirectionGmapField from "./components/Field/DirectionGmap";
 // import GoogleMapKey from "~/ui/components/GoogleMapKey";
 // import Autocomplete from "~/ui/components/Autocomplete";
 import ButtonRound from "~/ui/components/Button/Round";
+import TopFilter from "~/ui/components/TopFilter";
 
 import * as orderSelectors from "~/store/selectors/order";
 import * as orderActions from "~/store/actions/order";
@@ -172,7 +176,7 @@ export default class extends Component {
           orderTypes={this.orderTypes}
           {...order_type}
         />
-        <div style={{display: "none"}}>
+        <div>
           <RequestTimeField
             label={t(
             orderTypeValue === ORDER_TYPE.DELIVERY
@@ -186,6 +190,10 @@ export default class extends Component {
       </div>
     );
   };
+
+  onSelectTopFilter = (id, value) => {
+    console.log("onSelectTopFilter -------------- ",id, value);
+  }
 
   render() {
     const {
@@ -214,86 +222,120 @@ export default class extends Component {
     //consumer_discounts
 
     return (
-      <div className="container">
+      <div className="your-cart map-background">
         <Helmet>
           <title>{t("LABEL.YOUR_CART")}</title>
           <meta name="description" content={t("LABEL.YOUR_CART")} />
         </Helmet>
 
-        <div className="block bg-white box-shadow p-0">
-          <nav className="breadcrumb text-uppercase color-gray-400 bg-transparent pl-0">
-            <a
-              role="button"
-              onClick={history.goBack}
-              className="breadcrumb-item color-gray-400"
-            >
-              &lt; {t("LINK.BACK")}
-            </a>
-          </nav>
+        {!isMobile && <TopFilter
+          onSelected={this.onSelectTopFilter}
+          categories={[
+          {
+              id: "order_method",
+              title: t("BUTTON.FILTER.ORDERING_METHODS"),
+              type: "radio",
+              values: [{name: t("LABEL.DELIVERY"), value: "delivery"},{name: t("LABEL.TAKEAWAY"), value: "take_away"}],
+              placement: "bottom",
+              showResult: 1,
+              multiple: 0
+            },
+            {
+              id: "order_time",
+              title: t("order time 22.45"),
+              type: "label"
+            },
+            {
+              id: "distance",
+              title: t("distance 8km"),
+              type: "label"
+            },
+            {
+              id: "delivery_time",
+              title: "delivery time : 23.45",
+              type: "label"
+            }
+          ]}
+        />}
 
-          <h2 className="w-100 text-uppercase font-weight-bold color-black d-flex">
-            {t("LABEL.YOUR_CART")}
-            <ButtonRound className="ml-4" onClick={clearItems} icon="times" />
-          </h2>
+        <div className="container">
 
-          <CardList />
 
-          <div className="row border p-2 no-gutters">
-            <div className="col-md-6 pr-md-4">
-              <Fields
-                names={["order_type", "request_time"]}
-                component={this.renderTimePicker}
-              />
-              <Fields
-                names={["order_type", "order_address"]}
-                orderTypes={this.orderTypes}
-                orderInfo={orderInfo}
-                orderItems={orderItems}
-                onReceiveAddress={this.handleReceiveAddress}
-                onReceiveDirections={directions =>
+          <div className="block bg-white box-shadow p-0">
+            <nav className="breadcrumb text-uppercase color-gray-400 bg-transparent pl-0">
+              <a
+                role="button"
+                onClick={history.goBack}
+                className="breadcrumb-item color-gray-400"
+              >
+                &lt; {t("LINK.BACK")}
+              </a>
+            </nav>
+
+            <h2 className="w-100 text-uppercase font-weight-bold color-black d-flex">
+              {t("LABEL.YOUR_CART")}
+              <ButtonRound className="ml-4" onClick={clearItems} icon="times" />
+            </h2>
+
+            <CardList />
+
+            <div className="row border p-2 no-gutters">
+              <div className="col-md-6 pr-md-4">
+                <Fields
+                  names={["order_type", "request_time"]}
+                  component={this.renderTimePicker}
+                />
+                <Fields
+                  names={["order_type", "order_address"]}
+                  orderTypes={this.orderTypes}
+                  orderInfo={orderInfo}
+                  orderItems={orderItems}
+                  onReceiveAddress={this.handleReceiveAddress}
+                  onReceiveDirections={directions =>
                   (this.directions = directions)}
-                component={DirectionGmapField}
-              />
+                  component={DirectionGmapField}
+                />
+              </div>
+
+              <div className="col">
+                <h6 className="color-gray text-uppercase mb-4">
+                  {t("LABEL.ADD_NOTE")}
+                </h6>
+                <Field
+                  name="order_note"
+                  type="textarea"
+                  className="w-100 border-gray-300"
+                  component={InputField}
+                />
+
+                <Field
+                  orderInfo={orderInfo}
+                  orderItems={orderItems}
+                  name="order_type"
+                  component={OrderPricesField}
+                />
+                {
+                  // <Field
+                  //   placeholder={t("PLACEHOLDER.TYPE_YOUR_PROMO_CODE")}
+                  //   className="custom-input text-uppercase"
+                  //   name="order_promotion_code"
+                  //   component={InputField}
+                  // />
+                }
+              </div>
             </div>
 
-            <div className="col">
-              <h6 className="color-gray text-uppercase mb-4">
-                {t("LABEL.ADD_NOTE")}
-              </h6>
-              <Field
-                name="order_note"
-                type="textarea"
-                className="w-100 border-gray-300"
-                component={InputField}
-              />
-
-              <Field
-                orderInfo={orderInfo}
-                orderItems={orderItems}
-                name="order_type"
-                component={OrderPricesField}
-              />
-              {
-                // <Field
-                //   placeholder={t("PLACEHOLDER.TYPE_YOUR_PROMO_CODE")}
-                //   className="custom-input text-uppercase"
-                //   name="order_promotion_code"
-                //   component={InputField}
-                // />
-              }
+            <div className="my-4 row no-gutters justify-content-end">
+              <Button
+                className="bg-red col-md-3 btn-lg btn-block text-uppercase border-0"
+                onClick={handleSubmit(this.saveOrderInfo)}
+              >
+                {t("BUTTON.PAY_NOW")}
+              </Button>
             </div>
-          </div>
 
-          <div className="my-4 row no-gutters justify-content-end">
-            <Button
-              className="bg-red col-md-3 btn-lg btn-block text-uppercase border-0"
-              onClick={handleSubmit(this.saveOrderInfo)}
-            >
-              {t("BUTTON.PAY_NOW")}
-            </Button>
+            {error && <Alert color="danger">{error}</Alert>}
           </div>
-
-          {error && <Alert color="danger">{error}</Alert>}
         </div>
       </div>
     );

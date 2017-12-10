@@ -1,0 +1,66 @@
+@import "../../vars.css";
+
+
+.top-filter {
+
+}
+
+.top-filter-menu {
+  width: 100%;
+  background-color: $grey-white-ultra-color;
+  color: $grey-color;
+}
+
+.top-filter-menu-container {
+  min-height: 24px;
+  margin-left: auto;
+  margin-right: auto;
+
+  .selected {
+    -webkit-box-shadow: 0 7px 0 0 $red-color;
+    box-shadow: 0 7px 0 0 $red-color;
+    background-color: $grey-white-ultra-color;
+  }
+}
+
+.top-filter-menu-container span {
+  display: inline-block;
+  padding-left: 24px;
+  padding-right: 24px;
+  height: 24px;
+  line-height: 24px;
+}
+
+.top-filter-label-separate {
+  padding: 0 !important;
+}
+
+.top-filter-menu-faked {
+  pointer-events: none;
+  opacity: 0;
+}
+
+@media (min-width: 768px) {
+  .top-filter-menu-container {
+    max-width: 1175px !important;
+  }
+
+  .top-filter-menu-fixed {
+    position: fixed;
+    z-index: 1029;
+  }
+
+  .top-filter-menu-item {
+    border-right: 1px solid $grey-white-color;
+  }
+
+  .top-filter-menu-container .top-filter-menu-item:first-child {
+    border-left: 1px solid $grey-white-color;
+  }
+}
+
+@media (max-width: 768px) {
+  .top-filter-menu-faked {
+    display: none;
+  }
+}

@@ -104,6 +104,8 @@ export default class ProductGroup extends Component {
     } = this.props;
     const { displayProducts } = this.state;
 
+    console.log("onAddOrder ---------------- ", onAddOrder, name);
+
     return (
       <div {...props}>
         {displayProducts &&
