@@ -78,7 +78,7 @@ export default class extends Component {
     );
     this.loadingIcon && this.loadingIcon.classList.add("hidden");
     this.props.onReceiveAddress &&
-      this.props.onReceiveAddress(lat, lng, results[0].formatted_address);
+    this.props.onReceiveAddress(lat, lng, results[0].formatted_address);
     // this.props.updateOrder({
     //   order_lat: lat,
     //   order_long: lng,
@@ -104,7 +104,7 @@ export default class extends Component {
               directions: result
             });
             this.props.onReceiveDirections &&
-              this.props.onReceiveDirections(result);
+            this.props.onReceiveDirections(result);
           } else {
             console.error(
               `error fetching directions ${JSON.stringify(result)}`
@@ -139,7 +139,7 @@ export default class extends Component {
     if (!keywords.length || this.isSearching) return;
     this.isSearching = true;
     this.placeService.getQueryPredictions(
-      { input: keywords },
+      {input: keywords},
       (predictions, status) => {
         if (status === this.Maps.places.PlacesServiceStatus.OK) {
           this.setState({
@@ -156,13 +156,13 @@ export default class extends Component {
   };
 
   chooseAddress(description) {
-    this.geocoder.geocode({ address: description }, (results, status) => {
+    this.geocoder.geocode({address: description}, (results, status) => {
       if (status === this.Maps.GeocoderStatus.OK) {
         const lat = results[0].geometry.location.lat();
         const lng = results[0].geometry.location.lng();
 
         this.props.onReceiveAddress &&
-          this.props.onReceiveAddress(lat, lng, description);
+        this.props.onReceiveAddress(lat, lng, description);
 
         // this.props.updateOrder({
         //   order_lat: lat,
@@ -182,7 +182,7 @@ export default class extends Component {
       order_address,
       orderTypes
       // error
-    } = this.props;
+      } = this.props;
 
     const { directions, predictions } = this.state;
     const position = {
@@ -196,20 +196,24 @@ export default class extends Component {
     );
 
     return (
-      <div>
-        {this.renderAddressLabel(
-          t("LABEL.BUSINESS_ADDRESS"),
-          orderInfo.restaurant_address
-        )}
+      <div className="d-md-flex flex-md-row">
+        {
+          //this.renderAddressLabel(t("LABEL.BUSINESS_ADDRESS"), orderInfo.restaurant_address)
+        }
 
-        {orderTypeValue === ORDER_TYPE.DELIVERY && (
-          <div>
-            {this.renderAddressLabel(
-              t("LABEL.ADDRESS"),
-              orderInfo.order_address
-            )}
-
-            <div className="mb-2 d-flex justify-content-between">
+        <div className="w-100">
+          <div className="h-50">
+            <div className="color-cg-040 font-fb-140 text-uppercase mb-2">donkin' donuts (fake)</div>
+            <div className="color-red font-fr-120">242 Rue de Rivoli, 5001, Paris (fake)</div>
+            <div className="color-red font-fr-120">+84 6 60 55 22 55 (fake)</div>
+          </div>
+          <div className="h-50">
+            <div className="text-uppercase font-fr-130 color-c-130 mb-2">
+              <i role="button" class="mr-2 fa fa-pencil" aria-hidden="true"/>
+              {t("LABEL.DELIVERY_ADDRESS")}
+            </div>
+            <div className="color-cg-040 font-fb-140 text-uppercase mb-2">Fabien jacob (fake)</div>
+            <div className="color-red font-fr-120 your-cart-order-address">
               <Autocomplete
                 className="w-100"
                 placeholder={t("PLACEHOLDER.TYPE_YOUR_ADDRESS")}
@@ -225,50 +229,97 @@ export default class extends Component {
                   </DropdownItem>
                 ))}
               </Autocomplete>
-
-              <Button
-                color="info"
-                onClick={() => this.loadAddressFromGmap()}
-                className="ml-2 float-right"
-              >
-                <i
-                  className="fa fa-refresh fa-spin mr-2 hidden"
-                  ref={ref => (this.loadingIcon = ref)}
-                />
-                {t("LABEL.MAP")}
-              </Button>
             </div>
-
-            <GoogleMapKey
-              onItemRef={this.initGmap}
-              height={400}
-              defaultCenter={position}
-            >
-              {directions ? (
-                <DirectionsRenderer directions={directions} />
-              ) : position.lat && position.lng ? (
-                <Marker position={position} />
-              ) : (
-                <span className="w-100 text-center text-danger vertical-center">
-                  Can not address the location of business
-                </span>
-              )}
-            </GoogleMapKey>
-
-            {directions && (
-              <div className="d-flex flex-row justify-content-between mt-auto w-100">
-                <span>
-                  <strong>Distance:</strong>{" "}
-                  {directions.routes[0].legs[0].distance.text}
-                </span>
-                <span>
-                  <strong>Time estimated:</strong>
-                  {directions.routes[0].legs[0].duration.text}
-                </span>
-              </div>
-            )}
+            <div className="color-red font-fr-120">+84 6 60 55 22 55 (fake)</div>
           </div>
-        )}
+        </div>
+        <div className="" style={{minWidth: "225px"}}>
+          <GoogleMapKey
+            onItemRef={this.initGmap}
+            height={200}
+            defaultCenter={position}
+          >
+            {directions ? (
+              <DirectionsRenderer directions={directions}/>
+            ) : position.lat && position.lng ? (
+              <Marker position={position}/>
+            ) : (
+              <span className="w-100 text-center text-danger vertical-center">
+                    Can not address the location of business
+                  </span>
+            )}
+          </GoogleMapKey>
+        </div>
+
+        {
+          //  orderTypeValue === ORDER_TYPE.DELIVERY && (
+          //  <div>
+          //    {this.renderAddressLabel(
+          //      t("LABEL.ADDRESS"),
+          //      orderInfo.order_address
+          //    )}
+          //
+          //    <div className="mb-2 d-flex justify-content-between">
+          //      <Autocomplete
+          //        className="w-100"
+          //        placeholder={t("PLACEHOLDER.TYPE_YOUR_ADDRESS")}
+          //        value={order_address.input.value}
+          //        onSearch={this.searchGoogleMap}
+          //      >
+          //        {predictions.map(({ description }, index) => (
+          //          <DropdownItem
+          //            onClick={() => this.chooseAddress(description)}
+          //            key={index}
+          //          >
+          //            {description}
+          //          </DropdownItem>
+          //        ))}
+          //      </Autocomplete>
+          //
+          //      <Button
+          //        color="info"
+          //        onClick={() => this.loadAddressFromGmap()}
+          //        className="ml-2 float-right"
+          //      >
+          //        <i
+          //          className="fa fa-refresh fa-spin mr-2 hidden"
+          //          ref={ref => (this.loadingIcon = ref)}
+          //        />
+          //        {t("LABEL.MAP")}
+          //      </Button>
+          //    </div>
+          //
+          //    <GoogleMapKey
+          //      onItemRef={this.initGmap}
+          //      height={400}
+          //      defaultCenter={position}
+          //    >
+          //      {directions ? (
+          //        <DirectionsRenderer directions={directions} />
+          //      ) : position.lat && position.lng ? (
+          //        <Marker position={position} />
+          //      ) : (
+          //        <span className="w-100 text-center text-danger vertical-center">
+          //          Can not address the location of business
+          //        </span>
+          //      )}
+          //    </GoogleMapKey>
+          //
+          //    {directions && (
+          //      <div className="d-flex flex-row justify-content-between mt-auto w-100">
+          //        <span>
+          //          <strong>Distance:</strong>{" "}
+          //          {directions.routes[0].legs[0].distance.text}
+          //        </span>
+          //        <span>
+          //          <strong>Time estimated:</strong>
+          //          {directions.routes[0].legs[0].duration.text}
+          //        </span>
+          //      </div>
+          //    )}
+          //  </div>
+          //)
+        }
       </div>
     );
   }

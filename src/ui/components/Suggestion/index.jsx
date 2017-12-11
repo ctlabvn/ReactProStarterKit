@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import { DropdownItem } from "reactstrap";
+//import { DropdownItem } from "reactstrap";
 import { connect } from "react-redux";
 import { translate } from "react-i18next";
 import { Link } from "react-router-dom";

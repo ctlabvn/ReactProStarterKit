@@ -270,7 +270,6 @@ export default class ProductOptions extends Component {
 					{canAddOrder && (
             <div className="pr-2">
               <button
-                role="button"
                 className="mr-4 item-header-btn-add-to-cart btn"
                 disabled={disableAddToCart}
                 onClick={() => this.handleSubmit()}

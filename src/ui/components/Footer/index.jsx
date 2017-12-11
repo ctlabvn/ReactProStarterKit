@@ -48,7 +48,8 @@ export default class extends Component {
     let selectedItem = null;
 
     config.languages.map(item => {
-        if(item.iso_code === defaultLang) selectedItem = item;
+      if(item.iso_code === defaultLang) selectedItem = item;
+      return false;
     });
     return (
       <Dropdown

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { translate } from "react-i18next";
 // import classNames from "classnames";
-import Readmore from "~/ui/components/Readmore";
+//import Readmore from "~/ui/components/Readmore";
 
 //import RestaurantOrderSetting from "~/ui/components/Restaurant/OrderSetting";
 import RestaurantTag from "~/ui/components/Restaurant/Tag";

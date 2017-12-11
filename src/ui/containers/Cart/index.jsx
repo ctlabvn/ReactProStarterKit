@@ -2,7 +2,7 @@ import React, { Component } from "react";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { translate } from "react-i18next";
-import classNames from "classnames";
+import moment from "moment";
 
 import { Helmet } from "react-helmet";
 import {
@@ -72,8 +72,8 @@ import "./index.css";
 @reduxForm({
   form: "Checkout",
   validate,
-  destroyOnUnmount: false,
-  enableReinitialize: false
+  destroyOnUnmount: true,
+  enableReinitialize: true
 })
 export default class extends Component {
   constructor(props) {
@@ -90,9 +90,15 @@ export default class extends Component {
       this.orderTypes.push({ id: ORDER_TYPE.TAKE_AWAY, title: "Take away" });
     props.orderInfo.do_delivery &&
       this.orderTypes.push({ id: ORDER_TYPE.DELIVERY, title: "Delivery" });
+
+    this.state = {
+      directions: null
+    }
   }
 
   saveOrderInfo = data => {
+    console.log("data -------------- ", data);
+
     const { orderInfo, orderItems, t } = this.props;
     let travel_time = 0;
     if (!data.order_type) {
@@ -192,7 +198,7 @@ export default class extends Component {
   };
 
   onSelectTopFilter = (id, value) => {
-    console.log("onSelectTopFilter -------------- ",id, value);
+
   }
 
   render() {
@@ -208,6 +214,8 @@ export default class extends Component {
       // initialValues: { order_type }
     } = this.props;
 
+    const {directions} = this.state;
+
     if (!orderItems || !orderItems.length) {
       return (
         <div className="text-center p-2">
@@ -219,7 +227,14 @@ export default class extends Component {
       );
     }
 
-    //consumer_discounts
+    const initOrders = this.orderTypes.map(el => ({
+      name: el.title,
+      value: el.id
+    }));
+
+    const orderTime = Date.now();
+    let deliveryTime = null;
+    if(directions) deliveryTime = orderTime + directions.routes[0].legs[0].duration.value*1000;
 
     return (
       <div className="your-cart map-background">
@@ -232,70 +247,79 @@ export default class extends Component {
           onSelected={this.onSelectTopFilter}
           categories={[
           {
-              id: "order_method",
+              id: "order_type",
               title: t("BUTTON.FILTER.ORDERING_METHODS"),
               type: "radio",
-              values: [{name: t("LABEL.DELIVERY"), value: "delivery"},{name: t("LABEL.TAKEAWAY"), value: "take_away"}],
+              values: initOrders,
               placement: "bottom",
               showResult: 1,
               multiple: 0
             },
             {
               id: "order_time",
-              title: t("order time 22.45"),
+              title: "Order time " + moment(orderTime).format('HH.mm'),
               type: "label"
             },
             {
               id: "distance",
-              title: t("distance 8km"),
+              title: "Distance " + (directions ? directions.routes[0].legs[0].distance.text : ""),
               type: "label"
             },
             {
               id: "delivery_time",
-              title: "delivery time : 23.45",
+              title: deliveryTime? "delivery time " + moment(deliveryTime).format('HH.mm') : "-",
               type: "label"
             }
           ]}
         />}
 
         <div className="container">
-
-
           <div className="block bg-white box-shadow p-0">
-            <nav className="breadcrumb text-uppercase color-gray-400 bg-transparent pl-0">
-              <a
-                role="button"
-                onClick={history.goBack}
-                className="breadcrumb-item color-gray-400"
-              >
-                &lt; {t("LINK.BACK")}
-              </a>
-            </nav>
+            <div className="">
+              {
+                //<Fields
+                //  names={["order_type", "request_time"]}
+                //  component={this.renderTimePicker}
+                ///>
+              }
 
-            <h2 className="w-100 text-uppercase font-weight-bold color-black d-flex">
-              {t("LABEL.YOUR_CART")}
-              <ButtonRound className="ml-4" onClick={clearItems} icon="times" />
-            </h2>
+              <Fields
+                names={["order_type", "order_address"]}
+                orderTypes={this.orderTypes}
+                orderInfo={orderInfo}
+                orderItems={orderItems}
+                onReceiveAddress={this.handleReceiveAddress}
+                onReceiveDirections={directions => {
+                    this.directions = directions;
+                    this.setState({directions})
+                  }}
+                component={DirectionGmapField}
+              />
+            </div>
+
+            {
+              //<nav className="breadcrumb text-uppercase color-gray-400 bg-transparent pl-0">
+              //  <a
+              //    role="button"
+              //    onClick={history.goBack}
+              //    className="breadcrumb-item color-gray-400"
+              //  >
+              //    &lt; {t("LINK.BACK")}
+              //  </a>
+              //</nav>
+              //<h2 className="w-100 text-uppercase font-weight-bold color-black d-flex">
+              //  {t("LABEL.YOUR_CART")}
+              //  <ButtonRound className="ml-4" onClick={clearItems} icon="times" />
+              //</h2>
+            }
+
+
+
 
             <CardList />
 
             <div className="row border p-2 no-gutters">
-              <div className="col-md-6 pr-md-4">
-                <Fields
-                  names={["order_type", "request_time"]}
-                  component={this.renderTimePicker}
-                />
-                <Fields
-                  names={["order_type", "order_address"]}
-                  orderTypes={this.orderTypes}
-                  orderInfo={orderInfo}
-                  orderItems={orderItems}
-                  onReceiveAddress={this.handleReceiveAddress}
-                  onReceiveDirections={directions =>
-                  (this.directions = directions)}
-                  component={DirectionGmapField}
-                />
-              </div>
+
 
               <div className="col">
                 <h6 className="color-gray text-uppercase mb-4">
