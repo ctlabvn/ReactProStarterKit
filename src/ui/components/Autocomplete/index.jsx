@@ -62,7 +62,8 @@ export default class extends Component {
     return (
       <Dropdown isOpen={dropdownOpen} toggle={this.toggle} {...props}>
         <DropdownToggle
-          nav={true}
+          nav={false}
+          tag="span"
           className={classNames("bg-transparent w-100", buttonClass)}
         >
           {prepend}
