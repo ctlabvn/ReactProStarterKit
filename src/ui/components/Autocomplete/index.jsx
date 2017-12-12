@@ -58,13 +58,17 @@ export default class extends Component {
       buttonClass,
       onSearch,
       prepend,
+      value,
       ...props
     } = this.props;
     const { dropdownOpen } = this.state;
 
-    const value = input ? input.value : "";
+    //const value = input ? input.value : "";
 
-    return (
+    let obj = {};
+    if(this.props.input) obj.value = this.props.input.value;
+
+      return (
       <Dropdown isOpen={dropdownOpen} toggle={this.toggle} {...props}>
         <DropdownToggle
           nav={false}
@@ -75,7 +79,8 @@ export default class extends Component {
           <input
             type="text"
             placeholder={placeholder}
-            value={value}
+            {...obj}
+            defaultValue={value}
             onChange={this.search}
             className={classNames("custom-input w-100", inputClass)}
             ref={ref => (this.input = ref)}
