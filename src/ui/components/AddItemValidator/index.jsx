@@ -38,6 +38,7 @@ export default class extends Component {
   doAddOrderItem = () => {
     // each time add order, we should update business info for sure
     const { outlet, updateOrder, addOrderItem } = this.props;
+
     updateOrder({
       ...outlet.online_order_setting,
       currency: outlet.currency || {},
@@ -49,7 +50,8 @@ export default class extends Component {
       restaurant_address: outlet.address,
       restaurant_lat: outlet.lat,
       restaurant_long: outlet.long,
-      outlet_slug: outlet.slug || slugify(outlet.name)
+      outlet_slug: outlet.slug || slugify(outlet.name),
+      restaurant_phone: outlet.phone,
     });
     // then add current proccessing order
     addOrderItem(this.processingItem);

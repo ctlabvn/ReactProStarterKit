@@ -37,6 +37,7 @@ export default class extends Component {
   };
 
   search = e => {
+    if(this.props.input) this.props.input.onChange(e.target.value);
     clearTimeout(this.timeout);
     const value = e.target.value;
     this.timeout = setTimeout(() => {
@@ -48,9 +49,10 @@ export default class extends Component {
   };
 
   render() {
+
     const {
       children,
-      value,
+      input,
       placeholder,
       inputClass,
       buttonClass,
@@ -59,6 +61,9 @@ export default class extends Component {
       ...props
     } = this.props;
     const { dropdownOpen } = this.state;
+
+    const value = input ? input.value : "";
+
     return (
       <Dropdown isOpen={dropdownOpen} toggle={this.toggle} {...props}>
         <DropdownToggle
@@ -69,7 +74,7 @@ export default class extends Component {
           <input
             type="text"
             placeholder={placeholder}
-            defaultValue={value}
+            value={value}
             onChange={this.search}
             className={classNames("custom-input w-100", inputClass)}
             ref={ref => (this.input = ref)}

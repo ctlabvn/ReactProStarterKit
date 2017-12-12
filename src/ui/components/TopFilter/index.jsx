@@ -55,7 +55,7 @@ class TopFilterMenuItem extends React.Component {
 
     this.state = {
       popoverOpen: false,
-      selected: []
+      selected: props.item && props.item.selected ? [props.item.selected] : []
     };
   }
 

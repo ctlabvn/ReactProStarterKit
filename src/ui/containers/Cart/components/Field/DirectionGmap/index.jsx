@@ -135,7 +135,7 @@ export default class extends Component {
     );
   }
 
-  searchGoogleMap = keywords => {
+  searchGoogleMap = (keywords , formUpdate) => {
     if (!keywords.length || this.isSearching) return;
     this.isSearching = true;
     this.placeService.getQueryPredictions(
@@ -155,7 +155,7 @@ export default class extends Component {
     );
   };
 
-  chooseAddress(description) {
+  chooseAddress(description, onUpdateForm) {
     this.geocoder.geocode({address: description}, (results, status) => {
       if (status === this.Maps.GeocoderStatus.OK) {
         const lat = results[0].geometry.location.lat();
@@ -170,6 +170,7 @@ export default class extends Component {
         //   order_address: description
         // });
         this.loadDirectionFromGmap(lat, lng);
+        onUpdateForm(description);
       }
     });
   }
@@ -195,6 +196,13 @@ export default class extends Component {
       orderTypes
     );
 
+    console.log("orderInfo ----------- ", orderInfo);
+    const restaurant_name = orderInfo && orderInfo.restaurant_name ? orderInfo.restaurant_name : t("LABEL.NO_INFO");
+    const restaurant_address = orderInfo && orderInfo.restaurant_address ? orderInfo.restaurant_address : t("LABEL.NO_INFO");
+    const restaurant_phone = orderInfo && orderInfo.restaurant_phone ? orderInfo.restaurant_phone : t("LABEL.NO_INFO");
+
+    if(orderTypeValue !== ORDER_TYPE.DELIVERY) return null;
+
     return (
       <div className="d-md-flex flex-md-row">
         {
@@ -203,13 +211,13 @@ export default class extends Component {
 
         <div className="w-100">
           <div className="h-50">
-            <div className="color-cg-040 font-fb-140 text-uppercase mb-2">donkin' donuts (fake)</div>
-            <div className="color-red font-fr-120">242 Rue de Rivoli, 5001, Paris (fake)</div>
-            <div className="color-red font-fr-120">+84 6 60 55 22 55 (fake)</div>
+            <div className="color-cg-040 font-fb-140 text-uppercase mb-2">{restaurant_name}</div>
+            <div className="color-red font-fr-120">{restaurant_address}</div>
+            <div className="color-red font-fr-120">{restaurant_phone}</div>
           </div>
           <div className="h-50">
             <div className="text-uppercase font-fr-130 color-c-130 mb-2">
-              <i role="button" class="mr-2 fa fa-pencil" aria-hidden="true"/>
+              <i role="button" className="mr-2 fa fa-pencil" aria-hidden="true"/>
               {t("LABEL.DELIVERY_ADDRESS")}
             </div>
             <div className="color-cg-040 font-fb-140 text-uppercase mb-2">Fabien jacob (fake)</div>
@@ -217,12 +225,12 @@ export default class extends Component {
               <Autocomplete
                 className="w-100"
                 placeholder={t("PLACEHOLDER.TYPE_YOUR_ADDRESS")}
-                value={order_address.input.value}
+                input={order_address.input}
                 onSearch={this.searchGoogleMap}
               >
                 {predictions.map(({ description }, index) => (
                   <DropdownItem
-                    onClick={() => this.chooseAddress(description)}
+                    onClick={() => this.chooseAddress(description, order_address.input.onChange)}
                     key={index}
                   >
                     {description}

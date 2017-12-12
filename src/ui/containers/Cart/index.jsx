@@ -251,6 +251,7 @@ export default class extends Component {
               title: t("BUTTON.FILTER.ORDERING_METHODS"),
               type: "radio",
               values: initOrders,
+              selected: orderInfo.order_type,
               placement: "bottom",
               showResult: 1,
               multiple: 0
