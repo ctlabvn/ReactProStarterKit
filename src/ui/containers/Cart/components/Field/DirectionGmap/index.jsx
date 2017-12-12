@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // import { Link } from "react-router-dom";
-// import { connect } from "react-redux";
+ import { connect } from "react-redux";
 import { translate } from "react-i18next";
 // import classNames from "classnames";
 
@@ -36,6 +36,7 @@ import Autocomplete from "~/ui/components/Autocomplete";
 // import * as orderActions from "~/store/actions/order";
 import { GOOGLE_API_KEY } from "~/store/constants/api";
 import { fetchJson } from "~/store/api/common";
+import * as authSelectors from "~/store/selectors/auth";
 
 import {
   ORDER_TYPE,
@@ -47,7 +48,11 @@ import {
 import { getOrderTypeValue } from "../../../utils";
 
 @translate("translations")
-// @connect(null, orderActions)
+@connect(
+  state => ({
+    customer: authSelectors.getCustomer(state)
+  })
+)
 export default class extends Component {
   constructor(props) {
     super(props);
@@ -181,7 +186,8 @@ export default class extends Component {
       orderInfo,
       order_type,
       order_address,
-      orderTypes
+      orderTypes,
+      customer
       // error
       } = this.props;
 
@@ -200,6 +206,9 @@ export default class extends Component {
     const restaurant_name = orderInfo && orderInfo.restaurant_name ? orderInfo.restaurant_name : t("LABEL.NO_INFO");
     const restaurant_address = orderInfo && orderInfo.restaurant_address ? orderInfo.restaurant_address : t("LABEL.NO_INFO");
     const restaurant_phone = orderInfo && orderInfo.restaurant_phone ? orderInfo.restaurant_phone : t("LABEL.NO_INFO");
+
+    const customer_phone = customer && customer.phone ? customer.phone : t("LABEL.NO_INFO");
+    const customer_name = customer && customer.name ? customer.name : t("LABEL.NO_INFO");
 
     if(orderTypeValue !== ORDER_TYPE.DELIVERY) return null;
 
@@ -220,7 +229,7 @@ export default class extends Component {
               <i role="button" className="mr-2 fa fa-pencil" aria-hidden="true"/>
               {t("LABEL.DELIVERY_ADDRESS")}
             </div>
-            <div className="color-cg-040 font-fb-140 text-uppercase mb-2">Fabien jacob (fake)</div>
+            <div className="color-cg-040 font-fb-140 text-uppercase mb-2">{customer_name}</div>
             <div className="color-red font-fr-120 your-cart-order-address">
               <Autocomplete
                 className="w-100"
@@ -238,7 +247,7 @@ export default class extends Component {
                 ))}
               </Autocomplete>
             </div>
-            <div className="color-red font-fr-120">+84 6 60 55 22 55 (fake)</div>
+            <div className="color-red font-fr-120">{customer_phone}</div>
           </div>
         </div>
         <div className="" style={{minWidth: "225px"}}>

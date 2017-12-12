@@ -274,7 +274,7 @@ export default class ProductOptions extends Component {
                 disabled={disableAddToCart}
                 onClick={() => this.handleSubmit()}
               >
-                <span>+</span>
+                <span role="button">+</span>
               </button>
               <div className="mr-1">ADD TO CART</div>
             </div>

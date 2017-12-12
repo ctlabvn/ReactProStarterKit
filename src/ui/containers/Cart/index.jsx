@@ -64,7 +64,7 @@ import "./index.css";
   state => ({
     orderItems: orderSelectors.getItems(state),
     orderInfo: orderSelectors.getInfo(state),
-    initialValues: { ...orderSelectors.getInfo(state), order_note: ""}
+    initialValues: {...orderSelectors.getInfo(state), order_note: ""}
   }),
   orderActions
 )
@@ -87,9 +87,9 @@ export default class extends Component {
 
     this.orderTypes = [];
     props.orderInfo.do_takeaway &&
-      this.orderTypes.push({ id: ORDER_TYPE.TAKE_AWAY, title: "Take away" });
+    this.orderTypes.push({id: ORDER_TYPE.TAKE_AWAY, title: "Take away"});
     props.orderInfo.do_delivery &&
-      this.orderTypes.push({ id: ORDER_TYPE.DELIVERY, title: "Delivery" });
+    this.orderTypes.push({id: ORDER_TYPE.DELIVERY, title: "Delivery"});
 
     this.state = {
       directions: null
@@ -142,7 +142,7 @@ export default class extends Component {
       });
     }
 
-    this.props.updateOrder({ ...data, travel_time });
+    this.props.updateOrder({...data, travel_time});
     history.push("/checkout");
   };
 
@@ -212,14 +212,14 @@ export default class extends Component {
       clearItems,
       error
       // initialValues: { order_type }
-    } = this.props;
+      } = this.props;
 
     const {directions} = this.state;
 
     if (!orderItems || !orderItems.length) {
       return (
         <div className="text-center p-2">
-          <img src="/images/no-data.png" height="100" alt="" />
+          <img src="/images/no-data.png" height="100" alt=""/>
           <p className="color-gray text-uppercase">
             {t("LABEL.SHOPPING_CART_EMPTY")}
           </p>
@@ -234,13 +234,13 @@ export default class extends Component {
 
     const orderTime = Date.now();
     let deliveryTime = null;
-    if(directions) deliveryTime = orderTime + directions.routes[0].legs[0].duration.value*1000;
+    if (directions) deliveryTime = orderTime + directions.routes[0].legs[0].duration.value * 1000;
 
     return (
       <div className="your-cart map-background">
         <Helmet>
           <title>{t("LABEL.YOUR_CART")}</title>
-          <meta name="description" content={t("LABEL.YOUR_CART")} />
+          <meta name="description" content={t("LABEL.YOUR_CART")}/>
         </Helmet>
 
         {!isMobile && <TopFilter
@@ -274,8 +274,8 @@ export default class extends Component {
           ]}
         />}
 
-        <div className="container">
-          <div className="block bg-white box-shadow p-0">
+        <div className="container box-shadow">
+          <div className="block bg-white p-0 your-cart-1">
             <div className="">
               {
                 //<Fields
@@ -313,53 +313,90 @@ export default class extends Component {
               //  <ButtonRound className="ml-4" onClick={clearItems} icon="times" />
               //</h2>
             }
+          </div>
+          <div className="block your-cart-2">
+            <div className="block">
+              <CardList />
+            </div>
+            <div className="ml-4 mb-2 text-uppercase font-fr-120 color-cg-074">Add a note</div>
+            <div className="d-md-flex flex-md-row">
+              <div className="your-cart-note">
 
-
-
-
-            <CardList />
-
-            <div className="row border p-2 no-gutters">
-
-
-              <div className="col">
-                <h6 className="color-gray text-uppercase mb-4">
-                  {t("LABEL.ADD_NOTE")}
-                </h6>
-                <Field
-                  name="order_note"
-                  type="textarea"
-                  className="w-100 border-gray-300"
-                  component={InputField}
-                />
-
-                <Field
-                  orderInfo={orderInfo}
-                  orderItems={orderItems}
-                  name="order_type"
-                  component={OrderPricesField}
-                />
-                {
-                  // <Field
-                  //   placeholder={t("PLACEHOLDER.TYPE_YOUR_PROMO_CODE")}
-                  //   className="custom-input text-uppercase"
-                  //   name="order_promotion_code"
-                  //   component={InputField}
-                  // />
-                }
+                <div className="">
+                  <Field
+                    name="order_note"
+                    type="textarea"
+                    className="w-100"
+                    component={InputField}
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="my-4 row no-gutters justify-content-end">
-              <Button
-                className="bg-red col-md-3 btn-lg btn-block text-uppercase border-0"
-                onClick={handleSubmit(this.saveOrderInfo)}
-              >
-                {t("BUTTON.PAY_NOW")}
-              </Button>
-            </div>
+              <div className="w-100 ml-md-5">
+                <div className="mt-md-2 d-flex justify-content-between text-uppercase font-fr-140 color-cg-074">
+                  <div>subtotal</div>
+                  <div>$ 348</div>
+                </div>
+                <div className="mt-md-4 d-flex justify-content-between text-uppercase font-fr-160">
+                  <div className="color-cg-040">total price</div>
+                  <div className="color-red">$ 348</div>
+                </div>
+                <div className="mt-md-5 pt-md-3">
+                  <Button
+                    className="your-cart-btn-continue text-uppercase"
+                    onClick={handleSubmit(this.saveOrderInfo)}
+                  >
+                    {t("BUTTON.CONTINUE")}
+                  </Button>
+                </div>
+              </div>
 
-            {error && <Alert color="danger">{error}</Alert>}
+            </div>
+            {
+              //  <CardList />
+              //
+              //  <div className="row border p-2 no-gutters">
+              //
+              //
+              //  <div className="col">
+              //  <h6 className="color-gray text-uppercase mb-4">
+              //{t("LABEL.ADD_NOTE")}
+              //  </h6>
+              //  <Field
+              //  name="order_note"
+              //  type="textarea"
+              //  className="w-100 border-gray-300"
+              //  component={InputField}
+              //  />
+              //
+              //  <Field
+              //  orderInfo={orderInfo}
+              //  orderItems={orderItems}
+              //  name="order_type"
+              //  component={OrderPricesField}
+              //  />
+              //  {
+              //    // <Field
+              //    //   placeholder={t("PLACEHOLDER.TYPE_YOUR_PROMO_CODE")}
+              //    //   className="custom-input text-uppercase"
+              //    //   name="order_promotion_code"
+              //    //   component={InputField}
+              //    // />
+              //  }
+              //  </div>
+              //  </div>
+              //
+              //  <div className="my-4 row no-gutters justify-content-end">
+              //  <Button
+              //  className="bg-red col-md-3 btn-lg btn-block text-uppercase border-0"
+              //  onClick={handleSubmit(this.saveOrderInfo)}
+              //  >
+              //  {t("BUTTON.PAY_NOW")}
+              //  </Button>
+              //  </div>
+              //
+              //  {error && <Alert color="danger">{error}</Alert>}
+            }
           </div>
         </div>
       </div>

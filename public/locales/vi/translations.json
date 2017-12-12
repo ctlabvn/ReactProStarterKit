@@ -98,7 +98,8 @@
       "FEES": "Fees",
       "MINIMUM_ORDER": "Minimum Order",
       "TAGS": "Tags"
-    }
+    },
+    "CONTINUE": "Continue"
   },
   "TAB": {
     "MENU": "Menu",
@@ -110,6 +111,7 @@
     "UNIT_PRICE": "Unit price",
     "QUANTITY": "Quantity",
     "TOTAL": "Total",
-    "DELETE": "Delete"
+    "DELETE": "Delete",
+    "YOUR_CART": "Your Cart"
   }
 }

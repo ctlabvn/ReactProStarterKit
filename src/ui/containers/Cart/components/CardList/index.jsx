@@ -38,6 +38,12 @@ export default class extends Component {
     this.props.updateOrderItem({ ...item, quantity: item.quantity - 1 });
   }
 
+  setOrderQuantity(item, quantity) {
+    const number = Number(quantity);
+    if(typeof number !== 'number' || !Math.floor(number)) return;
+    this.props.updateOrderItem({ ...item, quantity: number });
+  }
+
   removeOrder(item) {
     this.selectedItem = item;
     this.modal.open();
@@ -57,18 +63,25 @@ export default class extends Component {
     return [
       <Table
         key="cartList"
-        className="mt-4 text-uppercase table-fixed table-responsive"
+        className="table-fixed table-responsive color-cg-074 text-center"
       >
-        <thead className="color-gray">
-          <tr>
-            <th className="pl-0 card-title">{t("TABLE.ITEM")}</th>
-            <th>{t("TABLE.UNIT_PRICE")}</th>
-            <th className="text-center">{t("TABLE.QUANTITY")}</th>
-            <th>{t("LABEL.VAT")}</th>
-            <th>{t("TABLE.TOTAL")}</th>
-            <th className="text-right">{t("TABLE.DELETE")}</th>
-          </tr>
+        <thead className="font-fr-120 text-uppercase">
+        <tr>
+          <th className="your-cart-col-1 color-c-130 text-left pt-md-4"/>
+          <th className="your-cart-col-2">{t("TABLE.UNIT_PRICE")}</th>
+          <th className="your-cart-col-3">{t("TABLE.QUANTITY")}</th>
+          <th className="your-cart-col-4 text-right">{t("TABLE.TOTAL")}</th>
+          <th className="your-cart-col-5"/>
+        </tr>
+        <tr>
+          <th className="your-cart-col-1 color-c-130 text-left pt-md-4">{t("TABLE.YOUR_CART")}</th>
+          <th className="your-cart-col-2"/>
+          <th className="your-cart-col-3"/>
+          <th className="your-cart-col-4"/>
+          <th className="your-cart-col-5"/>
+        </tr>
         </thead>
+
         <tbody>
           {orderItems.map((item, index) => (
             <CardItem
@@ -85,6 +98,7 @@ export default class extends Component {
               quantity={item.quantity}
               onIncrease={() => this.increaseOrder(item)}
               onDecrease={() => this.decreaseOrder(item)}
+              onSetQuantity={(number) => this.setOrderQuantity(item, number)}
               onRemove={() => this.removeOrder(item)}
             />
           ))}
