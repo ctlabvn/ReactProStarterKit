@@ -3,14 +3,13 @@ import React, { Component } from "react";
 import { translate } from "react-i18next";
 import { connect } from "react-redux";
 
+import areEqual from "fbjs/lib/areEqual";
+
 // component
 import InfiniteScroller from "~/ui/components/Scroller/Infinite";
 import RestaurantItemPhoto from "~/ui/components/Restaurant/Item/Photo";
 import EmptyResult from "~/ui/components/EmptyResult";
 import IconLoading from "~/ui/components/Loading/icon";
-
-// options
-import FilterOptions from "~/ui/components/Restaurant/Filter/options";
 
 // store
 // import api from "~/store/api";
@@ -102,18 +101,15 @@ export default class extends Component {
     if (
       this.props.config.searchStr !== config.searchStr ||
       this.props.language !== language ||
-      this.props.filters !== filters
+      !areEqual(filters, this.props.filters)
     ) {
       // when options is ready, mean that we load all filter options from server
       // no cache
-      if (FilterOptions.ready) {
-        this.removeSearchResult();
-      }
+      this.removeSearchResult();
     }
   }
 
   componentDidMount() {
-    FilterOptions.ready = false;
     this.props.onItemRef && this.props.onItemRef(this);
   }
 
