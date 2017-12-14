@@ -21,6 +21,8 @@
     "TYPE_YOUR_ADDRESS": "Type your address"
   },
   "LABEL": {
+    "RESTAURANTS": "Restaurants",
+    "ITEMS": "Items",
     "SUGGESSTION": "Suggesstions",
     "ALL_PRODUCTS": "All Product",
     "CHOOSE_CATEGORY": "Choose other category at the left side",
