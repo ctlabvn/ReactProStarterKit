@@ -4,7 +4,6 @@
   padding-top: 0;
 
   .container {
-
   }
 }
 
@@ -17,6 +16,33 @@
 
   .row {
     margin: 0;
+  }
+}
+
+.flat-tabs {
+  border-bottom: 0;
+  box-shadow: -1px 4px 1px -4px $grey-white-2-color;
+  margin-bottom: 1px;
+  .nav-item {
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: $white-color;
+    .nav-link {
+      border-bottom: 0;
+      border-radius: 0;
+      background-color: $grey-white-2-color;
+      padding: 5px 30px;
+    }
+    .nav-link:hover {
+      border-color: $grey-white-2-color;
+      color: $red-color;
+    }
+    .nav-link.active {
+      background-color: $white-color;
+      color: $red-color;
+      border-radius: 2px;
+    }
   }
 }
 
@@ -63,7 +89,7 @@
 
   font-size: 12px;
   font-weight: 500;
-  text-transform: uppercase!important;
+  text-transform: uppercase !important;
   color: $grey-color;
 
   .menu-item {

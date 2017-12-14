@@ -136,6 +136,7 @@ export default class extends Component {
     return <div />;
   }
 
+  // here we have 2 infinite
   render() {
     // const { t } = this.props;
     const { elements, hasMore } = this.state;
