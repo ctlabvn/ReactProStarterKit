@@ -24,10 +24,11 @@ export default {
   },
 
   // wrong order if have many, so prevent wrong name when there are few params, otherwise remain
-  signup(email, password, extra) {
+  signup(email, password, country_code, extra) {
     return apiPost("/customer/signup", {
       email,
       password,
+      country_code,
       ...extra
     });
   },
@@ -55,14 +56,16 @@ export default {
     });
   },
 
-  updateCustomer(token, customer_uuid, name, phone) {
+  updateCustomer(token, customer_uuid, name, phone, address, country_code) {
     return apiPost(
       "/customer",
       {
         token,
         customer_uuid,
         name,
-        phone
+        phone,
+        address,
+        country_code
       },
       "PUT"
     );

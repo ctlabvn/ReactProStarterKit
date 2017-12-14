@@ -5,6 +5,8 @@ export const validate = values => {
   // first time it is empty
   if (!values) return errors;
   if (!values.name) errors.name = i18n.t("LABEL.ENTER_FULLNAME");
+  if (!values.country_code)
+    errors.country_code = i18n.t("LABEL.ENTER_COUNTRY_CODE");
   if (!values.phone) errors.phone = i18n.t("LABEL.ENTER_PHONE");
   const addressErrors = [];
   values.address.forEach((item, index) => {

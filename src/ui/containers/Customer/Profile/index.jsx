@@ -3,7 +3,7 @@ import { translate } from "react-i18next";
 import Helmet from "react-helmet";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-
+import { countries } from "country-data";
 // redux form
 import { Field, FieldArray, reduxForm } from "redux-form";
 
@@ -25,7 +25,7 @@ import * as authActions from "~/store/actions/auth";
 import * as authSelectors from "~/store/selectors/auth";
 
 // components
-import { InputField } from "~/ui/components/ReduxForm";
+import { InputField, SelectField } from "~/ui/components/ReduxForm";
 import AddressListField from "./components/AddressListField";
 import { validate } from "./utils";
 
@@ -47,13 +47,17 @@ import { validate } from "./utils";
   enableReinitialize: true
 })
 export default class extends Component {
-  updateCustomer = ({ customer_uuid, name, phone, address }) => {
-    const { token, requestor, initialValues, deleteAddress } = this.props;
-    const deletedAddress = initialValues.address.filter(item =>
-      address.every(
-        oldItem => oldItem.cus_address_uuid !== item.cus_address_uuid
-      )
-    );
+  updateCustomer = ({ customer_uuid, name, phone, address, country_code }) => {
+    const {
+      token,
+      requestor
+      // initialValues, deleteAddress
+    } = this.props;
+    // const deletedAddress = initialValues.address.filter(item =>
+    //   address.every(
+    //     oldItem => oldItem.cus_address_uuid !== item.cus_address_uuid
+    //   )
+    // );
 
     return new Promise(resolve => {
       requestor(
@@ -62,43 +66,44 @@ export default class extends Component {
         customer_uuid,
         name,
         phone,
+        address,
         () => resolve(true)
       );
       // update address
-      address.forEach(({ cus_address_uuid, name, address }) => {
-        if (cus_address_uuid) {
-          requestor(
-            "customer/requestUpdateAddress",
-            token,
-            cus_address_uuid,
-            name,
-            address
-          );
-        } else {
-          requestor(
-            "customer/requestAddAddress",
-            token,
-            customer_uuid,
-            name,
-            address
-          );
-        }
-      });
-      // delete old ones
-      deletedAddress.forEach(({ cus_address_uuid }) => {
-        requestor(
-          "customer/requestDeleteAddress",
-          token,
-          cus_address_uuid,
-          (err, ret) => {
-            // for item has been delete before :D
-            deleteAddress(cus_address_uuid);
-            // if (!err) {
-            //   deleteAddress(cus_address_uuid);
-            // }
-          }
-        );
-      });
+      // address.forEach(({ cus_address_uuid, name, address }) => {
+      //   if (cus_address_uuid) {
+      //     requestor(
+      //       "customer/requestUpdateAddress",
+      //       token,
+      //       cus_address_uuid,
+      //       name,
+      //       address
+      //     );
+      //   } else {
+      //     requestor(
+      //       "customer/requestAddAddress",
+      //       token,
+      //       customer_uuid,
+      //       name,
+      //       address
+      //     );
+      //   }
+      // });
+      // // delete old ones
+      // deletedAddress.forEach(({ cus_address_uuid }) => {
+      //   requestor(
+      //     "customer/requestDeleteAddress",
+      //     token,
+      //     cus_address_uuid,
+      //     (err, ret) => {
+      //       // for item has been delete before :D
+      //       deleteAddress(cus_address_uuid);
+      //       // if (!err) {
+      //       //   deleteAddress(cus_address_uuid);
+      //       // }
+      //     }
+      //   );
+      // });
     });
   };
 
@@ -116,6 +121,12 @@ export default class extends Component {
         <Field label="Fullname" name="name" component={InputField} />
 
         <Field label="Phone" name="phone" component={InputField} />
+
+        <Field label="Country Code" name="country_code" component={SelectField}>
+          {countries.all.map(country => (
+            <option value={country.countryCallingCodes}>{country.name}</option>
+          ))}
+        </Field>
 
         <hr />
 

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import { translate } from "react-i18next";
 import { connect } from "react-redux";
+import { countries } from "country-data";
 
 // reactstrap
 import {
@@ -18,10 +19,11 @@ import {
 import { Field, reduxForm } from "redux-form";
 
 // components
-import { InputField } from "~/ui/components/ReduxForm";
+import { InputField, SelectField } from "~/ui/components/ReduxForm";
 
 import * as commonActions from "~/store/actions/common";
 import * as orderSelectors from "~/store/selectors/order";
+import { extractMessage } from "~/utils";
 
 import { validate } from "./utils";
 
@@ -41,13 +43,22 @@ import { validate } from "./utils";
   enableReinitialize: true
 })
 export default class extends Component {
-  signup = ({ name, email, password, address, phone, address_name }) => {
-    const { requestor } = this.props;
+  signup = ({
+    name,
+    email,
+    password,
+    address,
+    phone,
+    address_name,
+    country_code
+  }) => {
+    const { requestor, setToast } = this.props;
     return new Promise(resolve => {
       requestor(
         "app/signup",
         email,
         password,
+        country_code,
         // extra fields
         {
           name,
@@ -58,9 +69,12 @@ export default class extends Component {
         (err, ret) => {
           if (!err) {
             // auto login if success
+            resolve(true);
             requestor("app/login", email, password);
+          } else {
+            setToast(extractMessage(err.message), "danger");
+            resolve(false);
           }
-          resolve(true);
         }
       );
     });
@@ -116,6 +130,12 @@ export default class extends Component {
             component={InputField}
           />
         </Row>
+
+        <Field label="Country Code" name="country_code" component={SelectField}>
+          {countries.all.map(country => (
+            <option value={country.countryCallingCodes}>{country.name}</option>
+          ))}
+        </Field>
 
         <Button
           disabled={submitting}

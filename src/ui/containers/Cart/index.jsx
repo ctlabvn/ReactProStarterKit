@@ -5,9 +5,7 @@ import { translate } from "react-i18next";
 import moment from "moment";
 
 import { Helmet } from "react-helmet";
-import {
-  isMobile
-} from "~/utils";
+import { isMobile } from "~/utils";
 
 // redux form
 import {
@@ -64,7 +62,7 @@ import "./index.css";
   state => ({
     orderItems: orderSelectors.getItems(state),
     orderInfo: orderSelectors.getInfo(state),
-    initialValues: {...orderSelectors.getInfo(state), order_note: ""}
+    initialValues: { ...orderSelectors.getInfo(state), order_note: "" }
   }),
   orderActions
 )
@@ -87,13 +85,13 @@ export default class extends Component {
 
     this.orderTypes = [];
     props.orderInfo.do_takeaway &&
-    this.orderTypes.push({id: ORDER_TYPE.TAKE_AWAY, title: "Take away"});
+      this.orderTypes.push({ id: ORDER_TYPE.TAKE_AWAY, title: "Take away" });
     props.orderInfo.do_delivery &&
-    this.orderTypes.push({id: ORDER_TYPE.DELIVERY, title: "Delivery"});
+      this.orderTypes.push({ id: ORDER_TYPE.DELIVERY, title: "Delivery" });
 
     this.state = {
       directions: null
-    }
+    };
   }
 
   saveOrderInfo = data => {
@@ -142,7 +140,7 @@ export default class extends Component {
       });
     }
 
-    this.props.updateOrder({...data, travel_time});
+    this.props.updateOrder({ ...data, travel_time });
     history.push("/checkout");
   };
 
@@ -185,10 +183,10 @@ export default class extends Component {
         <div>
           <RequestTimeField
             label={t(
-            orderTypeValue === ORDER_TYPE.DELIVERY
-              ? "LABEL.DELIVERY"
-              : "LABEL.TAKEAWAY"
-          )}
+              orderTypeValue === ORDER_TYPE.DELIVERY
+                ? "LABEL.DELIVERY"
+                : "LABEL.TAKEAWAY"
+            )}
             hoursRange={hoursRange}
             {...request_time}
           />
@@ -197,9 +195,7 @@ export default class extends Component {
     );
   };
 
-  onSelectTopFilter = (id, value) => {
-
-  }
+  onSelectTopFilter = (id, value) => {};
 
   render() {
     const {
@@ -212,14 +208,14 @@ export default class extends Component {
       clearItems,
       error
       // initialValues: { order_type }
-      } = this.props;
+    } = this.props;
 
-    const {directions} = this.state;
+    const { directions } = this.state;
 
     if (!orderItems || !orderItems.length) {
       return (
         <div className="text-center p-2">
-          <img src="/images/no-data.png" height="100" alt=""/>
+          <img src="/images/no-data.png" height="100" alt="" />
           <p className="color-gray text-uppercase">
             {t("LABEL.SHOPPING_CART_EMPTY")}
           </p>
@@ -234,45 +230,55 @@ export default class extends Component {
 
     const orderTime = Date.now();
     let deliveryTime = null;
-    if (directions) deliveryTime = orderTime + directions.routes[0].legs[0].duration.value * 1000;
+    if (directions)
+      deliveryTime =
+        orderTime + directions.routes[0].legs[0].duration.value * 1000;
 
     return (
       <div className="your-cart map-background">
         <Helmet>
           <title>{t("LABEL.YOUR_CART")}</title>
-          <meta name="description" content={t("LABEL.YOUR_CART")}/>
+          <meta name="description" content={t("LABEL.YOUR_CART")} />
         </Helmet>
 
-        {!isMobile && <TopFilter
-          onSelected={this.onSelectTopFilter}
-          categories={[
-          {
-              id: "order_type",
-              title: t("BUTTON.FILTER.ORDERING_METHODS"),
-              type: "radio",
-              values: initOrders,
-              selected: orderInfo.order_type,
-              placement: "bottom",
-              showResult: 1,
-              multiple: 0
-            },
-            {
-              id: "order_time",
-              title: "Order time " + moment(orderTime).format('HH.mm'),
-              type: "label"
-            },
-            {
-              id: "distance",
-              title: "Distance " + (directions ? directions.routes[0].legs[0].distance.text : ""),
-              type: "label"
-            },
-            {
-              id: "delivery_time",
-              title: deliveryTime? "delivery time " + moment(deliveryTime).format('HH.mm') : "-",
-              type: "label"
-            }
-          ]}
-        />}
+        {!isMobile && (
+          <TopFilter
+            onSelected={this.onSelectTopFilter}
+            categories={[
+              {
+                id: "order_type",
+                title: t("BUTTON.FILTER.ORDERING_METHODS"),
+                type: "radio",
+                values: initOrders,
+                selected: orderInfo.order_type,
+                placement: "bottom",
+                showResult: 1,
+                multiple: 0
+              },
+              {
+                id: "order_time",
+                title: "Order time " + moment(orderTime).format("HH.mm"),
+                type: "label"
+              },
+              {
+                id: "distance",
+                title:
+                  "Distance " +
+                  (directions
+                    ? directions.routes[0].legs[0].distance.text
+                    : ""),
+                type: "label"
+              },
+              {
+                id: "delivery_time",
+                title: deliveryTime
+                  ? "delivery time " + moment(deliveryTime).format("HH.mm")
+                  : "-",
+                type: "label"
+              }
+            ]}
+          />
+        )}
 
         <div className="container box-shadow">
           <div className="block bg-white p-0 your-cart-1">
@@ -291,9 +297,9 @@ export default class extends Component {
                 orderItems={orderItems}
                 onReceiveAddress={this.handleReceiveAddress}
                 onReceiveDirections={directions => {
-                    this.directions = directions;
-                    this.setState({directions})
-                  }}
+                  this.directions = directions;
+                  this.setState({ directions });
+                }}
                 component={DirectionGmapField}
               />
             </div>
@@ -318,10 +324,11 @@ export default class extends Component {
             <div className="block">
               <CardList />
             </div>
-            <div className="ml-4 mb-2 text-uppercase font-fr-120 color-cg-074">Add a note</div>
+            <div className="ml-4 mb-2 text-uppercase font-fr-120 color-cg-074">
+              Add a note
+            </div>
             <div className="d-md-flex flex-md-row">
               <div className="your-cart-note">
-
                 <div className="">
                   <Field
                     name="order_note"
@@ -350,7 +357,6 @@ export default class extends Component {
                   </Button>
                 </div>
               </div>
-
             </div>
             {
               //  <CardList />

@@ -30,3 +30,19 @@ export const InputField = ({
     {touched && error && <FormFeedback>{error}</FormFeedback>}
   </FormGroup>
 );
+
+export const SelectField = ({
+  input,
+  label,
+  meta: { touched, error, warning },
+  children,
+  ...custom
+}) => (
+  <FormGroup {...custom}>
+    {label && <Label>{label}</Label>}
+    <Input {...input} valid={!touched || !error} type="select">
+      {children}
+    </Input>
+    {touched && error && <FormFeedback>{error}</FormFeedback>}
+  </FormGroup>
+);
