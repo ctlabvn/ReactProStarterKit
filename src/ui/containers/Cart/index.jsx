@@ -42,6 +42,7 @@ import TopFilter from "~/ui/components/TopFilter";
 
 import * as orderSelectors from "~/store/selectors/order";
 import * as orderActions from "~/store/actions/order";
+import * as commonActions from "~/store/actions/common";
 // import { GOOGLE_API_KEY } from "~/store/constants/api";
 // import { fetchJson } from "~/store/api/common";
 import { history } from "~/store";
@@ -64,7 +65,7 @@ import "./index.css";
     orderInfo: orderSelectors.getInfo(state),
     initialValues: { ...orderSelectors.getInfo(state), order_note: "" }
   }),
-  orderActions
+  { ...commonActions, ...orderActions }
 )
 // do not allow enableReinitialize because we will update state from components inside
 @reduxForm({
@@ -95,7 +96,7 @@ export default class extends Component {
   }
 
   saveOrderInfo = data => {
-    const { orderInfo, orderItems, t } = this.props;
+    const { orderInfo, orderItems, t, setToast } = this.props;
     let travel_time = 0;
     if (!data.order_type) {
       data.order_type = ORDER_TYPE.DELIVERY;
@@ -107,17 +108,22 @@ export default class extends Component {
         +orderInfo.delivery_distance &&
         1000 * +orderInfo.delivery_distance < distance.value
       ) {
-        throw new SubmissionError({
-          _error: t("LABEL.DISTANCE_TOO_FAR")
-        });
+
+        setToast(t("LABEL.DISTANCE_TOO_FAR"), "danger");
+        return;
+        //throw new SubmissionError({
+        //  _error: t("LABEL.DISTANCE_TOO_FAR")
+        //});
       }
     }
 
-    //if (!data.request_time) {
-    //  throw new SubmissionError({
-    //    _error: "Can not delivery due to time!"
-    //  });
-    //}
+    if (!data.request_time) {
+      setToast("Can not delivery due to time!", "danger");
+      return;
+      //throw new SubmissionError({
+      //  _error: "Can not delivery due to time!"
+      //});
+    }
 
     const orderPrices = calculateOrderPrice(orderItems, orderInfo);
 
@@ -125,17 +131,21 @@ export default class extends Component {
       orderInfo.min_delivery_cost &&
       orderPrices.total < orderInfo.min_delivery_cost
     ) {
-      throw new SubmissionError({
-        _error: t("LABEL.PRICE_TOO_LOW")
-      });
+      setToast(t("LABEL.PRICE_TOO_LOW"), "danger");
+      return;
+      //throw new SubmissionError({
+      //  _error: t("LABEL.PRICE_TOO_LOW")
+      //});
     }
     if (
       orderInfo.max_delivery_cost &&
       orderPrices.total > orderInfo.max_delivery_cost
     ) {
-      throw new SubmissionError({
-        _error: t("LABEL.PRICE_TOO_HIGH")
-      });
+      setToast(t("LABEL.PRICE_TOO_HIGH"), "danger");
+      return;
+      //throw new SubmissionError({
+      //  _error: t("LABEL.PRICE_TOO_HIGH")
+      //});
     }
 
     this.props.updateOrder({ ...data, travel_time });
