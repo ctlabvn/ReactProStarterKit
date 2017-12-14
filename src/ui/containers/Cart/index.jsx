@@ -339,15 +339,15 @@ export default class extends Component {
               <div className="w-100 ml-md-5">
                 <div className="d-flex justify-content-between text-uppercase font-fr-140 color-cg-074">
                   <div>subtotal</div>
-                  <div>₫{currency_symbol+orderPrices.subtotal}</div>
+                  <div>{currency_symbol+orderPrices.subtotal}</div>
                 </div>
                 <div className="mt-md-4 d-flex justify-content-between text-uppercase font-fr-140 color-cg-074">
                   <div>delivery fee</div>
-                  <div>₫{currency_symbol+orderPrices.fee}</div>
+                  <div>{currency_symbol+orderPrices.fee}</div>
                 </div>
                 <div className="mt-md-4 d-flex justify-content-between text-uppercase font-fr-160">
                   <div className="color-cg-040">total price</div>
-                  <div className="color-red">₫{currency_symbol+orderPrices.total}</div>
+                  <div className="color-red">{currency_symbol+orderPrices.total}</div>
                 </div>
                 <div className="mt-md-5 pt-md-3">
                   <Button
