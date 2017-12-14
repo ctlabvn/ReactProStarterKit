@@ -129,7 +129,7 @@ export default class extends Component {
   }
 
   onSelectBreadcrumb(category_uuid) {
-    console.log("--------------- ", category_uuid);
+
   }
 
   render() {
@@ -139,8 +139,6 @@ export default class extends Component {
 
     const showCategories = [];
     const canAddOrder = checkOrderAvailable(outlet);
-
-    console.log("outlet ----------------- ", outlet, canAddOrder);
 
     if (outlet.total_items) {
       categories.forEach(item => {

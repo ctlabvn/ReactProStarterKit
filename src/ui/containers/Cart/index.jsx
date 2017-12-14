@@ -70,7 +70,7 @@ import "./index.css";
 @reduxForm({
   form: "Checkout",
   validate,
-  destroyOnUnmount: false,
+  destroyOnUnmount: true,
   enableReinitialize: false
 })
 export default class extends Component {
@@ -213,7 +213,6 @@ export default class extends Component {
       orderInfo,
       clearItems,
       error
-      // initialValues: { order_type }
     } = this.props;
 
     const { directions } = this.state;
@@ -243,6 +242,24 @@ export default class extends Component {
     const orderPrices = calculateOrderPrice(orderItems, orderInfo);
     const currency_symbol = orderItems[0].currency_symbol;
 
+    const filterCategories = [
+      {
+        id: "order_type",
+        title: t("BUTTON.FILTER.ORDERING_METHODS"),
+        type: "radio",
+        values: initOrders,
+        selected: orderInfo.order_type,
+        placement: "bottom",
+        showResult: 1,
+        multiple: 0
+      },
+      {
+        id: "order_time",
+        title: "Order time " + moment(orderTime).format('HH.mm'),
+        type: "label"
+      }
+    ];
+
     return (
       <div className="your-cart map-background">
         <Helmet>
@@ -253,7 +270,7 @@ export default class extends Component {
         <TopFilter
           onSelected={this.onSelectTopFilter}
           categories={[
-          {
+            {
               id: "order_type",
               title: t("BUTTON.FILTER.ORDERING_METHODS"),
               type: "radio",

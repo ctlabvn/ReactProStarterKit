@@ -66,9 +66,6 @@ export default class extends Component {
       return <IconLoading />;
     }
 
-    console.log("outlet ----------------- ", outlet);
-    console.log("item ----------------- ", item);
-
     return (
       <div className="map-background">
         {outlet ? (
