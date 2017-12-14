@@ -6,6 +6,10 @@ export const validate = values => {
   if (!values) return errors;
   if (!values.name) errors.name = i18n.t("LABEL.ENTER_FULLNAME");
   if (!values.phone) errors.phone = i18n.t("LABEL.ENTER_PHONE");
+  if (isNaN(Number(values.phone))) {
+    errors.phone = i18n.t("VALIDATE.PHONE_NUMBER");
+  }
+
   const addressErrors = [];
   values.address.forEach((item, index) => {
     const itemError = {};

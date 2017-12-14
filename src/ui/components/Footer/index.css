@@ -31,8 +31,18 @@
     }
 
   }
+
+  .dropdown-language .dropdown-toggle::after {
+    border: none !important;
+  }
 }
 
 .footer-menu-language .text-info {
   color: $grey-color !important;
+}
+
+.footer-language-caret {
+  font-size: 14px;
+  position: relative;
+  top: -1px;
 }

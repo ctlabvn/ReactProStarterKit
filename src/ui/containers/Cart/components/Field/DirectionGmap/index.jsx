@@ -202,7 +202,6 @@ export default class extends Component {
       orderTypes
     );
 
-    console.log("orderInfo ----------- ", orderInfo);
     const restaurant_name = orderInfo && orderInfo.restaurant_name ? orderInfo.restaurant_name : t("LABEL.NO_INFO");
     const restaurant_address = orderInfo && orderInfo.restaurant_address ? orderInfo.restaurant_address : t("LABEL.NO_INFO");
     const restaurant_phone = orderInfo && orderInfo.restaurant_phone ? orderInfo.restaurant_phone : t("LABEL.NO_INFO");

@@ -72,8 +72,8 @@ import "./index.css";
 @reduxForm({
   form: "Checkout",
   validate,
-  destroyOnUnmount: true,
-  enableReinitialize: true
+  destroyOnUnmount: false,
+  enableReinitialize: false
 })
 export default class extends Component {
   constructor(props) {
@@ -117,11 +117,11 @@ export default class extends Component {
       }
     }
 
-    if (!data.request_time) {
-      throw new SubmissionError({
-        _error: "Can not delivery due to time!"
-      });
-    }
+    //if (!data.request_time) {
+    //  throw new SubmissionError({
+    //    _error: "Can not delivery due to time!"
+    //  });
+    //}
 
     const orderPrices = calculateOrderPrice(orderItems, orderInfo);
 
@@ -236,6 +236,10 @@ export default class extends Component {
     let deliveryTime = null;
     if (directions) deliveryTime = orderTime + directions.routes[0].legs[0].duration.value * 1000;
 
+
+    const orderPrices = calculateOrderPrice(orderItems, orderInfo);
+    const currency_symbol = orderItems[0].currency_symbol;
+
     return (
       <div className="your-cart map-background">
         <Helmet>
@@ -333,13 +337,17 @@ export default class extends Component {
               </div>
 
               <div className="w-100 ml-md-5">
-                <div className="mt-md-2 d-flex justify-content-between text-uppercase font-fr-140 color-cg-074">
+                <div className="d-flex justify-content-between text-uppercase font-fr-140 color-cg-074">
                   <div>subtotal</div>
-                  <div>$ 348</div>
+                  <div>₫{currency_symbol+orderPrices.subtotal}</div>
+                </div>
+                <div className="mt-md-4 d-flex justify-content-between text-uppercase font-fr-140 color-cg-074">
+                  <div>delivery fee</div>
+                  <div>₫{currency_symbol+orderPrices.fee}</div>
                 </div>
                 <div className="mt-md-4 d-flex justify-content-between text-uppercase font-fr-160">
                   <div className="color-cg-040">total price</div>
-                  <div className="color-red">$ 348</div>
+                  <div className="color-red">₫{currency_symbol+orderPrices.total}</div>
                 </div>
                 <div className="mt-md-5 pt-md-3">
                   <Button
