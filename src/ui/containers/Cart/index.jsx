@@ -95,8 +95,6 @@ export default class extends Component {
   }
 
   saveOrderInfo = data => {
-    console.log("data -------------- ", data);
-
     const { orderInfo, orderItems, t } = this.props;
     let travel_time = 0;
     if (!data.order_type) {
@@ -195,7 +193,15 @@ export default class extends Component {
     );
   };
 
-  onSelectTopFilter = (id, value) => {};
+  onSelectTopFilter = (id, value) => {
+    if(id === 'order_type'){
+      const {
+        orderInfo
+        } = this.props;
+
+      this.props.updateOrder({...orderInfo, order_type: value[0]});
+    }
+  }
 
   render() {
     const {
@@ -234,7 +240,6 @@ export default class extends Component {
       deliveryTime =
         orderTime + directions.routes[0].legs[0].duration.value * 1000;
 
-
     const orderPrices = calculateOrderPrice(orderItems, orderInfo);
     const currency_symbol = orderItems[0].currency_symbol;
 
@@ -245,44 +250,36 @@ export default class extends Component {
           <meta name="description" content={t("LABEL.YOUR_CART")} />
         </Helmet>
 
-        {!isMobile && (
-          <TopFilter
-            onSelected={this.onSelectTopFilter}
-            categories={[
-              {
-                id: "order_type",
-                title: t("BUTTON.FILTER.ORDERING_METHODS"),
-                type: "radio",
-                values: initOrders,
-                selected: orderInfo.order_type,
-                placement: "bottom",
-                showResult: 1,
-                multiple: 0
-              },
-              {
-                id: "order_time",
-                title: "Order time " + moment(orderTime).format("HH.mm"),
-                type: "label"
-              },
-              {
-                id: "distance",
-                title:
-                  "Distance " +
-                  (directions
-                    ? directions.routes[0].legs[0].distance.text
-                    : ""),
-                type: "label"
-              },
-              {
-                id: "delivery_time",
-                title: deliveryTime
-                  ? "delivery time " + moment(deliveryTime).format("HH.mm")
-                  : "-",
-                type: "label"
-              }
-            ]}
-          />
-        )}
+        <TopFilter
+          onSelected={this.onSelectTopFilter}
+          categories={[
+          {
+              id: "order_type",
+              title: t("BUTTON.FILTER.ORDERING_METHODS"),
+              type: "radio",
+              values: initOrders,
+              selected: orderInfo.order_type,
+              placement: "bottom",
+              showResult: 1,
+              multiple: 0
+            },
+            {
+              id: "order_time",
+              title: "Order time " + moment(orderTime).format('HH.mm'),
+              type: "label"
+            },
+            {
+              id: "distance",
+              title: "Distance " + (directions ? directions.routes[0].legs[0].distance.text : ""),
+              type: "label"
+            },
+            {
+              id: "delivery_time",
+              title: deliveryTime? "delivery time " + moment(deliveryTime).format('HH.mm') : "-",
+              type: "label"
+            }
+          ]}
+        />
 
         <div className="container box-shadow">
           <div className="block bg-white p-0 your-cart-1">
@@ -348,10 +345,12 @@ export default class extends Component {
                   <div>subtotal</div>
                   <div>{currency_symbol+orderPrices.subtotal}</div>
                 </div>
+                {orderInfo.order_type === ORDER_TYPE.DELIVERY &&
                 <div className="mt-md-4 d-flex justify-content-between text-uppercase font-fr-140 color-cg-074">
                   <div>delivery fee</div>
                   <div>{currency_symbol+orderPrices.fee}</div>
                 </div>
+                }
                 <div className="mt-md-4 d-flex justify-content-between text-uppercase font-fr-160">
                   <div className="color-cg-040">total price</div>
                   <div className="color-red">{currency_symbol+orderPrices.total}</div>
