@@ -8,6 +8,10 @@ export const validate = values => {
   if (!values.country_code)
     errors.country_code = i18n.t("LABEL.ENTER_COUNTRY_CODE");
   if (!values.phone) errors.phone = i18n.t("LABEL.ENTER_PHONE");
+  if (isNaN(Number(values.phone))) {
+    errors.phone = i18n.t("VALIDATE.PHONE_NUMBER");
+  }
+
   const addressErrors = [];
   values.address.forEach((item, index) => {
     const itemError = {};

@@ -53,7 +53,7 @@ export default class extends Component {
     });
     return (
       <Dropdown
-        title={selectedItem ? selectedItem.name : defaultLangName}
+        title={<span>{selectedItem ? selectedItem.name : defaultLangName}<i className="footer-language-caret ml-1 fa fa-caret-up" aria-hidden="true"/></span>}
         className={classNames(
           isMobile ? "dropinline" : "dropup",
           "text-uppercase dropdown-language"

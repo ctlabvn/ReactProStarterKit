@@ -68,7 +68,7 @@
       "ABOUT_US": "About Us",
       "TECHNOLOGY": "Technology",
       "LOGIN": "Login",
-      "JOIN_US": "Join Us",
+      "JOIN_US": "Join",
       "PARTNER": "Partner",
       "SUPPORT": "Support",
       "HELP_CENTER": "Help Center",
@@ -113,5 +113,8 @@
     "TOTAL": "Total",
     "DELETE": "Delete",
     "YOUR_CART": "Your Cart"
+  },
+  "VALIDATE": {
+    "PHONE_NUMBER": "Must be a number"
   }
 }
