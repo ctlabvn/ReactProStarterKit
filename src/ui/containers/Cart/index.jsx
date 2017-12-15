@@ -42,6 +42,7 @@ import TopFilter from "~/ui/components/TopFilter";
 
 import * as orderSelectors from "~/store/selectors/order";
 import * as orderActions from "~/store/actions/order";
+import * as commonActions from "~/store/actions/common";
 // import { GOOGLE_API_KEY } from "~/store/constants/api";
 // import { fetchJson } from "~/store/api/common";
 import { history } from "~/store";
@@ -64,13 +65,13 @@ import "./index.css";
     orderInfo: orderSelectors.getInfo(state),
     initialValues: { ...orderSelectors.getInfo(state), order_note: "" }
   }),
-  orderActions
+  { ...commonActions, ...orderActions }
 )
 // do not allow enableReinitialize because we will update state from components inside
 @reduxForm({
   form: "Checkout",
   validate,
-  destroyOnUnmount: false,
+  destroyOnUnmount: true,
   enableReinitialize: false
 })
 export default class extends Component {
@@ -95,9 +96,7 @@ export default class extends Component {
   }
 
   saveOrderInfo = data => {
-    console.log("data -------------- ", data);
-
-    const { orderInfo, orderItems, t } = this.props;
+    const { orderInfo, orderItems, t, setToast } = this.props;
     let travel_time = 0;
     if (!data.order_type) {
       data.order_type = ORDER_TYPE.DELIVERY;
@@ -109,17 +108,22 @@ export default class extends Component {
         +orderInfo.delivery_distance &&
         1000 * +orderInfo.delivery_distance < distance.value
       ) {
-        throw new SubmissionError({
-          _error: t("LABEL.DISTANCE_TOO_FAR")
-        });
+
+        setToast(t("LABEL.DISTANCE_TOO_FAR"), "danger");
+        return;
+        //throw new SubmissionError({
+        //  _error: t("LABEL.DISTANCE_TOO_FAR")
+        //});
       }
     }
 
-    //if (!data.request_time) {
-    //  throw new SubmissionError({
-    //    _error: "Can not delivery due to time!"
-    //  });
-    //}
+    if (!data.request_time) {
+      setToast("Can not delivery due to time!", "danger");
+      return;
+      //throw new SubmissionError({
+      //  _error: "Can not delivery due to time!"
+      //});
+    }
 
     const orderPrices = calculateOrderPrice(orderItems, orderInfo);
 
@@ -127,17 +131,21 @@ export default class extends Component {
       orderInfo.min_delivery_cost &&
       orderPrices.total < orderInfo.min_delivery_cost
     ) {
-      throw new SubmissionError({
-        _error: t("LABEL.PRICE_TOO_LOW")
-      });
+      setToast(t("LABEL.PRICE_TOO_LOW"), "danger");
+      return;
+      //throw new SubmissionError({
+      //  _error: t("LABEL.PRICE_TOO_LOW")
+      //});
     }
     if (
       orderInfo.max_delivery_cost &&
       orderPrices.total > orderInfo.max_delivery_cost
     ) {
-      throw new SubmissionError({
-        _error: t("LABEL.PRICE_TOO_HIGH")
-      });
+      setToast(t("LABEL.PRICE_TOO_HIGH"), "danger");
+      return;
+      //throw new SubmissionError({
+      //  _error: t("LABEL.PRICE_TOO_HIGH")
+      //});
     }
 
     this.props.updateOrder({ ...data, travel_time });
@@ -195,7 +203,15 @@ export default class extends Component {
     );
   };
 
-  onSelectTopFilter = (id, value) => {};
+  onSelectTopFilter = (id, value) => {
+    if(id === 'order_type'){
+      const {
+        orderInfo
+        } = this.props;
+
+      this.props.updateOrder({...orderInfo, order_type: value[0]});
+    }
+  }
 
   render() {
     const {
@@ -207,7 +223,6 @@ export default class extends Component {
       orderInfo,
       clearItems,
       error
-      // initialValues: { order_type }
     } = this.props;
 
     const { directions } = this.state;
@@ -234,9 +249,26 @@ export default class extends Component {
       deliveryTime =
         orderTime + directions.routes[0].legs[0].duration.value * 1000;
 
-
     const orderPrices = calculateOrderPrice(orderItems, orderInfo);
     const currency_symbol = orderItems[0].currency_symbol;
+
+    const filterCategories = [
+      {
+        id: "order_type",
+        title: t("BUTTON.FILTER.ORDERING_METHODS"),
+        type: "radio",
+        values: initOrders,
+        selected: orderInfo.order_type,
+        placement: "bottom",
+        showResult: 1,
+        multiple: 0
+      },
+      {
+        id: "order_time",
+        title: "Order time " + moment(orderTime).format('HH.mm'),
+        type: "label"
+      }
+    ];
 
     return (
       <div className="your-cart map-background">
@@ -245,44 +277,36 @@ export default class extends Component {
           <meta name="description" content={t("LABEL.YOUR_CART")} />
         </Helmet>
 
-        {!isMobile && (
-          <TopFilter
-            onSelected={this.onSelectTopFilter}
-            categories={[
-              {
-                id: "order_type",
-                title: t("BUTTON.FILTER.ORDERING_METHODS"),
-                type: "radio",
-                values: initOrders,
-                selected: orderInfo.order_type,
-                placement: "bottom",
-                showResult: 1,
-                multiple: 0
-              },
-              {
-                id: "order_time",
-                title: "Order time " + moment(orderTime).format("HH.mm"),
-                type: "label"
-              },
-              {
-                id: "distance",
-                title:
-                  "Distance " +
-                  (directions
-                    ? directions.routes[0].legs[0].distance.text
-                    : ""),
-                type: "label"
-              },
-              {
-                id: "delivery_time",
-                title: deliveryTime
-                  ? "delivery time " + moment(deliveryTime).format("HH.mm")
-                  : "-",
-                type: "label"
-              }
-            ]}
-          />
-        )}
+        <TopFilter
+          onSelected={this.onSelectTopFilter}
+          categories={[
+            {
+              id: "order_type",
+              title: t("BUTTON.FILTER.ORDERING_METHODS"),
+              type: "radio",
+              values: initOrders,
+              selected: orderInfo.order_type,
+              placement: "bottom",
+              showResult: 1,
+              multiple: 0
+            },
+            {
+              id: "order_time",
+              title: "Order time " + moment(orderTime).format('HH.mm'),
+              type: "label"
+            },
+            {
+              id: "distance",
+              title: "Distance " + (directions ? directions.routes[0].legs[0].distance.text : ""),
+              type: "label"
+            },
+            {
+              id: "delivery_time",
+              title: deliveryTime? "delivery time " + moment(deliveryTime).format('HH.mm') : "-",
+              type: "label"
+            }
+          ]}
+        />
 
         <div className="container box-shadow">
           <div className="block bg-white p-0 your-cart-1">
@@ -348,10 +372,12 @@ export default class extends Component {
                   <div>subtotal</div>
                   <div>{currency_symbol+orderPrices.subtotal}</div>
                 </div>
+                {orderInfo.order_type === ORDER_TYPE.DELIVERY &&
                 <div className="mt-md-4 d-flex justify-content-between text-uppercase font-fr-140 color-cg-074">
                   <div>delivery fee</div>
                   <div>{currency_symbol+orderPrices.fee}</div>
                 </div>
+                }
                 <div className="mt-md-4 d-flex justify-content-between text-uppercase font-fr-160">
                   <div className="color-cg-040">total price</div>
                   <div className="color-red">{currency_symbol+orderPrices.total}</div>
