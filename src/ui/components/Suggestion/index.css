@@ -1,4 +1,10 @@
+@import "../../vars.css";
 
-.suggestion-result {
-  border-radius: 0;
+/*.suggestion-result {*/
+  /*border-radius: 0;*/
+/*}*/
+
+.suggestion-selected {
+  text-decoration: none;
+  color: $red-color;
 }

@@ -58,16 +58,19 @@ export default class extends Component {
 		const lat = outlet.lat;
 		const lng = outlet.long;
 		const position = { lat: +lat, lng: +lng };
-		console.log(position);
+
 		const hoursDelivery =
 			outlet.online_order_setting && outlet.online_order_setting.hours_delivery
 				? parseJsonToObject(outlet.online_order_setting.hours_delivery)
 				: false;
 		const symbol = outlet.currency ? outlet.currency.symbol : undefined;
+
+    let order_setting = {};
+    if(outlet && outlet.online_order_setting) order_setting = outlet.online_order_setting;
+
 		return (
 			<div className="w-100">
-				{outlet.online_order_setting &&
-					outlet.online_order_setting.delivery_fee !== 0 && (
+				{order_setting.do_delivery === 1 && order_setting.delivery_fee !== 0 &&
 						<div className="w-100">
 							<h3 className="font-largest color-black w-100">
 								<span className="font-weight-bold">{t("LABEL.FEES")}</span>
@@ -79,9 +82,9 @@ export default class extends Component {
 								)}
 							</p>
 						</div>
-					)}
+					}
 
-				{outlet.online_order_setting && (
+				{order_setting.do_delivery === 1 &&
 					<div className="w-100">
 						<h3 className="font-largest color-black w-100">
 							<span className="font-weight-bold">
@@ -105,7 +108,7 @@ export default class extends Component {
 							</li>
 						</ul>
 					</div>
-				)}
+				}
 
 				{hoursDelivery && (
 					<div className="w-100">

@@ -15,6 +15,9 @@ import { updateConfig } from "~/store/actions/auth";
 import * as authSelectors from "~/store/selectors/auth";
 import api from "~/store/api";
 // import { isMobile } from "~/utils";
+import { history } from "~/store";
+import "./index.css";
+
 
 @translate("translations")
 @connect(
@@ -28,10 +31,13 @@ export default class extends Component {
     super(props);
 
     this.state = {
-      suggestions: {}
+      suggestions: {},
+      selected: -1
     };
 
     this.timeout = null;
+    this.suggestionsLength = 0;
+    this.linkTo = null;
   }
 
   componentWillMount() {
@@ -54,6 +60,8 @@ export default class extends Component {
     this.timeout = setTimeout(() => {
       this.props.updateConfig("searchStr", term);
       this.getSuggestion(term);
+
+      this.setState({selected: -1});
     }, 1000);
   };
 
@@ -62,7 +70,7 @@ export default class extends Component {
     return gallery ? gallery[0] : "";
   }
 
-  renderSuggestionResult(key, label, extractLinkFn, extractImageFn, className) {
+  renderSuggestionResult = (key, label, extractLinkFn, extractImageFn, className) =>  {
     const list = this.state.suggestions[key];
     if (list && list.length) {
       return (
@@ -72,21 +80,32 @@ export default class extends Component {
         >
           <strong>{label}</strong>
           <div className="pt-2">
-            {list.map(item => (
-              <Link
-                className="d-flex mb-2 w-100 justify-content-start align-items-center"
-                key={item.id}
-                to={extractLinkFn(item)}
-              >
-                <Image
-                  showContainer
-                  style={{ width: 30, height: 30 }}
-                  src={extractImageFn(item)}
-                  className="mr-2"
-                />
-                {item.name}
-              </Link>
-            ))}
+            {list.map(item => {
+
+              let selectedClass = '';
+              if(this.state.selected === this.suggestionsLength){
+                selectedClass = "suggestion-selected";
+                this.linkTo = extractLinkFn(item);
+              }
+
+              this.suggestionsLength ++;
+
+              return (
+                <Link
+                  className={"d-flex mb-2 w-100 justify-content-start align-items-center " + selectedClass}
+                  key={item.id}
+                  to={extractLinkFn(item)}
+                >
+                  <Image
+                    showContainer
+                    style={{ width: 30, height: 30 }}
+                    src={extractImageFn(item)}
+                    className="mr-2"
+                  />
+                  {item.name}
+                </Link>
+              )
+            })}
           </div>
         </div>
       );
@@ -95,7 +114,43 @@ export default class extends Component {
     return null;
   }
 
+  onKeyDown = (event) => {
+    if(event.key === 'Enter'){
+      if(this.state.selected === -1){
+        switch(history.location.pathname) {
+          case '/':
+            history.push("/restaurant");
+            break;
+          case '/restaurant':
+            break;
+          default:
+            break;
+        }
+        return;
+      }
+
+      if(this.linkTo) history.push(this.linkTo);
+    }
+
+    if(event.key === 'ArrowUp'){
+      event.preventDefault();
+      const selected = this.state.selected;
+      if(selected <= 0) return;
+      this.setState({selected: selected - 1});
+    }
+
+    if(event.key === 'ArrowDown'){
+      event.preventDefault();
+      const selected = this.state.selected;
+      if(selected === this.suggestionsLength - 1) return;
+      this.setState({selected: selected + 1});
+    }
+  };
+
   render() {
+    this.suggestionsLength = 0;
+    this.linkTo = null;
+
     const { config, t, updateConfig, ...props } = this.props;
     const children = [];
     const itemsResult = this.renderSuggestionResult(
@@ -126,6 +181,7 @@ export default class extends Component {
         placeholder={t("PLACEHOLDER.TYPE_YOUR_SEARCH")}
         value={config.searchStr}
         onSearch={this.handleSearch}
+        onKeyDown={this.onKeyDown}
         {...props}
       >
         {children}

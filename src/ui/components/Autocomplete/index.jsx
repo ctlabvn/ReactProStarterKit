@@ -59,6 +59,7 @@ export default class extends Component {
       onSearch,
       prepend,
       value,
+      onKeyDown,
       ...props
     } = this.props;
     const { dropdownOpen } = this.state;
@@ -84,6 +85,7 @@ export default class extends Component {
             onChange={this.search}
             className={classNames("custom-input w-100", inputClass)}
             ref={ref => (this.input = ref)}
+            onKeyDown={onKeyDown}
           />
         </DropdownToggle>
         {!!children.length && (
