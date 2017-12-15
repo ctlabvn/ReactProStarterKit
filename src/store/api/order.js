@@ -1,15 +1,14 @@
-import { apiGet, apiPost } from './common'
+import { apiGet, apiPost } from "./common";
 
 export default {
-  createOrder(data){
-    return apiPost('/order', data);
+  createOrder(token, data) {
+    return apiPost("/order", { token, ...data });
   },
 
-  getOrderHistory(token, options){
-    return apiGet('/customer/customer-order-list', {
+  getOrderHistory(token, options) {
+    return apiGet("/customer/customer-order-list", {
       token,
-      ...options,
-    })
-  },
-}
-
+      ...options
+    });
+  }
+};
