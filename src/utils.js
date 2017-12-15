@@ -1,6 +1,7 @@
 /* eslint-disable */
 import moment from "moment";
 import i18n from "~/i18n";
+import countryData from "country-data";
 
 export const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
   window.navigator.userAgent
@@ -10,6 +11,13 @@ const KEYCODE_Z = 90;
 const KEYCODE_Y = 89;
 
 const defaultCoordsValue = { latitude: 21.0595054, longitude: 105.7787773 };
+
+export const countries = countryData.countries.all
+  .filter(country => country.countryCallingCodes.length)
+  .map(country => ({
+    ...country,
+    country_code: +country.countryCallingCodes[0].replace(/[+\s]+/g, "")
+  }));
 
 export const ORDER_TYPE = {
   DINE_IN: 1,
@@ -191,7 +199,7 @@ export const isValidEmail = values => {
 };
 
 export const isValidPhoneNumber = phone => {
-  return phone.match(/^\d{10,11}$/) !== null;
+  return phone && phone.match(/^\d{10,11}$/) !== null;
 };
 
 export const validateLogin = values => {

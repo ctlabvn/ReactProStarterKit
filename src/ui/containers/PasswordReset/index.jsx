@@ -60,13 +60,13 @@ export default class extends Component {
 
   resetPassword = ({ email }) => {
     // console.log(email)
-    const { requestor, setToast } = this.props;
+    const { requestor, setToast, t } = this.props;
     return new Promise(resolve => {
       requestor("customer/resetPassword", email, (err, ret) => {
         if (err) {
           setToast(extractMessage(err.message), "danger");
         } else {
-          setToast("Reset password successfully!", "success");
+          setToast(t("LABEL.RESET_PASSWORD_SUCCEED"), "success");
           this.setState({ showLogin: true });
         }
         resolve(true);
@@ -75,16 +75,12 @@ export default class extends Component {
   };
 
   renderResetPassword() {
-    const { submitting, handleSubmit } = this.props;
+    const { submitting, handleSubmit, t } = this.props;
     return (
       <div className="w-50 mt-5">
-        <h2>Forgot Your Password?</h2>
+        <h2 className="text-center">{t("LABEL.FORGOT_YOUR_PASSWORD")}</h2>
         <Form>
-          <Field
-            label="Your email password"
-            name="email"
-            component={InputField}
-          />
+          <Field label={t("LABEL.EMAIL")} name="email" component={InputField} />
 
           <Button
             block
@@ -92,7 +88,7 @@ export default class extends Component {
             disabled={submitting}
             onClick={handleSubmit(this.resetPassword)}
           >
-            Reset password
+            {t("LABEL.RESET_PASSWORD")}
           </Button>
         </Form>
       </div>
@@ -100,12 +96,13 @@ export default class extends Component {
   }
 
   render() {
+    const { t } = this.props;
     const { showLogin } = this.state;
     return (
       <div className="container d-flex justify-content-center">
         {showLogin ? (
           <div className="w-50 mt-5">
-            <h2>Login your account</h2>
+            <h2 className="text-center">{t("LABEL.LOGIN_YOUR_ACCOUNT")}</h2>
             <Login />
           </div>
         ) : (

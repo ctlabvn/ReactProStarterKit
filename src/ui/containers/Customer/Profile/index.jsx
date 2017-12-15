@@ -3,7 +3,6 @@ import { translate } from "react-i18next";
 import Helmet from "react-helmet";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { countries } from "country-data";
 // redux form
 import { Field, FieldArray, reduxForm } from "redux-form";
 
@@ -29,6 +28,8 @@ import { InputField, SelectField } from "~/ui/components/ReduxForm";
 import AddressListField from "./components/AddressListField";
 import { validate } from "./utils";
 
+import { countries } from "~/utils";
+
 @translate("translations")
 @connect(
   state => ({
@@ -48,16 +49,12 @@ import { validate } from "./utils";
 })
 export default class extends Component {
   updateCustomer = ({ customer_uuid, name, phone, address, country_code }) => {
-    const {
-      token,
-      requestor
-      // initialValues, deleteAddress
-    } = this.props;
-    // const deletedAddress = initialValues.address.filter(item =>
-    //   address.every(
-    //     oldItem => oldItem.cus_address_uuid !== item.cus_address_uuid
-    //   )
-    // );
+    const { token, requestor, initialValues, deleteAddress } = this.props;
+    const deletedAddress = initialValues.address.filter(item =>
+      address.every(
+        oldItem => oldItem.cus_address_uuid !== item.cus_address_uuid
+      )
+    );
 
     return new Promise(resolve => {
       requestor(
@@ -67,43 +64,44 @@ export default class extends Component {
         name,
         phone,
         address,
+        country_code,
         () => resolve(true)
       );
       // update address
-      // address.forEach(({ cus_address_uuid, name, address }) => {
-      //   if (cus_address_uuid) {
-      //     requestor(
-      //       "customer/requestUpdateAddress",
-      //       token,
-      //       cus_address_uuid,
-      //       name,
-      //       address
-      //     );
-      //   } else {
-      //     requestor(
-      //       "customer/requestAddAddress",
-      //       token,
-      //       customer_uuid,
-      //       name,
-      //       address
-      //     );
-      //   }
-      // });
-      // // delete old ones
-      // deletedAddress.forEach(({ cus_address_uuid }) => {
-      //   requestor(
-      //     "customer/requestDeleteAddress",
-      //     token,
-      //     cus_address_uuid,
-      //     (err, ret) => {
-      //       // for item has been delete before :D
-      //       deleteAddress(cus_address_uuid);
-      //       // if (!err) {
-      //       //   deleteAddress(cus_address_uuid);
-      //       // }
-      //     }
-      //   );
-      // });
+      address.forEach(({ cus_address_uuid, name, address }) => {
+        if (cus_address_uuid) {
+          requestor(
+            "customer/requestUpdateAddress",
+            token,
+            cus_address_uuid,
+            name,
+            address
+          );
+        } else {
+          requestor(
+            "customer/requestAddAddress",
+            token,
+            customer_uuid,
+            name,
+            address
+          );
+        }
+      });
+      // delete old ones
+      deletedAddress.forEach(({ cus_address_uuid }) => {
+        requestor(
+          "customer/requestDeleteAddress",
+          token,
+          cus_address_uuid,
+          (err, ret) => {
+            // for item has been delete before :D
+            // deleteAddress(cus_address_uuid);
+            if (!err) {
+              deleteAddress(cus_address_uuid);
+            }
+          }
+        );
+      });
     });
   };
 
@@ -123,8 +121,10 @@ export default class extends Component {
         <Field label="Phone" name="phone" component={InputField} />
 
         <Field label="Country Code" name="country_code" component={SelectField}>
-          {countries.all.map(country => (
-            <option value={country.countryCallingCodes}>{country.name}</option>
+          {countries.map((country, index) => (
+            <option key={index} value={country.country_code}>
+              {country.name}
+            </option>
           ))}
         </Field>
 

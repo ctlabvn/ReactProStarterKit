@@ -21,6 +21,7 @@ import Customer from "./containers/Customer";
 // import Order from "./containers/Customer/Order";
 import Checkout from "./containers/Checkout";
 import PasswordReset from "./containers/PasswordReset";
+import VerifyPhone from "./containers/VerifyPhone";
 
 // stateless component
 const Root = ({ store, history }) => (
@@ -40,6 +41,7 @@ const Root = ({ store, history }) => (
           <Route exact path="/restaurant" component={RestaurantListing} />
           <Route path="/customer" component={Customer} />
           <Route exact path="/password-reset" component={PasswordReset} />
+          <Route exact path="/verify-phone" component={VerifyPhone} />
           <Route exact path="/:outlet_slug" component={Restaurant} />
           <Route exact path="/:outlet_slug/:item_slug" component={Item} />
           <Route component={NotFound} />
