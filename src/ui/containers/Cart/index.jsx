@@ -116,10 +116,10 @@ export default class extends Component {
         }
       }
 
-      if (!data.request_time) {
-        setToast("Can not delivery due to time!", "danger");
-        return;
-      }
+      //if (!data.request_time) {
+      //  setToast("Can not delivery due to time!", "danger");
+      //  return;
+      //}
 
       const orderPrices = calculateOrderPrice(orderItems, orderInfo);
 
