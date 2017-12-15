@@ -6,7 +6,7 @@ export const validate = values => {
   // first time it is empty
   if (!values) return errors;
   if (!values.order_note)
-    errors.order_note = i18n.t("LABEL.ORDER_NODE_INVALID");
+    errors.order_note = i18n.t("LABEL.ORDER_NOTE_INVALID");
   return errors;
 };
 
