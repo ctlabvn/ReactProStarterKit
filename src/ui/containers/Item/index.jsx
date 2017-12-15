@@ -75,7 +75,10 @@ export default class extends Component {
               <meta name="description" content={item.description} />
             </Helmet>
             <Header outlet={outlet} item={item} />
-            <Body outlet={outlet} item={item} />
+            {
+              //<Body outlet={outlet} item={item} />
+            }
+
           </div>
         ) : (
           <EmptyResult />

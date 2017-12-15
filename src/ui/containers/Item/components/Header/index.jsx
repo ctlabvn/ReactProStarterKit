@@ -176,7 +176,7 @@ export default class extends Component {
 							</Button>
 						)}
 
-					<div className="border-white-300 mt-4">
+					<div className="border-white-300 mt-4" style={{opacity: "0"}}>
 						<Menu className="menu-decorator text-uppercase restaurant-header-menu">
 							{options.menuItems.map((item, index) => (
 								<MenuItem
