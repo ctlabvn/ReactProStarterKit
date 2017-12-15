@@ -58,7 +58,8 @@ export default class extends Component {
       updateOrderHistory,
       requestor,
       clearItems,
-      setToast
+      setToast,
+      token
     } = this.props;
     // const addressItem = address.find(item=>item.cus_address_uuid === orderInfo.cus_address_uuid);
     const now = moment();
@@ -102,7 +103,7 @@ export default class extends Component {
       order_note: orderInfo.order_note
     };
     // console.log(data);
-    requestor("order/requestCreateOrder", data, (err, ret) => {
+    requestor("order/requestCreateOrder", token, data, (err, ret) => {
       if (!err) {
         // if success create order then clear all items
         clearItems();

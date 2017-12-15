@@ -80,7 +80,10 @@ export const apiCall = (url, options, token = null) =>
 export const apiPost = (url, data, method = "POST", token) => {
   data = getExtendData(data);
   return apiCall(
-    url + "?secret_key=" + API_SECRET_KEY,
+    url +
+      (url.indexOf("?") !== -1 ? "&" : "?") +
+      "secret_key=" +
+      API_SECRET_KEY,
     {
       method,
       body: JSON.stringify(data),
