@@ -3,7 +3,6 @@ import { translate } from "react-i18next";
 import Helmet from "react-helmet";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { countries } from "country-data";
 // redux form
 import { Field, FieldArray, reduxForm } from "redux-form";
 
@@ -28,6 +27,8 @@ import * as authSelectors from "~/store/selectors/auth";
 import { InputField, SelectField } from "~/ui/components/ReduxForm";
 import AddressListField from "./components/AddressListField";
 import { validate } from "./utils";
+
+import { countries } from "~/utils";
 
 @translate("translations")
 @connect(
@@ -120,8 +121,10 @@ export default class extends Component {
         <Field label="Phone" name="phone" component={InputField} />
 
         <Field label="Country Code" name="country_code" component={SelectField}>
-          {countries.all.map(country => (
-            <option value={country.countryCallingCodes}>{country.name}</option>
+          {countries.map((country, index) => (
+            <option key={index} value={country.country_code}>
+              {country.name}
+            </option>
           ))}
         </Field>
 

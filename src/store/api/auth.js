@@ -56,6 +56,21 @@ export default {
     });
   },
 
+  resendPhoneCode(phone, country_code) {
+    return apiPost("/customer/phone-code", {
+      phone,
+      country_code
+    });
+  },
+
+  verifyPhoneCode(phone, country_code, verification_code) {
+    return apiPost("/customer/verify-phone", {
+      phone,
+      country_code,
+      verification_code
+    });
+  },
+
   updateCustomer(token, customer_uuid, name, phone, address, country_code) {
     return apiPost(
       "/customer",

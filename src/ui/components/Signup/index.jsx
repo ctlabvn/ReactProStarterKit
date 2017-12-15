@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 import { translate } from "react-i18next";
 import { connect } from "react-redux";
-import { countries } from "country-data";
 
 // reactstrap
 import {
@@ -23,7 +22,7 @@ import { InputField, SelectField } from "~/ui/components/ReduxForm";
 
 import * as commonActions from "~/store/actions/common";
 import * as orderSelectors from "~/store/selectors/order";
-import { extractMessage } from "~/utils";
+import { extractMessage, countries } from "~/utils";
 
 import { validate } from "./utils";
 
@@ -132,8 +131,10 @@ export default class extends Component {
         </Row>
 
         <Field label="Country Code" name="country_code" component={SelectField}>
-          {countries.all.map(country => (
-            <option value={country.countryCallingCodes}>{country.name}</option>
+          {countries.map((country, index) => (
+            <option key={index} value={country.country_code}>
+              {country.name}
+            </option>
           ))}
         </Field>
 

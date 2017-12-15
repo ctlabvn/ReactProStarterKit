@@ -3,7 +3,7 @@ import { takeLatest, takeEvery, all, put, call } from "redux-saga/effects";
 import i18n from "~/i18n";
 
 import api from "~/store/api";
-import { createRequestSaga } from "~/store/sagas/common";
+import { createRequestSaga, takeRequest } from "~/store/sagas/common";
 import { setToast, forwardTo } from "~/store/actions/common";
 
 import {
@@ -163,7 +163,11 @@ const asyncAuthWatchers = [
       takeEvery("customer/requestUpdateAddress", requestUpdateAddress),
       takeEvery("customer/requestDeleteAddress", requestDeleteAddress),
       takeLatest("customer/requestUpdateCustomer", requestUpdateCustomer),
-      takeLatest("customer/resetPassword", requestResetPassword)
+      takeLatest("customer/resetPassword", requestResetPassword),
+
+      // actions that do not update store
+      takeRequest("customer/resendPhoneCode", api.auth.resendPhoneCode),
+      takeRequest("customer/verifyPhoneCode", api.auth.verifyPhoneCode)
     ]);
   },
 
