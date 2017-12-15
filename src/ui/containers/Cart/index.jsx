@@ -101,51 +101,42 @@ export default class extends Component {
     if (!data.order_type) {
       data.order_type = ORDER_TYPE.DELIVERY;
     }
-    if (data.order_type === ORDER_TYPE.DELIVERY && this.directions) {
-      const { duration, distance } = this.directions.routes[0].legs[0];
-      travel_time = duration.value / 60;
-      if (
-        +orderInfo.delivery_distance &&
-        1000 * +orderInfo.delivery_distance < distance.value
-      ) {
 
-        setToast(t("LABEL.DISTANCE_TOO_FAR"), "danger");
-        return;
-        //throw new SubmissionError({
-        //  _error: t("LABEL.DISTANCE_TOO_FAR")
-        //});
+    if(data.order_type === ORDER_TYPE.DELIVERY){
+      if (this.directions) {
+        const { duration, distance } = this.directions.routes[0].legs[0];
+        travel_time = duration.value / 60;
+        if (
+          +orderInfo.delivery_distance &&
+          1000 * +orderInfo.delivery_distance < distance.value
+        ) {
+
+          setToast(t("LABEL.DISTANCE_TOO_FAR"), "danger");
+          return;
+        }
       }
-    }
 
-    if (!data.request_time) {
-      setToast("Can not delivery due to time!", "danger");
-      return;
-      //throw new SubmissionError({
-      //  _error: "Can not delivery due to time!"
-      //});
-    }
+      //if (!data.request_time) {
+      //  setToast("Can not delivery due to time!", "danger");
+      //  return;
+      //}
 
-    const orderPrices = calculateOrderPrice(orderItems, orderInfo);
+      const orderPrices = calculateOrderPrice(orderItems, orderInfo);
 
-    if (
-      orderInfo.min_delivery_cost &&
-      orderPrices.total < orderInfo.min_delivery_cost
-    ) {
-      setToast(t("LABEL.PRICE_TOO_LOW"), "danger");
-      return;
-      //throw new SubmissionError({
-      //  _error: t("LABEL.PRICE_TOO_LOW")
-      //});
-    }
-    if (
-      orderInfo.max_delivery_cost &&
-      orderPrices.total > orderInfo.max_delivery_cost
-    ) {
-      setToast(t("LABEL.PRICE_TOO_HIGH"), "danger");
-      return;
-      //throw new SubmissionError({
-      //  _error: t("LABEL.PRICE_TOO_HIGH")
-      //});
+      if (
+        orderInfo.min_delivery_cost &&
+        orderPrices.total < orderInfo.min_delivery_cost
+      ) {
+        setToast(t("LABEL.PRICE_TOO_LOW"), "danger");
+        return;
+      }
+      if (
+        orderInfo.max_delivery_cost &&
+        orderPrices.total > orderInfo.max_delivery_cost
+      ) {
+        setToast(t("LABEL.PRICE_TOO_HIGH"), "danger");
+        return;
+      }
     }
 
     this.props.updateOrder({ ...data, travel_time });
@@ -252,7 +243,7 @@ export default class extends Component {
     const orderPrices = calculateOrderPrice(orderItems, orderInfo);
     const currency_symbol = orderItems[0].currency_symbol;
 
-    const filterCategories = [
+    let filterCategories = [
       {
         id: "order_type",
         title: t("BUTTON.FILTER.ORDERING_METHODS"),
@@ -270,6 +261,21 @@ export default class extends Component {
       }
     ];
 
+    if(orderInfo.order_type === ORDER_TYPE.DELIVERY){
+      filterCategories = filterCategories.concat([
+        {
+          id: "distance",
+          title: "Distance " + (directions ? directions.routes[0].legs[0].distance.text : ""),
+          type: "label"
+        },
+        {
+          id: "delivery_time",
+          title: deliveryTime? "delivery time " + moment(deliveryTime).format('HH.mm') : "-",
+          type: "label"
+        }
+      ]);
+    }
+
     return (
       <div className="your-cart map-background">
         <Helmet>
@@ -279,33 +285,7 @@ export default class extends Component {
 
         <TopFilter
           onSelected={this.onSelectTopFilter}
-          categories={[
-            {
-              id: "order_type",
-              title: t("BUTTON.FILTER.ORDERING_METHODS"),
-              type: "radio",
-              values: initOrders,
-              selected: orderInfo.order_type,
-              placement: "bottom",
-              showResult: 1,
-              multiple: 0
-            },
-            {
-              id: "order_time",
-              title: "Order time " + moment(orderTime).format('HH.mm'),
-              type: "label"
-            },
-            {
-              id: "distance",
-              title: "Distance " + (directions ? directions.routes[0].legs[0].distance.text : ""),
-              type: "label"
-            },
-            {
-              id: "delivery_time",
-              title: deliveryTime? "delivery time " + moment(deliveryTime).format('HH.mm') : "-",
-              type: "label"
-            }
-          ]}
+          categories={filterCategories}
         />
 
         <div className="container box-shadow">
