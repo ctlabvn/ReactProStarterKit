@@ -7,8 +7,7 @@
 .restaurant-item-content {
   font-size: 0.6875rem;
   color: $gray-color-400;
-  /*overflow: hidden;*/
-  max-width: 313px;
+  word-break: break-all;
 }
 
 .restaurant-item-button .btn-shadow{
