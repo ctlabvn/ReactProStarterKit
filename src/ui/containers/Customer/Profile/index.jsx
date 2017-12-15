@@ -51,13 +51,13 @@ export default class extends Component {
     const {
       token,
       requestor
-      // initialValues, deleteAddress
+      initialValues, deleteAddress
     } = this.props;
-    // const deletedAddress = initialValues.address.filter(item =>
-    //   address.every(
-    //     oldItem => oldItem.cus_address_uuid !== item.cus_address_uuid
-    //   )
-    // );
+    const deletedAddress = initialValues.address.filter(item =>
+      address.every(
+        oldItem => oldItem.cus_address_uuid !== item.cus_address_uuid
+      )
+    );
 
     return new Promise(resolve => {
       requestor(
@@ -67,43 +67,44 @@ export default class extends Component {
         name,
         phone,
         address,
+        country_code,
         () => resolve(true)
       );
       // update address
-      // address.forEach(({ cus_address_uuid, name, address }) => {
-      //   if (cus_address_uuid) {
-      //     requestor(
-      //       "customer/requestUpdateAddress",
-      //       token,
-      //       cus_address_uuid,
-      //       name,
-      //       address
-      //     );
-      //   } else {
-      //     requestor(
-      //       "customer/requestAddAddress",
-      //       token,
-      //       customer_uuid,
-      //       name,
-      //       address
-      //     );
-      //   }
-      // });
-      // // delete old ones
-      // deletedAddress.forEach(({ cus_address_uuid }) => {
-      //   requestor(
-      //     "customer/requestDeleteAddress",
-      //     token,
-      //     cus_address_uuid,
-      //     (err, ret) => {
-      //       // for item has been delete before :D
-      //       deleteAddress(cus_address_uuid);
-      //       // if (!err) {
-      //       //   deleteAddress(cus_address_uuid);
-      //       // }
-      //     }
-      //   );
-      // });
+      address.forEach(({ cus_address_uuid, name, address }) => {
+        if (cus_address_uuid) {
+          requestor(
+            "customer/requestUpdateAddress",
+            token,
+            cus_address_uuid,
+            name,
+            address
+          );
+        } else {
+          requestor(
+            "customer/requestAddAddress",
+            token,
+            customer_uuid,
+            name,
+            address
+          );
+        }
+      });
+      // delete old ones
+      deletedAddress.forEach(({ cus_address_uuid }) => {
+        requestor(
+          "customer/requestDeleteAddress",
+          token,
+          cus_address_uuid,
+          (err, ret) => {
+            // for item has been delete before :D
+            // deleteAddress(cus_address_uuid);
+            if (!err) {
+              deleteAddress(cus_address_uuid);
+            }
+          }
+        );
+      });
     });
   };
 
