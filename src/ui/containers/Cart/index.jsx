@@ -139,7 +139,7 @@ export default class extends Component {
       }
     }
 
-    this.props.updateOrder({ ...data, travel_time });
+    this.props.updateOrder({ ...data, travel_time , request_time: Date.now()/1000});
     history.push("/checkout");
   };
 
