@@ -1,0 +1,24 @@
+@import "../../vars.css";
+
+.login-modal {
+  .modal-body .login {
+    border: 0;
+    padding-top: 0;
+  }
+
+  .modal-content {
+    border-radius: 0;
+  }
+
+  .login-modal-btn-close span {
+    position: relative;
+    top: 8px;
+    right: 12px;
+    color: $grey-light-color;
+  }
+}
+
+
+.login-modal {
+  width: 336px;
+}
