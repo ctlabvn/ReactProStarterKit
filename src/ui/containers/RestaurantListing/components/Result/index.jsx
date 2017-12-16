@@ -72,11 +72,18 @@ export default class extends Component {
     let result = {};
     const listParam = Object.keys(filter);
     if (listParam.length) {
-      for (let key of listParam) {
+      for (let i = 0; i < listParam.length; i++) {
+        const key = listParam[i];
         if (filter[key] && filter[key]["selected"]) {
           result[key] = filter[key]["selected"];
         }
       }
+
+      //for (let key of listParam) {
+      //  if (filter[key] && filter[key]["selected"]) {
+      //    result[key] = filter[key]["selected"];
+      //  }
+      //}
     }
     return result;
   };

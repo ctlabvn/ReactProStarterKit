@@ -17,11 +17,12 @@ import {
 import { Field, reduxForm } from "redux-form";
 
 // components
-import { InputField } from "~/ui/components/ReduxForm";
+import { InputField2 } from "~/ui/components/ReduxForm";
 
 import * as commonActions from "~/store/actions/common";
 
 import { validateLogin } from "~/utils";
+import "./index.css";
 
 @translate("translations")
 @connect(null, commonActions)
@@ -40,32 +41,34 @@ export default class extends Component {
   render() {
     const { t, handleSubmit, submitting } = this.props;
     return (
-      <Form>
-        <Row>
-          <Field
-            className="col-md-6"
-            label="Email"
-            name="email"
-            component={InputField}
-          />
+      <div className="login">
+        <div className="color-red font-fb-120 text-uppercase text-left">You have an account</div>
+        <Field
+          className="mt-2 mb-0"
+          label="Email"
+          name="email"
+          component={InputField2}
+        />
 
-          <Field
-            className="col-md-6"
-            label="Password"
-            name="password"
-            type="password"
-            component={InputField}
-          />
-        </Row>
+        <Field
+          className="mt-2 mb-0"
+          label="Password"
+          name="password"
+          type="password"
+          component={InputField2}
+        />
 
-        <Button
-          disabled={submitting}
-          onClick={handleSubmit(this.login)}
-          color="danger"
-        >
-          {t("BUTTON.LOGIN")}
-        </Button>
-      </Form>
+        <div className="color-c-130 font-fr-100 mt-2 text-right"><u>{t("LABEL.FORGOT_PASSWORD")}</u></div>
+
+        <div className="text-center mt-2">
+          <Button
+            disabled={submitting}
+            onClick={handleSubmit(this.login)}
+          >
+            {t("BUTTON.LOGIN")}
+          </Button>
+        </div>
+      </div>
     );
   }
 }

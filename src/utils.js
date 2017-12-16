@@ -213,7 +213,9 @@ export const validateLogin = values => {
 export const extractMessage = message => {
   let messageValue = message.general || message;
   if (typeof message === "object")
-    for (let key in message) {
+
+    for(let i = 0; i < message.length; i++){
+      const key = message[i];
       if (key !== "general") {
         messageValue = message[key];
         if (Array.isArray(messageValue)) {
@@ -222,6 +224,16 @@ export const extractMessage = message => {
         break;
       }
     }
+
+    //for (let key in message) {
+    //  if (key !== "general") {
+    //    messageValue = message[key];
+    //    if (Array.isArray(messageValue)) {
+    //      messageValue = messageValue[0].message;
+    //    }
+    //    break;
+    //  }
+    //}
   return messageValue;
 };
 

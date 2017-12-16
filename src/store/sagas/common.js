@@ -72,9 +72,14 @@ export const createRequestSaga = ({
     // so on event such as success, we can use action.type or action.args to
     // do next, example: addBook => success : (data, {args:[token]}) => loadBooks(token)
     if (start)
-      for (let actionCreator of start) {
+      for (let i = 0; i < start.length; i++) {
+        const actionCreator = start[i];
         yield put(actionCreator());
       }
+
+      //for (let actionCreator of start) {
+      //  yield put(actionCreator());
+      //}
     // mark pending
     yield put(markRequestPending(requestKey));
     try {
@@ -101,9 +106,14 @@ export const createRequestSaga = ({
       } else if (cancelRet) {
         // callback on success
         if (cancelled)
-          for (let actionCreator of cancelled) {
+          for (let i = 0; i < cancelled.length; i++) {
+            const actionCreator = cancelled[i];
             yield put(actionCreator(cancelRet, action));
           }
+
+          //for (let actionCreator of cancelled) {
+          //  yield put(actionCreator(cancelRet, action));
+          //}
         // mark cancelled request
         yield put(markRequestCancelled(cancelRet, requestKey));
       } else {
@@ -119,9 +129,14 @@ export const createRequestSaga = ({
 
         // callback on success
         if (success)
-          for (let actionCreator of success) {
+          for (let i = 0; i < success.length; i++) {
+            const actionCreator = success[i];
             yield put(actionCreator(data, action));
           }
+
+          //for (let actionCreator of success) {
+          //  yield put(actionCreator(data, action));
+          //}
         // finally mark the request success
         yield put(markRequestSuccess(requestKey));
 
@@ -137,18 +152,26 @@ export const createRequestSaga = ({
       }
       // anyway, we should treat this as error to log
       if (failure)
-        for (let actionCreator of failure) {
+        for (let i = 0; i < failure.length; i++) {
+          const actionCreator = failure[i];
           yield put(actionCreator(reason, action));
         }
+        //for (let actionCreator of failure) {
+        //  yield put(actionCreator(reason, action));
+        //}
       yield put(markRequestFailed(reason, requestKey));
 
       // mark error
       err = reason;
     } finally {
       if (stop)
-        for (let actionCreator of stop) {
+        for (let i = 0; i < stop.length; i++) {
+          const actionCreator = stop[i];
           yield put(actionCreator(ret, action));
         }
+        //for (let actionCreator of stop) {
+        //  yield put(actionCreator(ret, action));
+        //}
       // check if the last param is action, should call it as actionCreator
       // from where it is called, we can access action[type and args],
       // so we will use it with first error callback style

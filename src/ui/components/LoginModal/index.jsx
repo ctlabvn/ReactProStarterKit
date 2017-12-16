@@ -24,9 +24,15 @@ import * as commonActions from "~/store/actions/common";
 
 import { InputField } from "~/ui/components/ReduxForm";
 import { validateLogin, extractMessage } from "~/utils";
+import Login from "~/ui/components/Login";
+import * as authSelectors from "~/store/selectors/auth";
+
+import "./index.css";
 
 @translate("translations")
-@connect(null, commonActions)
+@connect(state => ({
+  isLogged: authSelectors.isLogged(state)
+}), commonActions)
 @reduxForm({ form: "Login", validate: validateLogin, destroyOnUnmount: false })
 export default class extends Component {
   constructor(props) {
@@ -69,52 +75,60 @@ export default class extends Component {
   };
 
   render() {
-    const { t, handleSubmit, submitting } = this.props;
+    const { t, handleSubmit, submitting, isLogged } = this.props;
+
+
+
     return (
       <Modal
-        isOpen={this.state.modal}
+        isOpen={!isLogged && this.state.modal}
         toggle={this.toggle}
         className={this.props.className}
       >
-        <ModalHeader toggle={this.toggle}>
-          {t("LABEL.MODAL_LOGIN_HEADER")}
-        </ModalHeader>
-        <ModalBody>
-          <Field
-            placeholder={t("PLACEHOLDER.USERNAME")}
-            className="mt-3"
-            name="email"
-            component={InputField}
-          />
-
-          <Field
-            className="mt-3"
-            placeholder={t("PLACEHOLDER.PASSWORD")}
-            type="password"
-            name="password"
-            component={InputField}
-          />
-
-          <Button
-            color="danger"
-            disabled={submitting}
-            onClick={handleSubmit(this.login)}
-          >
-            {t("BUTTON.LOGIN")}
-          </Button>
-          {this.state.errorMessage && (
-            <Alert color="danger" className="mt-4">
-              {this.state.errorMessage}
-            </Alert>
-          )}
+        <ModalBody className="text-center p-0">
+          <div className="login-modal-btn-close text-right"><span role="button" onClick={this.toggle}><i className="fa fa-times" aria-hidden="true"/></span></div>
+          <Login />
+          {
+          //  <Field
+          //    placeholder={t("PLACEHOLDER.USERNAME")}
+          //    className="mt-3"
+          //    name="email"
+          //    component={InputField}
+          //  />
+          //
+          //  <Field
+          //  className="mt-3"
+          //  placeholder={t("PLACEHOLDER.PASSWORD")}
+          //  type="password"
+          //  name="password"
+          //  component={InputField}
+          //  />
+          //
+          //  <Button
+          //  color="danger"
+          //  disabled={submitting}
+          //  onClick={handleSubmit(this.login)}
+          //  >
+          //{t("BUTTON.LOGIN")}
+          //  </Button>
+          //  {this.state.errorMessage && (
+          //    <Alert color="danger" className="mt-4">
+          //      {this.state.errorMessage}
+          //    </Alert>
+          //  )}
+          }
         </ModalBody>
-        <ModalFooter>
-          <div className="w-100 text-center">
-            <Link onClick={this.toggle} to="/password-reset">
-              {t("LABEL.PASSWORD_RESET")}
-            </Link>
-          </div>
-        </ModalFooter>
+
+        {
+          //<ModalFooter>
+          //  <div className="w-100 text-center">
+          //    <Link onClick={this.toggle} to="/password-reset">
+          //      {t("LABEL.PASSWORD_RESET")}
+          //    </Link>
+          //  </div>
+          //</ModalFooter>
+        }
+
       </Modal>
     );
   }

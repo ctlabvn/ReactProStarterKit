@@ -169,7 +169,7 @@ export default class extends Component {
               )}
             </div>
 
-            <LoginModal onItemRef={ref => (this.loginModal = ref)} />
+            <LoginModal className="login-modal" onItemRef={ref => (this.loginModal = ref)} />
           </div>
         </nav>
         {isMobile && <Drawer className={classNames({ hidden: !drawerOpen })} />}

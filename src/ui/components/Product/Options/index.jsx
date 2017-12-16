@@ -40,9 +40,15 @@ export default class ProductOptions extends Component {
 
 	handleSubmit = () => {
 		// clean error
-		for (let spanTag of document.querySelectorAll(".text-error-msg")) {
-			spanTag.innerText = "";
-		}
+
+    for(let i = 0; i < document.querySelectorAll(".text-error-msg").length; i++){
+      const spanTag = document.querySelectorAll(".text-error-msg")[i];
+      spanTag.innerText = "";
+    }
+
+		//for (let spanTag of document.querySelectorAll(".text-error-msg")) {
+		//	spanTag.innerText = "";
+		//}
 		// validate mandatory
 		const validateResult = this.validateMandatory();
 		if (validateResult) {
@@ -58,9 +64,9 @@ export default class ProductOptions extends Component {
 	};
 
 	getOptions() {
-		return Object.values(this.state.form)
-			.map(set => Object.values(set).filter(value => value))
-			.reduce((a, b) => a.concat(b), []);
+    return Object.keys(this.state.form).map(itm => this.state.form[itm])
+      .map(set => Object.keys(set).map(itm => set[itm]).filter(value => value))
+      .reduce((a, b) => a.concat(b), []);
 	}
 
 	getTotalPrice() {
@@ -71,47 +77,69 @@ export default class ProductOptions extends Component {
 		const { form, options } = this.state;
 		const { checkAll, t } = this.props;
 		let check = true;
-		for (let parent of options) {
-			if (parent.optionSet && parent.mandatory) {
-				// check state and show alert message
-				if (this.checkObjectFalse(form[parent.opt_set_uuid])) {
-					check = false;
-					if (showError) {
-						document.querySelector(
-							"#error-" + parent.opt_set_uuid
-						).innerText = t("LABEL.OPTION_IS_MANDATORY");
-						// just show one
-						if (!checkAll) {
-							break;
-						}
-					}
-				}
-			}
-		}
+
+    for(let i = 0; i < options.length; i++){
+      const parent = options[i];
+      if (parent.optionSet && parent.mandatory) {
+        // check state and show alert message
+        if (this.checkObjectFalse(form[parent.opt_set_uuid])) {
+          check = false;
+          if (showError) {
+            document.querySelector(
+              "#error-" + parent.opt_set_uuid
+            ).innerText = t("LABEL.OPTION_IS_MANDATORY");
+            // just show one
+            if (!checkAll) {
+              break;
+            }
+          }
+        }
+      }
+    }
 		return check;
 	}
 
 	checkObjectFalse(obj) {
-		for (let objValue of Object.keys(obj)) {
-			if (obj[objValue]) {
-				return false;
-			}
-		}
+    for (let i = 0; i < Object.keys(obj).length; i++) {
+      const objValue = Object.keys(obj)[i];
+      if (obj[objValue]) {
+        return false;
+      }
+    }
+
+		//for (let objValue of Object.keys(obj)) {
+		//	if (obj[objValue]) {
+		//		return false;
+		//	}
+		//}
 		return true;
 	}
 
 	resetFormTree() {
 		const { options } = this.state;
+    if(!options) return;
+
 		let formTree = {};
 
-		for (let parent of options) {
-			if (parent.optionSet) {
-				formTree[parent.opt_set_uuid] = {};
-				for (let child of parent.optionSet) {
-					formTree[parent.opt_set_uuid][child.option_uuid] = false;
-				}
-			}
-		}
+    for(let i = 0; i < options.length; i++){
+      const parent = options[i];
+      if (parent.optionSet) {
+        formTree[parent.opt_set_uuid] = {};
+        for(let j = 0; j < options.length; j++){
+          const child = parent.optionSet[j];
+          formTree[parent.opt_set_uuid][child.option_uuid] = false;
+        }
+      }
+    }
+
+		//for (let parent of options) {
+		//	if (parent.optionSet) {
+		//		formTree[parent.opt_set_uuid] = {};
+		//		for (let child of parent.optionSet) {
+		//			formTree[parent.opt_set_uuid][child.option_uuid] = false;
+		//		}
+		//	}
+		//}
 		this.setState({ form: formTree });
 	}
 
@@ -145,9 +173,15 @@ export default class ProductOptions extends Component {
 		}
 
 		if (!multiChoice) {
-			for (let childUuid of Object.keys(newState.form[parentUuid])) {
-				newState.form[parentUuid][childUuid] = false;
-			}
+
+      for(let i = 0; i < Object.keys(newState.form[parentUuid]).length; i++){
+        const childUuid = Object.keys(newState.form[parentUuid])[i];
+        newState.form[parentUuid][childUuid] = false;
+      }
+
+			//for (let childUuid of Object.keys(newState.form[parentUuid])) {
+			//	newState.form[parentUuid][childUuid] = false;
+			//}
 		}
 
 		newState.form[parentUuid][child.option_uuid] = newState.form[parentUuid][
@@ -155,6 +189,8 @@ export default class ProductOptions extends Component {
 		]
 			? false
 			: child;
+
+    console.log("172 ---------------- ");
 
 		this.setState(newState, () => {
 			this.props.onChangeOption &&

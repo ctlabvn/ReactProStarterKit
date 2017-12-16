@@ -466,12 +466,21 @@ strong {
   font-size: 12px !important;
 }
 
+.font-fb-120 {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
 .font-fr-115 {
   font-size: 11px !important;
 }
 
 .font-fr-110 {
   font-size: 11px !important;
+}
+
+.font-fr-100 {
+  font-size: 10px !important;
 }
 
 .dev-color-1 {

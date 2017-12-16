@@ -1,3 +1,58 @@
+@import "../../vars.css";
+
 .btn-or{
   border-radius: 100px;
 }
+
+.checkout {
+  .container {
+    padding-top: 10px;
+  }
+}
+
+@media (min-width: 768px) {
+  .checkout-left {
+    padding-left: 0;
+    padding-right: 12px;
+  }
+
+  .checkout-left>div {
+    padding-top: 144px;
+  }
+
+  .checkout-right {
+    padding-left: 12px;
+    padding-right: 0;
+  }
+
+  .checkout-right>div {
+    background-color: $white-grey-color;
+    border: 1px solid $grey-white-color;
+    min-width: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .checkout-left {
+    margin-bottom: 12px;
+  }
+}
+
+.checkout-right>div {
+  background-color: $white-grey-color;
+}
+
+.checkout-item {
+  border-bottom: 1px solid $grey-white-color;
+
+  .custom-checkbox {
+    cursor: default;
+  }
+
+  .custom-checkbox.selected {
+    color: $grey-light-color !important;
+  }
+}
+
+
+
