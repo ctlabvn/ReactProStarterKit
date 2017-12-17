@@ -25,6 +25,7 @@ import * as commonActions from "~/store/actions/common";
 import { InputField } from "~/ui/components/ReduxForm";
 import { validateLogin, extractMessage } from "~/utils";
 import Login from "~/ui/components/Login";
+import Signup from "~/ui/components/Signup";
 import * as authSelectors from "~/store/selectors/auth";
 
 import "./index.css";
@@ -88,6 +89,7 @@ export default class extends Component {
         <ModalBody className="text-center p-0">
           <div className="login-modal-btn-close text-right"><span role="button" onClick={this.toggle}><i className="fa fa-times" aria-hidden="true"/></span></div>
           <Login />
+          <Signup />
           {
           //  <Field
           //    placeholder={t("PLACEHOLDER.USERNAME")}

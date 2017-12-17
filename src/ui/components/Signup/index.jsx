@@ -18,7 +18,7 @@ import {
 import { Field, reduxForm } from "redux-form";
 
 // components
-import { InputField, SelectField } from "~/ui/components/ReduxForm";
+import { InputField2, SelectField2 } from "~/ui/components/ReduxForm";
 
 import * as commonActions from "~/store/actions/common";
 import * as orderSelectors from "~/store/selectors/order";
@@ -30,7 +30,8 @@ import { validate } from "./utils";
 @connect(
   state => ({
     initialValues: {
-      address: orderSelectors.getInfo(state).order_address
+      address: orderSelectors.getInfo(state).order_address,
+      country_code: 84 // Viet Nam
     }
   }),
   commonActions
@@ -82,55 +83,38 @@ export default class extends Component {
   render() {
     const { t, submitting, handleSubmit } = this.props;
     return (
-      <Form>
-        <Row>
-          <Field
-            className="col-md-6"
-            label="Name"
-            name="name"
-            component={InputField}
-          />
-          <Field
-            className="col-md-6"
-            label="Phone"
-            name="phone"
-            component={InputField}
-          />
-        </Row>
-        <Row>
-          <Field
-            className="col-md-6"
-            label="Email"
-            name="email"
-            component={InputField}
-          />
+      <div className="login">
+        <div className="color-red font-fb-120 text-uppercase text-left">or enter your details</div>
+        <Field
+          className="mt-2 mb-0"
+          label="Email"
+          name="email"
+          component={InputField2}
+        />
 
-          <Field
-            className="col-md-6"
-            label="Password"
-            name="password"
-            type="password"
-            component={InputField}
-          />
-        </Row>
+        <Field
+          className="mt-2 mb-0"
+          label="Password"
+          name="password"
+          type="password"
+          component={InputField2}
+        />
 
-        <Row>
-          <Field
-            className="col-md-6"
-            label="Address name"
-            name="address_name"
-            component={InputField}
-          />
+        <Field
+          className="mt-2 mb-0"
+          label="Name"
+          name="name"
+          component={InputField2}
+        />
 
-          <Field
-            className="col-md-6"
-            label="Address"
-            name="address"
-            component={InputField}
-          />
-        </Row>
+        <Field
+          className="mt-2 mb-0"
+          label="Phone"
+          name="phone"
+          component={InputField2}
+        />
 
-        <Field label="Country Code" name="country_code" component={SelectField}>
+        <Field className="mt-2 mb-0" label="Country Code" name="country_code" component={SelectField2}>
           {countries.map((country, index) => (
             <option key={index} value={country.country_code}>
               {country.name}
@@ -138,14 +122,79 @@ export default class extends Component {
           ))}
         </Field>
 
-        <Button
-          disabled={submitting}
-          onClick={handleSubmit(this.signup)}
-          color="danger"
-        >
-          {t("BUTTON.SUBMIT")}
-        </Button>
-      </Form>
+        <div className="text-center mt-2">
+          <Button
+            disabled={submitting}
+            onClick={handleSubmit(this.signup)}
+          >
+            {t("BUTTON.CONTINUE")}
+          </Button>
+        </div>
+      </div>
+      //<Form>
+      //  <Row>
+      //    <Field
+      //      className="col-md-6"
+      //      label="Name"
+      //      name="name"
+      //      component={InputField}
+      //    />
+      //    <Field
+      //      className="col-md-6"
+      //      label="Phone"
+      //      name="phone"
+      //      component={InputField}
+      //    />
+      //  </Row>
+      //  <Row>
+      //    <Field
+      //      className="col-md-6"
+      //      label="Email"
+      //      name="email"
+      //      component={InputField}
+      //    />
+      //
+      //    <Field
+      //      className="col-md-6"
+      //      label="Password"
+      //      name="password"
+      //      type="password"
+      //      component={InputField}
+      //    />
+      //  </Row>
+      //
+      //  <Row>
+      //    <Field
+      //      className="col-md-6"
+      //      label="Address name"
+      //      name="address_name"
+      //      component={InputField}
+      //    />
+      //
+      //    <Field
+      //      className="col-md-6"
+      //      label="Address"
+      //      name="address"
+      //      component={InputField}
+      //    />
+      //  </Row>
+      //
+      //  <Field label="Country Code" name="country_code" component={SelectField}>
+      //    {countries.map((country, index) => (
+      //      <option key={index} value={country.country_code}>
+      //        {country.name}
+      //      </option>
+      //    ))}
+      //  </Field>
+      //
+      //  <Button
+      //    disabled={submitting}
+      //    onClick={handleSubmit(this.signup)}
+      //    color="danger"
+      //  >
+      //    {t("BUTTON.SUBMIT")}
+      //  </Button>
+      //</Form>
     );
   }
 }

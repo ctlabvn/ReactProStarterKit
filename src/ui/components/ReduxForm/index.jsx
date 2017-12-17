@@ -71,3 +71,23 @@ export const SelectField = ({
     {touched && error && <FormFeedback>{error}</FormFeedback>}
   </FormGroup>
 );
+
+export const SelectField2 = ({
+  input,
+  label,
+  meta: { touched, error, warning },
+  children,
+  ...custom
+  }) => (
+  <FormGroup {...custom}>
+    <div className="d-flex justify-content-between">
+      {label && <Label className="input-field-2-label">{label}</Label>}
+      <div>
+        <Input className="input-field-2-input" {...input} valid={!touched || !error} type="select">
+          {children}
+        </Input>
+        {touched && error && <FormFeedback className="input-field-2-error">{error}</FormFeedback>}
+      </div>
+    </div>
+  </FormGroup>
+);

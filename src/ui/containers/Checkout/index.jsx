@@ -173,9 +173,15 @@ export default class extends Component {
   renderHasAccount() {
     const { orderInfo, t } = this.props;
 
-    return orderInfo.order_type === ORDER_TYPE.DELIVERY
-      ? this.renderDeliveryAddress()
-      : this.renderTakeawayAddress();
+    return (
+      <div>
+        <div className="font-fb-120 color-cg-074 text-uppercase">{t("LABEL.DELIVERY_ADDRESS")}</div>
+      </div>
+    );
+
+    //return orderInfo.order_type === ORDER_TYPE.DELIVERY
+    //  ? this.renderDeliveryAddress()
+    //  : this.renderTakeawayAddress();
   }
 
   renderHasNoAccount() {
@@ -183,6 +189,8 @@ export default class extends Component {
     return (
       <div className="">
         <Login />
+
+        <Signup />
 
         {
 
@@ -310,16 +318,23 @@ export default class extends Component {
         </Helmet>
         <div className="container mt-0 d-md-flex flex-md-row">
           <div className="checkout-left w-100">
-            <div className="box-shadow bg-white h-100 d-md-flex justify-content-md-center">
-              {isLogged ? this.renderHasAccount() : this.renderHasNoAccount()}
-              {isLogged && (
-                <div className="border-top pt-2 d-flex w-100 text-center my-2 justify-content-end">
-                <Button onClick={this.createOrder} color="danger">
-                {this.props.t("BUTTON.CONFIRM_PAY")}
-                </Button>
+            {!isLogged && (
+              <div className="checkout-left-login box-shadow bg-white h-100 d-md-flex justify-content-md-center">
+                {this.renderHasNoAccount()}
+              </div>
+              )
+            }
+
+            {isLogged && (
+              <div className="checkout-left-logged block box-shadow bg-white h-100">
+                {this.renderHasAccount()}
+                <div className="border-top pt-2 d-flex w-100 text-center my-2 justify-content-center">
+                  <Button onClick={this.createOrder} className="checkout-btn-confirm text-uppercase font-fr-100">
+                    {this.props.t("BUTTON.CONFIRM_PAY")}
+                  </Button>
                 </div>
-                )}
-            </div>
+              </div>
+            )}
           </div>
           <div className="checkout-right">
             <div className="h-100">
