@@ -23,22 +23,63 @@ const extractOptionValue = option => ({
   qty: option.qty || 1
 });
 
-const findIndex = (state, payload) =>
-  state.items.findIndex(item => item.item_uuid === payload.item_uuid);
+const findIndex = (state, payload) => {
+  let index = -1;
+  if(!state || !state.items) return index;
+  const arr = state.items;
+  arr.some((item, i) => {
+    if(item.item_uuid === payload.item_uuid) {
+      index = i;
+      return true;
+    }
+  });
+  return index;
+  //return state.items.findIndex(item => item.item_uuid === payload.item_uuid);
+}
 
-const findIndexById = (state, { id }) =>
-  state.items.findIndex(item => item.id === id);
+
+const findIndexById = (state, { id }) => {
+  let index = -1;
+  if(!state || !state.items) return index;
+  const arr = state.items;
+  arr.some((item, i) => {
+    if(item.id === id) {
+      index = i;
+      return true;
+    }
+  });
+  return index;
+
+
+  // return state.items.findIndex(item => item.id === id);
+}
+
 
 const findIndexWithOptions = (state, payload) => {
   // find items with the same options
-  return state.items.findIndex(
-    item =>
-      item.item_uuid === payload.item_uuid &&
-      areEqual(
+
+  let index = -1;
+  if(!state || !state.items) return index;
+  const arr = state.items;
+  arr.some((item, i) => {
+    if(item.item_uuid === payload.item_uuid && areEqual(
         item.item_options.map(extractOptionValue),
         payload.item_options.map(extractOptionValue)
-      )
-  );
+      )) {
+      index = i;
+      return true;
+    }
+  });
+  return index;
+
+  //return state.items.findIndex(
+  //  item =>
+  //    item.item_uuid === payload.item_uuid &&
+  //    areEqual(
+  //      item.item_options.map(extractOptionValue),
+  //      payload.item_options.map(extractOptionValue)
+  //    )
+  //);
 };
 
 export const order = (state = initialState, { type, payload }) => {
