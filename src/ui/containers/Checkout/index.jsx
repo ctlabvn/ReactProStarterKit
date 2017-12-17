@@ -410,8 +410,6 @@ const CheckoutItem = ({item, t, data}) => {
   let optSetArr = [];
   if(!!item && !!item.item_options) optSetArr = item.item_options.map(el => el.id);
 
-  console.log("data ------------ ", data);
-
   return (
     <div className="checkout-item pb-2 mb-2">
       <div className="text-uppercase d-flex justify-content-between">
@@ -421,7 +419,7 @@ const CheckoutItem = ({item, t, data}) => {
         </div>
         <div className="font-fr-130 color-red">
           {t("format.currency", {
-            price: getItemPrice(item),
+            price: getItemPrice(item)*item.quantity,
             symbol: item.currency_symbol
           })}
         </div>
