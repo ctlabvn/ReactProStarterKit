@@ -21,7 +21,7 @@ import { InputField2 } from "~/ui/components/ReduxForm";
 
 import * as commonActions from "~/store/actions/common";
 
-import { validateLogin } from "~/utils";
+import { validateLogin, extractMessage } from "~/utils";
 import "./index.css";
 
 @translate("translations")
@@ -29,10 +29,17 @@ import "./index.css";
 @reduxForm({ form: "Login", validate: validateLogin, destroyOnUnmount: false })
 export default class extends Component {
   login = ({ email, password }) => {
+
+    const { requestor, setToast, t } = this.props;
+
     return new Promise(resolve => {
       this.props.requestor("app/login", email, password, (err, ret) => {
         this.props.reset();
         this.props.onLogged && this.props.onLogged(ret);
+
+        if (err) {
+          setToast(extractMessage(err.message), "danger");
+        }
       });
       resolve(true);
     });
