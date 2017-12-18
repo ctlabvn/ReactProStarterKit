@@ -49,12 +49,10 @@ export default class extends Component {
       const countries = await api.setting.getSettingCountries();
       let citiesData = {};
       if (countries.data) {
-        for (let i = 0; i < countries.data.length; i++) {
-          const country = countries.data[i];
+        for (let country of countries.data) {
           const cities = await api.setting.getSettingCities(country.short_name);
           if (cities.data) {
-            for (let j = 0; j < cities.data.length; j++) {
-              const city = cities.data[i];
+            for (let city of cities.data) {
               citiesData[city.short_name] = city.long_name;
             }
           }
