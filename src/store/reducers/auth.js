@@ -84,13 +84,21 @@ export const auth = (state = initialState, { type, payload }) => {
     case "app/setAuthState":
       return { ...state, loggedIn: payload };
     case "app/saveLoggedUser":
-      return { ...state, ...payload }; // {user,token}
+      return {
+        ...state,
+        ...payload,
+        token_expires_at: payload.token_expires_in * 60000 + Date.now()
+      }; // {user,token}
     case "app/removeLoggedUser":
       // remove only customer and remain language for saving spaces?
       return { ...state, customer: { language: state.customer.language } };
     case "app/saveRefreshToken":
       // payload is access token
-      return { ...state, ...payload };
+      return {
+        ...state,
+        ...payload,
+        token_expires_at: payload.token_expires_in * 60000 + Date.now()
+      };
 
     // update customer
     case "customer/updateCustomer":
