@@ -12,7 +12,4 @@ export const REGISTER_REQUEST = "REGISTER_REQUEST";
 export const LOGOUT = "LOGOUT";
 export const REQUEST_ERROR = "REQUEST_ERROR";
 export const CLEAR_ERROR = "CLEAR_ERROR";
-
-export const REFRESH_TOKEN = "REFRESH_TOKEN";
-
 // this type can not be changed

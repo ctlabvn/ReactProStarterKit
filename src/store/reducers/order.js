@@ -25,50 +25,53 @@ const extractOptionValue = option => ({
 
 const findIndex = (state, payload) => {
   let index = -1;
-  if(!state || !state.items) return index;
+  if (!state || !state.items) return index;
   const arr = state.items;
   arr.some((item, i) => {
-    if(item.item_uuid === payload.item_uuid) {
+    if (item.item_uuid === payload.item_uuid) {
       index = i;
       return true;
     }
+    return false;
   });
   return index;
   //return state.items.findIndex(item => item.item_uuid === payload.item_uuid);
-}
-
+};
 
 const findIndexById = (state, { id }) => {
   let index = -1;
-  if(!state || !state.items) return index;
+  if (!state || !state.items) return index;
   const arr = state.items;
   arr.some((item, i) => {
-    if(item.id === id) {
+    if (item.id === id) {
       index = i;
       return true;
     }
+    return false;
   });
   return index;
 
-
   // return state.items.findIndex(item => item.id === id);
-}
-
+};
 
 const findIndexWithOptions = (state, payload) => {
   // find items with the same options
 
   let index = -1;
-  if(!state || !state.items) return index;
+  if (!state || !state.items) return index;
   const arr = state.items;
   arr.some((item, i) => {
-    if(item.item_uuid === payload.item_uuid && areEqual(
+    if (
+      item.item_uuid === payload.item_uuid &&
+      areEqual(
         item.item_options.map(extractOptionValue),
         payload.item_options.map(extractOptionValue)
-      )) {
+      )
+    ) {
       index = i;
       return true;
     }
+    return false;
   });
   return index;
 
