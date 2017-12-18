@@ -35,8 +35,10 @@ import "./index.css";
 // G-Map
 import { DirectionsRenderer, Marker } from "react-google-maps";
 import GoogleMapKey from "~/ui/components/GoogleMapKey";
-
 import Checkbox from "~/ui/components/Checkbox";
+//form
+import { Field, reduxForm } from "redux-form";
+import { InputField, InputField2 } from "~/ui/components/ReduxForm";
 
 @translate("translations")
 @connect(
@@ -59,7 +61,7 @@ export default class extends Component {
     };
   }
 
-  createOrder = async () => {
+  createOrder = async (orderForm) => {
     const {
       customer,
       orderItems,
@@ -85,10 +87,14 @@ export default class extends Component {
       ? this.detailAddress.value.trim()
       : "";
 
-    const customer_address =
-      orderInfo.order_type === ORDER_TYPE.DELIVERY
-        ? orderInfo.order_address + (detailAddress ? "\n" + detailAddress : "")
-        : "take_away is optional"; //addressItem.address;
+    //const customer_address =
+    //  orderInfo.order_type === ORDER_TYPE.DELIVERY
+    //    ? orderInfo.order_address + (detailAddress ? "\n" + detailAddress : "")
+    //    : "take_away is optional"; //addressItem.address;
+
+    let customer_address = "take_away is optional";
+    if(orderInfo.order_type === ORDER_TYPE.DELIVERY)
+      customer_address = orderForm && orderForm.order_address ? orderForm.order_address : orderInfo.order_address;
 
     const data = {
       items: orderItems.map(item => ({
@@ -100,8 +106,8 @@ export default class extends Component {
       })),
       customer: {
         customer_uuid: customer.customer_uuid,
-        customer_name: customer.name,
-        customer_phone: customer.phone,
+        customer_name: orderForm && orderForm.name ? orderForm.name : customer.name,
+        customer_phone: orderForm && orderForm.phone ? orderForm.phone : customer.phone,
         customer_email: customer.email,
         customer_address,
         customer_lat: orderInfo.order_lat,
@@ -110,7 +116,7 @@ export default class extends Component {
       // The request time for delivery in minutes.
       request_time,
       order_type: orderInfo.order_type || ORDER_TYPE.DELIVERY,
-      order_note: orderInfo.order_note
+      order_note: orderForm && orderForm.order_note ? orderForm.order_note : orderInfo.order_note
     };
     // console.log(data);
     requestor("order/requestCreateOrder", token, data, (err, ret) => {
@@ -171,14 +177,6 @@ export default class extends Component {
   }
 
   renderHasAccount() {
-    const { orderInfo, t } = this.props;
-
-    return (
-      <div>
-        <div className="font-fb-120 color-cg-074 text-uppercase">{t("LABEL.DELIVERY_ADDRESS")}</div>
-      </div>
-    );
-
     //return orderInfo.order_type === ORDER_TYPE.DELIVERY
     //  ? this.renderDeliveryAddress()
     //  : this.renderTakeawayAddress();
@@ -194,18 +192,18 @@ export default class extends Component {
 
         {
 
-        //  <h4 className="text-center">{t("LABEL.CREATE_ACCOUNT")}</h4>
-        //  <Signup />
-        //  <div className="position-relative w-100 mt-5">
-        //  <hr />
-        //  <Button
-        //  color="secondary"
-        //  className="bg-white btn-or position-center"
-        //  outline
-        //  >
-        //{t("LABEL.OR")}
-        //  </Button>
-        //  </div>
+          //  <h4 className="text-center">{t("LABEL.CREATE_ACCOUNT")}</h4>
+          //  <Signup />
+          //  <div className="position-relative w-100 mt-5">
+          //  <hr />
+          //  <Button
+          //  color="secondary"
+          //  className="bg-white btn-or position-center"
+          //  outline
+          //  >
+          //{t("LABEL.OR")}
+          //  </Button>
+          //  </div>
         }
       </div>
     );
@@ -261,11 +259,11 @@ export default class extends Component {
   }
 
   loadItems = async (orderItems) => {
-    if(!orderItems) return;
+    if (!orderItems) return;
     let items = {};
-    for(let i = 0; i < orderItems.length; i++){
+    for (let i = 0; i < orderItems.length; i++) {
       const data = await this.loadItem(orderItems[i].slug, orderItems[i].item_uuid);
-      if(!!data && !!data.data) items[data.data.item_uuid] = data.data;
+      if (!!data && !!data.data) items[data.data.item_uuid] = data.data;
     }
     this.setState({items})
   }
@@ -322,24 +320,29 @@ export default class extends Component {
               <div className="checkout-left-login box-shadow bg-white h-100 d-md-flex justify-content-md-center">
                 {this.renderHasNoAccount()}
               </div>
-              )
+            )
             }
 
             {isLogged && (
               <div className="checkout-left-logged block box-shadow bg-white h-100">
-                {this.renderHasAccount()}
-                <div className="border-top pt-2 d-flex w-100 text-center my-2 justify-content-center">
-                  <Button onClick={this.createOrder} className="checkout-btn-confirm text-uppercase font-fr-100">
-                    {this.props.t("BUTTON.CONFIRM_PAY")}
-                  </Button>
-                </div>
+                <OrderForm
+                  t={t}
+                  initialValues={{
+                    name: customer.name,
+                    phone: customer.phone,
+                    order_note: orderInfo.order_note,
+                    order_address: orderInfo.order_address
+                  }}
+                  onCreateOrder={this.createOrder}
+                />
               </div>
             )}
           </div>
           <div className="checkout-right">
             <div className="h-100">
               <div className="">
-                <div className="color-cg-040 font-fb-120 text-center text-uppercase">{ORDER_TYPE.getString(orderInfo.order_type)}</div>
+                <div
+                  className="color-cg-040 font-fb-120 text-center text-uppercase">{ORDER_TYPE.getString(orderInfo.order_type)}</div>
                 <div className="color-red font-fb-250 text-center">{
                   t("format.currency", {
                     price: orderPrices.total,
@@ -423,7 +426,7 @@ export default class extends Component {
 
 const CheckoutItem = ({item, t, data}) => {
   let optSetArr = [];
-  if(!!item && !!item.item_options) optSetArr = item.item_options.map(el => el.id);
+  if (!!item && !!item.item_options) optSetArr = item.item_options.map(el => el.id);
 
   return (
     <div className="checkout-item pb-2 mb-2">
@@ -434,7 +437,7 @@ const CheckoutItem = ({item, t, data}) => {
         </div>
         <div className="font-fr-130 color-red">
           {t("format.currency", {
-            price: getItemPrice(item)*item.quantity,
+            price: getItemPrice(item) * item.quantity,
             symbol: item.currency_symbol
           })}
         </div>
@@ -462,3 +465,65 @@ const CheckoutItem = ({item, t, data}) => {
     </div>
   );
 }
+
+
+const OrderInput = props => {
+  const { t, onCreateOrder, handleSubmit, submitting } = props
+  return (
+    <div className="login checkout-order-form">
+      <div className="font-fb-120 color-cg-074 text-uppercase">{t("LABEL.DELIVERY_ADDRESS")}</div>
+      <Field
+        className="mt-5 mb-0"
+        label={t("LABEL.NAME")}
+        name="name"
+        component={InputField2}
+      />
+
+      <Field
+        className="mt-4 mb-0"
+        label={t("LABEL.ADDRESS")}
+        name="order_address"
+        component={InputField2}
+      />
+
+      <Field
+        className="mt-4 mb-0"
+        label={t("LABEL.PHONE")}
+        name="phone"
+        component={InputField2}
+      />
+
+      <Field
+        label={t("LABEL.REMARK")}
+        name="order_note"
+        type="textarea"
+        className="w-100 mb-md-5 mt-5"
+        component={InputField2}
+      />
+
+      <div className="border-top w-100 pt-3">
+        <div>
+          <span className="mr-4 text-uppercase font-fb-120 color-c-130">{t("LABEL.PAYMENT_METHOD")}</span>
+          <span className="text-uppercase font-fr-120 color-cg-074">
+            {t("LABEL.CASH")}
+            <i className="ml-3 fa fa-check-square-o" aria-hidden="true"/>
+          </span>
+        </div>
+
+        <div className="text-center">
+          <Button onClick={handleSubmit(onCreateOrder)} disabled={submitting}
+                  className="checkout-btn-confirm text-uppercase font-fr-100">
+            {t("BUTTON.CONFIRM_PAY")}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+
+}
+
+const OrderForm = reduxForm({
+  form: 'DeliveryForm',
+  destroyOnUnmount: true,
+  enableReinitialize: true
+})(OrderInput)

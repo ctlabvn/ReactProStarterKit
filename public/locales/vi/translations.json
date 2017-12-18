@@ -62,7 +62,10 @@
     "INVALID_EMAIL": "Invalid Email",
     "ENTER_EMAIL": "Email is empty",
     "ENTER_PASSWORD": "Password is empty",
-    "FORGOT_PASSWORD": "forgot password"
+    "FORGOT_PASSWORD": "forgot password",
+    "NAME": "Name",
+    "PHONE": "Phone",
+    "REMARK": "Remark"
   },
   "format": {
     "currency": "{{symbol}}{{price, 0,0.00}}"

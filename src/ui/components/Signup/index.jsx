@@ -134,7 +134,7 @@ export default class extends Component {
 
     if(waitVerify) return (
       <div className="login">
-        <div className="color-red font-fr-100 text-uppercase text-left">
+        <div className="color-red font-fb-120 text-uppercase text-left">
           Verify OTP
         </div>
         <Field
