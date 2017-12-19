@@ -74,10 +74,9 @@ export default class extends Component {
 
       // update option
       const staticOptions = await api.setting.getSettingOptions();
-      // console.log(staticOptions);
       staticOptions.data.forEach(item => {
         optionsFilters[item.option_key].body = {
-          ...filters[item.option_key].body,
+          //...filters[item.option_key].body,
           ...parseJsonToObject(item.option_value)
         };
       });

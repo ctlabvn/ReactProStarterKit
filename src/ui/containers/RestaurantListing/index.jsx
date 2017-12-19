@@ -45,18 +45,19 @@ export default class extends Component {
     // this.result.removeSearchResult();
   };
 
-  getFiler = filerName => {
+  getFilter = filterName => {
     let { filters } = this.props;
     if (
       !filters ||
-      !filters[filerName] ||
-      !filters[filerName].selected ||
-      !filters[filerName].body
+      !filters[filterName] ||
+      !filters[filterName].selected ||
+      !filters[filterName].body
     )
       return null;
-    return filters[filerName].selected
+
+    return filters[filterName].selected
       .split(",")
-      .map(el => filters[filerName].body[el])
+      .map(el => filters[filterName].body[el])
       .join(",");
   };
 
@@ -69,11 +70,11 @@ export default class extends Component {
     let breadcrumbItems = [
       t("LINK.HOME"),
       t("LINK.RESTAURANT"),
-      this.getFiler("city"),
-      this.getFiler("ordering_method"),
-      this.getFiler("delivery_fee"),
-      this.getFiler("minimum_order"),
-      this.getFiler("tags")
+      this.getFilter("city"),
+      this.getFilter("ordering_method"),
+      this.getFilter("delivery_fee"),
+      this.getFilter("minimum_order"),
+      this.getFilter("tags")
     ];
 
     return (
