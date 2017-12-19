@@ -12,6 +12,7 @@
   .input-field-2-label {
     font-size: 12px;
     color: $grey-light-color;
+    word-break: break-all;
   }
 
   .input-field-2-input {

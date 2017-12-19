@@ -43,6 +43,20 @@ import { validate } from "./utils";
   enableReinitialize: true
 })
 export default class extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      waitVerify: false,
+    };
+    this.loginProps = {
+      email: "",
+      password: "",
+      phone: "",
+      country_code: ""
+    };
+
+  }
+
   signup = ({
     name,
     email,
@@ -67,11 +81,14 @@ export default class extends Component {
           address
         },
         (err, ret) => {
+          this.loginProps = {phone, email, password, country_code};
           if (!err) {
             // auto login if success
+            this.setState({waitVerify: true});
             resolve(true);
-            requestor("app/login", email, password);
+            //requestor("app/login", email, password);
           } else {
+            this.setState({waitVerify: true});
             setToast(extractMessage(err.message), "danger");
             resolve(false);
           }
@@ -80,8 +97,63 @@ export default class extends Component {
     });
   };
 
+  verifyOtp = ({verification_code}) => {
+    if(!verification_code || verification_code == ""){
+      return;
+    }
+
+    const { requestor, setToast, t } = this.props;
+
+    return new Promise(resolve => {
+      requestor(
+        "customer/verifyPhoneCode",
+        this.loginProps.phone,
+        this.loginProps.country_code,
+        verification_code,
+        (err, ret) => {
+          if (err) {
+            setToast(extractMessage(err.message), "danger");
+          } else {
+            setToast(t("LABEL.RESEND_VERIFY_CODE_SUCCEED"), "success");
+            requestor("app/login", this.loginProps.email, this.loginProps.password, (err, res) => {
+              if (err) {
+                setToast(extractMessage(err.message), "danger");
+              }
+            });
+          }
+          resolve(true);
+        }
+      );
+    });
+
+  }
+
   render() {
     const { t, submitting, handleSubmit } = this.props;
+    const { waitVerify } = this.state;
+
+    if(waitVerify) return (
+      <div className="login">
+        <div className="color-red font-fb-120 text-uppercase text-left">
+          Verify OTP
+        </div>
+        <Field
+          className="mt-2 mb-0"
+          label="Code"
+          name="verification_code"
+          component={InputField2}
+        />
+        <div className="text-center mt-2">
+          <Button
+            disabled={submitting}
+            onClick={handleSubmit(this.verifyOtp)}
+          >
+            Verify OTP
+          </Button>
+        </div>
+      </div>
+    );
+
     return (
       <div className="login">
         <div className="color-red font-fb-120 text-uppercase text-left">or enter your details</div>
