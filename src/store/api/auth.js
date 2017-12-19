@@ -6,15 +6,15 @@ export default {
   * Logs a user in, returning a promise with `true` when done
   * @param  {string} token The token of the user  
   */
-  loginFacebook(accessToken) {
-    // Post request to server
-    return apiPost(`/oauth/facebook/token?access_token=${accessToken}`);
-  },
+  // loginFacebook(accessToken) {
+  //   // Post request to server
+  //   return apiPost(`/oauth/facebook/token?access_token=${accessToken}`);
+  // },
 
-  loginGoogle(accessToken) {
-    // Post request to server
-    return apiPost(`/oauth/google/token?access_token=${accessToken}`);
-  },
+  // loginGoogle(accessToken) {
+  //   // Post request to server
+  //   return apiPost(`/oauth/google/token?access_token=${accessToken}`);
+  // },
 
   login(email, password) {
     return apiPost("/customer/login", {
@@ -37,17 +37,11 @@ export default {
     return apiPost(`/auth/customer-refresh-token`, { refresh_token });
   },
 
-  updateAccount(token, data) {
-    return apiPost(token, `/auth/update`, data);
-  },
-
   /**
   * Logs the current user out
   */
   logout(token) {
-    return apiPost("/customer/logout", {
-      token
-    });
+    return apiPost("/customer/logout", {}, token);
   },
 
   resetPassword(email) {
@@ -75,35 +69,38 @@ export default {
     return apiPost(
       "/customer",
       {
-        token,
         customer_uuid,
         name,
         phone,
         address,
         country_code
       },
+      token,
       "PUT"
     );
   },
 
   addAddress(token, customer_uuid, name, address) {
-    return apiPost("/customer/address", {
-      token,
-      customer_uuid,
-      name,
-      address
-    });
+    return apiPost(
+      "/customer/address",
+      {
+        customer_uuid,
+        name,
+        address
+      },
+      token
+    );
   },
 
   updateAddress(token, cus_address_uuid, name, address) {
     return apiPost(
       "/customer/address",
       {
-        token,
         cus_address_uuid,
         name,
         address
       },
+      token,
       "PUT"
     );
   },
@@ -111,9 +108,8 @@ export default {
   deleteAddress(token, cus_address_uuid) {
     return apiPost(
       `/customer/address/${cus_address_uuid}`,
-      {
-        token
-      },
+      {},
+      token,
       "DELETE"
     );
   }

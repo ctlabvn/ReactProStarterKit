@@ -77,7 +77,7 @@ export const apiCall = (url, options, token = null) =>
   token ? fetchJsonWithToken(token, url, options) : fetchJson(url, options);
 
 // must have data to post, put should not return data
-export const apiPost = (url, data, method = "POST", token) => {
+export const apiPost = (url, data, token, method = "POST") => {
   data = getExtendData(data);
   return apiCall(
     url +
@@ -97,7 +97,7 @@ export const apiPost = (url, data, method = "POST", token) => {
 };
 
 // should have data to get, delete should not return
-export const apiGet = (url, data, method = "GET", token) => {
+export const apiGet = (url, data, token, method = "GET") => {
   data = getExtendData(data);
   return apiCall(
     `${url}?secret_key=${API_SECRET_KEY}` +
