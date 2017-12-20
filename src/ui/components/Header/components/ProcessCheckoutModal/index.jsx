@@ -156,7 +156,9 @@ export default class extends Component {
     };
 
     const orderPrices = calculateOrderPrice(orderItems, orderInfo);
-    const currency_symbol = orderItems[0].currency_symbol;
+    const currency_symbol = orderItems.length
+      ? orderItems[0].currency_symbol
+      : null;
 
     const orderItemsWithTotalPrice = orderItems.map(item => ({
       ...item,
@@ -170,7 +172,7 @@ export default class extends Component {
         className={this.props.className}
       >
         <ModalBody className="p-0">
-          {!!currency_symbol ? (
+          {orderItems.length > 0 ? (
             <div className="checkout-right">
               <div className="h-100">
                 <div className="">
