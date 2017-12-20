@@ -81,10 +81,7 @@ const requestLogout = createRequestSaga({
 
 const requestUpdateCustomer = createRequestSaga({
   request: api.auth.updateCustomer,
-  success: [
-    ({ data }) => updateCustomer(data),
-    () => setToast("Update customer successfully!!!")
-  ],
+  success: [({ data }) => updateCustomer(data)],
   failure: [() => setToast("Couldn't update customer", "danger")]
 });
 

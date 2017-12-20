@@ -14,12 +14,12 @@ i18n
   .use(LanguageDetector)
   .use(reactI18nextModule)
   .init({
-    fallbackLng: "en",
-
+    // init after translated file loaded completely
+    initImmediate: false,
+    whitelist: ["en", "es", "fr", "ja", "ko", "th", "vi", "zh-cn", "dev"],
     // have a common namespace used around the full app
     ns: ["translations"],
     defaultNS: "translations",
-
     // backend: {
     //   queryStringParams: {
     //     v: v4(),

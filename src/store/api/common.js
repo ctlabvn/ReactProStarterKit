@@ -65,11 +65,9 @@ export const fetchJsonWithToken = (token, url, options = {}, ...args) => {
   );
 };
 
-const sanitizeLanguage = lang => lang.replace(/^en[-_].*$/, "en");
-
 const getExtendData = data => ({
   ...data,
-  lang: sanitizeLanguage(!!i18n.language ? i18n.language : "en")
+  lang: i18n.language
 });
 
 // default is get method, we can override header with method:PUT for sample

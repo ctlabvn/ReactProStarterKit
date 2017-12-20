@@ -215,8 +215,7 @@ export const extractMessage = message => {
     ? message.general.message || message.general
     : message;
   if (typeof message === "object") {
-    for (let i = 0; i < message.length; i++) {
-      const key = message[i];
+    for (let key in message) {
       if (key !== "general") {
         messageValue = message[key];
         if (Array.isArray(messageValue)) {
