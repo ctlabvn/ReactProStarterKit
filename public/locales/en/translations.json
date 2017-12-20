@@ -114,7 +114,6 @@
   "BUTTON": {
     "ADD_TO_CART": "Add to cart",
     "PAY_NOW": "Pay now",
-    "LOGIN": "Login",
     "CONFIRM_PAY": "Confirm Order",
     "ADD_ADDRESS": "Add address",
     "UPDATE": "Update",
@@ -130,7 +129,8 @@
       "MINIMUM_ORDER": "Minimum Order",
       "TAGS": "Tags"
     },
-    "CONTINUE": "Continue"
+    "CONTINUE": "Continue",
+    "GO_TO_CART": "Go To Cart"
   },
   "TAB": {
     "MENU": "Menu",
