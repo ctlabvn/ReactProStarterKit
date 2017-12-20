@@ -47,3 +47,7 @@
   position: relative;
   top: -2px;
 }
+
+.process-checkout-modal .checkout-item {
+  min-height: 45px;
+}
