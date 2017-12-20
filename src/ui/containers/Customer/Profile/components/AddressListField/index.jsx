@@ -16,7 +16,7 @@ import ButtonRound from "~/ui/components/Button/Round";
 @translate("translations")
 export default class AdressListField extends Component {
   render() {
-    const { t, fields } = this.props;
+    const { t, fields, meta: { error } } = this.props;
     return (
       <div className="my-4">
         {fields.map((member, index) => (
@@ -38,6 +38,10 @@ export default class AdressListField extends Component {
               icon="remove"
               onClick={() => fields.remove(index)}
             />
+            {error &&
+              error[index] && (
+                <span className="color-red col-md-12">{error[index]}</span>
+              )}
           </Row>
         ))}
         <ButtonRound

@@ -4,7 +4,7 @@ import Helmet from "react-helmet";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 // redux form
-import { Field, FieldArray, reduxForm } from "redux-form";
+import { Field, FieldArray, reduxForm, SubmissionError } from "redux-form";
 
 // reactstrap
 import {
@@ -28,7 +28,7 @@ import { InputField, SelectField } from "~/ui/components/ReduxForm";
 import AddressListField from "./components/AddressListField";
 import { validate } from "./utils";
 
-import { countries } from "~/utils";
+import { countries, extractMessage } from "~/utils";
 
 @translate("translations")
 @connect(
@@ -49,14 +49,11 @@ import { countries } from "~/utils";
 })
 export default class extends Component {
   updateCustomer = ({ customer_uuid, name, phone, address, country_code }) => {
-    const { token, requestor, initialValues, deleteAddress } = this.props;
-    const deletedAddress = initialValues.address.filter(item =>
-      address.every(
-        oldItem => oldItem.cus_address_uuid !== item.cus_address_uuid
-      )
-    );
+    const { token, requestor, setToast } = this.props;
 
-    return new Promise(resolve => {
+    // if we use Promise, we can use resolve and reject error instead of throw new error to stop
+    // because Promise have to wait for reject
+    return new Promise((resolve, reject) => {
       requestor(
         "customer/requestUpdateCustomer",
         token,
@@ -65,45 +62,102 @@ export default class extends Component {
         phone,
         address,
         country_code,
-        () => resolve(true)
-      );
-      // update address
-      address.forEach(({ cus_address_uuid, name, address }) => {
-        if (cus_address_uuid) {
-          requestor(
-            "customer/requestUpdateAddress",
-            token,
-            cus_address_uuid,
-            name,
-            address
-          );
-        } else {
-          requestor(
-            "customer/requestAddAddress",
-            token,
-            customer_uuid,
-            name,
-            address
-          );
-        }
-      });
-      // delete old ones
-      deletedAddress.forEach(({ cus_address_uuid }) => {
-        requestor(
-          "customer/requestDeleteAddress",
-          token,
-          cus_address_uuid,
-          (err, ret) => {
-            // for item has been delete before :D
-            // deleteAddress(cus_address_uuid);
-            if (!err) {
-              deleteAddress(cus_address_uuid);
+        async (err, ret) => {
+          // for item has been delete before :D
+          // deleteAddress(cus_address_uuid);
+          if (!err) {
+            const errors = await this.updateAddresses(customer_uuid, address);
+            if (errors.length) {
+              reject(new SubmissionError({ address: { _error: errors } }));
+            } else {
+              setToast("Update customer successfully!!!");
+              resolve(true);
             }
+          } else {
+            setToast(extractMessage(err.message), "danger");
+            resolve(false);
           }
-        );
-      });
+        }
+      );
     });
   };
+
+  updateAddresses(customer_uuid, address, callback) {
+    const {
+      initialValues,
+      token,
+      requestor,
+      deleteAddress,
+      setToast
+    } = this.props;
+    const deletedAddress = initialValues.address.filter(item =>
+      address.every(
+        oldItem => oldItem.cus_address_uuid !== item.cus_address_uuid
+      )
+    );
+
+    // delete old ones
+    deletedAddress.forEach(({ cus_address_uuid }) => {
+      requestor(
+        "customer/requestDeleteAddress",
+        token,
+        cus_address_uuid,
+        (err, ret) => {
+          // for item has been delete before :D
+          // deleteAddress(cus_address_uuid);
+          if (!err) {
+            deleteAddress(cus_address_uuid);
+          } else {
+            setToast(extractMessage(err.message), "danger");
+          }
+        }
+      );
+    });
+
+    // update address
+    return Promise.all(
+      address.map(
+        ({ cus_address_uuid, name, address }, index) =>
+          new Promise(resolve => {
+            if (cus_address_uuid) {
+              requestor(
+                "customer/requestUpdateAddress",
+                token,
+                cus_address_uuid,
+                name,
+                address,
+                (err, ret) => {
+                  // for item has been delete before :D
+                  // deleteAddress(cus_address_uuid);
+                  if (err) {
+                    resolve(extractMessage(err.message));
+                  } else {
+                    resolve(undefined);
+                  }
+                }
+              );
+            } else {
+              requestor(
+                "customer/requestAddAddress",
+                token,
+                customer_uuid,
+                name,
+                address,
+                (err, ret) => {
+                  // for item has been delete before :D
+                  // deleteAddress(cus_address_uuid);
+                  if (err) {
+                    resolve(extractMessage(err.message));
+                  } else {
+                    resolve(undefined);
+                  }
+                }
+              );
+            }
+          })
+      )
+    );
+  }
 
   render() {
     const { handleSubmit, submitting, t } = this.props;
