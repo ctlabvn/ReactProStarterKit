@@ -109,13 +109,19 @@ export default class extends Component {
               <div className="color-red mb-2 pt-2">
                 <span className="mr-1 text-uppercase font-fb-140">{outlet.name}</span>
                 <span className="font-fr-140">
-                  <span className="mr-2">
-                    {outlet.address ? outlet.address : t("LABEL.NO_INFO")}
-                  </span>
-                  <span className="mr-2">|</span>
-                  {orderSettings.do_takeaway && <span className="mr-2">{t("LABEL.TAKEAWAY")}</span>}
-                  <span className="mr-2">|</span>
-                  {orderSettings.do_delivery && <span className="mr-2">{t("LABEL.DELIVERY")}</span>}
+                  {!!outlet.address && <span className="mr-2">
+                    {outlet.address}
+                  </span>}
+
+                  {!!orderSettings.do_takeaway && [
+                    <span key="1" className="mr-2">|</span>,
+                    <span key="2" className="mr-2">{t("LABEL.TAKEAWAY")}</span>
+                  ]}
+
+                  {!!orderSettings.do_delivery && [
+                    <span key="1" className="mr-2">|</span>,
+                    <span key="2" className="mr-2">{t("LABEL.DELIVERY")}</span>
+                  ]}
                   <span>
                     <i
                       className="ml-2 fa fa-map-marker restaurant-location-icon"
@@ -127,10 +133,10 @@ export default class extends Component {
 
               <div className="color-cg-040 font-fr-110 mb-2">
                 <span className="mr-2">{openTime}</span>
-                {orderSettings && orderSettings.do_delivery && [
-                  orderSettings.min_delivery_cost && [<span key="11" className="mr-2">|</span>,<span key="12" className="mr-2">{`${t("LABEL.MIN_ORDER")} ${formatCurrency(orderSettings.min_delivery_cost, currency.symbol)}`}</span>],
-                  orderSettings.max_delivery_cost && [<span key="21" className="mr-2">|</span>,<span key="22" className="mr-2">{`${t("LABEL.MAX_ORDER")} ${formatCurrency(orderSettings.max_delivery_cost, currency.symbol)}`}</span>],
-                  orderSettings.delivery_fee && [<span key="31" className="mr-2">|</span>,<span key="32" className="mr-2">{`${t("LABEL.DELIVERY_FEE")} ${formatCurrency(orderSettings.delivery_fee, currency.symbol)}`}</span>]
+                {!!orderSettings && !!orderSettings.do_delivery && [
+                  !!orderSettings.min_delivery_cost && [<span key="11" className="mr-2">|</span>,<span key="12" className="mr-2">{`${t("LABEL.MIN_ORDER")} ${formatCurrency(orderSettings.min_delivery_cost, currency.symbol)}`}</span>],
+                  !!orderSettings.max_delivery_cost && [<span key="21" className="mr-2">|</span>,<span key="22" className="mr-2">{`${t("LABEL.MAX_ORDER")} ${formatCurrency(orderSettings.max_delivery_cost, currency.symbol)}`}</span>],
+                  !!orderSettings.delivery_fee && [<span key="31" className="mr-2">|</span>,<span key="32" className="mr-2">{`${t("LABEL.DELIVERY_FEE")} ${formatCurrency(orderSettings.delivery_fee, currency.symbol)}`}</span>]
                 ]}
               </div>
 
