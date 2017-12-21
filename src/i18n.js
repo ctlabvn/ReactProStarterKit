@@ -16,7 +16,8 @@ i18n
   .init({
     // init after translated file loaded completely
     initImmediate: false,
-    whitelist: ["en", "es", "fr", "ja", "ko", "th", "vi", "zh-cn", "dev"],
+    whitelist: ["en", "es", "fr", "ja", "ko", "th", "vi", "zh"],
+    load: ["languageOnly"], // auto remove suffix
     // have a common namespace used around the full app
     ns: ["translations"],
     defaultNS: "translations",
