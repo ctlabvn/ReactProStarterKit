@@ -18,12 +18,14 @@ import Suggestion from "~/ui/components/Suggestion";
 import PopoverCart from "./components/PopoverCart";
 import Drawer from "~/ui/components/Drawer";
 import ModalConfirm from "~/ui/components/ModalConfirm";
+import ProcessCheckoutModal from "./components/ProcessCheckoutModal";
 
 // selectors && actions
 // import { history } from "~/store";
 import * as orderActions from "~/store/actions/order";
 import * as authSelectors from "~/store/selectors/auth";
 import * as orderSelectors from "~/store/selectors/order";
+import * as commonActions from "~/store/actions/common";
 import { isMobile } from "~/utils";
 
 import "./index.css";
@@ -36,7 +38,7 @@ import "./index.css";
     orderInfo: orderSelectors.getInfo(state),
     orderItems: orderSelectors.getItems(state)
   }),
-  orderActions
+  {...commonActions, ...orderActions}
 )
 export default class extends Component {
   constructor(props) {
@@ -59,8 +61,14 @@ export default class extends Component {
     });
   };
 
+  onChangeQuantity = (item, quantity) => {
+    const number = Number(quantity);
+    if(typeof number !== 'number' || !Math.floor(number) || number < 1) return;
+    this.props.updateOrderItem({...item, quantity: number});
+  }
+
   increaseOrder = item => {
-    this.props.updateOrderItem({ ...item, quantity: item.quantity + 1 });
+    this.props.updateOrderItem({...item, quantity: item.quantity + 1});
   };
 
   decreaseOrder = item => {
@@ -71,7 +79,7 @@ export default class extends Component {
       // }
       this.modal.open();
     } else {
-      this.props.updateOrderItem({ ...item, quantity: item.quantity - 1 });
+      this.props.updateOrderItem({...item, quantity: item.quantity - 1});
     }
   };
 
@@ -99,7 +107,7 @@ export default class extends Component {
             <div className="d-flex">
               {isMobile ? (
                 <span className="navbar-brand" onClick={this.toggleDrawer}>
-                  <img src="/images/logo.png" alt="" />
+                  <img src="/images/logo.png" alt=""/>
                   <i
                     className={classNames(
                       "color-red ml-2 fa",
@@ -109,7 +117,7 @@ export default class extends Component {
                 </span>
               ) : (
                 <Link className="navbar-brand" to="/">
-                  <img src="/images/logo.png" alt="" />
+                  <img src="/images/logo.png" alt=""/>
                 </Link>
               )}
 
@@ -134,7 +142,7 @@ export default class extends Component {
                 className="btn-round bg-red border-0"
                 onClick={() =>
                   // isMobile ? history.push('/cart') :
-                  this.popoverCart.toggle()}
+                  this.processCheckoutModal.toggle()}
               >
                 <i
                   className="fa fa-shopping-cart color-white"
@@ -146,15 +154,15 @@ export default class extends Component {
 
               {
                 // !isMobile &&
-                <PopoverCart
-                  placement="bottom-start"
-                  target="popoverCartBtn"
-                  orderInfo={orderInfo}
-                  orderItems={orderItems}
-                  onIncreaseOrder={this.increaseOrder}
-                  onDecreaseOrder={this.decreaseOrder}
-                  onItemRef={ref => (this.popoverCart = ref)}
-                />
+                //<PopoverCart
+                //  placement="bottom-start"
+                //  target="popoverCartBtn"
+                //  orderInfo={orderInfo}
+                //  orderItems={orderItems}
+                //  onIncreaseOrder={this.increaseOrder}
+                //  onDecreaseOrder={this.decreaseOrder}
+                //  onItemRef={ref => (this.popoverCart = ref)}
+                ///>
               }
 
               {!isLogged ? (
@@ -169,10 +177,20 @@ export default class extends Component {
               )}
             </div>
 
-            <LoginModal className="login-modal" onItemRef={ref => (this.loginModal = ref)} />
+            <ProcessCheckoutModal
+              orderInfo={orderInfo}
+              orderItems={orderItems}
+              className="process-checkout-modal"
+              onItemRef={ref => (this.processCheckoutModal = ref)}
+              requestor={this.props.requestor}
+              onIncreaseOrder={this.increaseOrder}
+              onDecreaseOrder={this.decreaseOrder}
+              onChangeQuantity={this.onChangeQuantity}
+            />
+            <LoginModal className="login-modal" onItemRef={ref => (this.loginModal = ref)}/>
           </div>
         </nav>
-        {isMobile && <Drawer className={classNames({ hidden: !drawerOpen })} />}
+        {isMobile && <Drawer className={classNames({ hidden: !drawerOpen })}/>}
 
         <ModalConfirm
           key="modal"

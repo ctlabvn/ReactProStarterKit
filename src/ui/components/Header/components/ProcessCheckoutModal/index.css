@@ -1,0 +1,53 @@
+@import "../../../../vars.css";
+
+.process-checkout-modal {
+  width: 350px;
+}
+
+.process-checkout-modal .checkout-right {
+  padding-left: 0;
+}
+
+@media (min-width: 768px) {
+  .process-checkout-modal .modal-content {
+    left: 240px;
+    top: 40px;
+  }
+}
+
+.process-checkout-btn {
+  width: 100%;
+  background-color: $red-color;
+  height: 48px;
+  border: none;
+  border-radius: 0;
+}
+
+.process-checkout-update-order {
+  position: relative;
+  top: 10px;
+  height: 0;
+
+  .your-cart-item-btn-quantity {
+    width: 14px;
+    height: 14px;
+  }
+
+  .your-cart-item-input-quantity{
+    width: 21px;
+    height: 14px;
+  }
+
+  .your-cart-item-btn-quantity span {
+    left: -2px;
+  }
+}
+
+.process-checkout-update-order span {
+  position: relative;
+  top: -2px;
+}
+
+.process-checkout-modal .checkout-item {
+  min-height: 45px;
+}

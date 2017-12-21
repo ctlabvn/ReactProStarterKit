@@ -279,20 +279,20 @@ export default class extends Component {
     const restaurant_name =
       orderInfo && orderInfo.restaurant_name
         ? orderInfo.restaurant_name
-        : t("LABEL.NO_INFO");
+        : null;
     const restaurant_address =
       orderInfo && orderInfo.restaurant_address
         ? orderInfo.restaurant_address
-        : t("LABEL.NO_INFO");
+        : null;
     const restaurant_phone =
       orderInfo && orderInfo.restaurant_phone
         ? orderInfo.restaurant_phone
-        : t("LABEL.NO_INFO");
+        : null;
 
     const customer_phone =
-      customer && customer.phone ? customer.phone : t("LABEL.NO_INFO");
+      customer && customer.phone ? customer.phone : null;
     const customer_name =
-      customer && customer.name ? customer.name : t("LABEL.NO_INFO");
+      customer && customer.name ? customer.name : null;
 
     const { directions } = this.state;
     const position = {
@@ -352,11 +352,9 @@ export default class extends Component {
               </div>
 
               <div className="bg-white pl-md-4 pb-md-1 pt-md-1">
-                <div className="color-cg-040 font-fb-140 text-uppercase mb-2 mt-2">
-                  {restaurant_name}
-                </div>
-                <div className="color-red font-fr-120">{restaurant_address}</div>
-                <div className="color-red font-fr-120">{restaurant_phone}</div>
+                {!!restaurant_name && <div className="color-cg-040 font-fb-140 text-uppercase mb-2 mt-2">{restaurant_name}</div>}
+                {!!restaurant_address && <div className="color-red font-fr-120">{restaurant_address}</div>}
+                {!!restaurant_phone && <div className="color-red font-fr-120">{restaurant_phone}</div>}
               </div>
 
               <div className="">
@@ -378,13 +376,13 @@ export default class extends Component {
               </div>
 
               <div className="bg-white pr-md-4 pb-md-1 pt-md-1 text-right">
-                <div className="color-cg-040 font-fb-140 text-uppercase mb-2 mt-2">
+                {!!customer_name && <div className="color-cg-040 font-fb-140 text-uppercase mb-2 mt-2">
                   {customer_name}
-                </div>
-                <div className="color-red font-fr-120">
-                  {!!orderInfo && !!orderInfo.order_address ? orderInfo.order_address : ""}
-                </div>
-                <div className="color-red font-fr-120">{customer_phone}</div>
+                </div>}
+                {!!orderInfo && !!orderInfo.order_address && <div className="color-red font-fr-120">
+                  {orderInfo.order_address}
+                </div>}
+                {!!customer_phone && <div className="color-red font-fr-120">{customer_phone}</div>}
               </div>
 
               <div className="p-md-4 checkout-list-item">
