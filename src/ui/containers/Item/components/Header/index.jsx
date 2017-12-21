@@ -122,12 +122,14 @@ export default class extends Component {
                     <span key="1" className="mr-2">|</span>,
                     <span key="2" className="mr-2">{t("LABEL.DELIVERY")}</span>
                   ]}
-                  <span>
+
+                  {!!outlet.address && <span>
                     <i
                       className="ml-2 fa fa-map-marker restaurant-location-icon"
                       aria-hidden="true"
                     />
-                  </span>
+                  </span>}
+
                 </span>
               </div>
 
