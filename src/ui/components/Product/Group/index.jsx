@@ -116,7 +116,7 @@ export default class ProductGroup extends Component {
         {displayProducts &&
           displayProducts.map((item, index) => (
             <div
-              key={item.item_uuid}
+              key={index}
               className={classNames("col-md-6 mb-5", {
                 "pl-md-5": index % 2 === 1
               })}

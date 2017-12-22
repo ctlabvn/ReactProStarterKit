@@ -58,9 +58,9 @@ export default class extends Component {
               </span>
             </h5>
 
-            <h6 className="color-red restaurant-address">
+            {!!outlet.address && <h6 className="color-red restaurant-address">
               <span className="mr-2">
-                {outlet.address ? outlet.address : t("LABEL.NO_INFO")}
+                {outlet.address}
               </span>{" "}
               <span>-</span>{" "}
               <span>
@@ -69,7 +69,7 @@ export default class extends Component {
                   aria-hidden="true"
                 />
               </span>
-            </h6>
+            </h6>}
 
             <div className="flex-row d-flex justify-content-between mb-2">
               <RestaurantInfo outlet={outlet} />
