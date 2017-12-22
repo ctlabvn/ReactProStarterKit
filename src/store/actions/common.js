@@ -43,9 +43,9 @@ export const forwardTo = location => {
 };
 
 // mark request for later checking
-export const markRequestPending = key => ({
+export const markRequestPending = (key, tokenRequired) => ({
   type: MARK_REQUEST_PENDING,
-  meta: { key }
+  meta: { key, tokenRequired }
 });
 
 export const markRequestSuccess = key => ({

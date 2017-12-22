@@ -26,21 +26,24 @@ export default [
       takeRequest("restaurant/searchOutlet", api.restaurant.searchOutlet),
       takeRequest(
         "restaurant/getCategories",
-        api.restaurant.getCategories,
+        {
+          request: api.restaurant.getCategories,
+          cancel: ["@@router/LOCATION_CHANGE"]
+        },
         true
       ),
       takeRequest(
         "restaurant/getAllCategories",
         api.restaurant.getAllCategories
       ),
-      takeRequest(
-        "restaurant/getProductByCategory",
-        api.restaurant.getProductByCategory
-      ),
-      takeRequest(
-        "restaurant/getProductByCategories",
-        api.restaurant.getProductByCategories
-      ),
+      takeRequest("restaurant/getProductByCategory", {
+        request: api.restaurant.getProductByCategory,
+        cancel: ["@@router/LOCATION_CHANGE"]
+      }),
+      takeRequest("restaurant/getProductByCategories", {
+        request: api.restaurant.getProductByCategories,
+        cancel: ["@@router/LOCATION_CHANGE"]
+      }),
       takeRequest(
         "restaurant/getProductFeatured",
         api.restaurant.getProductFeatured

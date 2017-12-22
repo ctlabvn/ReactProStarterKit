@@ -4,11 +4,12 @@ import {
   call,
   put,
   take,
+  fork,
   race,
   takeEvery,
   takeLatest
 } from "redux-saga/effects";
-import { delay } from "redux-saga";
+import { delay, channel, buffers } from "redux-saga";
 
 import {
   markRequestPending,
@@ -26,8 +27,9 @@ import {
   saveRefreshToken
 } from "~/store/actions/auth";
 
-import { getTokenInfo } from "~/store/selectors/auth";
+import { getTokenInfo, getToken } from "~/store/selectors/auth";
 import { API_TIMEOUT } from "~/store/constants/api";
+import { MARK_REQUEST_PENDING } from "~/store/constants/actions";
 import api from "~/store/api";
 import i18n from "~/i18n";
 
@@ -39,9 +41,33 @@ function UnauthorizedException(message) {
   };
 }
 
+export function* watchRequests() {
+  // create a channel to queue incoming requests, just 1 message so it will keep
+  // read write set in order
+  const chan = yield call(channel, buffers.sliding(1));
+  yield fork(handleRequestPending, chan);
+
+  yield takeEvery(MARK_REQUEST_PENDING, function*(action) {
+    // dispatch to the worker thread
+    yield put(chan, action);
+  });
+}
+
+function* handleRequestPending(chan) {
+  while (true) {
+    const action = yield take(chan);
+    if (action.meta && action.meta.tokenRequired) {
+      const { refreshToken, expired } = yield select(getTokenInfo);
+      const needRefresh = Date.now() > expired - 60000;
+      if (needRefresh) {
+        yield call(requestRefreshToken, refreshToken);
+      }
+    }
+  }
+}
+
 function* requestRefreshToken(refreshToken) {
   let forceLogout = true;
-  let newToken = null;
   const timeout = API_TIMEOUT;
   // catch exception is safer than just read response status
   if (refreshToken) {
@@ -57,11 +83,11 @@ function* requestRefreshToken(refreshToken) {
       const error = isTimeout ? true : ret.error;
 
       if (!error) {
+        yield put(setToast(i18n.t("LABEL.CAN_NOT_REFRESH_TOKEN")));
         forceLogout = false;
         // it can return more such as user info, expired date ?
         // call action creator to update
         yield put(saveRefreshToken(ret.data));
-        newToken = ret.data.token;
       }
     } catch (e) {
       console.log(e);
@@ -75,8 +101,6 @@ function* requestRefreshToken(refreshToken) {
     yield put(setAuthState(false));
     yield put(forwardTo("/"));
   }
-
-  return newToken;
 }
 
 // create saga here
@@ -129,33 +153,35 @@ export const createRequestSaga = ({
     //for (let actionCreator of start) {
     //  yield put(actionCreator());
     //}
+    let tokenRequired = false;
+    if (typeof args[0] === "string" && args[0].match(/\w+\.\w+\.\w+/)) {
+      try {
+        const testJWT = jwtDecode(args[0]);
+        if (testJWT) {
+          tokenRequired = true;
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
     // mark pending
-    yield put(markRequestPending(requestKey));
+    yield put(markRequestPending(requestKey, tokenRequired));
+
     try {
       // this is surely Error exception, assume as a request failed
       if (!request) {
         throw new Error(i18n.t("LABEL.API_NOT_FOUND"));
       }
 
-      if (typeof args[0] === "string" && args[0].match(/\w+\.\w+\.\w+/)) {
-        try {
-          const testJWT = jwtDecode(args[0]);
-          if (testJWT) {
-            // check access token expire, if error occur, just throw it
-            const { refreshToken, expired } = yield select(getTokenInfo);
-            const needRefresh = Date.now() > expired - 60000;
-            if (needRefresh) {
-              const newToken = yield call(requestRefreshToken, refreshToken);
-              if (!newToken) {
-                throw new Error(i18n.t("LABEL.CAN_NOT_REFRESH_TOKEN"));
-              }
-              // update newToken
-              args[0] = newToken;
-            }
-          }
-        } catch (e) {
-          console.log(e);
-        }
+      if (tokenRequired) {
+        // with delay, we can have token updated later
+        yield call(delay, 100);
+        // get token and sure it is updated, token send from api this time just to
+        // test we need to send token
+        // later can pass tokenRequired directly as boolean input
+        const token = yield select(getToken);
+        args[0] = token;
       }
       // we do not wait forever for whatever request !!!
       // timeout is 0 mean default timeout, so default is 0 in case user input 0
@@ -251,7 +277,9 @@ export const createRequestSaga = ({
 };
 
 export const takeRequest = (signal, request, multiple = false) => {
-  const requestSaga = createRequestSaga({ request });
+  const requestSaga = createRequestSaga(
+    typeof request === "function" ? { request } : request
+  );
   return multiple
     ? takeEvery(signal, requestSaga)
     : takeLatest(signal, requestSaga);
