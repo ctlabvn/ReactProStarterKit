@@ -29,7 +29,7 @@ import {
 
 import { getTokenInfo, getToken } from "~/store/selectors/auth";
 import { API_TIMEOUT } from "~/store/constants/api";
-import { MARK_REQUEST_PENDING } from "~/store/constants/actions";
+import { MARK_REQUEST_PENDING, REFRESH_TOKEN } from "~/store/constants/actions";
 import api from "~/store/api";
 import i18n from "~/i18n";
 
@@ -41,6 +41,7 @@ function UnauthorizedException(message) {
   };
 }
 
+// process in order for parallel requests
 export function* watchRequests() {
   // create a channel to queue incoming requests, just 1 message so it will keep
   // read write set in order
@@ -62,6 +63,8 @@ function* handleRequestPending(chan) {
       if (needRefresh) {
         yield call(requestRefreshToken, refreshToken);
       }
+      // mark action so each request in parallel will wait for this signal
+      yield put({ type: REFRESH_TOKEN });
     }
   }
 }
@@ -83,11 +86,12 @@ function* requestRefreshToken(refreshToken) {
       const error = isTimeout ? true : ret.error;
 
       if (!error) {
-        yield put(setToast(i18n.t("LABEL.CAN_NOT_REFRESH_TOKEN")));
         forceLogout = false;
         // it can return more such as user info, expired date ?
         // call action creator to update
         yield put(saveRefreshToken(ret.data));
+      } else {
+        yield put(setToast(i18n.t("LABEL.CAN_NOT_REFRESH_TOKEN")));
       }
     } catch (e) {
       console.log(e);
@@ -96,7 +100,6 @@ function* requestRefreshToken(refreshToken) {
 
   if (forceLogout) {
     // call logout user because we do not have refresh token
-    yield put(setToast(i18n.t("LABEL.TOKEN_EXPIRED")));
     yield put(removeLoggedUser());
     yield put(setAuthState(false));
     yield put(forwardTo("/"));
@@ -176,7 +179,9 @@ export const createRequestSaga = ({
 
       if (tokenRequired) {
         // with delay, we can have token updated later
-        yield call(delay, 100);
+        // wait for token
+        yield take(REFRESH_TOKEN);
+        yield call(delay, 50);
         // get token and sure it is updated, token send from api this time just to
         // test we need to send token
         // later can pass tokenRequired directly as boolean input
@@ -243,6 +248,7 @@ export const createRequestSaga = ({
       if (reason.status === 401) {
         // something wrong, logout
         yield call(requestRefreshToken, null);
+        yield put(setToast(i18n.t("LABEL.TOKEN_EXPIRED")));
       }
       // anyway, we should treat this as error to log
       if (failure)

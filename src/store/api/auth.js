@@ -34,7 +34,9 @@ export default {
   },
 
   refreshAccessToken(refresh_token) {
-    return apiPost(`/auth/customer-refresh-token`, { refresh_token });
+    return apiPost(
+      `/auth/customer-refresh-token?refresh_token=${refresh_token}`
+    );
   },
 
   /**
